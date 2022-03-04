@@ -1,0 +1,48 @@
+version: '3'
+services:
+  apache_imobiliaria:
+    build: ./site/
+    depends_on:
+      - mysql_imobiliaria
+    volumes:
+      - ./site/php.ini:/usr/local/etc/php/php.ini
+      - ../logs/:/var/log/
+      - ../site/public_html/:/var/www/wikipet/public_html/
+      - ../site/app/:/var/www/wikipet/app/
+      - ../site/cgi-bin/:/var/www/wikipet/cgi-bin/
+      - ../gerenciador/httpdocs/:/var/www/imobiliaria/gerenciador/httpdocs/
+      - ../gerenciador/app/:/var/www/imobiliaria/gerenciador/app/
+      - ../gerenciador/cgi-bin/:/var/www/imobiliaria/gerenciador/cgi-bin/
+      - ../upload/:/var/www/imobiliaria/gerenciador/httpdocs/furniture/upload/
+      - ../upload/:/var/www/wikipet/public_html/furniture/upload/
+    ports:
+      - "80:80"
+    networks:
+      net_imobiliaria:
+        ipv4_address: 172.29.0.3
+  # Data Layer
+  mysql_imobiliaria:
+    image: mysql:5.6.35
+    container_name: mysql_imobiliaria
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password --sql_mode=""
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=mysql_imobiliaria
+      - MYSQL_USER=user_imobiliaria
+      - MYSQL_PASSWORD=123456
+    volumes:
+      - ./mysql-data/:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    networks:
+      net_imobiliaria:
+        ipv4_address: 172.29.0.2
+networks:
+  net_imobiliaria:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.29.0.0/16

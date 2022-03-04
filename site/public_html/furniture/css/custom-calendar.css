@@ -1,0 +1,21 @@
+/** calendario **/
+.fc-daygrid-event{
+    cursor: pointer !important;
+}
+.fc-h-event{
+    border: 1px solid var(--fc-event-border-color, #4f4e4e);
+    background-color: #4f4e4e;
+    background-color: var(--fc-event-bg-color, #4f4e4e);
+}
+.fc .fc-button-primary{
+    background-color: var(--fc-button-bg-color, #0f0f0f);
+    border-color: var(--fc-button-border-color, #0f0f0f);
+}
+.fc .fc-button-primary:hover,
+.fc .fc-button-primary:disabled{
+    background-color: var(--fc-button-hover-bg-color, #4f4e4e);
+    border-color: var(--fc-button-hover-border-color, #4f4e4e);
+}
+.fc .fc-button-primary:focus{
+    box-shadow: none;
+}

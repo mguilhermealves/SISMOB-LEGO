@@ -1,0 +1,136 @@
+.bordaLeftTop{width: 6px;height: 7px;background-image: url(../images/box_profissionais2_01c.gif);color: blue;background-repeat: no-repeat;}
+.bordaTop{height: 7px;background-image: url(../images/box_profissionais2_02c.gif);background-repeat: repeat-x;} 
+.BordaRightTop{width: 7px;height: 7px;background-image: url(../images/box_profissionais2_03c.gif);background-repeat: no-repeat;}
+.bordaLeft{background-image: url(../images/box_profissionais2_04c.gif);width: 6px;background-repeat: repeat-y;}
+.bordaRight{background-image: url(../images/box_profissionais2_06c.gif);width: 7px;background-repeat: repeat-y;}
+.bordaLeftBotton{width:6px;height:6px;background-image: url(../images/box_profissionais2_07c.gif);background-repeat: no-repeat;}
+.bordaBotton{height: 6px;background-image: url(../images/box_profissionais2_08c.gif);background-repeat: repeat-x;} 
+.BordaRightBotton{width: 7px;height: 6px;background-image: url(../images/box_profissionais2_09c.gif);background-repeat: no-repeat;}
+.bordaLeftTopEsc{width: 5px;height: 5px;background-image: url(../images/box_escola2_01ca1.gif);color: blue;background-repeat: no-repeat;}
+.bordaTopEsc{height: 5px;background-image: url(../images/box_escola2_02ca1.gif);background-repeat: repeat-x;} 
+.BordaRightTopEsc{width: 6px;height: 5px;background-image: url(../images/box_escola2_03ca1.gif);background-repeat: no-repeat;}
+.bordaLeftEsc{background-image: url(../images/box_escola2_04ca1.gif);width: 5px;background-repeat: repeat-y;}
+.bordaRightESc{background-image: url(../images/box_escola2_06ca1.gif);width: 6px;background-repeat: repeat-y;}
+.bordaLeftBottonEsc{width: 5px;height: 6px;background-image: url(../images/box_escola2_07ca1.gif);background-repeat: no-repeat;}
+.bordaBottonEsc{height: 6px;background-image: url(../images/box_escola2_08ca1.gif);background-repeat: repeat-x;} 
+.BordaRightBottonEsc{width: 6px;height: 6px;background-image: url(../images/box_escola2_09ca1.gif);background-repeat: no-repeat;}
+.bordaLeftTopAlu{width: 5px;height: 5px;background-image: url(../images/box_estudante2_01ca1.gif);color: blue;background-repeat: no-repeat;}
+.bordaTopAlu{height: 5px;background-image: url(../images/box_estudante2_02ca1.gif);background-repeat: repeat-x;} 
+.BordaRightTopAlu{width: 5px;height: 5px;background-image: url(../images/box_estudante2_03ca1.gif);background-repeat: no-repeat;}
+.bordaLeftAlu{background-image: url(../images/box_estudante2_04ca1.gif);width: 5px;background-repeat: repeat-y;}
+.bordaRightAlu{background-image: url(../images/box_estudante2_06ca1.gif);width: 5px;background-repeat: repeat-y;}
+.bordaLeftBottonAlu{width: 5px;height: 5px;background-image: url(../images/box_estudante2_07ca1.gif);background-repeat: no-repeat;}
+.bordaBottonAlu{height: 5px;background-image: url(../images/box_estudante2_08ca1.gif);background-repeat: repeat-x;} 
+.BordaRightBottonAlu{width: 5px;height: 5px;background-image: url(../images/box_estudante2_09ca1.gif);background-repeat: no-repeat;}
+.bordaLeftTopPro{width: 6px;height: 7px;background-image: url(../images/box_profissionais2_01c.gif);color: blue;background-repeat: no-repeat;}
+.bordaTopPro{height: 7px;background-image: url(../images/box_profissionais2_02c.gif);background-repeat: repeat-x;} 
+.BordaRightTopPro{width: 7px;height: 7px;background-image: url(../images/box_profissionais2_03c.gif);background-repeat: no-repeat;}
+.bordaLeftPro{background-image: url(../images/box_profissionais2_04c.gif);width: 6px;background-repeat: repeat-y;}
+.bordaRightPro{background-image: url(../images/box_profissionais2_06c.gif);width: 7px;background-repeat: repeat-y;}
+.bordaLeftBottonPro{width: 6px;height: 6px;background-image: url(../images/box_profissionais2_07c.gif);background-repeat: no-repeat;}
+.bordaBottonPro{height: 6px;background-image: url(../images/box_profissionais2_08c.gif);background-repeat: repeat-x;} 
+.BordaRightBottonPro{width: 7px;height: 6px;background-image: url(../images/box_profissionais2_09c.gif);background-repeat: no-repeat;}
+.bordaLeftTopEmp{width: 5px;height: 5px;background-image: url(../images/box_empresa2_01c.gif);color: blue;background-repeat: no-repeat;}
+.bordaTopEmp{height: 5px;background-image: url(../images/box_empresa2_02c.gif);background-repeat: repeat-x;} 
+.BordaRightTopEmp{width: 5px;height: 5px;background-image: url(../images/box_empresa2_03c.gif);background-repeat: no-repeat;}
+.bordaLeftEmp{background-image: url(../images/box_empresa2_04c.gif);width: 5px;background-repeat: repeat-y;}
+.bordaRightEmp{background-image: url(../images/box_empresa2_06c.gif);width: 5px;background-repeat: repeat-y;}
+.bordaLeftBottonEmp{width: 5px;height: 5px;background-image: url(../images/box_empresa2_07c.gif);background-repeat: no-repeat;}
+.bordaBottonEmp{height: 5px;background-image: url(../images/box_empresa2_08c.gif);background-repeat: repeat-x;} 
+.BordaRightBottonEmp{width: 5px;height: 5px;background-image: url(../images/box_empresa2_09c.gif);background-repeat: no-repeat;}
+.textoBoas {color: #FFF;font-family: Verdana, Arial;font-size: 9pt;}
+.textoInformativo {color: #F68121;font-family: Verdana, Arial;font-size: 9pt;font-weight: bold;text-align: justify;}
+.setaEmpresa {color: #6E3795;font-family: Verdana, Arial;font-size: 9pt;}
+.setaEmpresaI {color: #000000;font-family: Verdana, Arial;font-size: 9pt;}
+.setaProfissionais{	color: #BDD630;	font-family: Verdana, Arial;font-size: 9pt;}
+.setaAlunos{color: #F68121;	font-family: Verdana, Arial;font-size: 9pt;}
+.setaEscola{color: #FFC20F;font-family: Verdana, Arial;font-size: 9pt;}
+.textoDivMenu1{padding-left: 3px;padding-right: 3px;padding-top: 5px;padding-bottom: 0px;width: 90%;border: 0px solid #000;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;height: 24px;border-bottom-width: 1px;border-bottom-style: dotted;border-bottom-color: #6E3795;}
+.textoDivMenu2{padding-left: 10px;border: 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;height: 20px;}
+.textoDivMenu{padding-left: 0px;padding-right: 3px;width: 90%;border: 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;float: right;}
+.textoDivMenuEspace{padding-left: 3px;padding-right: 0px;border: 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;float: left;border-bottom-width: 1px;border-bottom-style: dotted;border-bottom-color: #6E3795;}
+.textoBoxsEscola{padding-left: 0px;padding-right: 3px;border: solid 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;float: right;width: 166px;}
+.textoBoxsEspaceEscola{padding-left: 5px;width: 5px;border: 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;float: left;}
+.textoBoxs{padding-left: 0px;padding-right: 3px;border: 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;float: right;width: 160px;}
+.textoBoxsEspace{padding-left: 5px;width: 5px;border: 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;float: left;}
+.textoBoxsNoticias{padding-left: 0px;padding-right: 3px;width: 92%;border: 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;float: right;}
+.textoBoxsEspaceNoticias{padding-left: 5px;width: 3px;border: 0px;font-family: Verdana, Arial;font-size: 9pt;z-index: 0;float: left;}
+.textoBoxsTD{padding-top: 5px;font-family: Verdana, Arial;font-size: 9pt;padding-bottom: 5px;}
+.divcorpo{font-family: Verdana, Arial;font-size: 9pt;color: #000;padding-left: 3mm;padding-right: 3mm;padding-top: 3mm;padding-bottom: 3mm;}
+body {color: Black;font-family: Verdana, Arial;font-size: 9pt;background: #FFF;margin-left: 0px;margin-top: 0px;}
+.tableprincipal{width: 820px;border: 0px solid;}
+td{color: Black;font-family: Verdana, Arial;font-size: 9pt;}
+.tdListagem{color: Black;font-family: Verdana, Arial;font-size: 8pt;}
+.btnForm{font-family: Verdana, Arial;font-size: 10pt;color: #6E3795;border: 1px solid #ccc;}
+.formlogin {font-family: Verdana, Arial;font-size: 9pt;color: #000;background-color: #FFF;border: 0px none;height: 20px;}
+.formulario {font-family: Verdana, Arial;font-size: 10pt;color: #000;background-color: #ccc;border: 0px #ccc;}					
+a:visited {font-family: Verdana, Arial;font-size: 9pt;color: #0000ff;text-decoration: none;font-weight: bold;}
+a:hover {font-family: Verdana, Arial;font-size: 9pt;color: #0000ff;text-decoration: underline;font-weight: bold;}
+a:link {font-family: Verdana, Arial;font-size: 9pt;color: #0000ff;text-decoration: none;font-weight: bold;}
+a.MenuBox:visited {font-family: Verdana, Arial;font-size: 9pt;color: #000;text-decoration: none;font-weight: normal;}
+a.MenuBox:hover {font-family: Verdana, Arial;font-size: 9pt;color: #000;text-decoration: underline;font-weight: normal;}
+a.MenuBox:link {font-family: Verdana, Arial;font-size: 9pt;color: #000;text-decoration: none;font-weight: normal;}
+a.MenuBoxNoticias:visited {font-family: Verdana, Arial;font-size: 7pt;color: #000;text-decoration: none;font-weight: normal;}
+a.MenuBoxNoticias:hover {font-family: Verdana, Arial;font-size: 7pt;color: #000;text-decoration: underline;font-weight: normal;}
+a.MenuBoxNoticias:link {font-family: Verdana, Arial;font-size: 7pt;color: #000;text-decoration: none;font-weight: normal;}
+a.linkDestaque:visited {font-family: Verdana, Arial;font-size: 9pt;color: #000;text-decoration: none;font-weight: bold;}
+a.linkDestaque:hover {font-family: Verdana, Arial;font-size: 9pt;color: #000;text-decoration: underline;font-weight: bold;}
+a.linkDestaque:link {font-family: Verdana, Arial;font-size: 9pt;color: #000;text-decoration: none;font-weight: bold;}
+
+a.menuLateral:visited {font-family: Verdana, Arial;font-size: 8pt;color: #000;text-decoration: none;font-weight: normal;}
+a.menuLateral:hover {font-family: Verdana, Arial;font-size: 8pt;color: #000;text-decoration: underline;font-weight: normal;}
+a.menuLateral:link {font-family: Verdana, Arial;font-size: 8pt;color: #000;text-decoration: none;font-weight: normal;}
+
+a.menuLateralInterna:visited {font-family: Verdana, Arial;font-size: 8pt;color: #000000;text-decoration: none;font-weight: normal;}
+a.menuLateralInterna:hover {font-family: Verdana, Arial;font-size: 8pt;color: #000000;text-decoration: underline;font-weight: normal;}
+a.menuLateralInterna:link {font-family: Verdana, Arial;font-size: 8pt;color: #000000;text-decoration: none;font-weight: normal;}
+
+
+a.menuLateralInternaRED:visited {font-family: Verdana, Arial;font-size: 8pt;color: #FF0000;text-decoration: none;font-weight: normal;}
+a.menuLateralInternaRED:hover {font-family: Verdana, Arial;font-size: 8pt;color: #FF0000;text-decoration: underline;font-weight: normal;}
+a.menuLateralInternaRED:link {font-family: Verdana, Arial;font-size: 8pt;color: #FF0000;text-decoration: none;font-weight: normal;}
+
+a.menuLateralInternaW:visited {font-family: Verdana, Arial;font-size: 8pt;color: #000000;text-decoration: none;font-weight: bold;}
+a.menuLateralInternaW:hover {font-family: Verdana, Arial;font-size: 8pt;color: #000000;text-decoration: underline;font-weight: bold;}
+a.menuLateralInternaW:link {font-family: Verdana, Arial;font-size: 8pt;color: #000000;text-decoration: none;font-weight: bold;}
+
+a.menuLateral_w:visited {font-family: Verdana, Arial;font-size: 8pt;color: #000;text-decoration: none;font-weight: bold;}
+a.menuLateral_w:hover {font-family: Verdana, Arial;font-size: 8pt;color: #000;text-decoration: underline;font-weight: bold;}
+a.menuLateral_w:link {font-family: Verdana, Arial;font-size: 8pt;color: #000;text-decoration: none;font-weight: bold;}
+a.menu:visited {font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #6E3795;text-decoration: none;text-align: center;}
+a.menu:hover {font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #6E3795;text-decoration: underline;text-align: center;}
+a.menu:link {font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #6E3795;text-decoration: none;text-align: center;}
+a.menuBranco:visited {font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #FFF;text-decoration: none;text-align: center;}
+a.menuBranco:hover {font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #FFF;text-decoration: underline;text-align: center;}
+a.menuBranco:link {font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #FFF;text-decoration: none;text-align: center;}
+a.menuInterna:visited {font-weight: bold;font: normal bold 9pt Verdana, Arial;color: #6E3795;text-decoration: none;text-align: center;}
+a.menuInterna:hover {font-weight: bold;font: normal bold 9pt Verdana, Arial;color: #6E3795;text-decoration: underline;text-align: center;}
+a.menuInterna:link {font-weight: bold;font: normal bold 9pt Verdana, Arial;color: #6E3795;text-decoration: none;text-align: center;}
+a.menuInternaBranco:visited {font-weight: bold;font: normal bold 9pt Verdana, Arial;color: #FFF;text-decoration: none;text-align: center;}
+a.menuInternaBranco:hover {font-weight: bold;font: normal bold 9pt Verdana, Arial;color: #FFF;text-decoration: underline;text-align: center;}
+a.menuInternaBranco:link {font-weight: bold;font: normal bold 9pt Verdana, Arial;color: #FFF;text-decoration: none;text-align: center;}
+.divLogotipo{width:860px;height:137px;}
+.divMenuHome{font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #FFF;text-align: center;background-color: #BDD630;height: 27px;}
+.divMenu{font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #FFF;text-align: center;background-repeat: no-repeat;}
+.divMenuInternas{font-weight: bold;font: normal bold 9pt Verdana, Arial;color: #FFF;text-align: center;background-color: #6E3795;height: 27px;}
+.divMenuInternasRodape{font-weight: bold;font: normal bold 9pt Verdana, Arial;color: #FFF;text-align: center;height: 27px;}
+.divTitulo{font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #6E3795;text-align: right;height: 27px;background-color: #BDD630;vertical-align: middle;padding-right: 5px;padding-bottom: 5px;padding-top: 5px;}
+.divTituloEmp{font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #FFF;text-align: right;height: 27px;background-color: #6E3795;vertical-align: middle;padding-right: 5px;padding-bottom: 5px;padding-top: 5px;}
+.divTituloPro{font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #6E3795;text-align: right;height: 27px;background-color: #B3D336;vertical-align: middle;padding-right: 5px;padding-bottom: 5px;padding-top: 5px;}
+.divTituloAlu{font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #FFF;text-align: right;height: 27px;background-color: #F68121;vertical-align: middle;padding-right: 5px;padding-bottom: 5px;padding-top: 5px;}
+.divTituloEsc{font-weight: bold;font: normal bold 10pt Verdana, Arial;color: #6E3795;text-align: right;height: 27px;background-color: #FFC20F;vertical-align: middle;padding-right: 5px;padding-bottom: 5px;padding-top: 5px;}
+#tblCorpo{border: 2px solid #BDD630;width: 790px;}
+#tblCorpoEnviaLink{border: 2px solid #BDD630;width: 380px;}
+#divMenuEmpresa{width: 25%;}
+#divMenuEmpresa1{}
+#divMenuProf{width:  24%;}
+#divMenuProf1{}
+#divMenuEstudante{width: 25%}
+#divMenuEstudante1{}
+#divMenuEscola{width: 24%;}
+.separador{width:90%;font-size: 1px;height: 2px;}
+#foldheader{list-style-image:url(../images/seta.gif);color:#fff;font-size :11pt; Font-Family: Verdana;}
+#foldinglist{list-style-image:url(../images/spacer.gif);font-family: Verdana, Arial;font-size: 10pt;color: #000;}
+.seta1{cursor:pointer;cursor:hand;list-style-image:url(../images/seta.gif);color: #fff;font-size : 11; Font-Family: Verdana;}
+.seta2{list-style-image:url(../images/spacer.gif);font-family: Verdana, Arial;font-size: 10pt;color: #000;}
+.formularioReadyOnly {	color: #000000;	background-color: #ffffff;	border: 0px #ccc;}

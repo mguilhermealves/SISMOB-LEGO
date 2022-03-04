@@ -1,0 +1,15 @@
+TYPE=VIEW
+query=select 1 AS `likes_id`,1 AS `created_at`,1 AS `active`,1 AS `response`,1 AS `type`,1 AS `user_id`,1 AS `forum_response_id`,1 AS `is_liked`
+md5=beda0e91c5afc724bec9c80508387c1c
+updatable=0
+algorithm=0
+definer_user=root
+definer_host=%
+suid=2
+with_check_option=0
+timestamp=2022-03-04 13:03:03
+create-version=1
+source=SELECT \n 1 AS `likes_id`,\n 1 AS `created_at`,\n 1 AS `active`,\n 1 AS `response`,\n 1 AS `type`,\n 1 AS `user_id`,\n 1 AS `forum_response_id`,\n 1 AS `is_liked`
+client_cs_name=utf8mb4
+connection_cl_name=utf8mb4_general_ci
+view_body_utf8=select 1 AS `likes_id`,1 AS `created_at`,1 AS `active`,1 AS `response`,1 AS `type`,1 AS `user_id`,1 AS `forum_response_id`,1 AS `is_liked`

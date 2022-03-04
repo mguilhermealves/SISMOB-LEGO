@@ -1,0 +1,66 @@
+body{ background: #fff !important; }
+
+            .container_custom {
+                display: flex;
+                flex-direction: column;
+                border: 1px solid rgba(0,0,0,.125);
+                border-radius: .25rem !important;
+                box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+                /*margin: 10px;*/
+            }
+            .login_footer{
+                width: 100%;                
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 20px;                
+            }
+            
+            .body_login{ 
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                color: rgba(0, 0, 0, 0.87);
+                transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            }
+            .login_header img{
+                width: 300px;
+            }
+            .login_header{
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                
+            }
+            .login_body{
+                gap: 30px;
+                display: flex;
+                flex-direction: column;
+                padding: 1rem;
+                background-color: #fff;
+                
+            }
+
+            .login_body form .input-group-text{
+                padding: 0px;
+                background: #ffffff;
+                
+                padding-right: 1rem;
+                padding-left: 0.5rem;
+                
+            }
+            .login_body form input{
+                background: #ffffff;
+                
+                border: 1px solid #ced4da;
+                
+            }
+            .login_body form svg{
+                color: rgba(158, 158, 158, 0.87); 
+                width: 18px;
+                height: 18px;
+            }
