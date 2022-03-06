@@ -62,9 +62,7 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>Id</th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th>CPF</th>
-                    <th>Endereço</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Endereço <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
                     <th>Bairro</th>
                     <th>Cidade</th>
                     <th>UF</th>
@@ -73,7 +71,7 @@
             </thead>
             <tfoot>
                 <tr>
-                    <th colspan="8">
+                    <th colspan="6">
                         <div class="row col-lg-12">
                             <div class="col-lg-3 form-group">
                                 <select class="form-control" id="select_paginage" class="col-lg-3 ">
@@ -100,9 +98,7 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
-                            <td><?php print($v["first_name"] . " " . $v["last_name"]); ?></td>
-                            <td><?php print($v["document"]); ?></td>
-                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
+                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>                           
                             <td><?php print($v["district"]); ?></td>
                             <td><?php print($v["city"]); ?></td>
                             <td><?php print($v["uf"]); ?></td>
@@ -115,7 +111,7 @@
                 } else {
                     ?>
                     <tr>
-                        <td colspan="8">
+                        <td colspan="6">
                             <p class="alert alert-warning text-center">Nenhum imovel encontrado...</p>
                         </td>
                     </tr>

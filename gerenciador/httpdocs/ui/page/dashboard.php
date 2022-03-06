@@ -1,6 +1,6 @@
 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 py-3">
     <div style="display: flex; align-items: center; justify-content: flex-start;">
-        <h1 class="display-5"><i class="bi bi-speedometer"></i> Dashboard SISMOB</h1>
+        <h1 class="display-5"><i class="bi bi-speedometer"></i> Dashboard SISMOB - Sistema Imobiliario</h1>
     </div>
 
     <?php

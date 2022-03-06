@@ -3,7 +3,7 @@ $(document).ready(function () {
     var status = ($('#object_propertie').val());
     var type_propertie = ($('#type_propertie').val());
     var financial_propertie = ($('select[name="financial_propertie"]').val());
-    var isswap = ($('#isswap').val());
+    var isswap = ($('#is_swap').val());
 
     if (isswap == 'yes') {
         $('div[name="text_exchange"]').show();
@@ -25,20 +25,20 @@ $(document).ready(function () {
 
     if (status == 'sale') {
         $('#configs').show();
-        $('div[name="sale"]').show();
-        $('div[name="location"]').hide();
+        $('div[id="sale"]').show();
+        $('div[id="location"]').hide();
     } else if (status == 'location') {
         $('#configs').show();
-        $('div[name="sale"]').hide();
-        $('div[name="location"]').show();
+        $('div[id="sale"]').hide();
+        $('div[id="location"]').show();
     } else {
         $('#configs').hide();
-        $('div[name="sale"]').hide();
-        $('div[name="location"]').hide();
+        $('div[id="sale"]').hide();
+        $('div[id="location"]').hide();
     }
 });
 
-$('#isswap').change(function () {
+$('#is_swap').change(function () {
     var isswap = ($(this).val());
 
     if (isswap == 'yes') {
@@ -73,16 +73,16 @@ $('#object_propertie').change(function () {
 
     if (status == 'sale') {
         $('#configs').show();
-        $('div[name="sale"]').show();
-        $('div[name="location"]').hide();
+        $('div[id="sale"]').show();
+        $('div[id="location"]').hide();
     } else if (status == 'location') {
         $('#configs').show();
-        $('div[name="sale"]').hide();
-        $('div[name="location"]').show();
+        $('div[id="sale"]').hide();
+        $('div[id="location"]').show();
     } else {
         $('#configs').hide();
-        $('div[name="sale"]').hide();
-        $('div[name="location"]').hide();
+        $('div[id="sale"]').hide();
+        $('div[id="location"]').hide();
     }
 });
 
@@ -136,4 +136,99 @@ $("#code_postal").change(function () {
         //cep sem valor, limpa formulário.
         limpa_formulário_cep();
     }
+});
+
+/* CONSULTA CLIENTE */
+$(document).on('click', '.pesquisarCliente', function () {
+    var cod_client = $("#cod_client").val();
+    var name_client = $("#name_client").val();
+    var cpf_client = $("#cpf_client").val();
+
+    //AUTOCOMPLETE PROPERTIES
+    var path = "/search_client";
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+        url: path,
+        type: 'POST',
+        dataType: "json",
+        data: {
+            _token: CSRF_TOKEN,
+            cod_client: cod_client,
+            name_client: name_client,
+            cpf_client: cpf_client
+        },
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+            html = "";
+            html += '<table class="table table-striped table-inverse">';
+            html += '<thead class="thead-inverse">';
+            html += '<tr>';
+            html += '<th>Código</th>';
+            html += '<th>Nome</th>';
+            html += '<th>CPF</th>';
+            html += '<th>Ação</th>';
+            html += '</tr>';
+            html += '</thead>';
+            html += '<tbody>';
+            $.each(data, function (index, value) {
+                html += '<tr>';
+
+                html += '<td scope="row"><p>' + value.idx +
+                    '</p></td>';
+
+                html += '<td><p>' + value.first_name + '</p></td>';
+
+                html += '<td><p class="cpf">' + value.document +
+                    '</p></td>';
+
+                html +=
+                    '<td><a data-id="' + value.idx +
+                    '" class="btn btn-info btn-sm btn_selecionar_cliente"><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
+
+                html += '</tr>';
+            });
+            html += '</tbody>';
+            html += '</table>';
+            $('#table_find_clients').empty('').append(html);
+        },
+    });
+});
+
+/* SELECIONA CLIENTE */
+$(document).on('click', '.btn_selecionar_cliente', function () {
+
+    var client_id = $(this).data('id');
+
+    //AUTOCOMPLETE PROPERTIES
+    var path = "/select_client";
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+        url: path,
+        type: 'POST',
+        dataType: "json",
+        data: {
+            _token: CSRF_TOKEN,
+            client_id: client_id
+        },
+        beforeSend: function () {
+
+        },
+        success: function (resp) {
+            
+            jQuery("#clients_id").val(resp.idx);
+            jQuery("#first_name").val(resp.first_name);
+            jQuery("#last_name").val(resp.last_name);
+            jQuery("#mail").val(resp.mail);
+            jQuery("#document").val(resp.document);
+            jQuery("#rg").val(resp.rg);
+            jQuery("#cnh").val(resp.cnh);
+            jQuery("#phone").val(resp.phone);
+            jQuery("#celphone").val(resp.celphone);
+            jQuery("#id").val(resp.id);
+        },
+    });
 });

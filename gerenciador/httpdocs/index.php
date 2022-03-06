@@ -38,6 +38,9 @@ if( site_controller::check_login() ){
 		$p = !empty( $v["params"] ) ? array_merge( $params , $GLOBALS[ $v["params"] ] ) : $params ;
 		$dispatcher->add_route( $v["method"] , "/" .  $v["pattern"] , $v["controller"] , $check , $p ) ;
 	}
+
+	$dispatcher->add_route ( "POST" , "/search_client" , "properties_controller:search_client" , NULL, $params );
+	$dispatcher->add_route ( "POST" , "/select_client" , "properties_controller:select_client" , NULL, $params );
 }
 if ( ! $dispatcher->exec() ) {
 	//print_pre( $dispatcher );
