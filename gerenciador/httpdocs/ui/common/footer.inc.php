@@ -16,7 +16,7 @@
       <hr class="mb-0" style="width: 100%; height: 3px; background: radial-gradient(circle, rgb(242, 103, 36) 0%, rgb(242, 103, 36) 100%);" />
       <div class="footer" style="background-color:#FFFFFF">
         <div class="container text-center pt-4">
-          Copyright <?php print(date("Y")); ?> <a href="#" target="_blank"> - SISMOB</a>
+          © COPYRIGHT 2021-<?php print(date("Y")); ?> | SISMOB | TODOS OS DIREITOS RESERVADOS.
         </div>
       </div>
     <?php

@@ -43,7 +43,17 @@
             </div>
 
             <div class="col-sm-4">
-                
+                <div class="form-group">
+                    <label for="filter_obj">Objetivo da Propriedade</label>
+                    <select name="filter_obj" id="filter_obj" class="form-control">
+                        <option value="">Selecione</option>
+                        <?php
+                        foreach ($GLOBALS["propertie_objects"] as $k => $v) {
+                            printf('<option value="%s">%s</option>', $k, $v);
+                        }
+                        ?>
+                    </select>
+                </div>
             </div>
 
             <div class="col-sm-2">
@@ -52,7 +62,7 @@
             </div>
             <div class="col-sm-2">
                 <label for="btn_add">&nbsp;</label>
-                <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Adicionar Imovel</a>
+                <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Imóvel</a>
             </div>
         </div>
     </form>
@@ -66,6 +76,7 @@
                     <th>Bairro</th>
                     <th>Cidade</th>
                     <th>UF</th>
+                    <th>Objetivo</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -98,12 +109,21 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
-                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>                           
+                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
                             <td><?php print($v["district"]); ?></td>
                             <td><?php print($v["city"]); ?></td>
                             <td><?php print($v["uf"]); ?></td>
+                            <td>
+                                <?php
+                                if ($v["object_propertie"] == "location") {
+                                    print("Locação");
+                                } else {
+                                    print("Venda");
+                                }
+                                ?>
+                            </td>
                             <th>
-                                <a type="button" class="btn btn-outline-primary btn-sm" href="/imovel/<?php print($v["idx"]) ?>"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="/imovel/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
                         </tr>
                     <?php

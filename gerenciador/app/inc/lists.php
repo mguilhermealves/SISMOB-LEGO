@@ -340,3 +340,14 @@ $deadline_contract = array(
   , "36" => "36 Meses"
   , "48" => "48 Meses"
 );
+
+$type_work = array(
+  "clt" => "CLT"
+  , "pj" => "PJ"
+);
+
+$status_location = array(
+  "pending" => "Em Análise"
+  , "approved" => "Aprovado"
+  , "reproved" => "Não Aprovado"
+);

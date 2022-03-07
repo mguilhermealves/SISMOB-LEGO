@@ -52,7 +52,7 @@
             </div>
             <div class="col-sm-2">
                 <label for="btn_add">&nbsp;</label>
-                <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Adicionar Cliente</a>
+                <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Cliente</a>
             </div>
         </div>
     </form>
@@ -107,7 +107,7 @@
                             <td><?php print($v["city"]); ?></td>
                             <td><?php print($v["uf"]); ?></td>
                             <th>
-                                <a type="button" class="btn btn-outline-primary btn-sm" href="/cliente/<?php print($v["idx"]) ?>"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="/cliente/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
                         </tr>
                     <?php

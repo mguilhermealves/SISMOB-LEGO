@@ -11,6 +11,7 @@
                 <?php
                 }
                 ?>
+                
                 <div class="modal-content">
                     <div class="modal-header label">
                         <h5 class="modal-title ">Dados</h5>
@@ -101,25 +102,6 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <!-- <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="image">Imagem  (1248px x 143px)</label>
-                                        <input type="file" id="image" name="image" class="form-control">  
-                                    </div>                             
-                                </div>     -->
-                                <!-- <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="status_published">Publicado </label>
-                                        <select name="status_published" id="status_published" class="form-control">
-                                            <?php
-                                            foreach ($GLOBALS["yes_no_lists"] as $k => $v) {
-                                                printf('<option %s value="%s">%s</option>', isset($data["status_published"]) && $k == $data["status_published"] ? ' selected' : '', $k, $v);
-                                            }
-                                            ?>                                        
-                                        </select>     
-                                    </div>                             
-                                </div>     -->
                                 <?php if (!empty($data["img"]) && file_exists(constant("cRootServer") . $data["img"])) {
                                 ?><img class="img-fluid" src="/<?php print($data["img"]) ?>" />
                                 <?php
