@@ -29,6 +29,12 @@ define( "cFrontComponents" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , "ui/
 // define( "mail_from_name" , "Atendimento One to One Club" );
 // define( "mail_from_pwd" , "@t3Nd1M3nt0T3mpluz" );
 
+define( "mail_from_port" , "2525" );
+define( "mail_from_host" , "smtp.mailtrap.io" );
+define( "mail_from_user" , "97e415f995a883" );
+define( "mail_from_name" , "Atendimento SISMOB" );
+define( "mail_from_pwd" , "1d8c1c6c618fb1" );
+
 define( "cFurniture" , sprintf( "%s%s" , constant("cFrontend") , "furniture/" ) );
 
 //DADOS API EXTERNA

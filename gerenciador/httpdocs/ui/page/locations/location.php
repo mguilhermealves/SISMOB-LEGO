@@ -55,7 +55,7 @@
                     ?>
 
                     <input type="hidden" name="clients_id" id="clients_id" class="form-control">
-                    <input type="hidden" name="properties_id" id="properties_id" class="form-control">
+                    <input type="hidden" name="properties_id" id="properties_id" value="<?php print(isset($data["properties_attach"]) ? $data["properties_attach"][0]["idx"] : "") ?>" class="form-control">
 
                     <!-- Dados do Proprietário -->
                     <?php
@@ -459,7 +459,7 @@
                                         <div class="col-lg-12" id="type_pet">
                                             <div class="form-group">
                                                 <label for="name">Especificar Espécie</label>
-                                                <input id="pet_species" type="text" class="form-control" name="pet_species" value="<?php print(isset($data["pet_species"]) ? $data["pet_species"] : "") ?>">
+                                                <input id="pet_species" type="text" class="form-control editor" name="pet_species" value="<?php print(isset($data["pet_species"]) ? $data["pet_species"] : "") ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -467,215 +467,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Dados da Locação -->
-                    <?php
-                    if (!isset($data["properties_attach"])) { ?>
-                        <div class="modal-content">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Dados da Locação</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="row col-lg-12">
-                                            <div class="col-lg-4">
-                                                <label>Valor Locação</label>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1">R$</span>
-                                                    </div>
-                                                    <input type="text" id="price_location_search" name="price_location" class="form-control" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <label>Valor IPTU</label>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1">R$</span>
-                                                    </div>
-                                                    <input type="text" id="price_iptu_search" name="price_iptu" class="form-control money" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4" name="is_apartmant">
-                                                <div class="form-group">
-                                                    <label>Valor do Condominio</label>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">R$</span>
-                                                        </div>
-                                                        <input type="text" id="price_condominium_search" name="price_condominium" class="form-control money" disabled>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="deadline_contract">Prazo Contrato</label>
-                                                    <select name="deadline_contract" id="deadline_contract_search" class="form-control" disabled>
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        foreach ($GLOBALS["deadline_contract"] as $k => $v) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["deadline_contract"]) && $k == $data["deadline_contract"] ? ' selected' : '', $k, $v);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="object_propertie">Objetivo do Imovel</label>
-                                                    <select name="object_propertie" id="object_propertie_search" class="form-control" disabled>
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        foreach ($GLOBALS["propertie_objects"] as $k => $v) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["object_propertie"]) && $k == $data["object_propertie"] ? ' selected' : '', $k, $v);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="type_propertie">Tipo de Propriedade</label>
-                                                    <select name="type_propertie" id="type_propertie_search" class="form-control" disabled>
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        foreach ($GLOBALS["propertie_types"] as $k => $v) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["type_propertie"]) && $k == $data["type_propertie"] ? ' selected' : '', $k, $v);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="due_day">Dia de Vencimento</label>
-                                                    <select name="due_day" id="due_day" class="form-control">
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        for ($i = 1; $i <= 31; $i++) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["due_day"]) && $i == $data["due_day"] ? ' selected' : '', $i, $i);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
-
-                    <?php
-                    if (isset($data["properties_attach"])) { ?>
-                        <div class="modal-content">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Dados da Locação</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="row col-lg-12">
-                                            <div class="col-lg-4">
-                                                <label>Valor Locação</label>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1">R$</span>
-                                                    </div>
-                                                    <input type="text" id="price_location_search" name="price_location" value="<?php print(isset($data["properties_attach"][0]["price_location"]) ? $data["properties_attach"][0]["price_location"] : $data["price_location"]) ?>" class="form-control" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <label>Valor IPTU</label>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1">R$</span>
-                                                    </div>
-                                                    <input type="text" id="price_iptu_search" name="price_iptu" value="<?php print(isset($data["properties_attach"][0]["price_iptu"]) ? $data["properties_attach"][0]["price_iptu"] : $data["price_iptu"]) ?>" class="form-control money" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4" id="is_apartmant">
-                                                <div class="form-group">
-                                                    <label>Valor do Condominio</label>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">R$</span>
-                                                        </div>
-                                                        <input type="text" id="price_condominium_search" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]["price_condominium"]) ? $data["properties_attach"][0]["price_condominium"] : $data["price_condominium"]) ?>" class="form-control money" disabled>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="deadline_contract">Prazo Contrato</label>
-                                                    <select name="deadline_contract" id="deadline_contract_search" class="form-control" disabled>
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        foreach ($GLOBALS["deadline_contract"] as $k => $v) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["deadline_contract"]) && $k == $data["properties_attach"][0]["deadline_contract"] ? ' selected' : '', $k, $v);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4" id="object_propertie">
-                                                <div class="form-group">
-                                                    <label for="object_propertie">Objetivo do Imovel</label>
-                                                    <select name="object_propertie" id="object_propertie_search" class="form-control" disabled>
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        foreach ($GLOBALS["propertie_objects"] as $k => $v) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["object_propertie"]) && $k == $data["properties_attach"][0]["object_propertie"] ? ' selected' : '', $k, $v);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="type_propertie">Tipo de Propriedade</label>
-                                                    <select name="type_propertie" id="type_propertie_search" class="form-control" disabled>
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        foreach ($GLOBALS["propertie_types"] as $k => $v) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["type_propertie"]) && $k == $data["properties_attach"][0]["type_propertie"] ? ' selected' : '', $k, $v);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="day_due">Dia de Vencimento</label>
-                                                    <select name="day_due" id="day_due" class="form-control">
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        for ($i = 1; $i <= 31; $i++) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["day_due"]) && $i == $data["day_due"] ? ' selected' : '', $i, $i);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
 
                     <!-- Dados Financeiros -->
                     <div class="modal-content">
@@ -861,6 +652,243 @@
                         </div>
                     </div>
 
+                    <!-- Dados da Locação -->
+                    <?php
+                    if (!isset($data["properties_attach"])) { ?>
+                        <div class="modal-content">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Dados da Locação</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+                                            <div class="col-lg-4">
+                                                <label>Valor Locação</label>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">R$</span>
+                                                    </div>
+                                                    <input type="text" id="price_location_search" name="price_location" class="form-control money" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <label>Valor IPTU</label>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">R$</span>
+                                                    </div>
+                                                    <input type="text" id="price_iptu_search" name="price_iptu" class="form-control money" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4" name="is_apartmant">
+                                                <div class="form-group">
+                                                    <label>Valor do Condominio</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="basic-addon1">R$</span>
+                                                        </div>
+                                                        <input type="text" id="price_condominium_search" name="price_condominium" class="form-control money" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="deadline_contract">Prazo Contrato</label>
+                                                    <select name="deadline_contract" id="deadline_contract_search" class="form-control" disabled>
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["deadline_contract"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["deadline_contract"]) && $k == $data["deadline_contract"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="object_propertie">Objetivo do Imovel</label>
+                                                    <select name="object_propertie" id="object_propertie_search" class="form-control" disabled>
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["propertie_objects"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["object_propertie"]) && $k == $data["object_propertie"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="type_propertie">Tipo de Propriedade</label>
+                                                    <select name="type_propertie" id="type_propertie_search" class="form-control" disabled>
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["propertie_types"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["type_propertie"]) && $k == $data["type_propertie"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="due_day">Melhor dia para Vencimento</label>
+                                                    <select name="due_day" id="due_day" class="form-control">
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        for ($i = 1; $i <= 31; $i++) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["due_day"]) && $i == $data["due_day"] ? ' selected' : '', $i, $i);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="type_work">Forma de Pagamento</label>
+                                                    <select name="payment_method" id="payment_method" class="form-control">
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["payment_method"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["offices_attach"][0]["payment_method"]) && $k == $data["offices_attach"][0]["payment_method"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php
+                    if (isset($data["properties_attach"])) { ?>
+                        <div class="modal-content">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Dados da Locação</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+                                            <div class="col-lg-4">
+                                                <label>Valor Locação</label>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">R$</span>
+                                                    </div>
+                                                    <input type="text" id="price_location_search" name="price_location" value="<?php print(isset($data["properties_attach"][0]["price_location"]) ? $data["properties_attach"][0]["price_location"] : $data["price_location"]) ?>" class="form-control money" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <label>Valor IPTU</label>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">R$</span>
+                                                    </div>
+                                                    <input type="text" id="price_iptu_search" name="price_iptu" value="<?php print(isset($data["properties_attach"][0]["price_iptu"]) ? $data["properties_attach"][0]["price_iptu"] : $data["price_iptu"]) ?>" class="form-control money" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4" id="is_apartmant">
+                                                <div class="form-group">
+                                                    <label>Valor do Condominio</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="basic-addon1">R$</span>
+                                                        </div>
+                                                        <input type="text" id="price_condominium_search" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]["price_condominium"]) ? $data["properties_attach"][0]["price_condominium"] : $data["price_condominium"]) ?>" class="form-control money" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="deadline_contract">Prazo Contrato</label>
+                                                    <select name="deadline_contract" id="deadline_contract_search" class="form-control" disabled>
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["deadline_contract"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["deadline_contract"]) && $k == $data["properties_attach"][0]["deadline_contract"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4" id="object_propertie">
+                                                <div class="form-group">
+                                                    <label for="object_propertie">Objetivo do Imovel</label>
+                                                    <select name="object_propertie" id="object_propertie_search" class="form-control" disabled>
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["propertie_objects"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["object_propertie"]) && $k == $data["properties_attach"][0]["object_propertie"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="type_propertie">Tipo de Propriedade</label>
+                                                    <select name="type_propertie" id="type_propertie_search" class="form-control" disabled>
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["propertie_types"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["type_propertie"]) && $k == $data["properties_attach"][0]["type_propertie"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="day_due">Melhor dia para Vencimento</label>
+                                                    <select name="day_due" id="day_due" class="form-control">
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        for ($i = 1; $i <= 31; $i++) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["day_due"]) && $i == $data["day_due"] ? ' selected' : '', $i, $i);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="type_work">Forma de Pagamento</label>
+                                                    <select name="payment_method" id="payment_method" class="form-control">
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["payment_method"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["payment_method"]) && $k == $data["payment_method"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+
                     <!-- Aprovação -->
                     <div class="modal-content" id="status">
                         <div class="modal-header label">
@@ -908,13 +936,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6">
-                        <?php if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) { ?>
-                            <a href="<?php print($info["get"]["done"]); ?>" class="btn btn-outline-secondary btn-sm">Voltar</a>
-                        <?php } ?>
-                    </div>
-
-                    <div class="col-sm-6 text-right">
+                    <div class="col-sm-12 text-right">
                         <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
                     </div>
                 </form>

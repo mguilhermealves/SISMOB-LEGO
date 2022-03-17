@@ -70,23 +70,21 @@ class payments_location_controller
 
 		list($done, $filter) = $this->filter($info);
 
-		$payments = new payments_model();
+		$locations = new locations_model();
 
 		if ($info["format"] != ".json") {
-			$payments->set_paginate(array($info["sr"], $paginate));
+			$locations->set_paginate(array($info["sr"], $paginate));
 		} else {
-			$payments->set_paginate(array(0, 900000));
+			$locations->set_paginate(array(0, 900000));
 		}
 
-		$payments->set_filter($filter);
-		$payments->set_order(array($ordenation));
-		
-		list($total, $data) = $payments->return_data();
-		// $payments->attach(array("offices", "partners", "properties"));
-		// $payments->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-		$data = $payments->data ; 
+		$locations->set_filter($filter);
+		$locations->set_order(array($ordenation));
 
-		// print_pre($data, true);
+		list($total, $data) = $locations->return_data();
+		$locations->attach(array("offices", "partners", "properties", "payments"));
+		$locations->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$data = $locations->data;
 
 		switch ($info["format"]) {
 			case ".json":
@@ -154,7 +152,7 @@ class payments_location_controller
 
 				include(constant("cRootServer") . "ui/common/header.inc.php");
 				include(constant("cRootServer") . "ui/common/head.inc.php");
-				include(constant("cRootServer") . "ui/page/locations/locations.php");
+				include(constant("cRootServer") . "ui/page/locations/payments/payments.php");
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
@@ -165,7 +163,7 @@ class payments_location_controller
 				print('        , template: ""' . "\n");
 				print('        , page: 1' . "\n");
 				print('    }' . "\n");
-				include(constant("cRootServer") . "furniture/js/locations/locations.js");
+				include(constant("cRootServer") . "furniture/js/locations/payments/payments.js");
 				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
 				break;
@@ -179,12 +177,12 @@ class payments_location_controller
 		}
 
 		if (isset($info["idx"])) {
-			$payment = new payments_model();
-			$payment->set_filter(array(" idx = '" . $info["idx"] . "' "));
-			$payment->load_data();
-			// $payment->attach(array("offices", "partners", "properties"));
-			// $payment->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-			$data = current($payment->data);
+			$location = new locations_model();
+			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
+			$location->load_data();
+			$location->attach(array("offices", "partners", "properties", "payments"));
+			$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+			$data = current($location->data);
 			$form = array(
 				"title" => "Editar Pagamento de Locação",
 				"url" => sprintf($GLOBALS["location_payment_url"], $info["idx"])
@@ -197,7 +195,7 @@ class payments_location_controller
 			);
 		}
 
-		//print_pre($data, true);
+		// print_pre($data["payments_attach"][0]["tickets_attach"], true);
 
 		$sidebar_color = "rgba(0, 139, 139, 1)";
 		$page = 'Locação';
@@ -215,66 +213,36 @@ class payments_location_controller
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
 	}
 
-	/**
-	 * Search Propertie for clients
-	 * 
-	 */
-	public function search_propertie($info)
+	public function form_detail($info)
 	{
 		if (!site_controller::check_login()) {
 			basic_redir($GLOBALS["home_url"]);
 		}
 
-		$done =  array();
-		$properties = new properties_model();
+		$payment = new payments_model();
+		$payment->set_filter(array(" idx = '" . $info["idx_payment"] . "' "));
+		$payment->load_data();
+		$payment->attach(array("tickets"), true);
+		$data = current($payment->data);
+		$form = array(
+			"title" => "Detalhes do Pagamento da Locação",
+			"url" => sprintf($GLOBALS["location_payment_url"], $info["idx_location"])
+		);
 
-		if ($info["post"]["cod_propertie"] != null) {
-			$properties->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
+		$sidebar_color = "rgba(0, 139, 139, 1)";
+		$page = 'Detalhe Pagamento Locação';
 
-			$properties->load_data();
-			$data = $properties->data;
-		}
-
-		$clients = new clients_model();
-
-		if ($info["post"]["name_client"] != null) {
-
-			$clients->set_filter(array(" first_name = '" . $info["post"]["name_client"] . "' "));
-
-			$clients->load_data();
-			$data = $clients->data;
-		}
-
-		if ($info["post"]["cpf_client"] != null) {
-
-			$clients->set_filter(array(" document = '" . $info["post"]["cpf_client"] . "' "));
-
-			$clients->load_data();
-			$data = $clients->data;
-		}
-
-		echo json_encode($data);
-	}
-
-	/**
-	 * Select Propertie after search
-	 * 
-	 */
-	public function select_propertie($info)
-	{
-		if (!site_controller::check_login()) {
-			basic_redir($GLOBALS["home_url"]);
-		}
-
-		$client = new properties_model();
-
-		$client->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
-
-		$client->load_data();
-		$client->attach(array("clients"), true);
-		$data = current($client->data);
-
-		echo json_encode($data);
+		include(constant("cRootServer") . "ui/common/header.inc.php");
+		include(constant("cRootServer") . "ui/common/head.inc.php");
+		include(constant("cRootServer") . "ui/page/locations/payments/payment_detail.php");
+		include(constant("cRootServer") . "ui/common/footer.inc.php");
+		print("<script>");
+		print('$("button[name=\'btn_back\']").bind("click", function(){');
+		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
+		print('})' . "\n");
+		include(constant("cRootServer") . "furniture/js/locations/payments/payment_detail.js");
+		print('</script>' . "\n");
+		include(constant("cRootServer") . "ui/common/foot.inc.php");
 	}
 
 	public function save($info)
@@ -283,41 +251,23 @@ class payments_location_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 
+		$info["post"]["status"] = "waiting";
+
 		$payment = new payments_model();
-
-		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
-			$payment->set_filter(array(" idx = '" . $info["idx"] . "' "));
-		} else {
-			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
-		}
-
-		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
-			$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");
-		}
-
 		$payment->populate($info["post"]);
 		$payment->save();
+
+		$info["payment_idx"] = $payment->con->insert_id;
+
+		$payment->save_attach(array("idx" => $info["payment_idx"], "post" => array("locations_id" =>  $info["idx"])), array("locations"), true);
+
+		if (isset($info["post"]["payment_method"]) && $info["post"]["payment_method"] == "ticket") {
+			include(constant("cRootServer_APP") . "/gerencianet/boleto/gerar_boleto.php");
+		}
 
 		if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
 			$info["idx"] = $payment->con->insert_id;
 		}
-
-		// $location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"] ) ), array("properties"));
-
-		/* save office */
-		// $office = new offices_model();
-		// $office->populate($info["post"]["offices"]);
-		// $office->save();
-		// $info["offices_id"] = $office->con->insert_id;
-
-		// $location->save_attach(array("idx" => $info["idx"], "post" => array("offices_id" => $info["offices_id"] ) ), array("offices"));
-
-		/* save partner */
-		// $partner = new partners_model();
-		// $partner->populate($info["post"]["partner"]);
-		// $partner->save();
-		// $info["partners_id"] = $office->con->insert_id;
-		// $location->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"] ) ), array("partner"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

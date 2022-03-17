@@ -42,8 +42,8 @@
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label for="name">CPF</label>
-                                        <input id="name" type="text" class="form-control" name="document" value="<?php print(isset($data["document"]) ? $data["document"] : "") ?>">
+                                        <label for="document">CPF</label>
+                                        <input id="document" type="text" class="form-control document" name="document" value="<?php print(isset($data["document"]) ? $data["document"] : "") ?>">
                                     </div>
                                 </div>
 
@@ -242,13 +242,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <?php if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) { ?>
-                        <a href="<?php print($info["get"]["done"]); ?>" class="btn btn-outline-secondary btn-sm">Voltar</a>
-                    <?php } ?>
-                </div>
-
-                <div class="col-sm-6 text-right">
+                <div class="col-sm-12 text-right">
                     <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Editar" : "Salvar") ?></button>
                 </div>
             </form>

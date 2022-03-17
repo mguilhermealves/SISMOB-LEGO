@@ -49,13 +49,9 @@
                 </div>
             </div>
 
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <label for="btn_search">&nbsp;</label>
                 <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
-            </div>
-            <div class="col-sm-2">
-                <label for="btn_add">&nbsp;</label>
-                <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Pagamento</a>
             </div>
         </div>
     </form>
@@ -116,7 +112,7 @@
                                 ?>
                             </td>
                             <th>
-                                <a type="button" class="btn btn-outline-primary btn-sm" href="/locacao/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="/locacao/pagamento/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
                         </tr>
                     <?php

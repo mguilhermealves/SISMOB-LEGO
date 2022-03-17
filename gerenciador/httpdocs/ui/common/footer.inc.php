@@ -13,7 +13,7 @@
       }
       ?>
       </div>
-      <hr class="mb-0" style="width: 100%; height: 3px; background: radial-gradient(circle, rgb(242, 103, 36) 0%, rgb(242, 103, 36) 100%);" />
+      <hr class="mb-0" style="width: 100%; height: 3px; background: rgb(230 230 230);" />
       <div class="footer" style="background-color:#FFFFFF">
         <div class="container text-center pt-4">
           © COPYRIGHT 2021-<?php print(date("Y")); ?> | SISMOB | TODOS OS DIREITOS RESERVADOS.
@@ -24,6 +24,7 @@
     ?>
     <script type='text/javascript' src="<?php printf("%s%s", constant("cFurniture"), "js/jquery.js") ?>"></script>
     <script type='text/javascript' src='<?php printf("%s%s", constant("cFurniture"), "js/jquery-ui.js") ?>'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
     <script type='text/javascript' src='<?php printf("%s%s", constant("cFurniture"), "js/jquery.inputmask.bundle.js") ?>'></script>
     <script type='text/javascript' src='<?php printf("%s%s", constant("cFurniture"), "js/jquery-autocomplete.js") ?>'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

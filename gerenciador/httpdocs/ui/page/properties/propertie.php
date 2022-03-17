@@ -398,7 +398,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">R$</span>
                                                 </div>
-                                                <input type="text" name="price_iptu" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
+                                                <input type="text" name="price_iptu_sale" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
                                             </div>
                                         </div>
 
@@ -546,13 +546,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6">
-                        <?php if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) { ?>
-                            <a href="<?php print($info["get"]["done"]); ?>" class="btn btn-outline-secondary btn-sm">Voltar</a>
-                        <?php } ?>
-                    </div>
-
-                    <div class="col-sm-6 text-right">
+                    <div class="col-sm-12 text-right">
                         <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Editar" : "Salvar") ?></button>
                     </div>
                 </form>

@@ -1,11 +1,11 @@
 <?php
 class locations_controller
 {
-	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "name")
+	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "")
 	{
 		$boiler = new locations_model();
 		$boiler->set_field(array($key, $field));
-		$boiler->set_order(array(" name asc "));
+		$boiler->set_order(array(" idx asc "));
 		$boiler->set_filter($filters);
 		$boiler->load_data();
 		$out = array();
@@ -19,16 +19,6 @@ class locations_controller
 	{
 		$done = array();
 		$filter = array(" active = 'yes' ");
-		if (!in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"], array(1, 2)) && !in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array('adm-premier', 'gestor-hsol'))) {
-			//$done["filter_profiles"] = $info["get"]["filter_profiles"];
-			$profiles_id = array_keys(profiles_controller::data4select("idx", array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"] . " in ( idx, parent ) ")));
-			$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id in ( '" . implode("','", $profiles_id) . "') ) ";
-		} else {
-			if (isset($info["get"]["filter_profiles"]) && !empty($info["get"]["filter_profiles"])) {
-				$done["filter_profiles"] = $info["get"]["filter_profiles"];
-				$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id = '" . $info["get"]["filter_profiles"] . "' ) ";
-			}
-		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
@@ -39,24 +29,27 @@ class locations_controller
 		if (isset($info["get"]["ordenation"]) && !empty($info["get"]["ordenation"])) {
 			$done["ordenation"] = $info["get"]["ordenation"];
 		}
-		if (isset($info["get"]["filter_id"]) && !empty($info["get"]["filter_id"])) {
-			$done["filter_id"] = $info["get"]["filter_id"];
-			$filter["filter_id"] = " idx like '%" . $info["get"]["filter_id"] . "%' ";
+
+		if (isset($info["get"]["filter_uf"]) && !empty($info["get"]["filter_uf"])) {
+			$done["filter_uf"] = $info["get"]["filter_uf"];
+			$filter["filter_uf"] = " uf like '%" . $info["get"]["filter_uf"] . "%' ";
 		}
 
-		if (isset($info["get"]["filter_title"]) && !empty($info["get"]["filter_title"])) {
-			$done["filter_title"] = $info["get"]["filter_title"];
-			$filter["filter_title"] = " trail_title like '%" . $info["get"]["filter_title"] . "%' ";
+		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
+			$done["filter_cpf"] = $info["get"]["filter_cpf"];
+			$filter["filter_cpf"] = " document like '%" . $info["get"]["filter_cpf"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_contract"]) && !empty($info["get"]["filter_contract"])) {
+			$done["filter_contract"] = $info["get"]["filter_contract"];
+			$filter["filter_contract"] = " n_contract like '%" . $info["get"]["filter_contract"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " trail_title like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " first_name like '%" . $info["get"]["filter_name"] . "%' ";
 		}
-		if (isset($info["get"]["filter_trail_status"]) && !empty($info["get"]["filter_trail_status"])) {
-			$done["filter_trail_status"] = $info["get"]["filter_trail_status"];
-			$filter["filter_trail_status"] = " trail_status = '" . $info["get"]["filter_trail_status"] . "' ";
-		}
+
 		return array($done, $filter);
 	}
 
@@ -80,13 +73,11 @@ class locations_controller
 
 		$locations->set_filter($filter);
 		$locations->set_order(array($ordenation));
-		
+
 		list($total, $data) = $locations->return_data();
 		$locations->attach(array("offices", "partners", "properties"));
 		$locations->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-		$data = $locations->data ; 
-
-		// print_pre($data, true);
+		$data = $locations->data;
 
 		switch ($info["format"]) {
 			case ".json":
@@ -99,56 +90,44 @@ class locations_controller
 				break;
 			default:
 				$page = 'Imoveis';
+				$sidebar_color = "rgba(218, 165, 32, 1)";
 
-				$sidebar_color = "rgba(0, 139, 139, 1)";
 				$form = array(
-					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["properties_url"], $done) : $GLOBALS["properties_url"]), "pattern" => array(
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["locations_url"], $done) : $GLOBALS["locations_url"]), "pattern" => array(
 						"new" => $GLOBALS["newlocation_url"],
 						"action" => $GLOBALS["location_url"],
-						"search" => !empty($info["get"]) ? set_url($GLOBALS["properties_url"], $info["get"]) : $GLOBALS["properties_url"]
+						"search" => !empty($info["get"]) ? set_url($GLOBALS["locations_url"], $info["get"]) : $GLOBALS["locations_url"]
 					)
 				);
 
-				$ordenation_positions = 'display_position-asc';
-				$ordenation_positions_ordenation = 'fas fa-border-none';
-				$ordenation_trail = 'trail_title-asc';
-				$ordenation_trail_ordenation = 'fas fa-border-none';
-				$ordenation_modifiedat = 'modified_at-asc';
-				$ordenation_modifiedat_ordenation = 'fas fa-border-none';
-				$ordenation_trail_status = 'trail_status-asc';
-				$ordenation_trail_status_ordenation = 'fas fa-border-none';
+				$ordenation_address = 'address-asc';
+				$ordenation_address_ordenation = 'fas fa-border-none';
+				$ordenation_ncontract = 'n_contract-asc';
+				$ordenation_ncontract_ordenation = 'fas fa-border-none';
 				switch ($ordenation) {
-					case 'display_position asc':
-						$ordenation_positions = 'display_position-desc';
-						$ordenation_positions_ordenation = 'fas fa-angle-up';
+					case 'address asc':
+						$ordenation_address = 'address-desc';
+						$ordenation_address_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'display_position desc':
-						$ordenation_positions = 'display_position-asc';
-						$ordenation_positions_ordenation = 'fas fa-angle-down';
+					case 'address desc':
+						$ordenation_address = 'address-asc';
+						$ordenation_address_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'trail_title asc':
-						$ordenation_trail = 'trail_title-desc';
-						$ordenation_trail_ordenation = 'fas fa-angle-up';
+					case 'n_contract asc':
+						$ordenation_ncontract = 'n_contract-desc';
+						$ordenation_ncontract_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'trail_title desc':
-						$ordenation_trail = 'trail_title-asc';
-						$ordenation_trail_ordenation = 'fas fa-angle-down';
+					case 'n_contract desc':
+						$ordenation_ncontract = 'n_contract-asc';
+						$ordenation_ncontract_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'modified_at asc':
-						$ordenation_modifiedat = 'modified_at-desc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-up';
+					case 'created_at asc':
+						$ordenation_createdat = 'created_at-desc';
+						$ordenation_createdat_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'modified_at desc':
-						$ordenation_modifiedat = 'modified_at-asc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-down';
-						break;
-					case 'trail_status asc':
-						$ordenation_trail_status = 'trail_status-desc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-up';
-						break;
-					case 'trail_status desc':
-						$ordenation_trail_status = 'trail_status-asc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-down';
+					case 'created_at desc':
+						$ordenation_createdat = 'created_at-asc';
+						$ordenation_createdat_ordenation = 'bi bi-arrow-down';
 						break;
 				}
 
@@ -158,7 +137,7 @@ class locations_controller
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
-				print('    data_agendas_json = {' . "\n");
+				print('    data_location_json = {' . "\n");
 				print('        url: "' . $GLOBALS["locations_url"] . '.json"' . "\n");
 				print('        , data: ' . json_encode($done) . "\n");
 				print('        , action: "' . set_url($GLOBALS["location_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
@@ -197,9 +176,7 @@ class locations_controller
 			);
 		}
 
-		//print_pre($data, true);
-
-		$sidebar_color = "rgba(0, 139, 139, 1)";
+		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Locação';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
@@ -268,7 +245,7 @@ class locations_controller
 
 		$client = new properties_model();
 
-		$client->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
+		$client->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' and is_used = 'no' "));
 
 		$client->load_data();
 		$client->attach(array("clients"), true);
@@ -293,6 +270,26 @@ class locations_controller
 
 		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
 			$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");
+
+			$payment = new payments_model();
+
+			$info["post"]["day_due"] = $info["post"]["day_due"];
+
+			$payment->populate($info["post"]);
+			$payment->save();
+
+			$info["payments_id"] = $payment->con->insert_id;
+
+			$location->save_attach(array("idx" => $info["payments_id"], "post" => array("payments_id" =>  $info["payments_id"])), array("payments"));
+
+			/* update is used propertie */
+			$info["post"]["properties"]["is_used"] = "yes";
+
+			$propertie = new properties_model();
+			$propertie->set_filter(array(" idx = '" . $info["post"]["properties_id"] . "' "));
+
+			$propertie->populate($info["post"]["properties"]);
+			$propertie->save();
 		}
 
 		$location->populate($info["post"]);
@@ -302,7 +299,7 @@ class locations_controller
 			$info["idx"] = $location->con->insert_id;
 		}
 
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"] ) ), array("properties"));
+		$location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
 
 		/* save office */
 		$office = new offices_model();
@@ -310,14 +307,14 @@ class locations_controller
 		$office->save();
 		$info["offices_id"] = $office->con->insert_id;
 
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("offices_id" => $info["offices_id"] ) ), array("offices"));
+		$location->save_attach(array("idx" => $info["idx"], "post" => array("offices_id" => $info["offices_id"])), array("offices"));
 
 		/* save partner */
 		$partner = new partners_model();
 		$partner->populate($info["post"]["partner"]);
 		$partner->save();
 		$info["partners_id"] = $office->con->insert_id;
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"] ) ), array("partner"));
+		$location->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"])), array("partner"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
@@ -340,6 +337,6 @@ class locations_controller
 			$propertie->remove();
 		}
 
-		basic_redir($GLOBALS["properties_url"]);
+		basic_redir($GLOBALS["locations_url"]);
 	}
 }

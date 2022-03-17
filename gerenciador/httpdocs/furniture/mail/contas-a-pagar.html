@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email SISMOB - Contas a Pagar</title>
+    <style>
+        table#mail #body {
+            padding: 1rem 3rem;
+            color: #57595a;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.9rem;
+        }
+
+        table#mail #body h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #57595a
+        }
+
+        table#mail #body h5 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #57595a
+        }
+    </style>
+</head>
+
+<body>
+    <table id="mail" width="650" cellpadding="0" cellspacing="0" border="0" style="border-collapse: 0px;margin:0 auto">
+        <tbody>
+            <tr>
+                <td id="body">
+                    <hr />
+                    <h3>Contas a Pagar</h3>
+                    <hr />
+                    <strong>Ol&aacute; #NOME#</strong>
+                    <p>segue abaixo os dados do pagamento criado:</p>
+                    <hr />
+                    <h5>Informações</h5>
+                    <p style="padding: 1rem ; border:1px solid #c0c0c0;"><strong>Empresa Beneficiária:</strong>
+                        #COMPANY_NAME#</p>
+                    <p style="padding: 1rem ; border:1px solid #c0c0c0;"><strong>Data de Vencimento:</strong> #DAY_DUE#
+                    </p>
+                    <p style="padding: 1rem ; border:1px solid #c0c0c0;"><strong>Forma de Pagamento:</strong>
+                        #PAYMENT_METHOD#</p>
+                    <p style="padding: 1rem ; border:1px solid #c0c0c0;"><strong>Valor:</strong> R$ #AMOUNT#</p>
+                    <hr />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

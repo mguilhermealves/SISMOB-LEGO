@@ -14,7 +14,7 @@
       
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="editUserId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php print($_SESSION[constant("cAppKey")]["credential"]["login"]) ?></a>
+            <a class="nav-link dropdown-toggle" href="#" id="editUserId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php print($_SESSION[constant("cAppKey")]["credential"]["first_name"]) ?></a>
             <div class="dropdown-menu" aria-labelledby="editUserId">
               <a class="dropdown-item" href="#">Editar Dados</a>
             </div>

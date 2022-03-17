@@ -19,16 +19,6 @@ class properties_controller
 	{
 		$done = array();
 		$filter = array(" active = 'yes' ");
-		if (!in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"], array(1, 2)) && !in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array('adm-premier', 'gestor-hsol'))) {
-			//$done["filter_profiles"] = $info["get"]["filter_profiles"];
-			$profiles_id = array_keys(profiles_controller::data4select("idx", array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"] . " in ( idx, parent ) ")));
-			$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id in ( '" . implode("','", $profiles_id) . "') ) ";
-		} else {
-			if (isset($info["get"]["filter_profiles"]) && !empty($info["get"]["filter_profiles"])) {
-				$done["filter_profiles"] = $info["get"]["filter_profiles"];
-				$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id = '" . $info["get"]["filter_profiles"] . "' ) ";
-			}
-		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
@@ -46,7 +36,7 @@ class properties_controller
 
 		if (isset($info["get"]["filter_title"]) && !empty($info["get"]["filter_title"])) {
 			$done["filter_title"] = $info["get"]["filter_title"];
-			$filter["filter_title"] = " trail_title like '%" . $info["get"]["filter_title"] . "%' ";
+			$filter["filter_title"] = " first_name like '%" . $info["get"]["filter_title"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
@@ -276,6 +266,17 @@ class properties_controller
 		} else {
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
+
+		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
+		$info["post"]["price_location"] = preg_replace("/[^0-9]/", "", $info["post"]["price_location"]);
+		if ($info["post"]["object_propertie"] == "location") {
+			$info["post"]["price_iptu"] = preg_replace("/[^0-9]/", "", $info["post"]["price_iptu"]);
+		} else {
+			$info["post"]["price_iptu"] = preg_replace("/[^0-9]/", "", $info["post"]["price_iptu_sale"]);
+		}
+	
+		$info["post"]["price_condominium"] = preg_replace("/[^0-9]/", "", $info["post"]["price_condominium"]);
+		$info["post"]["price_propertie"] = preg_replace("/[^0-9]/", "", $info["post"]["price_propertie"]);
 
 		/* Imagens */
 		$arrayImages = [];

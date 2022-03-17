@@ -11,20 +11,20 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_name">Nome:</label>
-                    <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
+                    <label for="filter_name">Primeiro Nome:</label>
+                    <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome">
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_cpf">CPF:</label>
-                    <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
+                    <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="form-control" placeholder="Digite o CPF">
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_district">Bairro:</label>
-                    <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
+                    <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="form-control" placeholder="Digite o Bairro">
                 </div>
             </div>
 
@@ -35,7 +35,7 @@
                         <option value="">Selecione</option>
                         <?php
                         foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
-                            printf('<option value="%s">%s</option>', $k, $v);
+                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_uf"]) && $k == $info["get"]["filter_uf"] ? ' selected' : '', $k, $v);
                         }
                         ?>
                     </select>
@@ -44,18 +44,18 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_district">N° Contrato:</label>
-                    <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
+                    <label for="filter_contract">N° Contrato:</label>
+                    <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="form-control" placeholder="Digite o n° do contrato">
                 </div>
             </div>
 
             <div class="col-sm-2">
                 <label for="btn_search">&nbsp;</label>
-                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
+                <button id="btn_search" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
             </div>
             <div class="col-sm-2">
                 <label for="btn_add">&nbsp;</label>
-                <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Nova Locação</a>
+                <a id="btn_add" class="btn btn-outline-primary btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Nova Locação</a>
             </div>
         </div>
     </form>
@@ -66,16 +66,17 @@
                 <tr>
                     <th>Id</th>
                     <th>Nome do Locatário</th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Endereço <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
                     <th>Cidade</th>
                     <th>UF</th>
                     <th>Aprovado</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_ncontract))) ?>">N° Contrato <i class="<?php print($ordenation_ncontract_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th colspan="7">
+                    <th colspan="8">
                         <div class="row col-lg-12">
                             <div class="col-lg-3 form-group">
                                 <select class="form-control" id="select_paginage" class="col-lg-3 ">
@@ -115,6 +116,7 @@
                                 }
                                 ?>
                             </td>
+                            <td><?php print($v["n_contract"]); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="/locacao/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
@@ -124,7 +126,7 @@
                 } else {
                     ?>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <p class="alert alert-warning text-center">Nenhuma locação encontrada...</p>
                         </td>
                     </tr>

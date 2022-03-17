@@ -65,6 +65,7 @@ class clients_controller
 		if (!site_controller::check_login()) {
 			basic_redir($GLOBALS["home_url"]);
 		}
+
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
 		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
 
@@ -159,7 +160,7 @@ class clients_controller
 				print('        , template: ""' . "\n");
 				print('        , page: 1' . "\n");
 				print('    }' . "\n");
-				include(constant("cRootServer") . "furniture/js/add/companies.js");
+				include(constant("cRootServer") . "furniture/js/client/clients.js");
 				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
 				break;
@@ -177,7 +178,7 @@ class clients_controller
 			$client->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$client->load_data();
 			$client->attach(array("partners"));
-			$data = current( $client->data );
+			$data = current($client->data);
 
 			$form = array(
 				"title" => "Editar Cliente",
@@ -220,6 +221,11 @@ class clients_controller
 		} else {
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
+
+		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
+		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
+		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
+		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
 
 		$client->populate($info["post"]);
 		$client->save();

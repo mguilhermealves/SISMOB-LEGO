@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    $('.money').mask("#.##0,00", {
+        reverse: true
+    });
+
     var status = ($('#marital_status').val());
 
     if (status == 'married') {
@@ -276,12 +280,13 @@ $(document).on('click', '.pesquisarImovel', function () {
                 html += '<th>Bairro</th>';
                 html += '<th>Cidade</th>';
                 html += '<th>UF</th>';
-                // html += '<th>CPF</th>';
+                html += '<th>Indisponivel</th>';
                 html += '<th>Escolher</th>';
                 html += '</tr>';
                 html += '</thead>';
                 html += '<tbody>';
                 $.each(data, function (index, value) {
+                    console.log(value);
                     html += '<tr>';
 
                     html += '<td scope="row"><p>' + value.idx +
@@ -302,13 +307,23 @@ $(document).on('click', '.pesquisarImovel', function () {
                     html += '<td><p>' + value.uf +
                         '</p></td>';
 
-                    // html += '<td><p class="cpf">' + value.client_properties
-                    //     .cpf_cnpj +
-                    //     '</p></td>';
+                    if (value.is_used == "yes") {
+                        html += '<td><p class="cpf">' + 'Sim' +
+                        '</p></td>';
+                    } else {
+                        html += '<td><p class="cpf">' + 'Não' +
+                        '</p></td>';
+                    }
 
-                    html +=
+                    if (value.is_used == "yes") {
+                        html +=
+                        '<td><a data-id="' + value.idx +
+                        '" class="btn btn-info btn-sm disabled" disabled><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
+                    } else {
+                        html +=
                         '<td><a data-id="' + value.idx +
                         '" class="btn btn-info btn-sm btn_selecionar_cliente"><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
+                    }
 
                     html += '</tr>';
                 });

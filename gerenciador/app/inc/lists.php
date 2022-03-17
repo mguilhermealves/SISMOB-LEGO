@@ -351,3 +351,20 @@ $status_location = array(
   , "approved" => "Aprovado"
   , "reproved" => "Não Aprovado"
 );
+
+$payment_method = array(
+  "debit" => "Débito em conta"
+  , "ticket" => "Boleto"
+  , "transfer" => "Transferência"
+  ,"pix" => "PIX"
+  , "cheque" => "Cheque"
+  , "others" => "Outros"
+);
+
+$payment_status = array(
+  "waiting" => "A Pagar"
+  , "paid" => "Pago"
+  , "loser" => "Vencido"
+  ,"judicial" => "Juridico"
+  , "according_to" => "Em Acordo"
+);

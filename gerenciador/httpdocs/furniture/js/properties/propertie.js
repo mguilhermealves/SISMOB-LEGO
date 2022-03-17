@@ -1,5 +1,10 @@
 $(document).ready(function () {
 
+    $('.money').mask("#.##0,00", {
+        reverse: true
+    });
+    $('#document').mask("999.999.999-99");
+
     var status = ($('#object_propertie').val());
     var type_propertie = ($('#type_propertie').val());
     var financial_propertie = ($('select[name="financial_propertie"]').val());

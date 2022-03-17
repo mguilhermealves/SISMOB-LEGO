@@ -1,0 +1,286 @@
+<?php
+class bills_payableds_controller
+{
+	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "name")
+	{
+		$boiler = new account_pays_model();
+		$boiler->set_field(array($key, $field));
+		$boiler->set_order(array(" name asc "));
+		$boiler->set_filter($filters);
+		$boiler->load_data();
+		$out = array();
+		foreach ($boiler->data as $value) {
+			$out[$value[$key]] = $value[$field];
+		}
+		return $out;
+	}
+
+	private function filter($info)
+	{
+		$done = array();
+		$filter = array(" active = 'yes' ");
+
+		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
+			$done["paginate"] = $info["get"]["paginate"];
+		}
+
+		if (isset($info["get"]["sr"]) && !empty($info["get"]["sr"])) {
+			$done["sr"] = $info["get"]["sr"];
+		}
+
+		if (isset($info["get"]["ordenation"]) && !empty($info["get"]["ordenation"])) {
+			$done["ordenation"] = $info["get"]["ordenation"];
+		}
+
+		if (isset($info["get"]["filter_company"]) && !empty($info["get"]["filter_company"])) {
+			$done["filter_company"] = $info["get"]["filter_company"];
+			$filter["filter_company"] = " company_beneficiary like '%" . $info["get"]["filter_company"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_value"]) && !empty($info["get"]["filter_value"])) {
+			$done["filter_value"] = $info["get"]["filter_value"];
+			$filter["filter_value"] = " amount like '%" . $info["get"]["filter_value"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_payment"]) && !empty($info["get"]["filter_payment"])) {
+			$done["filter_payment"] = $info["get"]["filter_payment"];
+			$filter["filter_payment"] = " payment_method like '%" . $info["get"]["filter_payment"] . "%' ";
+		}
+		if (isset($info["get"]["filter_status"]) && !empty($info["get"]["filter_status"])) {
+			$done["filter_status"] = $info["get"]["filter_status"];
+			$filter["filter_status"] = " status_payment = '" . $info["get"]["filter_status"] . "' ";
+		}
+		return array($done, $filter);
+	}
+
+	public function display($info)
+	{
+		if (!site_controller::check_login()) {
+			basic_redir($GLOBALS["home_url"]);
+		}
+		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
+		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
+
+		list($done, $filter) = $this->filter($info);
+
+		$bills_payableds = new account_pays_model();
+
+		if ($info["format"] != ".json") {
+			$bills_payableds->set_paginate(array($info["sr"], $paginate));
+		} else {
+			$bills_payableds->set_paginate(array(0, 900000));
+		}
+
+		$bills_payableds->set_filter($filter);
+		$bills_payableds->set_order(array($ordenation));
+
+		list($total, $data) = $bills_payableds->return_data();
+		// $bills_payableds->attach(array("offices", "partners", "properties"));
+		// $bills_payableds->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$data = $bills_payableds->data;
+
+		switch ($info["format"]) {
+			case ".json":
+				header('Content-type: application/json');
+				echo json_encode(
+					array(
+						"total" => array("total" => $total), "row" => $data
+					)
+				);
+				break;
+			default:
+				$page = 'Contas a Pagar';
+
+				$sidebar_color = "rgba(95, 158, 160, 1)";
+				$form = array(
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["bills_payableds_url"], $done) : $GLOBALS["bills_payableds_url"]), "pattern" => array(
+						"new" => $GLOBALS["newbills_payabled_url"],
+						"action" => $GLOBALS["bills_payabled_url"],
+						"search" => !empty($info["get"]) ? set_url($GLOBALS["bills_payableds_url"], $info["get"]) : $GLOBALS["bills_payableds_url"]
+					)
+				);
+
+				$ordenation_positions = 'display_position-asc';
+				$ordenation_positions_ordenation = 'fas fa-border-none';
+				$ordenation_trail = 'trail_title-asc';
+				$ordenation_trail_ordenation = 'fas fa-border-none';
+				$ordenation_modifiedat = 'modified_at-asc';
+				$ordenation_modifiedat_ordenation = 'fas fa-border-none';
+				$ordenation_trail_status = 'trail_status-asc';
+				$ordenation_trail_status_ordenation = 'fas fa-border-none';
+				switch ($ordenation) {
+					case 'display_position asc':
+						$ordenation_positions = 'display_position-desc';
+						$ordenation_positions_ordenation = 'fas fa-angle-up';
+						break;
+					case 'display_position desc':
+						$ordenation_positions = 'display_position-asc';
+						$ordenation_positions_ordenation = 'fas fa-angle-down';
+						break;
+					case 'trail_title asc':
+						$ordenation_trail = 'trail_title-desc';
+						$ordenation_trail_ordenation = 'fas fa-angle-up';
+						break;
+					case 'trail_title desc':
+						$ordenation_trail = 'trail_title-asc';
+						$ordenation_trail_ordenation = 'fas fa-angle-down';
+						break;
+					case 'modified_at asc':
+						$ordenation_modifiedat = 'modified_at-desc';
+						$ordenation_modifiedat_ordenation = 'fas fa-angle-up';
+						break;
+					case 'modified_at desc':
+						$ordenation_modifiedat = 'modified_at-asc';
+						$ordenation_modifiedat_ordenation = 'fas fa-angle-down';
+						break;
+					case 'trail_status asc':
+						$ordenation_trail_status = 'trail_status-desc';
+						$ordenation_trail_status_ordenation = 'fas fa-angle-up';
+						break;
+					case 'trail_status desc':
+						$ordenation_trail_status = 'trail_status-asc';
+						$ordenation_trail_status_ordenation = 'fas fa-angle-down';
+						break;
+				}
+
+				include(constant("cRootServer") . "ui/common/header.inc.php");
+				include(constant("cRootServer") . "ui/common/head.inc.php");
+				include(constant("cRootServer") . "ui/page/bills_payableds/bills_payableds.php");
+				include(constant("cRootServer") . "ui/common/footer.inc.php");
+				include(constant("cRootServer") . "ui/common/list_actions.php");
+				print('<script>' . "\n");
+				print('    data_agendas_json = {' . "\n");
+				print('        url: "' . $GLOBALS["locations_url"] . '.json"' . "\n");
+				print('        , data: ' . json_encode($done) . "\n");
+				print('        , action: "' . set_url($GLOBALS["location_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
+				print('        , template: ""' . "\n");
+				print('        , page: 1' . "\n");
+				print('    }' . "\n");
+				include(constant("cRootServer") . "furniture/js/account_pay/account_pays.js");
+				print('</script>' . "\n");
+				include(constant("cRootServer") . "ui/common/foot.inc.php");
+				break;
+		}
+	}
+
+	public function form($info)
+	{
+		if (!site_controller::check_login()) {
+			basic_redir($GLOBALS["home_url"]);
+		}
+
+		if (isset($info["idx"])) {
+			$bill_payabled = new account_pays_model();
+			$bill_payabled->set_filter(array(" idx = '" . $info["idx"] . "' "));
+			$bill_payabled->load_data();
+			// $bill_payabled->attach(array("offices", "partners", "properties"));
+			// $bill_payabled->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+			$data = current($bill_payabled->data);
+			$form = array(
+				"title" => "Editar Contas a Pagar",
+				"url" => sprintf($GLOBALS["bills_payabled_url"], $info["idx"])
+			);
+		} else {
+			$data = array();
+			$form = array(
+				"title" => "Cadastrar Contas a Pagar",
+				"url" => $GLOBALS["newbills_payabled_url"]
+			);
+		}
+
+		$sidebar_color = "rgba(95, 158, 160, 1)";
+		$page = 'Locação';
+
+		include(constant("cRootServer") . "ui/common/header.inc.php");
+		include(constant("cRootServer") . "ui/common/head.inc.php");
+		include(constant("cRootServer") . "ui/page/bills_payableds/bills_payabled.php");
+		include(constant("cRootServer") . "ui/common/footer.inc.php");
+		print("<script>");
+		print('$("button[name=\'btn_back\']").bind("click", function(){');
+		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
+		print('})' . "\n");
+		include(constant("cRootServer") . "furniture/js/account_pay/account_pay.js");
+		print('</script>' . "\n");
+		include(constant("cRootServer") . "ui/common/foot.inc.php");
+	}
+
+	public function save($info)
+	{
+		if (!site_controller::check_login()) {
+			basic_redir($GLOBALS["home_url"]);
+		}
+
+		$bill_payabled = new account_pays_model();
+
+		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
+			$bill_payabled->set_filter(array(" idx = '" . $info["idx"] . "' "));
+
+			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
+		} else {
+			$page = strtr(file_get_contents(constant("cFurniture") . "mail/contas-a-pagar.html"), array(
+				"#HOST#" => constant("cFurniture") . "mail/contas-a-pagar.html",
+				"#NOME#" => $_SESSION[constant("cAppKey")]["credential"]["first_name"] . " " . $_SESSION[constant("cAppKey")]["credential"]["last_name"],
+				"#COMPANY_NAME#" => $info["post"]["company_beneficiary"],
+				"#DAY_DUE#" => date('d/m/Y', strtotime($info["post"]["day_due"])),
+				"#PAYMENT_METHOD#" => $info["post"]["payment_method"],
+				"#AMOUNT#" => $info["post"]["amount"],
+			));
+
+			$messages_model = new messages_model();
+			$messages_model->populate(array(
+				"name" => "SISMOB - Contas a Pagar",
+				"scheduled_at" => date("Y-m-d H:i:s"),
+				"mailboxes" => serialize(array(
+					"Address" => array(
+						"name" => $_SESSION[constant("cAppKey")]["credential"]["first_name"] . " " . $_SESSION[constant("cAppKey")]["credential"]["last_name"],
+						"mail" => $_SESSION[constant("cAppKey")]["credential"]["mail"]
+					),
+					"from" => array(
+						"name" => constant("mail_from_name"),
+						"mail" => constant("mail_from_user")
+					),
+					"replyTo" => array(
+						"name" => constant("mail_from_name"),
+						"mail" => constant("mail_from_user")
+					)
+				)), "htmlmsg" => $page, "textmsg" => strip_tags($page), 
+				"type" => "mail"
+			));
+			$messages_model->save();
+		}
+
+		$info["post"]["amount"] = preg_replace("/[^0-9]/", "", $info["post"]["amount"]);
+
+		$bill_payabled->populate($info["post"]);
+		$bill_payabled->save();
+
+		if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
+			$info["idx"] = $bill_payabled->con->insert_id;
+		}
+
+		// $bill_payabled->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
+
+		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
+			basic_redir($info["post"]["done"]);
+		} else {
+			basic_redir($GLOBALS["bills_payableds_url"]);
+		}
+	}
+
+	public function remove($info)
+	{
+		if (!site_controller::check_login()) {
+			basic_redir($GLOBALS["home_url"]);
+		}
+
+		if (isset($info["idx"])) {
+			$bill_payabled = new account_pays_model();
+
+			$bill_payabled->set_filter(array(" idx = '" . $info["idx"] . "' "));
+
+			$bill_payabled->remove();
+		}
+
+		basic_redir($GLOBALS["bills_payableds_url"]);
+	}
+}
