@@ -269,6 +269,8 @@ class clients_controller
 			$client->save_attach("partners");
 		}
 
+		print_r( $_SESSION["messages_app"]["success"] = array("Cliente Cadastrado com sucesso.") );
+
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
 		} else {

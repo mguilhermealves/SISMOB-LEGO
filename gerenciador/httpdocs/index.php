@@ -44,6 +44,8 @@ if( site_controller::check_login() ){
 
 	$dispatcher->add_route ( "POST" , "/search_propertie" , "locations_controller:search_propertie" , NULL, $params );
 	$dispatcher->add_route ( "POST" , "/select_propertie" , "locations_controller:select_propertie" , NULL, $params );
+
+	$dispatcher->add_route ( "POST" , "/cancel_billet" , "payments_location_controller:cancel_billet" , NULL, $params );
 }
 if ( ! $dispatcher->exec() ) {
 	//print_pre( $dispatcher );

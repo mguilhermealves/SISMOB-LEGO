@@ -195,7 +195,7 @@ class payments_location_controller
 			);
 		}
 
-		// print_pre($data["payments_attach"][0]["tickets_attach"], true);
+		// print_pre($data, true);
 
 		$sidebar_color = "rgba(0, 139, 139, 1)";
 		$page = 'Locação';
@@ -222,7 +222,7 @@ class payments_location_controller
 		$payment = new payments_model();
 		$payment->set_filter(array(" idx = '" . $info["idx_payment"] . "' "));
 		$payment->load_data();
-		$payment->attach(array("tickets"), true);
+		// $payment->attach(array("tickets"), true);
 		$data = current($payment->data);
 		$form = array(
 			"title" => "Detalhes do Pagamento da Locação",
@@ -251,7 +251,10 @@ class payments_location_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 
+		$dateNow = date('Y-m-');
+
 		$info["post"]["status"] = "waiting";
+		$info["post"]["expire_at"] = $dateNow . $info["post"]["day_due"];
 
 		$payment = new payments_model();
 		$payment->populate($info["post"]);
@@ -291,5 +294,10 @@ class payments_location_controller
 		}
 
 		basic_redir($GLOBALS["location_payments_url"]);
+	}
+
+	public function cancel_billet($info)
+	{
+		include(constant("cRootServer_APP") . "/gerencianet/boleto/cancelar_boleto.php");
 	}
 }

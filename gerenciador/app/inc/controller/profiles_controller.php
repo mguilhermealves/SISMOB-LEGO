@@ -21,6 +21,7 @@ class profiles_controller{
 		}
 		return array( $done , $filter ) ;
 	}
+
 	public function display( $info ){
 		if( ! site_controller::check_login() ){
 		basic_redir( $GLOBALS["home_url"] ) ;
@@ -48,6 +49,7 @@ class profiles_controller{
 		include( constant("cRootServer") . "ui/common/list_actions.php");
 		include( constant("cRootServer") . "ui/common/foot.inc.php");
 	}
+
 	public function form( $info ){
 		if( ! site_controller::check_login() ){
 		basic_redir( $GLOBALS["home_url"] ) ;
@@ -74,6 +76,7 @@ class profiles_controller{
 		include( constant("cRootServer") . "ui/common/footer.inc.php");
 		include( constant("cRootServer") . "ui/common/foot.inc.php");
 	}
+	
 	public function save( $info ){
 		if( ! site_controller::check_login() ){
 		  basic_redir( $GLOBALS["home_url"] ) ;

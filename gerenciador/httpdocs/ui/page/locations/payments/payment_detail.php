@@ -4,6 +4,8 @@
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
 
+            <?php html_notification_print(); ?>
+
             <?php if ($data["payment_method"] != "ticket") { ?>
 
                 <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
@@ -31,7 +33,9 @@
                                                     <option value="">Selecione</option>
                                                     <?php
                                                     foreach ($GLOBALS["payment_method"] as $k => $v) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["payment_method"]) && $k == $data["payment_method"] ? ' selected' : '', $k, $v);
+                                                        if ($k != "ticket") {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["payment_method"]) && $k == $data["payment_method"] ? ' selected' : '', $k, $v);
+                                                        }
                                                     }
                                                     ?>
                                                 </select>
@@ -71,7 +75,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="name">Dia de Vencimento</label>
-                                                <input id="day_due" type="text" class="form-control" name="day_due" value="<?php print(isset($data["tickets_attach"][0]) ? $data["tickets_attach"][0]["expire_at"] : $data["day_due"]) ?>" disabled>
+                                                <input id="day_due" type="text" class="form-control" name="day_due" value="<?php print(isset($data["day_due"]) ? $data["day_due"] : $data["day_due"]) ?>" disabled>
                                             </div>
                                         </div>
 
@@ -99,7 +103,7 @@
                     </div>
 
                     <div class="col-sm-12 text-right">
-                        <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-circle"></i> Editar Dados</button>
+                        <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-circle"></i> Salvar</button>
                     </div>
                 </form>
 
@@ -121,17 +125,59 @@
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <label for="status">Status</label>
-                                            <input id="status" type="text" class="form-control" name="status" value="<?php print(isset($data["status"]) ? $data["status"] : "") ?>" disabled>
+                                            <label for="status">Método de Pagamento</label>
+                                            <select name="status" id="status" class="form-control" disabled>
+                                                <option value="">Selecione</option>
+                                                <?php
+                                                foreach ($GLOBALS["payment_status_gerencianet"] as $k => $v) {
+                                                    printf('<option %s value="%s">%s</option>', isset($data["status"]) && $k == $data["status"] ? ' selected' : '', $k, $v);
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
+
+
+                                    <?php if ($data["status"] != "canceled") { ?>
+
+                                        <div class="col-lg-8 text-right">
+                                            <button type="button" id="cancel_billet" class="btn btn-danger btn-sm" data-payment="<?php print($info["idx_location"]) ?>" data-detail="<?php print($data["idx"]) ?>">Cancelar Boleto</button>
+                                        </div>
+
+                                    <?php } ?>
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="status">PDF</label>
                                             <iframe class="pdf" src="<?php print($data["pdf"]) ?>" width="100%" height="350px"></iframe>
-                                            <button type="button" name="" id="" class="btn btn-primary btn-sm" btn-lg btn-block"><i class="bi bi-envelope"></i> Enviar por e-mail</button>
+                                            <?php if ($data["status"] != "canceled") { ?>
+                                                <!-- <button type="button" name="" id="" class="btn btn-primary btn-sm"><i class="bi bi-envelope"></i> Enviar por e-mail</button> -->
+                                            <?php } ?>
                                         </div>
+                                    </div>
+
+                                    <div class="col-lg-12 mt-3">
+
+                                        <p class="lead">
+                                            Historico do Pagamento
+                                        </p>
+
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Data</th>
+                                                    <th>Mensagem</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach (unserialize($data["historic_bank"]) as $v) { ?>
+                                                    <tr>
+                                                        <td scope="row"><?php print($v["created_at"]) ?></td>
+                                                        <td><?php print($v["message"]) ?></td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

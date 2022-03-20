@@ -19,7 +19,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_cost_center">Centro de Custo:</label>
-                    <input type="text" id="filter_cost_center" class="form-control" name="filter_cost_center" value="<?php print(isset($info["get"]["filter_cost_center"]) ? $info["get"]["filter_cost_center"] : "") ?>" class="form-control" placeholder="Digite o Nome da Categoria">
+                    <input type="text" id="filter_cost_center" class="form-control" name="filter_cost_center" value="<?php print(isset($info["get"]["filter_cost_center"]) ? $info["get"]["filter_cost_center"] : "") ?>" class="form-control" placeholder="Digite o N° do Centro de Custo">
                 </div>
             </div>
 
@@ -56,7 +56,6 @@
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
-                    <th>Id</th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
                     <th>Centro de Custo</th>
                     <th>Categoria</th>
@@ -91,7 +90,6 @@
                 if ($total > 0) {
                     foreach ($data as $v) { ?>
                         <tr>
-                            <td><?php print($v["idx"]); ?></td>
                             <td><?php print($v["name"]); ?></td>
                             <td><?php print( str_pad( $v["idx"] , 3 , '0' , STR_PAD_LEFT ) ); ?></td>
                             <td><?php print($v["account_pay_categories_attach"][0]["name"]); ?></td>

@@ -196,6 +196,7 @@ $referrer = substr( addslashes( stripslashes( strip_tags( getenv( "HTTP_REFERER"
 $request_uri = substr( addslashes( stripslashes( strip_tags( getenv( "SCRIPT_NAME" ) ) ) ) , 0 , 255 ) ;
 $request_server = get_request_server() ;
 $path_info = getenv( "PATH_INFO" ) ;
+
 function html_notification_print(){ 
   if( isset( $_SESSION["messages_app"] ) ){
     foreach( $_SESSION["messages_app"] as $type => $context ){

@@ -3,6 +3,7 @@
     <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print($GLOBALS["clients_url"]) ?>">Clientes</a> / <?php print($form["title"]) ?></p>
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
+
             <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
                 <?php
                 if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) {
@@ -11,10 +12,11 @@
                 <?php
                 }
                 ?>
-                
+
+                <!-- Info Cliente -->
                 <div class="modal-content">
                     <div class="modal-header label">
-                        <h5 class="modal-title ">Dados</h5>
+                        <h5 class="modal-title ">Informações</h5>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
@@ -22,63 +24,63 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">Nome</label>
-                                        <input id="name" type="text" class="form-control" name="first_name" value="<?php print(isset($data["first_name"]) ? $data["first_name"] : "") ?>">
+                                        <input id="name" type="text" class="form-control" name="first_name" value="<?php print(isset($data["first_name"]) ? $data["first_name"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">Sobrenome</label>
-                                        <input id="name" type="text" class="form-control" name="last_name" value="<?php print(isset($data["last_name"]) ? $data["last_name"] : "") ?>">
+                                        <input id="name" type="text" class="form-control" name="last_name" value="<?php print(isset($data["last_name"]) ? $data["last_name"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">E-mail</label>
-                                        <input id="name" type="email" class="form-control" name="mail" value="<?php print(isset($data["mail"]) ? $data["mail"] : "") ?>">
+                                        <input id="name" type="email" class="form-control" name="mail" value="<?php print(isset($data["mail"]) ? $data["mail"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="document">CPF</label>
-                                        <input id="document" type="text" class="form-control document" name="document" value="<?php print(isset($data["document"]) ? $data["document"] : "") ?>">
+                                        <input id="document" type="text" class="form-control document" name="document" value="<?php print(isset($data["document"]) ? $data["document"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">RG</label>
-                                        <input id="name" type="text" class="form-control" name="rg" value="<?php print(isset($data["rg"]) ? $data["rg"] : "") ?>">
+                                        <input id="name" type="text" class="form-control" name="rg" value="<?php print(isset($data["rg"]) ? $data["rg"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">CNH</label>
-                                        <input id="name" type="text" class="form-control" name="cnh" value="<?php print(isset($data["cnh"]) ? $data["cnh"] : "") ?>">
+                                        <input id="name" type="text" class="form-control" name="cnh" value="<?php print(isset($data["cnh"]) ? $data["cnh"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">Telefone</label>
-                                        <input id="phone" type="text" class="form-control" name="phone" value="<?php print(isset($data["phone"]) ? $data["phone"] : "") ?>">
+                                        <input id="phone" type="text" class="form-control" name="phone" value="<?php print(isset($data["phone"]) ? $data["phone"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">Celular</label>
-                                        <input id="celphone" type="text" class="form-control" name="celphone" value="<?php print(isset($data["celphone"]) ? $data["celphone"] : "") ?>">
+                                        <input id="celphone" type="text" class="form-control" name="celphone" value="<?php print(isset($data["celphone"]) ? $data["celphone"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="genre">Genero</label>
-                                        <select name="genre" id="genre" class="form-control">
+                                        <select name="genre" id="genre" class="form-control" required>
                                             <option value="">Selecione</option>
                                             <?php
                                             foreach ($GLOBALS["genres"] as $k => $v) {
@@ -92,7 +94,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="marital_status">Estado Civil</label>
-                                        <select name="marital_status" id="marital_status" class="form-control">
+                                        <select name="marital_status" id="marital_status" class="form-control" required>
                                             <option value="">Selecione</option>
                                             <?php
                                             foreach ($GLOBALS["marital_status"] as $k => $v) {
@@ -123,21 +125,21 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">CEP</label>
-                                            <input id="code_postal" type="text" class="form-control" name="code_postal" value="<?php print(isset($data["code_postal"]) ? $data["code_postal"] : "") ?>">
+                                            <input id="code_postal" type="text" class="form-control" name="code_postal" value="<?php print(isset($data["code_postal"]) ? $data["code_postal"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Endereço</label>
-                                            <input id="address" type="text" class="form-control" name="address" value="<?php print(isset($data["address"]) ? $data["address"] : "") ?>">
+                                            <input id="address" type="text" class="form-control" name="address" value="<?php print(isset($data["address"]) ? $data["address"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Numero</label>
-                                            <input type="text" class="form-control" name="number_address" value="<?php print(isset($data["number_address"]) ? $data["number_address"] : "") ?>">
+                                            <input type="text" class="form-control" name="number_address" value="<?php print(isset($data["number_address"]) ? $data["number_address"] : "") ?>" required>
                                         </div>
                                     </div>
 
@@ -151,21 +153,21 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Bairro</label>
-                                            <input id="district" type="text" class="form-control" name="district" value="<?php print(isset($data["district"]) ? $data["district"] : "") ?>">
+                                            <input id="district" type="text" class="form-control" name="district" value="<?php print(isset($data["district"]) ? $data["district"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Cidade</label>
-                                            <input id="city" type="text" class="form-control" name="city" value="<?php print(isset($data["city"]) ? $data["city"] : "") ?>">
+                                            <input id="city" type="text" class="form-control" name="city" value="<?php print(isset($data["city"]) ? $data["city"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="uf">UF</label>
-                                            <select name="uf" id="uf" class="form-control">
+                                            <select name="uf" id="uf" class="form-control" required>
                                                 <option value="">Selecione</option>
                                                 <?php
                                                 foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
@@ -193,35 +195,35 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Nome</label>
-                                            <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"]["first_name_partner"]) ? $data["partners_attach"]["first_name_partner"] : "") ?>">
+                                            <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"]["first_name_partner"]) ? $data["partners_attach"]["first_name_partner"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Sobrenome</label>
-                                            <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"]["last_name_partner"]) ? $data["partners_attach"]["last_name_partner"] : "") ?>">
+                                            <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"]["last_name_partner"]) ? $data["partners_attach"]["last_name_partner"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">CPF</label>
-                                            <input id="name" type="text" class="form-control" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"]["document_partner"]) ? $data["partners_attach"]["document_partner"] : "") ?>">
+                                            <input id="name" type="text" class="form-control" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"]["document_partner"]) ? $data["partners_attach"]["document_partner"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">RG</label>
-                                            <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"]["rg_partner"]) ? $data["partners_attach"]["rg_partner"] : "") ?>">
+                                            <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"]["rg_partner"]) ? $data["partners_attach"]["rg_partner"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">CNH</label>
-                                            <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"]["cnh_partner"]) ? $data["partners_attach"]["cnh_partner"] : "") ?>">
+                                            <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"]["cnh_partner"]) ? $data["partners_attach"]["cnh_partner"] : "") ?>" required>
                                         </div>
                                     </div>
 

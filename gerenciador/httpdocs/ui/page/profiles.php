@@ -20,7 +20,7 @@
             </div>
             <div class="col-lg-2">
                 <label for="btn_add">&nbsp;</label>
-                <a  id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="fa fa-plus" aria-hidden="true"></i> Novo Perfil</a>
+                <a  id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["new"]) ?>"><i class="fa fa-plus" aria-hidden="true"></i> Novo Perfil</a>
             </div>
         </div>
     </form>
@@ -63,8 +63,8 @@
                 <tr>
                     <td><?php print( $v["name"] ) ?></td>
                     <td><?php print( $v["adm"] ) ?></td>
-                    <td><a class="btn button btn-info" href="<?php printf( $form["action"] , $v["idx"] ) ?>">[ editar ]</a> 
-                    <a id="btn_remove_<?php print( $v["idx"] ) ?>" class="btn button btn-danger" href="<?php printf( $form["action"] , $v["idx"] ) ?>">[ excluir ]</a></td>
+                    <td><a class="btn btn-info btn-sm" href="<?php printf( $form["action"] , $v["idx"] ) ?>">Editar</a> 
+                    <a id="btn_remove_<?php print( $v["idx"] ) ?>" class="btn btn-danger btn-sm" href="<?php printf( $form["action"] , $v["idx"] ) ?>">Excluir</a></td>
                 </tr>
                 <?php } ?>
             </tbody>

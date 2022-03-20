@@ -29,23 +29,19 @@ class account_pay_cost_center_controller
 		if (isset($info["get"]["ordenation"]) && !empty($info["get"]["ordenation"])) {
 			$done["ordenation"] = $info["get"]["ordenation"];
 		}
-		if (isset($info["get"]["filter_id"]) && !empty($info["get"]["filter_id"])) {
-			$done["filter_id"] = $info["get"]["filter_id"];
-			$filter["filter_id"] = " idx like '%" . $info["get"]["filter_id"] . "%' ";
-		}
-
-		if (isset($info["get"]["filter_title"]) && !empty($info["get"]["filter_title"])) {
-			$done["filter_title"] = $info["get"]["filter_title"];
-			$filter["filter_title"] = " trail_title like '%" . $info["get"]["filter_title"] . "%' ";
-		}
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " trail_title like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " name like '%" . $info["get"]["filter_name"] . "%' ";
 		}
-		if (isset($info["get"]["filter_trail_status"]) && !empty($info["get"]["filter_trail_status"])) {
-			$done["filter_trail_status"] = $info["get"]["filter_trail_status"];
-			$filter["filter_trail_status"] = " trail_status = '" . $info["get"]["filter_trail_status"] . "' ";
+		if (isset($info["get"]["filter_cost_center"]) && !empty($info["get"]["filter_cost_center"])) {
+			$done["filter_cost_center"] = $info["get"]["filter_cost_center"];
+			$filter["filter_cost_center"] = " idx like '%" . $info["get"]["filter_cost_center"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_category"]) && !empty($info["get"]["filter_category"])) {
+			$done["filter_category"] = $info["get"]["filter_category"];
+			$filter["filter_category"] = " trail_title like '%" . $info["get"]["filter_category"] . "%' ";
 		}
 		return array($done, $filter);
 	}
@@ -73,7 +69,6 @@ class account_pay_cost_center_controller
 
 		list($total, $data) = $cost_centers->return_data();
 		$cost_centers->attach(array("account_pay_categories"));
-		// $cost_centers->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 		$data = $cost_centers->data;
 
 		switch ($info["format"]) {
@@ -97,46 +92,16 @@ class account_pay_cost_center_controller
 					)
 				);
 
-				$ordenation_positions = 'display_position-asc';
-				$ordenation_positions_ordenation = 'fas fa-border-none';
-				$ordenation_trail = 'trail_title-asc';
-				$ordenation_trail_ordenation = 'fas fa-border-none';
-				$ordenation_modifiedat = 'modified_at-asc';
-				$ordenation_modifiedat_ordenation = 'fas fa-border-none';
-				$ordenation_trail_status = 'trail_status-asc';
-				$ordenation_trail_status_ordenation = 'fas fa-border-none';
+				$ordenation_name = 'name-asc';
+				$ordenation_name_ordenation = 'bi bi-border';
 				switch ($ordenation) {
-					case 'display_position asc':
-						$ordenation_positions = 'display_position-desc';
-						$ordenation_positions_ordenation = 'fas fa-angle-up';
+					case 'name asc':
+						$ordenation_name = 'name-desc';
+						$ordenation_name_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'display_position desc':
-						$ordenation_positions = 'display_position-asc';
-						$ordenation_positions_ordenation = 'fas fa-angle-down';
-						break;
-					case 'trail_title asc':
-						$ordenation_trail = 'trail_title-desc';
-						$ordenation_trail_ordenation = 'fas fa-angle-up';
-						break;
-					case 'trail_title desc':
-						$ordenation_trail = 'trail_title-asc';
-						$ordenation_trail_ordenation = 'fas fa-angle-down';
-						break;
-					case 'modified_at asc':
-						$ordenation_modifiedat = 'modified_at-desc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-up';
-						break;
-					case 'modified_at desc':
-						$ordenation_modifiedat = 'modified_at-asc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-down';
-						break;
-					case 'trail_status asc':
-						$ordenation_trail_status = 'trail_status-desc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-up';
-						break;
-					case 'trail_status desc':
-						$ordenation_trail_status = 'trail_status-asc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-down';
+					case 'name desc':
+						$ordenation_name = 'name-asc';
+						$ordenation_name_ordenation = 'bi bi-arrow-down';
 						break;
 				}
 

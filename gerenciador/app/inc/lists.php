@@ -368,3 +368,11 @@ $payment_status = array(
   ,"judicial" => "Juridico"
   , "according_to" => "Em Acordo"
 );
+
+$payment_status_gerencianet = array(
+  "waiting" => "A Pagar"
+  , "paid" => "Pago"
+  , "unpaid" => "Não Pago"
+  ,"canceled" => "Cancelado"
+  , "expired" => "Vencido"
+);

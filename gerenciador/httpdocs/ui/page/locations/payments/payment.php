@@ -3,95 +3,78 @@
     <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print($GLOBALS["location_payments_url"]) ?>">Pagamento de Locações</a> / Dados da Locação N° Contrato <?php print($data["n_contract"]) ?></p>
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
+            <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
+                <?php
+                if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) {
+                ?>
+                    <input type="hidden" id="done" name="done" value="<?php print($info["get"]["done"]) ?>">
+                <?php
+                }
+                ?>
 
-            <?php if ($data["payment_method"] != "ticket") { ?>
+                <input type="hidden" id="amount" name="amount" class="form-control" value="<?php print(isset($data["properties_attach"]) ? $data["properties_attach"][0]["price_location"] : "") ?>">
+                <input type="hidden" id="day_due" name="day_due" class="form-control" value="<?php print($data["day_due"]) ?>">
 
-                <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
-                    <?php
-                    if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) {
-                    ?>
-                        <input type="hidden" id="done" name="done" value="<?php print($info["get"]["done"]) ?>">
-                    <?php
-                    }
-                    ?>
-
-                    <input type="hidden" id="amount" name="amount" class="form-control" value="<?php print(isset($data["properties_attach"]) ? $data["properties_attach"][0]["price_location"] : "") ?>">
-                    <input type="hidden" id="day_due" name="day_due" class="form-control" value="<?php print($data["day_due"]) ?>">
-
-                    <!-- Cadastrar Pagamento -->
-                    <div class="modal-content">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Cadastrar Pagamento</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="type_work">Método de Pagamento</label>
-                                                <select name="payment_method" id="payment_method" class="form-control">
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    foreach ($GLOBALS["payment_method"] as $k => $v) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["offices_attach"][0]["payment_method"]) && $k == $data["offices_attach"][0]["payment_method"] ? ' selected' : '', $k, $v);
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <label>Juros por Atraso</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">%</span>
-                                                </div>
-                                                <input type="text" id="fees" name="fees" class="form-control" placeholder="1.00%">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <label>Multa por Atraso</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">%</span>
-                                                </div>
-                                                <input type="text" id="fine" name="fine" class="form-control" placeholder="1.00%">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4" id="is_ticket">
-                                            <div class="form-group">
-                                                <label for="type_work">Pagamento Automático ?</label>
-                                                <select name="auto_payment" id="auto_payment" class="form-control">
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    foreach ($GLOBALS["yes_no_lists"] as $k => $v) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["offices_attach"][0]["auto_payment"]) && $k == $data["offices_attach"][0]["auto_payment"] ? ' selected' : '', $k, $v);
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
+                <!-- Cadastrar Novo Pagamento -->
+                <div class="modal-content">
+                    <div class="modal-header label">
+                        <h5 class="modal-title ">Cadastrar Novo Pagamento</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="payment_method">Forma de Pagamento</label>
+                                            <select name="payment_method" id="payment_method" class="form-control">
+                                                <option value="">Selecione</option>
+                                                <?php
+                                                foreach ($GLOBALS["payment_method"] as $k => $v) {
+                                                    printf('<option value="%s">%s</option>', $k, $v);
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Dia de Vencimento</label>
+                                            <input type="text" class="form-control" value="<?php print($data["day_due"]); ?>" disabled>
+                                            <input type="hidden" id="day_due" name="day_due" class="form-control" value="<?php print($data["day_due"]); ?>">
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-lg-4">
+                                        <label>Juros por Atraso</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">%</span>
+                                            </div>
+                                            <input type="text" id="fees" name="fees" class="form-control" placeholder="1.00%">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label>Multa por Atraso</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">%</span>
+                                            </div>
+                                            <input type="text" id="fine" name="fine" class="form-control" placeholder="1.00%">
+                                        </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-sm-6">
-                        <?php if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) { ?>
-                            <a href="<?php print($info["get"]["done"]); ?>" class="btn btn-outline-secondary btn-sm">Voltar</a>
-                        <?php } ?>
-                    </div>
-
-                    <div class="col-sm-12 text-right">
-                        <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-circle"></i> Gerar Pagamento</button>
-                    </div>
-                </form>
-
-            <?php } ?>
+                <div class="col-sm-12 text-right">
+                    <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-circle"></i> Gerar Pagamento</button>
+                </div>
+            </form>
 
             <?php if (isset($data["payments_attach"])) { ?>
 
@@ -124,8 +107,8 @@
                                                         <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
                                                         <td class="money"><?php print($v["amount"]); ?></td>
                                                         <td><?php print($v["day_due"]); ?></td>
-                                                        <td>Mar / 2022</td>
-                                                        <td><?php print($GLOBALS["payment_status"][$v["status"]]); ?></td>
+                                                        <td><?php print(date_format(new DateTime($v["created_at"]), "m/Y")); ?></td>
+                                                        <td><?php print($GLOBALS["payment_status_gerencianet"][$v["status"]]); ?></td>
                                                         <td>
                                                             <a type="button" class="btn btn-outline-primary btn-sm" href="/locacao/pagamento/<?php print($data["idx"]) ?>/detalhe/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Ver Dados</a>
                                                         </td>

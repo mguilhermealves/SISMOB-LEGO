@@ -15,9 +15,11 @@ $locations->attach_son("properties", array("clients"), true, null, array("idx", 
 
 $resto = 0;
 $continue = false;
+$dayNow = date("d");
+
 foreach ($locations->data as $k => $v) {
 
-    if ($v["active"] == "yes" && $v["payment_method"] == "ticket") {
+    if ($v["active"] == "yes" && $v["payment_method"] == "ticket" && $v["day_due"] == $dayNow) {
         $qtd_parcel = $v["properties_attach"][0]["deadline_contract"];
 
         $resto = $qtd_parcel - count($v["payments_attach"]);
