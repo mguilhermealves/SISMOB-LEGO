@@ -5,10 +5,15 @@ ini_set('post_max_size', '4096M');
 ini_set('upload_max_filesize', '4096M');
 ini_set('default_charset', 'UTF-8');
 
-define ("cHStr", '172.29.0.2');
-define ("cUserStr", 'user_imobiliaria');
-define ("cPassStr", '123456');
-define ("cBancoStr", 'mysql_imobiliaria');
+// define ("cHStr", '172.29.0.2');
+// define ("cUserStr", 'user_imobiliaria');
+// define ("cPassStr", '123456');
+// define ("cBancoStr", 'mysql_imobiliaria');
+
+define ("cHStr", 'mysql746.umbler.com');
+define ("cUserStr", 'system_homolog');
+define ("cPassStr", 'kmlp5842');
+define ("cBancoStr", 'system-homolog');
 
 define("prefix_tables" , "");
 
