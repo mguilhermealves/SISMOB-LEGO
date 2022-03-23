@@ -12,14 +12,14 @@ define ("cBancoStr", 'mysql_imobiliaria');
 
 define("prefix_tables" , "");
 
-define( "cAppKey" , "financeiro.gerenciador" );
+define( "cAppKey" , "sismob.gerenciador" );
 define( "cTitle" , "Sistema Imobiliario - SIMOB" );
 
 define( "cAppRoot" , "/" );
 define( "cRootServer" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , "/" ) ) ;
 define( "cRootServer_APP" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , constant("cAppRoot") . "../app"  ) ) ;
 define( "cFrontend" , sprintf( "http://%s%s" , $_SERVER["HTTP_HOST"] , constant("cAppRoot") ) );
-define( "cFrontend_USER" , "http://financeiro.local/" );
+define( "cFrontend_USER" , "http://sismob.local/" );
 define( "cFrontComponents" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , "ui/components/" ) ) ;
 
 

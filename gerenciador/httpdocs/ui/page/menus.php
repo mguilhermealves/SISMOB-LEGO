@@ -88,8 +88,7 @@
                         <td><?php print(isset($v["profiles_attach"][0]) ? implode(", ", array_column($v["profiles_attach"], "name")) : ""); ?></td>
                         <td><?php print($v["urls_attach"][0]["name"]); ?></td>
                         <td>
-                            <a class="btn btn-primary mx-2" href="<?php printf($form["pattern"]["action"], $v["idx"]) ?>"><i class="bi bi-pencil"></i> Editar</a>
-                            <!-- <a class="btn btn-danger mx-2" id="btn_remove_<?php print($v["idx"]) ?>" href="<?php printf($form["pattern"]["action"], $v["idx"]) ?>">[ excluir ]</a> -->
+                            <a class="btn btn-primary btn-sm" href="<?php printf($form["pattern"]["action"], $v["idx"]) ?>"><i class="bi bi-pencil"></i> Editar</a>
                         </td>
                     </tr>
                 <?php } ?>

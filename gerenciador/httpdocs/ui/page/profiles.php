@@ -31,7 +31,6 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>Nome</th>
-                    <th>Logar Adm</th>
                     <th width="20%">Ação</th>
                 </tr>
             </thead>
@@ -62,7 +61,6 @@
                 <?php foreach( $data as $v){ ?>
                 <tr>
                     <td><?php print( $v["name"] ) ?></td>
-                    <td><?php print( $v["adm"] ) ?></td>
                     <td><a class="btn btn-info btn-sm" href="<?php printf( $form["action"] , $v["idx"] ) ?>">Editar</a> 
                     <a id="btn_remove_<?php print( $v["idx"] ) ?>" class="btn btn-danger btn-sm" href="<?php printf( $form["action"] , $v["idx"] ) ?>">Excluir</a></td>
                 </tr>

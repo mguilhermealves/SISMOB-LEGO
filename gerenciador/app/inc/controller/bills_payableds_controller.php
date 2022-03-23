@@ -75,9 +75,10 @@ class bills_payableds_controller
 		$bills_payableds->set_order(array($ordenation));
 
 		list($total, $data) = $bills_payableds->return_data();
-		// $bills_payableds->attach(array("offices", "partners", "properties"));
-		// $bills_payableds->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$bills_payableds->join("cost_center", "account_pay_cost_center", array("idx" => "center_count"));
 		$data = $bills_payableds->data;
+
+		//print_pre($data, true);
 
 		switch ($info["format"]) {
 			case ".json":
@@ -257,8 +258,6 @@ class bills_payableds_controller
 		if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
 			$info["idx"] = $bill_payabled->con->insert_id;
 		}
-
-		// $bill_payabled->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

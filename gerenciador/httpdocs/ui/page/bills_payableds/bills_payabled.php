@@ -81,7 +81,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="day_due">Dia de Vencimento</label>
-                                                <input class="form-control" type="date" name="day_due" id="day_due" required>
+                                                <input class="form-control" type="date" name="day_due" id="day_due" value="<?php print(isset($data["day_due"]) ? $data["day_due"] : "") ?>" required>
                                             </div>
                                         </div>
 
@@ -98,20 +98,6 @@
                                                 </select>
                                             </div>
                                         </div>
-
-                                        <!-- <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="is_recorrency">Cobrança Recorrente</label>
-                                                <select name="is_recorrency" id="is_recorrency" class="form-control">
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    foreach ($GLOBALS["yes_no_lists"] as $k => $v) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["is_recorrency"]) && $k == $data["is_recorrency"] ? ' selected' : '', $k, $v);
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div> -->
 
                                         <div class="col-lg-4">
                                             <div class="form-group">

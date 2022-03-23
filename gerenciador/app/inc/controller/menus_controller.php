@@ -61,6 +61,7 @@ class menus_controller{
 			basic_redir($GLOBALS["home_url"]);
 		}
 		$paginate = isset( $info["get"]["paginate"] ) ? $info["get"]["paginate"] : 20;
+		$sidebar_color = "rgba(132, 132, 132, 1)";
 		list($done, $filter) = $this->filter($info);
 		$boiler = new menus_model();
 		$boiler->set_order(array(" position asc "));

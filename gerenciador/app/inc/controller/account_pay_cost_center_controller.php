@@ -43,6 +43,12 @@ class account_pay_cost_center_controller
 			$done["filter_category"] = $info["get"]["filter_category"];
 			$filter["filter_category"] = " trail_title like '%" . $info["get"]["filter_category"] . "%' ";
 		}
+
+		if (isset($info["get"]["filter_category"]) && !empty($info["get"]["filter_category"])) {
+			$done["filter_category"] = $info["get"]["filter_category"];
+			$filter["filter_category"] = " category in ( select account_pay_categories.idx from account_pay_categories where account_pay_categories.active = 'yes' and account_pay_categories.idx = '" . $info["get"]["filter_category"] . "' ) ";
+		}
+
 		return array($done, $filter);
 	}
 

@@ -29,6 +29,7 @@ class profiles_controller{
 		$paginate = isset( $info["get"]["paginate"] ) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20 ;
 
 		list( $done , $filter ) = $this->filter( $info );
+		$sidebar_color = "rgba(132, 132, 132, 1)";
 		$boiler = new profiles_model();
 		$boiler->set_filter( $filter ) ;
 		$boiler->set_paginate( array( $info["sr"] , $paginate ) ) ;

@@ -309,20 +309,20 @@ $(document).on('click', '.pesquisarImovel', function () {
 
                     if (value.is_used == "yes") {
                         html += '<td><p class="cpf">' + 'Sim' +
-                        '</p></td>';
+                            '</p></td>';
                     } else {
                         html += '<td><p class="cpf">' + 'Não' +
-                        '</p></td>';
+                            '</p></td>';
                     }
 
                     if (value.is_used == "yes") {
                         html +=
-                        '<td><a data-id="' + value.idx +
-                        '" class="btn btn-info btn-sm disabled" disabled><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
+                            '<td><a data-id="' + value.idx +
+                            '" class="btn btn-info btn-sm disabled" disabled><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
                     } else {
                         html +=
-                        '<td><a data-id="' + value.idx +
-                        '" class="btn btn-info btn-sm btn_selecionar_cliente"><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
+                            '<td><a data-id="' + value.idx +
+                            '" class="btn btn-info btn-sm btn_selecionar_cliente"><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
                     }
 
                     html += '</tr>';
@@ -395,3 +395,29 @@ $(document).on('click', '.btn_selecionar_cliente', function () {
         },
     });
 });
+
+// $("#download_contract").on("click", function () {
+//     var idlocation = $(this).data("idlocation");
+//     var type = "location";
+
+//     $.ajax({
+//         method: "POST",
+//         url: '/donwload_contract',
+//         data: {
+//             idlocation: idlocation,
+//             type: type
+//         },
+//         beforeSend: function () {
+
+//         },
+//         success: function (data) {
+//             const url = window.URL.createObjectURL(new Blob([data]));
+//             console.log(url);
+//             const link = document.createElement('a');
+//             link.href = url;
+//             link.setAttribute('download', 'contrato-locacao.pdf');
+//             document.body.appendChild(link);
+//             link.click();
+//         }
+//     });
+// });

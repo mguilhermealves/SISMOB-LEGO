@@ -1,4 +1,7 @@
 <?php
+
+use Dompdf\Dompdf;
+
 class locations_controller
 {
 	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "")
@@ -166,7 +169,8 @@ class locations_controller
 			$data = current($location->data);
 			$form = array(
 				"title" => "Editar Locação",
-				"url" => sprintf($GLOBALS["location_url"], $info["idx"])
+				"url" => sprintf($GLOBALS["location_url"], $info["idx"]),
+				"donwload_contract" => $GLOBALS["location_contract_url"]
 			);
 		} else {
 			$data = array();
@@ -321,6 +325,38 @@ class locations_controller
 		} else {
 			basic_redir($GLOBALS["locations_url"]);
 		}
+	}
+
+	public function contract($info)
+	{
+		if (!site_controller::check_login()) {
+			basic_redir($GLOBALS["home_url"]);
+		}
+
+		$location = new locations_model();
+		$location->set_filter(array(" idx = '" . $info["post"]["idx"] . "' "));
+		$location->load_data();
+		$location->attach(array("offices", "partners", "properties"));
+		$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$data = current($location->data);
+
+		/* GERAR PDF */
+		include(constant("cRootServer_APP") . '/inc/lib/vendor/autoload.php');
+
+		$dompdf = new DOMPDF();
+
+		$html = 'CONTRATO AQUI';
+
+		$dompdf->loadHtml($html);
+		$dompdf->setPaper('A4', 'portrait');
+		$dompdf->render();
+
+		$dompdf->stream(
+			"contrato.pdf",
+			array(
+				"Attachment" => true
+			)
+		);
 	}
 
 	public function remove($info)

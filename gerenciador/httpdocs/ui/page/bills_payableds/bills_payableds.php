@@ -69,7 +69,8 @@
                     <th>Id</th>
                     <th>Empresa Beneficiária</th>
                     <!-- <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Endereço <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th> -->
-                    <th>Método de Pagamento</th>
+                    <th>Centro de Custo</th>
+                    <th>Forma de Pagamento</th>
                     <th>Valor (R$)</th>
                     <th>Status</th>
                     <th>Ações</th>
@@ -106,6 +107,7 @@
                             <td><?php print($v["idx"]); ?></td>
                             <td><?php print($v["company_beneficiary"]); ?></td>
                             <!-- <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td> -->
+                            <td><?php print( str_pad( $v["cost_center_attach"][0]["idx"] , 3 , '0' , STR_PAD_LEFT ) ); ?></td>
                             <td><?php print( $GLOBALS["payment_method"][ $v["payment_method"] ] ); ?></td>
                             <td class="money"><?php print($v["amount"]); ?></td>
                             <td><?php print( $GLOBALS["payment_status"][ $v["status_payment"] ] );?></td>
