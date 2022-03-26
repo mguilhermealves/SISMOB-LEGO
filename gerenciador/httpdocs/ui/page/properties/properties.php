@@ -9,28 +9,42 @@
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
         <div class="row">
+            <div class="col-sm-12">
+                <p class="h6 text-blue">Filtros de Busca:</p>
+                <hr>
+            </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_name">Nome:</label>
+                    <label for="filter_name">Nome do Proprietário:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
                 </div>
             </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_cpf">CPF:</label>
+                    <label for="filter_cpf">CPF do Proprietário:</label>
                     <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_district">Bairro:</label>
+                    <label for="filter_address">Endereço do Imóvel:</label>
+                    <input type="text" id="filter_address" class="form-control" name="filter_address" value="<?php print(isset($info["get"]["filter_address"]) ? $info["get"]["filter_address"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="filter_district">Bairro do Imóvel:</label>
                     <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
                 </div>
             </div>
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_uf">UF</label>
+                    <label for="filter_uf">UF do Imóvel</label>
                     <select name="filter_uf" id="filter_uf" class="form-control">
                         <option value="">Selecione</option>
                         <?php
@@ -56,9 +70,13 @@
                 </div>
             </div>
 
+            <div class="col-sm-8">
+                
+            </div>
+
             <div class="col-sm-2">
                 <label for="btn_search">&nbsp;</label>
-                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
+                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
             </div>
             <div class="col-sm-2">
                 <label for="btn_add">&nbsp;</label>
@@ -158,5 +176,9 @@
 
     .card-header.collapsed .fa-chevron-down {
         display: none;
+    }
+
+    .text-blue {
+        color: blue !important;
     }
 </style>

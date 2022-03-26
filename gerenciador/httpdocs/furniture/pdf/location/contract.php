@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Contrato de Locação n° {{ $data["n_contract"] }}</title>
+    <title>Contrato de Locação n° <?php print($data["n_contract"]) ?></title>
 
     <style>
 
@@ -11,101 +11,71 @@
 </head>
 
 <body>
-    <p style="text-align: center;font-weight: 600">Contrato de Locação n° {{ $data["n_contract"] }}</p>
+    <p style="text-align: center; font-weight: 600">Contrato de Locação n° <?php print($data["n_contract"]) ?></p>
 
     <table style="width:100%; padding: 0 3%;">
         <tr>
-            <th style="background-color: 000080;color: #000080; text-align: center;">Dados do Locatário</th>
+            <th style="text-align: center;">1. Dados do Locatário</th>
         </tr>
         <tr>
             <td>
-                <strong>1. Contratante:</strong>
-                <p> Locatário denominado:
-
-                    {{ $tenant['first_name'] . ' ' . $tenant['last_name'] . ', ' }}
-
-                    {{ ' CPF/CNPJ: ' . $tenant['cpf_cnpj'] . ', ' }}
-
-                    {{ ' E-mail: ' . $tenant['mail'] . ', ' }}
-
-                    {{ ' RG: ' . $tenant['rg'] . ', ' }}
-
-                    {{ ' Telefone: ' . $tenant['phone'] . ', ' }}
-
-                    {{ ' Celular: ' . $tenant['celphone'] . ', ' }}
-
-                    {{ . $tenant['genre'] . '(a), ' }}
-
-                    {{ . $tenant['marital_status'] . '(a), ' }}
-
-                    localizado(a) no endereço:
-
-                    {{ $tenant->address->address . ', ' }}
-
-                    {{ $tenant->address->complement == null ? ' N°: ' . $tenant->complement->address . ', ' : ' N°: ' . $tenant->address->number_address . ', Complemento: ' . $tenant->address->complement . ', ' }}
-
-                    {{ ' CEP: ' . $tenant->address->code_postal . ', ' }}
-
-                    {{ ' Bairro: ' . $tenant->address->district . ', ' }}
-
-                    {{ ' Cidade: ' . $tenant->address->city . ', ' }}
-
-                    {{ ' UF: ' . $tenant->address->uf . ', ' }}
-                </p>
+                <?php print($data["first_name"] . " " . $data["last_name"]); ?>, CPF: <?php print($data["document"]); ?>, RG: <?php print($data["rg"]); ?>, CNH: <?php print($data["cnh"]); ?>, localizado(a) no endereço: <?php print($data["address"]); ?>, N° <?php print($data["number_address"]); ?>, <?php print($data["district"]); ?>, <?php print($data["city"]); ?>, <?php print($data["uf"]); ?>.
             </td>
+        </tr>
+        
+        <tr>
+            <th style="text-align: center;">2. Dados do Proprietário:</th>
         </tr>
         <tr>
             <td>
-                <strong>3. Dados do Proprietário:</strong>
-                <p>Inserir aqui...</p>
+                <?php print($data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"]); ?>, CPF: <?php print($data["properties_attach"][0]["clients_attach"][0]["document"]); ?>, RG: <?php print($data["properties_attach"][0]["clients_attach"][0]["rg"]); ?>, CNH: <?php print($data["properties_attach"][0]["clients_attach"][0]["cnh"]); ?>, localizado(a) no endereço: <?php print($data["properties_attach"][0]["clients_attach"][0]["address"]); ?>, N° <?php print($data["properties_attach"][0]["clients_attach"][0]["number_address"]); ?>, <?php print($data["properties_attach"][0]["clients_attach"][0]["district"]); ?>, <?php print($data["properties_attach"][0]["clients_attach"][0]["city"]); ?>, <?php print($data["properties_attach"][0]["clients_attach"][0]["uf"]); ?>.
             </td>
+        </tr>
+
+        <tr>
+            <th style="text-align: center;">3. Objeto do Contrato:</th>
         </tr>
         <tr>
             <td>
-                <strong>2. Objeto do Contrato:</strong>
-                <p>Inserir aqui...</p>
+                Tipo de Contrato: <?php print($GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]]); ?>, Tipo do Imóvel: <?php print($GLOBALS["propertie_types"][$data["properties_attach"][0]["type_propertie"]]); ?>, Prazo de Contrato: <?php print($GLOBALS["deadline_contract"][$data["properties_attach"][0]["deadline_contract"]]); ?>,
+                localizado(a) no endereço: <?php print($data["properties_attach"][0]["address"]); ?>, N° <?php print($data["properties_attach"][0]["number_address"]); ?>, <?php print($data["properties_attach"][0]["district"]); ?>, <?php print($data["properties_attach"][0]["city"]); ?>, <?php print($data["properties_attach"][0]["uf"]); ?>.
             </td>
+        </tr>
+
+        <tr>
+            <th style="text-align: center;">4. Período de duração do contrato:</th>
         </tr>
         <tr>
             <td>
-                <strong>4. Público:</strong>
-                <p>Inserir aqui...</p>
+                <?php print($GLOBALS["deadline_contract"][$data["properties_attach"][0]["deadline_contract"]]); ?>.
             </td>
+        </tr>
+
+        <tr>
+            <th style="text-align: center;">5. Forma de pagamento:</th>
         </tr>
         <tr>
             <td>
-                <strong>5. Período de duração do contrato:</strong>
-                <p>Inserir aqui...</p>
+                <?php print($GLOBALS["payment_method"][$data["payment_method"]]); ?>.
             </td>
+        </tr>
+
+        <tr>
+            <th style="text-align: center;">6. Local e data:</th>
         </tr>
         <tr>
             <td>
-                <strong>8. Forma de pagamento:</strong>
-                <p></p>
+                <?php print(date('d')) ?> de <?php print(date('m')) ?> de <?php print(date('Y')) ?>
             </td>
         </tr>
-        <tr>
-            <td>
-                <strong>9. Local e data:</strong>
-                <p>São Paulo,
-                    @php
-                        echo date('d');
-                    @endphp
-                    , de @php
-                        echo date('m');
-                    @endphp
-                    , de @php
-                    echo date('y');
-                @endphp
-                </p>
-            </td>
-        </tr>
+
         <tr>
             <td>
                 <strong>Assinatura Locatário:</strong>
                 <p>________________________________________________</p>
             </td>
         </tr>
+
         <tr>
             <td>
                 <strong>Assinatura Proprietário:</strong>
@@ -116,5 +86,3 @@
 </body>
 
 </html>
-
-		'

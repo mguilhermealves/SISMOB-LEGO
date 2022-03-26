@@ -1,16 +1,18 @@
 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 py-3">
     <div style="display: flex; align-items: center; justify-content: flex-start;">
-        <h1 class="display-5"><i class="bi bi-speedometer"></i> Dashboard SISMOB - Sistema Imobiliario</h1>
+        <h1 class="display-5"><i class="bi bi-speedometer"></i> <?php print(constant("cTitle")) ?></h1>
     </div>
 
-    <?php
-    $boiler = new menus_model();
-    $boiler->set_filter(array("active = 'yes'", " idx in ( select menus_profiles.menus_id from menus_profiles where menus_profiles.active = 'yes' and menus_profiles.profiles_id in ( '" . implode("','", isset($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]) ? array_column($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"], "idx") : array(0)) . "' ) ) "));
-    $boiler->set_order(array("position"));
-    $boiler->load_data();
-    $boiler->attach(array("urls"));
+    <hr class="col-lg-12 py-2">
 
-    foreach ($boiler->data as $k => $v) {
+    <?php
+    $menus = new menus_model();
+    $menus->set_filter(array("active = 'yes'", " idx in ( select menus_profiles.menus_id from menus_profiles where menus_profiles.active = 'yes' and menus_profiles.profiles_id in ( '" . implode("','", isset($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]) ? array_column($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"], "idx") : array(0)) . "' ) ) "));
+    $menus->set_order(array("position"));
+    $menus->load_data();
+    $menus->attach(array("urls"));
+
+    foreach ($menus->data as $k => $v) {
         if ($k == 0) {
             $color = $v["color"];
             print('<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="display:flex;justify-content: flex-start;align-items: flex-start;flex-direction: revert;flex-wrap: wrap;">');

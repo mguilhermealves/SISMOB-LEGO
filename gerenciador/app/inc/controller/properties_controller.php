@@ -34,18 +34,34 @@ class properties_controller
 			$filter["filter_id"] = " idx like '%" . $info["get"]["filter_id"] . "%' ";
 		}
 
+		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
+			$done["filter_name"] = $info["get"]["filter_name"];
+			$filter["filter_name"] = " first_name like '%" . $info["get"]["filter_name"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
+			$done["filter_cpf"] = $info["get"]["filter_cpf"];
+			$filter["filter_cpf"] = " document like '%" . $info["get"]["filter_cpf"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_address"]) && !empty($info["get"]["filter_address"])) {
+			$done["filter_address"] = $info["get"]["filter_address"];
+			$filter["filter_address"] = " address like '%" . $info["get"]["filter_address"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_district"]) && !empty($info["get"]["filter_district"])) {
+			$done["filter_district"] = $info["get"]["filter_district"];
+			$filter["filter_district"] = " district like '%" . $info["get"]["filter_district"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_uf"]) && !empty($info["get"]["filter_uf"])) {
+			$done["filter_uf"] = $info["get"]["filter_uf"];
+			$filter["filter_uf"] = " uf like '%" . $info["get"]["filter_uf"] . "%' ";
+		}
+
 		if (isset($info["get"]["filter_title"]) && !empty($info["get"]["filter_title"])) {
 			$done["filter_title"] = $info["get"]["filter_title"];
 			$filter["filter_title"] = " first_name like '%" . $info["get"]["filter_title"] . "%' ";
-		}
-
-		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
-			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " trail_title like '%" . $info["get"]["filter_name"] . "%' ";
-		}
-		if (isset($info["get"]["filter_trail_status"]) && !empty($info["get"]["filter_trail_status"])) {
-			$done["filter_trail_status"] = $info["get"]["filter_trail_status"];
-			$filter["filter_trail_status"] = " trail_status = '" . $info["get"]["filter_trail_status"] . "' ";
 		}
 		return array($done, $filter);
 	}

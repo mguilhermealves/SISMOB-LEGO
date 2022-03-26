@@ -202,7 +202,7 @@
                            <?php
                            if (in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array("master"))) {
                            ?>
-                              <select class="form-control" name="profiles_id" name="profiles_id" disabled>
+                              <select class="form-control" name="profiles_id" name="profiles_id">
                                  <option value="" <?php print(!isset($data["profiles_attach"][0]) ? ' selected' : '') ?>>Selecione</option>
                                  <?php
                                  foreach ($profiles_lists as $k => $v) {

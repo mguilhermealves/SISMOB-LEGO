@@ -2,7 +2,7 @@
     <div class="login_container col-lg-6 col-xl-6 col-md-12 col-sm-12 col-xs-12 mx-auto">
         <div class="container_custom py-3">
             <div class="login_header">
-                <h1 class="display-5">Sistema Imobiliario - SIMOB</h1>
+                <h1 class="display-5">SYSMOB</h1>
             </div>
 
             <div class="login_body">

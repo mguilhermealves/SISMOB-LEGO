@@ -46,7 +46,7 @@ foreach( $users->data as $k => $v ){
 
     $messages_model = new messages_model();
     $messages_model->populate( array(
-        "name" => "Nova Locação no criada!"
+        "name" => "SISMOB - Novo Pagamento criado!"
         , "scheduled_at" => date("Y-m-d H:i:s")
         , "mailboxes" => serialize( array( 
             "Address" => array( "name" => $v["first_name"] , "mail" => $v["mail"] )

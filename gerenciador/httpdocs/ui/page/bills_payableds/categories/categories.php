@@ -10,6 +10,11 @@
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
         <div class="row">
             <div class="col-sm-12">
+                <p class="h6 text-blue">Filtros de Busca:</p>
+                <hr>
+            </div>
+
+            <div class="col-sm-12">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome da Categoria">
@@ -22,7 +27,7 @@
 
             <div class="col-sm-3">
                 <label for="btn_search">&nbsp;</label>
-                <button id="btn_search" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
+                <button id="btn_search" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
             </div>
             <div class="col-sm-3">
                 <label for="btn_add">&nbsp;</label>
@@ -108,5 +113,9 @@
 
     .card-header.collapsed .fa-chevron-down {
         display: none;
+    }
+
+    .text-blue {
+        color: blue !important;
     }
 </style>

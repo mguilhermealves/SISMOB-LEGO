@@ -49,7 +49,7 @@ class site_controller{
 	public function login( $info ){
 		if( isset( $info["post"]["login"] ) && isset( $info["post"]["password"] ) ){
 			$users = new users_model();
-			$users->set_filter( array( " mail = '" . $users->con->real_escape_string( $info["post"]["login"] ) . "' " , " password = '" . $users->con->real_escape_string( md5( $info["post"]["password"] ) ) . "' " , " idx in ( select users_profiles.users_id from users_profiles, profiles where profiles.active = 'yes' and users_profiles.active = 'yes' and profiles.idx = users_profiles.profiles_id and profiles.adm = 'yes' ) " ) ) ;
+			$users->set_filter( array( " mail = '" . $users->con->real_escape_string( $info["post"]["login"] ) . "' " , " password = '" . $users->con->real_escape_string( md5( $info["post"]["password"] ) ) . "' " , " idx in ( select users_profiles.users_id from users_profiles, profiles where profiles.active = 'yes' and users_profiles.active = 'yes' and profiles.idx = users_profiles.profiles_id ) " ) ) ;
 			$users->set_paginate( array( " 1 " ) ) ;
 			$users->load_data();
 			if( isset( $users->data[0]["idx"] ) ){

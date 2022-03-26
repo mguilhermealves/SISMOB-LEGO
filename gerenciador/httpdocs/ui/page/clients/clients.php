@@ -8,7 +8,13 @@
         <input type="hidden" name="paginate" id="paginate" value="<?php print($paginate) ?>">
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
+
         <div class="row">
+            <div class="col-sm-12">
+                <p class="h6 text-blue">Filtros de Busca:</p>
+                <hr>
+            </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
@@ -52,7 +58,7 @@
 
             <div class="col-sm-2">
                 <label for="btn_search">&nbsp;</label>
-                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
+                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
             </div>
             <div class="col-sm-2">
                 <label for="btn_add">&nbsp;</label>
@@ -64,7 +70,7 @@
     <!-- Container Begin -->
     <div class="col-lg-12" style="overflow: auto;">
         <?php html_notification_print(); ?>
-        
+
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
@@ -149,5 +155,9 @@
 
     .card-header.collapsed .fa-chevron-down {
         display: none;
+    }
+
+    .text-blue {
+        color: blue !important;
     }
 </style>

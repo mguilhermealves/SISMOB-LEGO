@@ -9,6 +9,11 @@
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
         <div class="row">
+            <div class="col-sm-12">
+                <p class="h6 text-blue">Filtros de Busca:</p>
+                <hr>
+            </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_company">Empresa Beneficiária:</label>
@@ -51,11 +56,15 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
-                <label for="btn_search">&nbsp;</label>
-                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
+            <div class="col-sm-2">
+                
             </div>
-            <div class="col-sm-4">
+
+            <div class="col-sm-3">
+                <label for="btn_search">&nbsp;</label>
+                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
+            </div>
+            <div class="col-sm-3">
                 <label for="btn_add">&nbsp;</label>
                 <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Pagamento</a>
             </div>
@@ -107,10 +116,10 @@
                             <td><?php print($v["idx"]); ?></td>
                             <td><?php print($v["company_beneficiary"]); ?></td>
                             <!-- <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td> -->
-                            <td><?php print( str_pad( $v["cost_center_attach"][0]["idx"] , 3 , '0' , STR_PAD_LEFT ) ); ?></td>
-                            <td><?php print( $GLOBALS["payment_method"][ $v["payment_method"] ] ); ?></td>
+                            <td><?php print(str_pad($v["cost_center_attach"][0]["idx"], 3, '0', STR_PAD_LEFT)); ?></td>
+                            <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
                             <td class="money"><?php print($v["amount"]); ?></td>
-                            <td><?php print( $GLOBALS["payment_status"][ $v["status_payment"] ] );?></td>
+                            <td><?php print($GLOBALS["payment_status"][$v["status_payment"]]); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="/conta-a-pagar/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
@@ -147,5 +156,9 @@
 
     .card-header.collapsed .fa-chevron-down {
         display: none;
+    }
+
+    .text-blue {
+        color: blue !important;
     }
 </style>

@@ -5,20 +5,20 @@ ini_set('post_max_size', '4096M');
 ini_set('upload_max_filesize', '4096M');
 ini_set('default_charset', 'UTF-8');
 
-// define ("cHStr", '172.29.0.2');
-// define ("cUserStr", 'user_imobiliaria');
-// define ("cPassStr", '123456');
-// define ("cBancoStr", 'mysql_imobiliaria');
+define ("cHStr", '172.29.0.2');
+define ("cUserStr", 'user_imobiliaria');
+define ("cPassStr", '123456');
+define ("cBancoStr", 'mysql_imobiliaria');
 
-define ("cHStr", 'mysql746.umbler.com');
-define ("cUserStr", 'system_homolog');
-define ("cPassStr", 'kmlp5842');
-define ("cBancoStr", 'system-homolog');
+// define ("cHStr", 'mysql746.umbler.com');
+// define ("cUserStr", 'system_homolog');
+// define ("cPassStr", 'kmlp5842');
+// define ("cBancoStr", 'system-homolog');
 
 define("prefix_tables" , "");
 
 define( "cAppKey" , "sismob.gerenciador" );
-define( "cTitle" , "Sistema Imobiliario - SIMOB" );
+define( "cTitle" , "SYSMOB - Sistema Gestão de Imobiliárias" );
 
 define( "cAppRoot" , "/" );
 define( "cRootServer" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , "/" ) ) ;
@@ -26,6 +26,8 @@ define( "cRootServer_APP" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , const
 define( "cFrontend" , sprintf( "http://%s%s" , $_SERVER["HTTP_HOST"] , constant("cAppRoot") ) );
 define( "cFrontend_USER" , "http://sismob.local/" );
 define( "cFrontComponents" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , "ui/components/" ) ) ;
+define( "cFurniture1" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , "furniture/" ) ) ;
+define( "cFurniture" , sprintf( "%s%s" , constant("cFrontend") , "furniture/" ) );
 
 
 // define( "mail_from_port" , "587" );
@@ -39,13 +41,4 @@ define( "mail_from_host" , "smtp.mailtrap.io" );
 define( "mail_from_user" , "97e415f995a883" );
 define( "mail_from_name" , "Atendimento SISMOB" );
 define( "mail_from_pwd" , "1d8c1c6c618fb1" );
-
-define( "cFurniture" , sprintf( "%s%s" , constant("cFrontend") , "furniture/" ) );
-
-//DADOS API EXTERNA
-define( "cExternalAuth" , "");
-define( "cApiUrl" , "" );
-define( "cCampanhaUrl" , "" );
-define( "cCampanhaID" , "" );
-
 ?>

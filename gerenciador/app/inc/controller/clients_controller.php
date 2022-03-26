@@ -19,16 +19,6 @@ class clients_controller
 	{
 		$done = array();
 		$filter = array(" active = 'yes' ");
-		if (!in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"], array(1, 2)) && !in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array('adm-premier', 'gestor-hsol'))) {
-			//$done["filter_profiles"] = $info["get"]["filter_profiles"];
-			$profiles_id = array_keys(profiles_controller::data4select("idx", array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"] . " in ( idx, parent ) ")));
-			$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id in ( '" . implode("','", $profiles_id) . "') ) ";
-		} else {
-			if (isset($info["get"]["filter_profiles"]) && !empty($info["get"]["filter_profiles"])) {
-				$done["filter_profiles"] = $info["get"]["filter_profiles"];
-				$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id = '" . $info["get"]["filter_profiles"] . "' ) ";
-			}
-		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
@@ -44,19 +34,31 @@ class clients_controller
 			$filter["filter_id"] = " idx like '%" . $info["get"]["filter_id"] . "%' ";
 		}
 
-		if (isset($info["get"]["filter_title"]) && !empty($info["get"]["filter_title"])) {
-			$done["filter_title"] = $info["get"]["filter_title"];
-			$filter["filter_title"] = " trail_title like '%" . $info["get"]["filter_title"] . "%' ";
-		}
-
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " trail_title like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " first_name like '%" . $info["get"]["filter_name"] . "%' ";
 		}
-		if (isset($info["get"]["filter_trail_status"]) && !empty($info["get"]["filter_trail_status"])) {
-			$done["filter_trail_status"] = $info["get"]["filter_trail_status"];
-			$filter["filter_trail_status"] = " trail_status = '" . $info["get"]["filter_trail_status"] . "' ";
+
+		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
+			$done["filter_cpf"] = $info["get"]["filter_cpf"];
+			$filter["filter_cpf"] = " document like '%" . $info["get"]["filter_cpf"] . "%' ";
 		}
+
+		if (isset($info["get"]["filter_district"]) && !empty($info["get"]["filter_district"])) {
+			$done["filter_district"] = $info["get"]["filter_district"];
+			$filter["filter_district"] = " district like '%" . $info["get"]["filter_district"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_city"]) && !empty($info["get"]["filter_city"])) {
+			$done["filter_city"] = $info["get"]["filter_city"];
+			$filter["filter_city"] = " city like '%" . $info["get"]["filter_city"] . "%' ";
+		}
+
+		if (isset($info["get"]["filter_uf"]) && !empty($info["get"]["filter_uf"])) {
+			$done["filter_uf"] = $info["get"]["filter_uf"];
+			$filter["filter_uf"] = " uf like '%" . $info["get"]["filter_uf"] . "%' ";
+		}
+
 		return array($done, $filter);
 	}
 

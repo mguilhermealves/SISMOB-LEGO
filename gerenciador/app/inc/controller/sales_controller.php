@@ -2,11 +2,11 @@
 
 use Dompdf\Dompdf;
 
-class locations_controller
+class sales_controller
 {
 	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "")
 	{
-		$boiler = new locations_model();
+		$boiler = new sales_model();
 		$boiler->set_field(array($key, $field));
 		$boiler->set_order(array(" idx asc "));
 		$boiler->set_filter($filters);
@@ -66,21 +66,21 @@ class locations_controller
 
 		list($done, $filter) = $this->filter($info);
 
-		$locations = new locations_model();
+		$sales = new sales_model();
 
 		if ($info["format"] != ".json") {
-			$locations->set_paginate(array($info["sr"], $paginate));
+			$sales->set_paginate(array($info["sr"], $paginate));
 		} else {
-			$locations->set_paginate(array(0, 900000));
+			$sales->set_paginate(array(0, 900000));
 		}
 
-		$locations->set_filter($filter);
-		$locations->set_order(array($ordenation));
+		$sales->set_filter($filter);
+		$sales->set_order(array($ordenation));
 
-		list($total, $data) = $locations->return_data();
-		$locations->attach(array("offices", "partners", "properties"));
-		$locations->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-		$data = $locations->data;
+		list($total, $data) = $sales->return_data();
+		// $sales->attach(array("offices", "partners", "properties"));
+		// $sales->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$data = $sales->data;
 
 		switch ($info["format"]) {
 			case ".json":
@@ -92,14 +92,14 @@ class locations_controller
 				);
 				break;
 			default:
-				$page = 'Imoveis';
+				$page = 'Vendas';
 				$sidebar_color = "rgba(218, 165, 32, 1)";
 
 				$form = array(
-					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["locations_url"], $done) : $GLOBALS["locations_url"]), "pattern" => array(
-						"new" => $GLOBALS["newlocation_url"],
-						"action" => $GLOBALS["location_url"],
-						"search" => !empty($info["get"]) ? set_url($GLOBALS["locations_url"], $info["get"]) : $GLOBALS["locations_url"]
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["sales_url"], $done) : $GLOBALS["sales_url"]), "pattern" => array(
+						"new" => $GLOBALS["newsale_url"],
+						"action" => $GLOBALS["sale_url"],
+						"search" => !empty($info["get"]) ? set_url($GLOBALS["sales_url"], $info["get"]) : $GLOBALS["sales_url"]
 					)
 				);
 
@@ -136,18 +136,18 @@ class locations_controller
 
 				include(constant("cRootServer") . "ui/common/header.inc.php");
 				include(constant("cRootServer") . "ui/common/head.inc.php");
-				include(constant("cRootServer") . "ui/page/locations/locations.php");
+				include(constant("cRootServer") . "ui/page/sales/sales.php");
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
 				print('    data_location_json = {' . "\n");
-				print('        url: "' . $GLOBALS["locations_url"] . '.json"' . "\n");
+				print('        url: "' . $GLOBALS["sales_url"] . '.json"' . "\n");
 				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["location_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
+				print('        , action: "' . set_url($GLOBALS["sale_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
 				print('        , template: ""' . "\n");
 				print('        , page: 1' . "\n");
 				print('    }' . "\n");
-				include(constant("cRootServer") . "furniture/js/locations/locations.js");
+				include(constant("cRootServer") . "furniture/js/sales/sales.js");
 				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
 				break;
@@ -161,37 +161,37 @@ class locations_controller
 		}
 
 		if (isset($info["idx"])) {
-			$location = new locations_model();
-			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
-			$location->load_data();
-			$location->attach(array("offices", "partners", "properties"));
-			$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-			$data = current($location->data);
+			$sale = new sales_model();
+			$sale->set_filter(array(" idx = '" . $info["idx"] . "' "));
+			$sale->load_data();
+			// $sale->attach(array("offices", "partners", "properties"));
+			// $sale->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+			$data = current($sale->data);
 			$form = array(
-				"title" => "Editar Locação",
-				"url" => sprintf($GLOBALS["location_url"], $info["idx"]),
-				"donwload_contract" => $GLOBALS["location_contract_url"]
+				"title" => "Editar Venda",
+				"url" => sprintf($GLOBALS["sale_url"], $info["idx"]),
+				"donwload_contract" => $GLOBALS["sale_contract_url"]
 			);
 		} else {
 			$data = array();
 			$form = array(
-				"title" => "Cadastrar Locação",
-				"url" => $GLOBALS["newlocation_url"]
+				"title" => "Cadastrar Venda",
+				"url" => $GLOBALS["newsale_url"]
 			);
 		}
 
 		$sidebar_color = "rgba(218, 165, 32, 1)";
-		$page = 'Locação';
+		$page = 'Venda';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");
-		include(constant("cRootServer") . "ui/page/locations/location.php");
+		include(constant("cRootServer") . "ui/page/sales/sale.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
 		print("<script>");
 		print('$("button[name=\'btn_back\']").bind("click", function(){');
 		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
 		print('})' . "\n");
-		include(constant("cRootServer") . "furniture/js/locations/location.js");
+		include(constant("cRootServer") . "furniture/js/sales/sale.js");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
 	}
@@ -264,10 +264,10 @@ class locations_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 
-		$location = new locations_model();
+		$sale = new sales_model();
 
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
-			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
+			$sale->set_filter(array(" idx = '" . $info["idx"] . "' "));
 		} else {
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
@@ -284,7 +284,7 @@ class locations_controller
 
 			$info["payments_id"] = $payment->con->insert_id;
 
-			$location->save_attach(array("idx" => $info["payments_id"], "post" => array("payments_id" =>  $info["payments_id"])), array("payments"));
+			$sale->save_attach(array("idx" => $info["payments_id"], "post" => array("payments_id" =>  $info["payments_id"])), array("payments"));
 
 			/* update is used propertie */
 			$info["post"]["properties"]["is_used"] = "yes";
@@ -296,14 +296,14 @@ class locations_controller
 			$propertie->save();
 		}
 
-		$location->populate($info["post"]);
-		$location->save();
+		$sale->populate($info["post"]);
+		$sale->save();
 
 		if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
-			$info["idx"] = $location->con->insert_id;
+			$info["idx"] = $sale->con->insert_id;
 		}
 
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
+		$sale->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
 
 		/* save office */
 		$office = new offices_model();
@@ -311,14 +311,14 @@ class locations_controller
 		$office->save();
 		$info["offices_id"] = $office->con->insert_id;
 
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("offices_id" => $info["offices_id"])), array("offices"));
+		$sale->save_attach(array("idx" => $info["idx"], "post" => array("offices_id" => $info["offices_id"])), array("offices"));
 
 		/* save partner */
 		$partner = new partners_model();
 		$partner->populate($info["post"]["partner"]);
 		$partner->save();
 		$info["partners_id"] = $office->con->insert_id;
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"])), array("partner"));
+		$sale->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"])), array("partner"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
@@ -333,12 +333,12 @@ class locations_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 
-		$location = new locations_model();
-		$location->set_filter(array(" idx = '" . $info["post"]["idx"] . "' "));
-		$location->load_data();
-		$location->attach(array("offices", "partners", "properties"));
-		$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-		$data = current($location->data);
+		$sale = new sales_model();
+		$sale->set_filter(array(" idx = '" . $info["post"]["idx"] . "' "));
+		$sale->load_data();
+		$sale->attach(array("offices", "partners", "properties"));
+		$sale->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$data = current($sale->data);
 
 		/* GERAR PDF */
 		include(constant("cRootServer_APP") . '/inc/lib/vendor/autoload.php');
@@ -346,7 +346,7 @@ class locations_controller
 		$dompdf = new DOMPDF();
 
 		ob_start();
-		require(constant("cFurniture1") . 'pdf/location/contract.php');
+		require(constant("cFurniture1") . 'pdf/sale/contract.php');
 		$html = ob_get_contents();
 		ob_end_clean();
 
@@ -369,13 +369,13 @@ class locations_controller
 		}
 
 		if (isset($info["idx"])) {
-			$propertie = new locations_model();
+			$sale = new sales_model();
 
-			$propertie->set_filter(array(" idx = '" . $info["idx"] . "' "));
+			$sale->set_filter(array(" idx = '" . $info["idx"] . "' "));
 
-			$propertie->remove();
+			$sale->remove();
 		}
 
-		basic_redir($GLOBALS["locations_url"]);
+		basic_redir($GLOBALS["sales_url"]);
 	}
 }

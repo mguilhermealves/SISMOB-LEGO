@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Locação</p>
+    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Venda</p>
     <hr class="col-lg-11 mx-auto" />
 
     <!-- Button trigger modal -->
@@ -9,22 +9,27 @@
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
         <div class="row">
+            <div class="col-sm-12">
+                <p class="h6 text-blue">Filtros de Busca:</p>
+                <hr>
+            </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_name">Nome:</label>
-                    <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
+                    <label for="filter_name">Primeiro Nome:</label>
+                    <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome">
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_cpf">CPF:</label>
-                    <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
+                    <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="form-control" placeholder="Digite o CPF">
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_district">Bairro:</label>
-                    <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
+                    <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="form-control" placeholder="Digite o Bairro">
                 </div>
             </div>
 
@@ -35,7 +40,7 @@
                         <option value="">Selecione</option>
                         <?php
                         foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
-                            printf('<option value="%s">%s</option>', $k, $v);
+                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_uf"]) && $k == $info["get"]["filter_uf"] ? ' selected' : '', $k, $v);
                         }
                         ?>
                     </select>
@@ -44,25 +49,18 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_obj">Objetivo da Propriedade</label>
-                    <select name="filter_obj" id="filter_obj" class="form-control">
-                        <option value="">Selecione</option>
-                        <?php
-                        foreach ($GLOBALS["propertie_objects"] as $k => $v) {
-                            printf('<option value="%s">%s</option>', $k, $v);
-                        }
-                        ?>
-                    </select>
+                    <label for="filter_contract">N° Contrato:</label>
+                    <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="form-control" placeholder="Digite o n° do contrato">
                 </div>
             </div>
 
             <div class="col-sm-2">
                 <label for="btn_search">&nbsp;</label>
-                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
+                <button id="btn_search" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
             </div>
             <div class="col-sm-2">
                 <label for="btn_add">&nbsp;</label>
-                <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Nova Locação</a>
+                <a id="btn_add" class="btn btn-outline-primary btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Nova Venda</a>
             </div>
         </div>
     </form>
@@ -109,7 +107,7 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
-                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>                           
+                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
                             <td><?php print($v["district"]); ?></td>
                             <td><?php print($v["city"]); ?></td>
                             <td><?php print($v["uf"]); ?></td>
@@ -124,7 +122,7 @@
                     ?>
                     <tr>
                         <td colspan="7">
-                            <p class="alert alert-warning text-center">Nenhuma locação encontrada...</p>
+                            <p class="alert alert-warning text-center">Nenhuma venda encontrada...</p>
                         </td>
                     </tr>
                 <?php
@@ -150,5 +148,9 @@
 
     .card-header.collapsed .fa-chevron-down {
         display: none;
+    }
+
+    .text-blue {
+        color: blue !important;
     }
 </style>

@@ -916,7 +916,7 @@
                                             <div class="form-group">
                                                 <label for="n_contract">N° de Contrato</label>
                                                 <input id="n_contract" type="text" class="form-control" name="n_contract" value="<?php print(isset($data["n_contract"]) ? $data["n_contract"] : "") ?>" disabled>
-                                                <!-- <button type="button" id="download_contract" data-idlocation="<?php print( $data["idx"] ) ?>" class="btn btn-outline-primary btn-sm">Download Contrato</button> -->
+                                                <!-- <button type="button" id="download_contract" data-idlocation="<?php print($data["idx"]) ?>" class="btn btn-outline-primary btn-sm">Download Contrato</button> -->
                                             </div>
                                         </div>
 
@@ -944,27 +944,29 @@
 
                 <br>
 
-                <form action="<?php print($form["donwload_contract"]) ?>" method="post" enctype="multipart/form-data">
+                <?php
+                if (isset($data["is_aproved"]) && $data["is_aproved"] == 'approved') { ?>
+                    <form action="<?php print($form["donwload_contract"]) ?>" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="idx" value="<?php print($data["idx"]) ?>">
 
-                    <input type="hidden" name="idx" value="<?php print( $data["idx"] ) ?>">
-
-                    <div class="modal-content" id="status">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Contrato de Locação</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-outline-primary btn-sm">Download Contrato</button>
+                        <div class="modal-content" id="status">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Contrato de Locação</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+                                            <div class="col-sm-12">
+                                                <button type="submit" class="btn btn-outline-primary btn-sm">Download Contrato</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                <?php } ?>
             </div>
         </div>
     </div>

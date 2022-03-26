@@ -9,6 +9,11 @@
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
         <div class="row">
+            <div class="col-sm-12">
+                <p class="h6 text-blue">Filtros de Busca:</p>
+                <hr>
+            </div>
+            
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
@@ -29,7 +34,7 @@
                     <select name="filter_category" id="filter_category" class="form-control">
                         <option value="">Selecione</option>
                         <?php
-                        foreach (account_pay_categories_controller::data4select("idx", array(" idx > 0 " ) , "name" ) as $k => $v) {
+                        foreach (account_pay_categories_controller::data4select("idx", array(" idx > 0 "), "name") as $k => $v) {
                             printf('<option value="%s"%s>%s</option>' . "\n", $k, isset($info["get"]["filter_category"]) && $info["get"]["filter_category"] == $k ? ' selected="selected"' : '', $v);
                         }
                         ?>
@@ -43,7 +48,7 @@
 
             <div class="col-sm-3">
                 <label for="btn_search">&nbsp;</label>
-                <button id="btn_search" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
+                <button id="btn_search" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
             </div>
             <div class="col-sm-3">
                 <label for="btn_add">&nbsp;</label>
@@ -91,7 +96,7 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["name"]); ?></td>
-                            <td><?php print( str_pad( $v["idx"] , 3 , '0' , STR_PAD_LEFT ) ); ?></td>
+                            <td><?php print(str_pad($v["idx"], 3, '0', STR_PAD_LEFT)); ?></td>
                             <td><?php print($v["account_pay_categories_attach"][0]["name"]); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="/contas-a-pagar/centro-de-custo/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
@@ -129,5 +134,9 @@
 
     .card-header.collapsed .fa-chevron-down {
         display: none;
+    }
+
+    .text-blue {
+        color: blue !important;
     }
 </style>
