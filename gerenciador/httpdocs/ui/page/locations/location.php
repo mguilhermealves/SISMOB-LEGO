@@ -55,42 +55,42 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="name">CEP</label>
-                                    <input id="client_code_postal" type="text" class="form-control" name="client_code_postal" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["code_postal"] : "") ?>" disabled>
+                                    <input id="client_code_postal" type="text" class="form-control" name="client_code_postal" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["code_postal"] : "") ?>" disabled>
                                 </div>
                             </div>
 
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="name">Endereço</label>
-                                    <input id="client_address" type="text" class="form-control" name="client_address" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["address"] : "") ?>" disabled>
+                                    <input id="client_address" type="text" class="form-control" name="client_address" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["address"] : "") ?>" disabled>
                                 </div>
                             </div>
 
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="name">Numero</label>
-                                    <input id="client_number_address" type="text" class="form-control" name="client_number_address" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["number_address"] : "") ?>" disabled>
+                                    <input id="client_number_address" type="text" class="form-control" name="client_number_address" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["number_address"] : "") ?>" disabled>
                                 </div>
                             </div>
 
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="name">Complemento</label>
-                                    <input id="client_complement" type="text" class="form-control" name="client_complement" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["complement"] : "") ?>" disabled>
+                                    <input id="client_complement" type="text" class="form-control" name="client_complement" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["complement"] : "") ?>" disabled>
                                 </div>
                             </div>
 
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="name">Bairro</label>
-                                    <input id="client_district" type="text" class="form-control" name="client_district" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["district"] : "") ?>" disabled>
+                                    <input id="client_district" type="text" class="form-control" name="client_district" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["district"] : "") ?>" disabled>
                                 </div>
                             </div>
 
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="name">Cidade</label>
-                                    <input id="client_city" type="text" class="form-control" name="client_city" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["city"] : "") ?>" disabled>
+                                    <input id="client_city" type="text" class="form-control" name="client_city" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["city"] : "") ?>" disabled>
                                 </div>
                             </div>
 
@@ -101,7 +101,7 @@
                                         <option value="">Selecione</option>
                                         <?php
                                         foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
-                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["clients_attach"][0]) && $k == $data["properties_attach"][0]["clients_attach"][0]["uf"] ? ' selected' : '', $k, $v);
+                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]) && $k == $data["properties_attach"][0]["uf"] ? ' selected' : '', $k, $v);
                                         }
                                         ?>
                                     </select>
@@ -122,8 +122,8 @@
                     }
                     ?>
 
-                    <input type="hidden" name="cod_client" id="cod_client" class="form-control">
-                    <input type="hidden" name="cod_propertie" id="cod_propertie" class="form-control">
+                    <input id="cod_client" type="hidden" name="cod_client" value="<?php print( $data["properties_attach"][0]["clients_attach"][0]["idx"] ); ?>">
+                    <input id="cod_propertie" type="hidden" name="cod_propertie" value="<?php print( $data["properties_attach"][0]["idx"] ); ?>">
 
                     <!-- Dados do Locatário -->
                     <div class="modal-content">

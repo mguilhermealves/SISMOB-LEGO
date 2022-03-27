@@ -32,7 +32,7 @@
                 }
                 ?>
 
-                <input type="hidden" id="cod_client" name="cod_client">
+                <input type="hidden" id="cod_client" name="cod_client" value="<?php print($data["clients_attach"][0]["idx"]); ?>">
 
                 <!-- Dados do Proprietário -->
                 <div class="modal-content">
