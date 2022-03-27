@@ -11,6 +11,7 @@ $(document).ready(function () {
         deferRequestBy: 5,
         noCache: true,
         onSelect: function (sugestion) {
+            console.log(sugestion);
             $("#cod_propertie").val(sugestion.data.idx);
             $("#cod_client").val(sugestion.data.clients_attach[0].idx);
             $("#client_first_name").val(sugestion.data.clients_attach[0].first_name);

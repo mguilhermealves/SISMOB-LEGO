@@ -21,7 +21,7 @@ class properties_controller
 		$filter = array(" active = 'yes' ");
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
-			$filter["q_name"] = " first_name like '%" . $info["get"]["q_name"] . "%' ";
+			$filter["q_name"] = " first_name like '%" . $info["get"]["q_name"] . "%' and is_used = 'no' ";
 			$filter["q_enables"] = " enabled = 'yes' ";
 		}
 
@@ -126,10 +126,12 @@ class properties_controller
 					"query" => "", "suggestions" => array()
 				);
 				foreach ($data as $key => $value) {
-					$out["suggestions"][] = array(
-						"data" => $value,
-						"value" => sprintf("%s %s (%s) ", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"])
-					);
+					if ($value["is_used"] == 'no') {
+						$out["suggestions"][] = array(
+							"data" => $value,
+							"value" => sprintf("%s %s (%s) ", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"])
+						);
+					}
 				}
 
 				header('Content-type: application/json');

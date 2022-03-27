@@ -267,7 +267,7 @@ class locations_controller
 			$info["post"]["properties"]["is_used"] = "yes";
 
 			$propertie = new properties_model();
-			$propertie->set_filter(array(" idx = '" . $info["post"]["properties_id"] . "' "));
+			$propertie->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
 
 			$propertie->populate($info["post"]["properties"]);
 			$propertie->save();
@@ -280,7 +280,7 @@ class locations_controller
 			$info["idx"] = $location->con->insert_id;
 		}
 
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
+		$location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["cod_propertie"])), array("properties"));
 
 		/* save office */
 		$office = new offices_model();
