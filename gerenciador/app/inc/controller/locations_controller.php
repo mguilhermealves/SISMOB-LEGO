@@ -103,11 +103,29 @@ class locations_controller
 					)
 				);
 
+				$ordenation_first_name = 'first_name-asc';
+				$ordenation_first_name_ordenation = 'bi bi-border';
 				$ordenation_address = 'address-asc';
-				$ordenation_address_ordenation = 'fas fa-border-none';
-				$ordenation_ncontract = 'n_contract-asc';
-				$ordenation_ncontract_ordenation = 'fas fa-border-none';
+				$ordenation_address_ordenation = 'bi bi-border';
+				$ordenation_district = 'district-asc';
+				$ordenation_district_ordenation = 'bi bi-border';
+				$ordenation_city = 'city-asc';
+				$ordenation_city_ordenation = 'bi bi-border';
+				$ordenation_uf = 'uf-asc';
+				$ordenation_uf_ordenation = 'bi bi-border';
+				$ordenation_is_aproved = 'is_aproved-asc';
+				$ordenation_is_aproved_ordenation = 'bi bi-border';
+				$ordenation_ncontract = 'is_aproved-asc';
+				$ordenation_ncontract_ordenation = 'bi bi-border';
 				switch ($ordenation) {
+					case 'first_name asc':
+						$ordenation_first_name = 'first_name-desc';
+						$ordenation_first_name_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'first_name desc':
+						$ordenation_first_name = 'first_name-asc';
+						$ordenation_first_name_ordenation = 'bi bi-arrow-down';
+						break;
 					case 'address asc':
 						$ordenation_address = 'address-desc';
 						$ordenation_address_ordenation = 'bi bi-arrow-up';
@@ -117,20 +135,44 @@ class locations_controller
 						$ordenation_address_ordenation = 'bi bi-arrow-down';
 						break;
 					case 'n_contract asc':
+						$ordenation_district = 'n_contract-desc';
+						$ordenation_district_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'city desc':
+						$ordenation_district = 'city-asc';
+						$ordenation_district_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'city asc':
+						$ordenation_city = 'city-desc';
+						$ordenation_city_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'n_contract desc':
+						$ordenation_city = 'n_contract-asc';
+						$ordenation_city_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'uf asc':
+						$ordenation_uf = 'uf-desc';
+						$ordenation_uf_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'uf desc':
+						$ordenation_uf = 'uf-asc';
+						$ordenation_uf_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'is_aproved asc':
+						$ordenation_is_aproved = 'is_aproved-desc';
+						$ordenation_is_aproved_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'is_aproved desc':
+						$ordenation_is_aproved = 'is_aproved-asc';
+						$ordenation_is_aproved_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'n_contract asc':
 						$ordenation_ncontract = 'n_contract-desc';
 						$ordenation_ncontract_ordenation = 'bi bi-arrow-up';
 						break;
 					case 'n_contract desc':
 						$ordenation_ncontract = 'n_contract-asc';
 						$ordenation_ncontract_ordenation = 'bi bi-arrow-down';
-						break;
-					case 'created_at asc':
-						$ordenation_createdat = 'created_at-desc';
-						$ordenation_createdat_ordenation = 'bi bi-arrow-up';
-						break;
-					case 'created_at desc':
-						$ordenation_createdat = 'created_at-asc';
-						$ordenation_createdat_ordenation = 'bi bi-arrow-down';
 						break;
 				}
 
@@ -188,74 +230,9 @@ class locations_controller
 		include(constant("cRootServer") . "ui/page/locations/location.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
 		print("<script>");
-		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
-		print('})' . "\n");
 		include(constant("cRootServer") . "furniture/js/locations/location.js");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
-	}
-
-	/**
-	 * Search Propertie for clients
-	 * 
-	 */
-	public function search_propertie($info)
-	{
-		if (!site_controller::check_login()) {
-			basic_redir($GLOBALS["home_url"]);
-		}
-
-		$done =  array();
-		$properties = new properties_model();
-
-		if ($info["post"]["cod_propertie"] != null) {
-			$properties->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
-
-			$properties->load_data();
-			$data = $properties->data;
-		}
-
-		$clients = new clients_model();
-
-		if ($info["post"]["name_client"] != null) {
-
-			$clients->set_filter(array(" first_name = '" . $info["post"]["name_client"] . "' "));
-
-			$clients->load_data();
-			$data = $clients->data;
-		}
-
-		if ($info["post"]["cpf_client"] != null) {
-
-			$clients->set_filter(array(" document = '" . $info["post"]["cpf_client"] . "' "));
-
-			$clients->load_data();
-			$data = $clients->data;
-		}
-
-		echo json_encode($data);
-	}
-
-	/**
-	 * Select Propertie after search
-	 * 
-	 */
-	public function select_propertie($info)
-	{
-		if (!site_controller::check_login()) {
-			basic_redir($GLOBALS["home_url"]);
-		}
-
-		$client = new properties_model();
-
-		$client->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' and is_used = 'no' "));
-
-		$client->load_data();
-		$client->attach(array("clients"), true);
-		$data = current($client->data);
-
-		echo json_encode($data);
 	}
 
 	public function save($info)

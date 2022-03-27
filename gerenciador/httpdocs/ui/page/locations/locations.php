@@ -70,11 +70,11 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>Id</th>
-                    <th>Nome do Locatário</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Nome do Locatário <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
-                    <th>Cidade</th>
-                    <th>UF</th>
-                    <th>Aprovado</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_uf))) ?>">UF <i class="<?php print($ordenation_uf_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_is_aproved))) ?>">Aprovado <i class="<?php print($ordenation_is_aproved_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_ncontract))) ?>">N° Contrato <i class="<?php print($ordenation_ncontract_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>

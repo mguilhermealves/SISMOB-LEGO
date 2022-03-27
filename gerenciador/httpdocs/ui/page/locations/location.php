@@ -6,38 +6,106 @@
 
             <div class="modal-content">
                 <div class="modal-header label">
-                    <h5 class="modal-title ">Pesquisar Imóvel ou Proprietário</h5>
+                    <h5 class="modal-title ">Pesquisar Imóvel</h5>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Código do Imóvel</label>
-                                    <input type="text" id="cod_propertie" name="cod_propertie" class="form-control" placeholder="Codigo do Imóvel" autofocus>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Nome do Proprietário</label>
-                                    <input type="text" id="name_client" name="name_client" class="form-control" placeholder="Nome do Proprietário" autofocus>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>CPF do Proprietário</label>
-                                    <input type="text" id="cpf_client" name="cpf_client" class="form-control" placeholder="CPF do Proprietário" autofocus>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12 text-right">
-                                <a name="" id="" class="btn btn-info btn-sm pesquisarImovel" role="button"><i class="bi bi-search"></i> Pesquisar</a>
-                            </div>
-
                             <div class="col-sm-12">
-                                <div class="mt-5" id="table_find_clients"></div>
+                                <div class="form-group">
+                                    <label>Pesquisar Proprietario:</label>
+                                    <small class="text-muted">Digite o nome do Proprietario:</small>
+                                    <input type="text" class="form-control properties_search" value="<?php print( isset($data["properties_attach"][0]["clients_attach"][0] ) ? $data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"] . " (" . $data["properties_attach"][0]["clients_attach"][0]["mail"] . ") " : '') ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dados do Proprietário -->
+            <div class="modal-content">
+                <div class="modal-header label">
+                    <h5 class="modal-title ">Dados do Proprietário</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">Nome</label>
+                                    <input id="client_first_name" type="text" class="form-control" name="client_first_name" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["first_name"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">Sobrenome</label>
+                                    <input id="client_last_name" type="text" class="form-control" name="client_last_name" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["last_name"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">CPF</label>
+                                    <input id="client_document" type="text" class="form-control" name="client_document" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["document"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">CEP</label>
+                                    <input id="client_code_postal" type="text" class="form-control" name="client_code_postal" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["code_postal"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">Endereço</label>
+                                    <input id="client_address" type="text" class="form-control" name="client_address" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["address"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">Numero</label>
+                                    <input id="client_number_address" type="text" class="form-control" name="client_number_address" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["number_address"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">Complemento</label>
+                                    <input id="client_complement" type="text" class="form-control" name="client_complement" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["complement"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">Bairro</label>
+                                    <input id="client_district" type="text" class="form-control" name="client_district" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["district"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">Cidade</label>
+                                    <input id="client_city" type="text" class="form-control" name="client_city" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["city"] : "") ?>" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="uf">UF</label>
+                                    <select id="client_uf" name="client_uf" class="form-control" disabled>
+                                        <option value="">Selecione</option>
+                                        <?php
+                                        foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
+                                            printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["clients_attach"][0]) && $k == $data["properties_attach"][0]["clients_attach"][0]["uf"] ? ' selected' : '', $k, $v);
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,195 +122,8 @@
                     }
                     ?>
 
-                    <input type="hidden" name="clients_id" id="clients_id" class="form-control">
-                    <input type="hidden" name="properties_id" id="properties_id" value="<?php print(isset($data["properties_attach"]) ? $data["properties_attach"][0]["idx"] : "") ?>" class="form-control">
-
-                    <!-- Dados do Proprietário -->
-                    <?php
-                    if (!isset($data["properties_attach"])) { ?>
-                        <div class="modal-content">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Dados do Proprietário</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Nome</label>
-                                                <input id="first_name_search" type="text" class="form-control" name="first_name" value="<?php print(isset($data["first_name"]) ? $data["first_name"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Sobrenome</label>
-                                                <input id="last_name_search" type="text" class="form-control" name="last_name" value="<?php print(isset($data["last_name"]) ? $data["last_name"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">CPF</label>
-                                                <input id="document_search" type="text" class="form-control" name="document" value="<?php print(isset($data["document"]) ? $data["document"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">CEP</label>
-                                                <input type="text" class="form-control" id="cep_search" name="code_postal" value="<?php print(isset($data["code_postal"]) ? $data["code_postal"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Endereço</label>
-                                                <input type="text" class="form-control" id="address_search" name="address_search" value="<?php print(isset($data["address"]) ? $data["address"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Numero</label>
-                                                <input type="text" class="form-control" id="number_address_search" name="number_address" value="<?php print(isset($data["number_address"]) ? $data["number_address"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Complemento</label>
-                                                <input type="text" class="form-control" id="complement_search" name="complement" value="<?php print(isset($data["complement"]) ? $data["complement"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Bairro</label>
-                                                <input type="text" class="form-control" id="district_search" name="district" value="<?php print(isset($data["district"]) ? $data["district"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Cidade</label>
-                                                <input type="text" class="form-control" id="city_search" name="city" value="<?php print(isset($data["city"]) ? $data["city"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="uf">UF</label>
-                                                <select id="uf_search" name="uf" class="form-control" disabled>
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["uf"]) && $k == $data["uf"] ? ' selected' : '', $k, $v);
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
-
-                    <?php
-                    if (isset($data["properties_attach"])) { ?>
-                        <div class="modal-content">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Dados do Proprietário</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Nome</label>
-                                                <input id="first_name" type="text" class="form-control" name="first_name" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]["first_name"]) ? $data["properties_attach"][0]["clients_attach"][0]["first_name"] : $data["first_name"]) ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Sobrenome</label>
-                                                <input id="last_name" type="text" class="form-control" name="last_name" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]["last_name"]) ? $data["properties_attach"][0]["clients_attach"][0]["last_name"] : $data["last_name"]) ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">CPF</label>
-                                                <input id="document" type="text" class="form-control" name="document" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]["document"]) ? $data["properties_attach"][0]["clients_attach"][0]["document"] : $data["document"]) ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">CEP</label>
-                                                <input type="text" class="form-control" name="code_postal" value="<?php print(isset($data["properties_attach"][0]["code_postal"]) ? $data["properties_attach"][0]["code_postal"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Endereço</label>
-                                                <input type="text" class="form-control" name="address_search" value="<?php print(isset($data["properties_attach"][0]["address"]) ? $data["properties_attach"][0]["address"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Numero</label>
-                                                <input type="text" class="form-control" name="number_address" value="<?php print(isset($data["properties_attach"][0]["number_address"]) ? $data["properties_attach"][0]["number_address"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Complemento</label>
-                                                <input type="text" class="form-control" name="complement" value="<?php print(isset($data["properties_attach"][0]["complement"]) ? $data["properties_attach"][0]["complement"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Bairro</label>
-                                                <input type="text" class="form-control" name="district" value="<?php print(isset($data["properties_attach"][0]["district"]) ? $data["properties_attach"][0]["district"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Cidade</label>
-                                                <input type="text" class="form-control" name="city" value="<?php print(isset($data["properties_attach"][0]["city"]) ? $data["properties_attach"][0]["city"] : "") ?>" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="uf">UF</label>
-                                                <select name="uf" class="form-control" disabled>
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["uf"]) && $k == $data["properties_attach"][0]["uf"] ? ' selected' : '', $k, $v);
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
+                    <input type="hidden" name="cod_client" id="cod_client" class="form-control">
+                    <input type="hidden" name="cod_propertie" id="cod_propertie" class="form-control">
 
                     <!-- Dados do Locatário -->
                     <div class="modal-content">
@@ -1070,5 +951,17 @@
 
     .modal-lg {
         max-width: 80%;
+    }
+
+    .autocomplete-suggestions {
+        background-color: #fff;
+    }
+
+    .autocomplete-suggestion {
+        border-bottom: 1px solid #000;
+    }
+
+    .autocomplete-suggestion:hover {
+        background-color: #9cb3f1;
     }
 </style>

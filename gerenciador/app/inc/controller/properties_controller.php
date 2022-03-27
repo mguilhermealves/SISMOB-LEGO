@@ -20,6 +20,11 @@ class properties_controller
 		$done = array();
 		$filter = array(" active = 'yes' ");
 
+		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
+			$filter["q_name"] = " first_name like '%" . $info["get"]["q_name"] . "%' ";
+			$filter["q_enables"] = " enabled = 'yes' ";
+		}
+
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
 		}
@@ -78,16 +83,35 @@ class properties_controller
 
 		$properties = new properties_model();
 
-		if ($info["format"] != ".json") {
-			$properties->set_paginate(array($info["sr"], $paginate));
-		} else {
-			$properties->set_paginate(array(0, 900000));
+		switch ($info["format"]) {
+			case ".autocomplete":
+				$properties->set_paginate(array(0, 12));
+				$info["get"]["enabled"] = 'yes';
+
+				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
+					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
+					$query = preg_replace("/\s+?|\t+?|\n+?/", " ", $query);
+					$query = preg_replace("/^ | $/", "", $query);
+					$query = preg_replace("/([A-z0-9\ \-\_])+?/", "$1", $query);
+
+					if (empty($query)) {
+						$query = " ";
+					} else {
+						$info["get"]["q_name"] = $query;
+					}
+				}
+				break;
+			default:
+				$properties->set_paginate(array((int)$info["sr"] > $paginate ? (int)$info["sr"] : 0, $paginate));
+				break;
 		}
 
 		$properties->set_filter($filter);
 		$properties->set_order(array($ordenation));
 		list($total, $data) = $properties->return_data();
+		$properties->attach(array("clients"), true);
 
+		$data = $properties->data;
 		switch ($info["format"]) {
 			case ".json":
 				header('Content-type: application/json');
@@ -96,6 +120,20 @@ class properties_controller
 						"total" => array("total" => $total), "row" => $data
 					)
 				);
+				break;
+			case ".autocomplete":
+				$out = array(
+					"query" => "", "suggestions" => array()
+				);
+				foreach ($data as $key => $value) {
+					$out["suggestions"][] = array(
+						"data" => $value,
+						"value" => sprintf("%s %s (%s) ", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"])
+					);
+				}
+
+				header('Content-type: application/json');
+				echo json_encode($out);
 				break;
 			default:
 				$page = 'Imoveis';

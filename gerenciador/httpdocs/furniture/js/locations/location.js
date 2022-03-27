@@ -4,6 +4,28 @@ $(document).ready(function () {
         reverse: true
     });
 
+    $(".properties_search").autocomplete({
+        serviceUrl: '<?php print($GLOBALS["properties_url"]) ?>.autocomplete',
+        autoFocus: true,
+        minChars: 3,
+        deferRequestBy: 5,
+        noCache: true,
+        onSelect: function (sugestion) {
+            $("#cod_propertie").val(sugestion.data.idx);
+            $("#cod_client").val(sugestion.data.clients_attach[0].idx);
+            $("#client_first_name").val(sugestion.data.clients_attach[0].first_name);
+            $("#client_last_name").val(sugestion.data.clients_attach[0].last_name);
+            $("#client_document").val(sugestion.data.clients_attach[0].document);
+            $("#client_address").val(sugestion.data.address);
+            $("#client_number_address").val(sugestion.data.number_address);
+            $("#client_complement").val(sugestion.data.complement);
+            $("#client_code_postal").val(sugestion.data.code_postal);
+            $("#client_district").val(sugestion.data.district);
+            $("#client_city").val(sugestion.data.city);
+            $("#client_uf").val(sugestion.data.uf);
+        }
+    });
+
     var status = ($('#marital_status').val());
 
     if (status == 'married') {
@@ -244,180 +266,3 @@ $("#cep").change(function () {
         limpa_formulário_cep();
     }
 });
-
-/* CONSULTA CLIENTE */
-$(document).on('click', '.pesquisarImovel', function () {
-    var cod_propertie = $("#cod_propertie").val();
-    var name_client = $("#name_client").val();
-    var cpf_client = $("#cpf_client").val();
-    // var address_propertie = $("#address_propertie").val();
-
-    //AUTOCOMPLETE PROPERTIES
-    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-    $.ajax({
-        url: "/search_propertie",
-        type: 'POST',
-        dataType: "json",
-        data: {
-            _token: CSRF_TOKEN,
-            cod_propertie: cod_propertie,
-            name_client: name_client,
-            cpf_client: cpf_client
-        },
-        beforeSend: function () {
-
-        },
-        success: function (data) {
-            if (data.length > 0) {
-                html = "";
-                html += '<table class="table table-striped table-inverse">';
-                html += '<thead class="thead-inverse">';
-                html += '<tr>';
-                html += '<th>Código</th>';
-                // html += '<th>Nome</th>';
-                html += '<th>Endereço</th>';
-                html += '<th>Bairro</th>';
-                html += '<th>Cidade</th>';
-                html += '<th>UF</th>';
-                html += '<th>Indisponivel</th>';
-                html += '<th>Escolher</th>';
-                html += '</tr>';
-                html += '</thead>';
-                html += '<tbody>';
-                $.each(data, function (index, value) {
-                    console.log(value);
-                    html += '<tr>';
-
-                    html += '<td scope="row"><p>' + value.idx +
-                        '</p></td>';
-
-                    // html += '<td><p>' + value.client_properties.first_name +
-                    //     '</p></td>';
-
-                    html += '<td><p>' + value.address + ", N° " + value.number_address +
-                        '</p></td>';
-
-                    html += '<td><p>' + value.district +
-                        '</p></td>';
-
-                    html += '<td><p>' + value.city +
-                        '</p></td>';
-
-                    html += '<td><p>' + value.uf +
-                        '</p></td>';
-
-                    if (value.is_used == "yes") {
-                        html += '<td><p class="cpf">' + 'Sim' +
-                            '</p></td>';
-                    } else {
-                        html += '<td><p class="cpf">' + 'Não' +
-                            '</p></td>';
-                    }
-
-                    if (value.is_used == "yes") {
-                        html +=
-                            '<td><a data-id="' + value.idx +
-                            '" class="btn btn-info btn-sm disabled" disabled><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
-                    } else {
-                        html +=
-                            '<td><a data-id="' + value.idx +
-                            '" class="btn btn-info btn-sm btn_selecionar_cliente"><i class="bi bi-pencil-square"></i> Selecionar</a></td>';
-                    }
-
-                    html += '</tr>';
-                });
-                html += '</tbody>';
-                html += '</table>';
-                $('#table_find_clients').empty('').append(html);
-            } else {
-                html = "";
-                html += '<table class="table table-striped table-inverse">';
-                html += '<thead class="thead-inverse">';
-                html += '<tr>';
-                html += '<th>Código</th>';
-                html += '<th>Nome</th>';
-                html += '<th>CPF</th>';
-                html += '<th>Escolher</th>';
-                html += '</tr>';
-                html += '</thead>';
-                html += '<tbody>';
-                html += '<tr>';
-                html +=
-                    '<th colspan="4" style="text-align: center"><p class="alert alert-warning text-center">Nenhum imóvel disponivel para locação até o momento...</p></th>';
-                html += '</tr>';
-                html += '</tbody>';
-                html += '</table>';
-                $('#table_find_clients').empty('').append(html);
-            }
-        }
-    });
-});
-
-/* SELECIONA CLIENTE */
-$(document).on('click', '.btn_selecionar_cliente', function () {
-
-    var cod_propertie = $(this).data('id');
-
-    //AUTOCOMPLETE PROPERTIES
-    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-    $.ajax({
-        url: "/select_propertie",
-        type: 'POST',
-        dataType: "json",
-        data: {
-            _token: CSRF_TOKEN,
-            cod_propertie: cod_propertie
-        },
-        beforeSend: function () {
-
-        },
-        success: function (resp) {
-            jQuery("#first_name_search").val(resp.clients_attach[0].first_name);
-            jQuery("#last_name_search").val(resp.clients_attach[0].last_name);
-            jQuery("#document_search").val(resp.clients_attach[0].document);
-            jQuery("#address_search").val(resp.address);
-            jQuery("#number_address_search").val(resp.number_address);
-            jQuery("#complement_search").val(resp.complement);
-            jQuery("#cep_search").val(resp.code_postal);
-            jQuery("#district_search").val(resp.district);
-            jQuery("#city_search").val(resp.city);
-            jQuery("#uf_search").val(resp.uf);
-            jQuery("#type_propertie_search").val(resp.type_propertie);
-
-            jQuery("#object_propertie_search").val(resp.object_propertie);
-            jQuery("#price_location_search").val(resp.price_location);
-            jQuery("#price_iptu_search").val(resp.price_iptu);
-            jQuery("#deadline_contract_search").val(resp.deadline_contract);
-            jQuery("#clients_id").val(resp.clients_attach[0].idx);
-            jQuery("#properties_id").val(resp.idx);
-        },
-    });
-});
-
-// $("#download_contract").on("click", function () {
-//     var idlocation = $(this).data("idlocation");
-//     var type = "location";
-
-//     $.ajax({
-//         method: "POST",
-//         url: '/donwload_contract',
-//         data: {
-//             idlocation: idlocation,
-//             type: type
-//         },
-//         beforeSend: function () {
-
-//         },
-//         success: function (data) {
-//             const url = window.URL.createObjectURL(new Blob([data]));
-//             console.log(url);
-//             const link = document.createElement('a');
-//             link.href = url;
-//             link.setAttribute('download', 'contrato-locacao.pdf');
-//             document.body.appendChild(link);
-//             link.click();
-//         }
-//     });
-// });
