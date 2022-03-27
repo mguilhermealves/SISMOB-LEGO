@@ -15,7 +15,7 @@
                                 <div class="form-group">
                                     <label>Pesquisar Proprietario:</label>
                                     <small class="text-muted">Digite o nome ou email do Proprietario</small>
-                                    <input type="text" class="form-control clients_search" value="<?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["first_name"] . " " . $data["clients_attach"][0]["last_name"] : '') ?>" >
+                                    <input type="text" class="form-control clients_search" value="<?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["first_name"] . " " . $data["clients_attach"][0]["last_name"] : '') ?>">
                                 </div>
                             </div>
                         </div>
@@ -539,5 +539,18 @@
 
     .modal-lg {
         max-width: 80%;
+    }
+
+
+    .autocomplete-suggestions {
+        background-color: #fff;
+    }
+
+    .autocomplete-suggestion {
+        border-bottom: 1px solid #000;
+    }
+
+    .autocomplete-suggestion:hover {
+        background-color: #9cb3f1;
     }
 </style>

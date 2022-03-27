@@ -174,8 +174,7 @@ class bills_payableds_controller
 			$bill_payabled = new account_pays_model();
 			$bill_payabled->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$bill_payabled->load_data();
-			// $bill_payabled->attach(array("offices", "partners", "properties"));
-			// $bill_payabled->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+			$bill_payabled->attach(array("account_pay_cost_center"));
 			$data = current($bill_payabled->data);
 			$form = array(
 				"title" => "Editar Contas a Pagar",
@@ -258,6 +257,8 @@ class bills_payableds_controller
 		if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
 			$info["idx"] = $bill_payabled->con->insert_id;
 		}
+
+		$bill_payabled->save_attach(array("idx" => $info["idx"], "post" => array("account_pay_cost_center_id" =>  $info["post"]["cod_center_count"])), array("account_pay_cost_center"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

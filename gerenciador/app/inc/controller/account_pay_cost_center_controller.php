@@ -20,6 +20,11 @@ class account_pay_cost_center_controller
 		$done = array();
 		$filter = array(" active = 'yes' ");
 
+		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
+			$filter["q_name"] = " idx like '%" . $info["get"]["q_name"] . "%' ";
+			$filter["q_enables"] = " enabled = 'yes' ";
+		}
+
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
 		}
@@ -44,9 +49,10 @@ class account_pay_cost_center_controller
 			$filter["filter_category"] = " trail_title like '%" . $info["get"]["filter_category"] . "%' ";
 		}
 
+		//VERIFICAR
 		if (isset($info["get"]["filter_category"]) && !empty($info["get"]["filter_category"])) {
 			$done["filter_category"] = $info["get"]["filter_category"];
-			$filter["filter_category"] = " category in ( select account_pay_categories.idx from account_pay_categories where account_pay_categories.active = 'yes' and account_pay_categories.idx = '" . $info["get"]["filter_category"] . "' ) ";
+			$filter["filter_category"] = " category IN ( select account_pay_categories.idx from account_pay_categories where account_pay_categories.active = 'yes' and account_pay_categories.idx = '" . $info["get"]["filter_category"] . "' ) ";
 		}
 
 		return array($done, $filter);
@@ -64,10 +70,27 @@ class account_pay_cost_center_controller
 
 		$cost_centers = new account_pay_cost_center_model();
 
-		if ($info["format"] != ".json") {
-			$cost_centers->set_paginate(array($info["sr"], $paginate));
-		} else {
-			$cost_centers->set_paginate(array(0, 900000));
+		switch ($info["format"]) {
+			case ".autocomplete":
+				$cost_centers->set_paginate(array(0, 12));
+				$info["get"]["enabled"] = 'yes';
+
+				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
+					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
+					$query = preg_replace("/\s+?|\t+?|\n+?/", " ", $query);
+					$query = preg_replace("/^ | $/", "", $query);
+					$query = preg_replace("/([A-z0-9\ \-\_])+?/", "$1", $query);
+
+					if (empty($query)) {
+						$query = " ";
+					} else {
+						$info["get"]["q_name"] = $query;
+					}
+				}
+				break;
+			default:
+				$cost_centers->set_paginate(array((int)$info["sr"] > $paginate ? (int)$info["sr"] : 0, $paginate));
+				break;
 		}
 
 		$cost_centers->set_filter($filter);
@@ -75,8 +98,8 @@ class account_pay_cost_center_controller
 
 		list($total, $data) = $cost_centers->return_data();
 		$cost_centers->attach(array("account_pay_categories"));
-		$data = $cost_centers->data;
 
+		$data = $cost_centers->data;
 		switch ($info["format"]) {
 			case ".json":
 				header('Content-type: application/json');
@@ -85,6 +108,20 @@ class account_pay_cost_center_controller
 						"total" => array("total" => $total), "row" => $data
 					)
 				);
+				break;
+			case ".autocomplete":
+				$out = array(
+					"query" => "", "suggestions" => array()
+				);
+				foreach ($data as $key => $value) {
+					$out["suggestions"][] = array(
+						"data" => $value,
+						"value" => sprintf("%s - %s ", $value["idx"], $value["name"])
+					);
+				}
+
+				header('Content-type: application/json');
+				echo json_encode($out);
 				break;
 			default:
 				$page = 'Centro de Custo Contas a Pagar';
@@ -100,6 +137,10 @@ class account_pay_cost_center_controller
 
 				$ordenation_name = 'name-asc';
 				$ordenation_name_ordenation = 'bi bi-border';
+				$ordenation_cost_center = 'cost_center-asc';
+				$ordenation_cost_center_ordenation = 'bi bi-border';
+				$ordenation_category = 'category-asc';
+				$ordenation_category_ordenation = 'bi bi-border';
 				switch ($ordenation) {
 					case 'name asc':
 						$ordenation_name = 'name-desc';
@@ -109,6 +150,22 @@ class account_pay_cost_center_controller
 						$ordenation_name = 'name-asc';
 						$ordenation_name_ordenation = 'bi bi-arrow-down';
 						break;
+					case 'cost_center asc':
+						$ordenation_cost_center = 'cost_center-desc';
+						$ordenation_cost_center_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'cost_center desc':
+						$ordenation_cost_center = 'cost_center-asc';
+						$ordenation_cost_center_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'category asc':
+						$ordenation_category = 'category-desc';
+						$ordenation_category_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'category desc':
+						$ordenation_category = 'category-asc';
+						$ordenation_category_ordenation = 'bi bi-arrow-down';
+						break;
 				}
 
 				include(constant("cRootServer") . "ui/common/header.inc.php");
@@ -117,14 +174,7 @@ class account_pay_cost_center_controller
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
-				print('    data_agendas_json = {' . "\n");
-				print('        url: "' . $GLOBALS["locations_url"] . '.json"' . "\n");
-				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["location_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
-				print('        , template: ""' . "\n");
-				print('        , page: 1' . "\n");
-				print('    }' . "\n");
-				include(constant("cRootServer") . "furniture/js/locations/locations.js");
+				include(constant("cRootServer") . "furniture/js/cost_centers/cost_center.js");
 				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
 				break;
@@ -142,7 +192,6 @@ class account_pay_cost_center_controller
 			$cost_center->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$cost_center->load_data();
 			$cost_center->attach(array("account_pay_categories"));
-			// $cost_center->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 			$data = current($cost_center->data);
 			$form = array(
 				"title" => "Editar Centro de Custo",
@@ -163,11 +212,8 @@ class account_pay_cost_center_controller
 		include(constant("cRootServer") . "ui/common/head.inc.php");
 		include(constant("cRootServer") . "ui/page/bills_payableds/cost_center/cost_center.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
-		print("<script>");
-		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
-		print('})' . "\n");
-		include(constant("cRootServer") . "furniture/js/locations/location.js");
+		print('<script>' . "\n");
+		include(constant("cRootServer") . "furniture/js/cost_centers/cost_center.js");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
 	}
@@ -193,7 +239,7 @@ class account_pay_cost_center_controller
 			$info["idx"] = $cost_center->con->insert_id;
 		}
 
-		$cost_center->save_attach(array("idx" => $info["idx"], "post" => array("account_pay_categories_id" =>  $info["post"]["category"])), array("account_pay_categories"));
+		$cost_center->save_attach(array("idx" => $info["idx"], "post" => array("account_pay_categories_id" =>  $info["post"]["cod_category"])), array("account_pay_categories"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

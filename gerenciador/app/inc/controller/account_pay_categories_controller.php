@@ -20,6 +20,11 @@ class account_pay_categories_controller
 		$done = array();
 		$filter = array(" active = 'yes' ");
 
+		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
+			$filter["q_name"] = " name like '%" . $info["get"]["q_name"] . "%' ";
+			$filter["q_enables"] = " enabled = 'yes' ";
+		}
+
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
 		}
@@ -50,18 +55,35 @@ class account_pay_categories_controller
 
 		$categories = new account_pay_categories_model();
 
-		if ($info["format"] != ".json") {
-			$categories->set_paginate(array($info["sr"], $paginate));
-		} else {
-			$categories->set_paginate(array(0, 900000));
+		switch ($info["format"]) {
+			case ".autocomplete":
+				$categories->set_paginate(array(0, 12));
+				$info["get"]["enabled"] = 'yes';
+
+				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
+					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
+					$query = preg_replace("/\s+?|\t+?|\n+?/", " ", $query);
+					$query = preg_replace("/^ | $/", "", $query);
+					$query = preg_replace("/([A-z0-9\ \-\_])+?/", "$1", $query);
+
+					if (empty($query)) {
+						$query = " ";
+					} else {
+						$info["get"]["q_name"] = $query;
+					}
+				}
+				break;
+			default:
+				$categories->set_paginate(array((int)$info["sr"] > $paginate ? (int)$info["sr"] : 0, $paginate));
+				break;
 		}
 
 		$categories->set_filter($filter);
 		$categories->set_order(array($ordenation));
 
 		list($total, $data) = $categories->return_data();
-		$data = $categories->data;
 
+		$data = $categories->data;
 		switch ($info["format"]) {
 			case ".json":
 				header('Content-type: application/json');
@@ -70,6 +92,20 @@ class account_pay_categories_controller
 						"total" => array("total" => $total), "row" => $data
 					)
 				);
+				break;
+			case ".autocomplete":
+				$out = array(
+					"query" => "", "suggestions" => array()
+				);
+				foreach ($data as $key => $value) {
+					$out["suggestions"][] = array(
+						"data" => $value,
+						"value" => sprintf("%s", $value["name"])
+					);
+				}
+
+				header('Content-type: application/json');
+				echo json_encode($out);
 				break;
 			default:
 				$page = 'Categorias Contas a Pagar';
@@ -101,16 +137,6 @@ class account_pay_categories_controller
 				include(constant("cRootServer") . "ui/page/bills_payableds/categories/categories.php");
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
-				print('<script>' . "\n");
-				print('    data_agendas_json = {' . "\n");
-				print('        url: "' . $GLOBALS["locations_url"] . '.json"' . "\n");
-				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["location_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
-				print('        , template: ""' . "\n");
-				print('        , page: 1' . "\n");
-				print('    }' . "\n");
-				include(constant("cRootServer") . "furniture/js/locations/locations.js");
-				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
 				break;
 		}

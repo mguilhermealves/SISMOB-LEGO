@@ -62,8 +62,8 @@
             <thead class="thead-inverse">
                 <tr>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th>Centro de Custo</th>
-                    <th>Categoria</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_cost_center))) ?>">Centro de Custo <i class="<?php print($ordenation_cost_center_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_category))) ?>">Categoria <i class="<?php print($ordenation_category_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>
             </thead>

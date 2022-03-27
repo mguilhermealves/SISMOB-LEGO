@@ -4,6 +4,35 @@
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
             <div>
+                <!-- Centro de Custos -->
+                <div class="modal-content">
+                    <div class="modal-header label">
+                        <h5 class="modal-title ">Centro de Custo</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>Pesquisar Centro de Custo:</label>
+                                            <small class="text-muted">Digite o codigo do Centro de Custo</small>
+                                            <input class="form-control center_count_search" value="<?php print(isset($data["account_pay_cost_center_attach"][0]) ? $data["account_pay_cost_center_attach"][0]["idx"] . " - " . $data["account_pay_cost_center_attach"][0]["name"] : '') ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="name">Centro de Custo selecionado:</label>
+                                            <strong id="center_count_name" style="text-decoration: underline; text-transform: uppercase; font-weight: bold;"><?php print(isset($data["account_pay_cost_center_attach"][0]) ? $data["account_pay_cost_center_attach"][0]["name"] : "") ?></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
                     <?php
                     if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) {
@@ -12,6 +41,8 @@
                     <?php
                     }
                     ?>
+
+                    <input type="hidden" name="cod_center_count" id="cod_center_count">
 
                     <!-- Empresa Beneficiária -->
                     <div class="modal-content">
@@ -26,34 +57,6 @@
                                             <div class="form-group">
                                                 <label for="company_beneficiary">Empresa Beneficiária</label>
                                                 <input id="company_beneficiary" type="text" class="form-control" name="company_beneficiary" value="<?php print(isset($data["company_beneficiary"]) ? $data["company_beneficiary"] : "") ?>" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Centro de Custos -->
-                    <div class="modal-content">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Centro de Custo</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="center_count">Centro de Custo:</label>
-                                                <select name="center_count" id="center_count" class="form-control" required>
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    foreach (account_pay_cost_center_controller::data4select("idx", array(" idx > 0 and active = 'yes'"), "name") as $k => $v) {
-                                                        printf('<option value="%s"%s>%s</option>' . "\n", $k, isset($data["center_count"]) && $data["center_count"] == $k ? ' selected="selected"' : '', str_pad($k, 3, '0', STR_PAD_LEFT) . " - " . $v);
-                                                    }
-                                                    ?>
-                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -232,5 +235,17 @@
 
     .modal-lg {
         max-width: 80%;
+    }
+
+    .autocomplete-suggestions {
+        background-color: #fff;
+    }
+
+    .autocomplete-suggestion {
+        border-bottom: 1px solid #000;
+    }
+
+    .autocomplete-suggestion:hover {
+        background-color: #9cb3f1;
     }
 </style>
