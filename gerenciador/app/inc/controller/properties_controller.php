@@ -36,7 +36,7 @@ class properties_controller
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " first_name like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
@@ -59,9 +59,9 @@ class properties_controller
 			$filter["filter_uf"] = " uf like '%" . $info["get"]["filter_uf"] . "%' ";
 		}
 
-		if (isset($info["get"]["filter_title"]) && !empty($info["get"]["filter_title"])) {
-			$done["filter_title"] = $info["get"]["filter_title"];
-			$filter["filter_title"] = " first_name like '%" . $info["get"]["filter_title"] . "%' ";
+		if (isset($info["get"]["filter_object_propertie"]) && !empty($info["get"]["filter_object_propertie"])) {
+			$done["filter_object_propertie"] = $info["get"]["filter_object_propertie"];
+			$filter["filter_object_propertie"] = " object_propertie = '%" . $info["get"]["filter_object_propertie"] . "%' ";
 		}
 		return array($done, $filter);
 	}
@@ -109,46 +109,56 @@ class properties_controller
 					)
 				);
 
-				$ordenation_positions = 'display_position-asc';
-				$ordenation_positions_ordenation = 'fas fa-border-none';
-				$ordenation_trail = 'trail_title-asc';
-				$ordenation_trail_ordenation = 'fas fa-border-none';
-				$ordenation_modifiedat = 'modified_at-asc';
-				$ordenation_modifiedat_ordenation = 'fas fa-border-none';
-				$ordenation_trail_status = 'trail_status-asc';
-				$ordenation_trail_status_ordenation = 'fas fa-border-none';
+				$ordenation_address = 'address-asc';
+				$ordenation_address_ordenation = 'bi bi-border';
+				$ordenation_district = 'district-asc';
+				$ordenation_district_ordenation = 'bi bi-border';
+				$ordenation_city = 'city-asc';
+				$ordenation_city_ordenation = 'bi bi-border';
+				$ordenation_uf = 'uf-asc';
+				$ordenation_uf_ordenation = 'bi bi-border';
+				$ordenation_objective = 'object_propertie-asc';
+				$ordenation_objective_ordenation = 'bi bi-border';
 				switch ($ordenation) {
-					case 'display_position asc':
-						$ordenation_positions = 'display_position-desc';
-						$ordenation_positions_ordenation = 'fas fa-angle-up';
+					case 'address asc':
+						$ordenation_address = 'address-desc';
+						$ordenation_address_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'display_position desc':
-						$ordenation_positions = 'display_position-asc';
-						$ordenation_positions_ordenation = 'fas fa-angle-down';
+					case 'address desc':
+						$ordenation_address = 'address-asc';
+						$ordenation_address_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'trail_title asc':
-						$ordenation_trail = 'trail_title-desc';
-						$ordenation_trail_ordenation = 'fas fa-angle-up';
+					case 'district asc':
+						$ordenation_district = 'district-desc';
+						$ordenation_district_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'trail_title desc':
-						$ordenation_trail = 'trail_title-asc';
-						$ordenation_trail_ordenation = 'fas fa-angle-down';
+					case 'district desc':
+						$ordenation_district = 'district-asc';
+						$ordenation_district_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'modified_at asc':
-						$ordenation_modifiedat = 'modified_at-desc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-up';
+					case 'city asc':
+						$ordenation_city = 'city-desc';
+						$ordenation_city_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'modified_at desc':
-						$ordenation_modifiedat = 'modified_at-asc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-down';
+					case 'city desc':
+						$ordenation_city = 'city-asc';
+						$ordenation_city_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'trail_status asc':
-						$ordenation_trail_status = 'trail_status-desc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-up';
+					case 'uf asc':
+						$ordenation_uf = 'uf-desc';
+						$ordenation_uf_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'trail_status desc':
-						$ordenation_trail_status = 'trail_status-asc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-down';
+					case 'uf desc':
+						$ordenation_uf = 'uf-asc';
+						$ordenation_uf_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'object_propertie asc':
+						$ordenation_objective = 'object_propertie-desc';
+						$ordenation_objective_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'object_propertie desc':
+						$ordenation_objective = 'object_propertie-asc';
+						$ordenation_objective_ordenation = 'bi bi-arrow-down';
 						break;
 				}
 
@@ -203,70 +213,10 @@ class properties_controller
 		include(constant("cRootServer") . "ui/common/head.inc.php");
 		include(constant("cRootServer") . "ui/page/properties/propertie.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
-		print("<script>");
-		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
-		print('})' . "\n");
+		print('<script>' . "\n");
 		include(constant("cRootServer") . "furniture/js/properties/propertie.js");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
-	}
-
-	/**
-	 * Search Client for Properties
-	 * 
-	 */
-	public function search_client($info)
-	{
-		if (!site_controller::check_login()) {
-			basic_redir($GLOBALS["home_url"]);
-		}
-
-		$done =  array();
-		$client = new clients_model();
-
-		if ($info["post"]["cod_client"] != null) {
-
-			// $done["filter_id"] = $info["get"]["filter_id"];
-			// $filter["filter_id"] = " idx like '%" . $info["get"]["filter_id"] . "%' ";
-
-			$client->set_filter(array(" idx = '" . $info["post"]["cod_client"] . "' "));
-		}
-
-		if ($info["post"]["name_client"] != null) {
-
-			$client->set_filter(array(" first_name = '" . $info["post"]["name_client"] . "' "));
-		}
-
-		if ($info["post"]["cpf_client"] != null) {
-
-			$client->set_filter(array(" document = '" . $info["post"]["cpf_client"] . "' "));
-		}
-
-		$client->load_data();
-		$data = $client->data;
-
-		echo json_encode($data);
-	}
-
-	/**
-	 * Select Client after search
-	 * 
-	 */
-	public function select_client($info)
-	{
-		if (!site_controller::check_login()) {
-			basic_redir($GLOBALS["home_url"]);
-		}
-
-		$client = new clients_model();
-
-		$client->set_filter(array(" idx = '" . $info["post"]["client_id"] . "' "));
-
-		$client->load_data();
-		$data = current($client->data);
-
-		echo json_encode($data);
 	}
 
 	public function save($info)
@@ -290,7 +240,7 @@ class properties_controller
 		} else {
 			$info["post"]["price_iptu"] = preg_replace("/[^0-9]/", "", $info["post"]["price_iptu_sale"]);
 		}
-	
+
 		$info["post"]["price_condominium"] = preg_replace("/[^0-9]/", "", $info["post"]["price_condominium"]);
 		$info["post"]["price_propertie"] = preg_replace("/[^0-9]/", "", $info["post"]["price_propertie"]);
 
@@ -345,7 +295,7 @@ class properties_controller
 				$extension_permited = ["pdf"];
 
 				if (array_search($extension, $extension_permited) >= 0) {
-					
+
 					$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["docs"]["name"][$i]));
 
 					$extension = date("YmdHis") . "." . $extension;
@@ -378,7 +328,7 @@ class properties_controller
 			$info["idx"] = $propertie->con->insert_id;
 		}
 
-		$propertie->save_attach( array("properties_id" => $info["idx"], "clients_id" => $info["post"]["clients_id"]) , array("clients" ), true );
+		$propertie->save_attach(array("properties_id" => $info["idx"], "clients_id" => $info["post"]["clients_id"]), array("clients"), true);
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

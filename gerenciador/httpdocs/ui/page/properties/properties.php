@@ -58,8 +58,8 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_obj">Objetivo da Propriedade</label>
-                    <select name="filter_obj" id="filter_obj" class="form-control">
+                    <label for="filter_object_propertie">Objetivo da Propriedade</label>
+                    <select name="filter_object_propertie" id="filter_object_propertie" class="form-control">
                         <option value="">Selecione</option>
                         <?php
                         foreach ($GLOBALS["propertie_objects"] as $k => $v) {
@@ -89,18 +89,18 @@
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
-                    <th>Id</th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Endereço <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th>Bairro</th>
-                    <th>Cidade</th>
-                    <th>UF</th>
-                    <th>Objetivo</th>
+                    <th>Código</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_district))) ?>">Bairro <i class="<?php print($ordenation_district_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_uf))) ?>">UF <i class="<?php print($ordenation_uf_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_objective))) ?>">Objetivo <i class="<?php print($ordenation_objective_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th colspan="6">
+                    <th colspan="7">
                         <div class="row col-lg-12">
                             <div class="col-lg-3 form-group">
                                 <select class="form-control" id="select_paginage" class="col-lg-3 ">
@@ -149,7 +149,7 @@
                 } else {
                     ?>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <p class="alert alert-warning text-center">Nenhum imovel encontrado...</p>
                         </td>
                     </tr>

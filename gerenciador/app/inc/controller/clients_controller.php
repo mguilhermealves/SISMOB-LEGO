@@ -20,6 +20,11 @@ class clients_controller
 		$done = array();
 		$filter = array(" active = 'yes' ");
 
+		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
+			$filter["q_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["q_name"] . "%' ";
+			$filter["q_enables"] = " enabled = 'yes' ";
+		}
+
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
 		}
@@ -36,7 +41,7 @@ class clients_controller
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " first_name like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
@@ -75,16 +80,34 @@ class clients_controller
 
 		$clients = new clients_model();
 
-		if ($info["format"] != ".json") {
-			$clients->set_paginate(array($info["sr"], $paginate));
-		} else {
-			$clients->set_paginate(array(0, 900000));
+		switch ($info["format"]) {
+			case ".autocomplete":
+				$clients->set_paginate(array(0, 12));
+				$info["get"]["enabled"] = 'yes';
+
+				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
+					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
+					$query = preg_replace("/\s+?|\t+?|\n+?/", " ", $query);
+					$query = preg_replace("/^ | $/", "", $query);
+					$query = preg_replace("/([A-z0-9\ \-\_])+?/", "$1", $query);
+
+					if (empty($query)) {
+						$query = " ";
+					} else {
+						$info["get"]["q_name"] = $query;
+					}
+				}
+				break;
+			default:
+				$clients->set_paginate(array((int)$info["sr"] > $paginate ? (int)$info["sr"] : 0, $paginate));
+				break;
 		}
 
 		$clients->set_filter($filter);
 		$clients->set_order(array($ordenation));
 		list($total, $data) = $clients->return_data();
 
+		$data = $clients->data;
 		switch ($info["format"]) {
 			case ".json":
 				header('Content-type: application/json');
@@ -93,6 +116,20 @@ class clients_controller
 						"total" => array("total" => $total), "row" => $data
 					)
 				);
+				break;
+			case ".autocomplete":
+				$out = array(
+					"query" => "", "suggestions" => array()
+				);
+				foreach ($data as $key => $value) {
+					$out["suggestions"][] = array(
+						"data" => $value, 
+						"value" => sprintf("%s %s (%s) ", $value["first_name"], $value["last_name"], $value["mail"])
+					);
+				}
+
+				header('Content-type: application/json');
+				echo json_encode($out);
 				break;
 			default:
 				$page = 'Clientes';
@@ -106,46 +143,66 @@ class clients_controller
 					)
 				);
 
-				$ordenation_name = 'display_position-asc';
-				$ordenation_name_ordenation = 'bi bi-arrow-up';
-				$ordenation_trail = 'trail_title-asc';
-				$ordenation_trail_ordenation = 'fas fa-border-none';
-				$ordenation_modifiedat = 'modified_at-asc';
-				$ordenation_modifiedat_ordenation = 'fas fa-border-none';
-				$ordenation_trail_status = 'trail_status-asc';
-				$ordenation_trail_status_ordenation = 'fas fa-border-none';
+				$ordenation_name = 'first_name-asc';
+				$ordenation_name_ordenation = 'bi bi-border';
+				$ordenation_document = 'document-asc';
+				$ordenation_document_ordenation = 'bi bi-border';
+				$ordenation_address = 'address-asc';
+				$ordenation_address_ordenation = 'bi bi-border';
+				$ordenation_district = 'district-asc';
+				$ordenation_district_ordenation = 'bi bi-border';
+				$ordenation_city = 'city-asc';
+				$ordenation_city_ordenation = 'bi bi-border';
+				$ordenation_uf = 'uf-asc';
+				$ordenation_uf_ordenation = 'bi bi-border';
 				switch ($ordenation) {
-					case 'display_position asc':
-						$ordenation_name = 'display_position-desc';
-						$ordenation_name_ordenation = 'fas fa-angle-up';
+					case 'first_name asc':
+						$ordenation_name = 'first_name-desc';
+						$ordenation_name_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'display_position desc':
-						$ordenation_name = 'display_position-asc';
+					case 'first_name desc':
+						$ordenation_name = 'first_name-asc';
 						$ordenation_name_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'trail_title asc':
-						$ordenation_trail = 'trail_title-desc';
-						$ordenation_trail_ordenation = 'fas fa-angle-up';
+					case 'document asc':
+						$ordenation_document = 'document-desc';
+						$ordenation_document_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'trail_title desc':
-						$ordenation_trail = 'trail_title-asc';
-						$ordenation_trail_ordenation = 'fas fa-angle-down';
+					case 'document desc':
+						$ordenation_document = 'document-asc';
+						$ordenation_document_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'modified_at asc':
-						$ordenation_modifiedat = 'modified_at-desc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-up';
+					case 'address asc':
+						$ordenation_address = 'address-desc';
+						$ordenation_address_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'modified_at desc':
-						$ordenation_modifiedat = 'modified_at-asc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-down';
+					case 'address desc':
+						$ordenation_address = 'address-asc';
+						$ordenation_address_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'trail_status asc':
-						$ordenation_trail_status = 'trail_status-desc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-up';
+					case 'district asc':
+						$ordenation_district = 'district-desc';
+						$ordenation_district_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'trail_status desc':
-						$ordenation_trail_status = 'trail_status-asc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-down';
+					case 'district desc':
+						$ordenation_district = 'district-asc';
+						$ordenation_district_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'city asc':
+						$ordenation_city = 'city-desc';
+						$ordenation_city_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'city desc':
+						$ordenation_city = 'city-asc';
+						$ordenation_city_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'uf asc':
+						$ordenation_uf = 'uf-desc';
+						$ordenation_uf_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'uf desc':
+						$ordenation_uf = 'uf-asc';
+						$ordenation_uf_ordenation = 'bi bi-arrow-down';
 						break;
 				}
 
@@ -155,13 +212,6 @@ class clients_controller
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
-				print('    data_agendas_json = {' . "\n");
-				print('        url: "' . $GLOBALS["scheduleds_url"] . '.json"' . "\n");
-				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["scheduled_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
-				print('        , template: ""' . "\n");
-				print('        , page: 1' . "\n");
-				print('    }' . "\n");
 				include(constant("cRootServer") . "furniture/js/client/clients.js");
 				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
@@ -271,7 +321,7 @@ class clients_controller
 			$client->save_attach("partners");
 		}
 
-		print_r( $_SESSION["messages_app"]["success"] = array("Cliente Cadastrado com sucesso.") );
+		print_r($_SESSION["messages_app"]["success"] = array("Cliente Cadastrado com sucesso."));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

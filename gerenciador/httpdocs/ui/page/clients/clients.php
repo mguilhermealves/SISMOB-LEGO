@@ -76,11 +76,11 @@
                 <tr>
                     <th>Id</th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th>CPF</th>
-                    <th>Endereço</th>
-                    <th>Bairro</th>
-                    <th>Cidade</th>
-                    <th>UF</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_document))) ?>">CPF <i class="<?php print($ordenation_document_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_district))) ?>">Bairro <i class="<?php print($ordenation_district_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_uf))) ?>">UF <i class="<?php print($ordenation_uf_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>
             </thead>
