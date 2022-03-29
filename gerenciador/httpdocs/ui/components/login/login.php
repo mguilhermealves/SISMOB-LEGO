@@ -1,8 +1,10 @@
 <div class="body_login">
     <div class="login_container col-lg-6 col-xl-6 col-md-12 col-sm-12 col-xs-12 mx-auto">
-        <div class="container_custom py-3">
+        <div class="container_custom">
             <div class="login_header">
-                <h1 class="display-5">SYSMOB</h1>
+                <div class="login_header">
+                    <img class="img-fluid" src="<?php printf("%simg/logo.jpeg", constant("cFurniture")) ?>">
+                </div>
             </div>
 
             <div class="login_body">
@@ -22,7 +24,7 @@
                         </div>
 
                         <br>
-                        
+
                         <div class="d-flex flex-column input-group-prepend">
                             <label>Senha:</label>
                             <input name="password" type="password" class="form-control" placeholder="Senha" aria-label="Senha" aria-describedby="senha" required>
@@ -38,7 +40,7 @@
                             </div>
                         </div> -->
                     </div>
-                    <button name="btn_save" class="btn btn-block form-control " style="color: #fff;background-color: #f26724;">Acessar</button>
+                    <button name="btn_save" class="btn btn-block form-control " style="color: #fff;background-color: #26348c;">Acessar o Sistema</button>
                 </form>
             </div>
         </div>
