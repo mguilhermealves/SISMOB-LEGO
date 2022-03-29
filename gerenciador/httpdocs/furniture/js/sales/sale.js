@@ -3,6 +3,10 @@ $(document).ready(function () {
     $('.money').mask("#.##0,00", {
         reverse: true
     });
+    $('.document').mask("999.999.999-99");
+    $('.phone').mask("(99) 9999-9999");
+    $('.celphone').mask("(99) 99999-9999");
+    $('.code_postal').mask("99999-999");
 
     $(".properties_search").autocomplete({
         serviceUrl: '<?php print($GLOBALS["properties_url"]) ?>.autocomplete',
@@ -12,7 +16,6 @@ $(document).ready(function () {
         noCache: true,
         onSelect: function (sugestion) {
             console.log(sugestion);
-            
             $("#cod_propertie").val(sugestion.data.idx);
             $("#cod_client").val(sugestion.data.clients_attach[0].idx);
             $("#client_first_name").val(sugestion.data.clients_attach[0].first_name);
@@ -25,6 +28,12 @@ $(document).ready(function () {
             $("#client_district").val(sugestion.data.district);
             $("#client_city").val(sugestion.data.city);
             $("#client_uf").val(sugestion.data.uf);
+            $("#price_sale").val(sugestion.data.price_sale);
+            $("#price_propertie").val(sugestion.data.price_propertie);
+            $("#price_iptu").val(sugestion.data.price_iptu);
+            $("#price_condominium").val(sugestion.data.price_condominium);
+            $("#type_propertie").val(sugestion.data.type_propertie);
+            $("#object_propertie").val(sugestion.data.object_propertie);
         }
     });
 

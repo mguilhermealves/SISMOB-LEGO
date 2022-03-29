@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Venda</p>
+    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Vendas</p>
     <hr class="col-lg-11 mx-auto" />
 
     <!-- Button trigger modal -->
@@ -13,29 +13,29 @@
                 <p class="h6 text-blue">Filtros de Busca:</p>
                 <hr>
             </div>
-
+            
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_name">Primeiro Nome:</label>
+                    <label for="filter_name">Nome do Comprador:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome">
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_cpf">CPF:</label>
+                    <label for="filter_cpf">CPF do Comprador:</label>
                     <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="form-control" placeholder="Digite o CPF">
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_district">Bairro:</label>
+                    <label for="filter_district">Bairro do Comprador:</label>
                     <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="form-control" placeholder="Digite o Bairro">
                 </div>
             </div>
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_uf">UF</label>
+                    <label for="filter_uf">UF do Comprador</label>
                     <select name="filter_uf" id="filter_uf" class="form-control">
                         <option value="">Selecione</option>
                         <?php
@@ -49,7 +49,7 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_contract">N° Contrato:</label>
+                    <label for="filter_contract">N° Contrato do Comprador:</label>
                     <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="form-control" placeholder="Digite o n° do contrato">
                 </div>
             </div>
@@ -70,17 +70,18 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>Id</th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Endereço <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th>Bairro</th>
-                    <th>Cidade</th>
-                    <th>UF</th>
-                    <th>Objetivo da Propriedade</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Nome <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_uf))) ?>">UF <i class="<?php print($ordenation_uf_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_is_aproved))) ?>">Aprovado <i class="<?php print($ordenation_is_aproved_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_ncontract))) ?>">N° Contrato <i class="<?php print($ordenation_ncontract_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th colspan="7">
+                    <th colspan="8">
                         <div class="row col-lg-12">
                             <div class="col-lg-3 form-group">
                                 <select class="form-control" id="select_paginage" class="col-lg-3 ">
@@ -107,13 +108,22 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
+                            <td><?php print($v["first_name"] . " " . $v["last_name"]); ?></td>
                             <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
-                            <td><?php print($v["district"]); ?></td>
                             <td><?php print($v["city"]); ?></td>
                             <td><?php print($v["uf"]); ?></td>
-                            <td><?php print($v["object_propertie"]); ?></td>
+                            <td>
+                                <?php
+                                if ($v["is_aproved"] == "reproved" || $v["is_aproved"] == "pending") {
+                                    print("Não");
+                                } else {
+                                    print("Sim");
+                                }
+                                ?>
+                            </td>
+                            <td><?php print($v["n_contract"]); ?></td>
                             <th>
-                                <a type="button" class="btn btn-outline-primary btn-sm" href="/locacao/<?php print($v["idx"]) ?>"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="/venda/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
                         </tr>
                     <?php
@@ -121,7 +131,7 @@
                 } else {
                     ?>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <p class="alert alert-warning text-center">Nenhuma venda encontrada...</p>
                         </td>
                     </tr>

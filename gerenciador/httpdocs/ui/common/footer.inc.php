@@ -13,9 +13,9 @@
       }
       ?>
       </div>
-      <hr class="mb-0" style="width: 100%; height: 3px; background: rgb(230 230 230);" />
+      <hr class="mb-0" style="width: 100%; height: 3px;" />
       <div class="footer" style="background-color:#FFFFFF">
-        <div class="container text-center pt-4">
+        <div class="container text-center pt-4 footer-desc">
           © COPYRIGHT 2021-<?php print(date("Y")); ?> | SISMOB | TODOS OS DIREITOS RESERVADOS.
         </div>
       </div>

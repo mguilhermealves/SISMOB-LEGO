@@ -275,7 +275,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">R$</span>
                                             </div>
-                                            <input type="text" name="porcent_propertie" class="form-control money" value="<?php print(isset($data["price_sale"]) ? $data["price_sale"] : "") ?>" autofocus>
+                                            <input type="text" name="price_sale" class="form-control money" value="<?php print(isset($data["price_sale"]) ? $data["price_sale"] : "") ?>" autofocus>
                                         </div>
                                     </div>
 
@@ -285,7 +285,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">R$</span>
                                             </div>
-                                            <input type="text" name="price_iptu_sale" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
+                                            <input type="text" name="price_iptu" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
                                         </div>
                                     </div>
 
@@ -338,7 +338,7 @@
                                     <div class="col-lg-4" name="is_financer">
                                         <div class="form-group">
                                             <label>Nome da Financiadora</label>
-                                            <input type="text" name="financer_name" class="form-control" autofocus>
+                                            <input type="text" name="financer_name" class="form-control" value="<?php print(isset($data["financer_name"]) ? $data["financer_name"] : "") ?>" autofocus>
                                         </div>
                                     </div>
 

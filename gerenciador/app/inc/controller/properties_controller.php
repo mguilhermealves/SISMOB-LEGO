@@ -125,13 +125,13 @@ class properties_controller
 				$out = array(
 					"query" => "", "suggestions" => array()
 				);
-				foreach ($data as $key => $value) {
+				foreach ($data as $k => $value) {
 					if ($value["is_used"] == 'no') {
 						$out["suggestions"][] = array(
 							"data" => $value,
-							"value" => sprintf("%s %s (%s) ", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"])
+							"value" => sprintf("%s %s (%s) - %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"], "Imóvel Disponível.")
 						);
-					}
+					} 
 				}
 
 				header('Content-type: application/json');
@@ -273,16 +273,15 @@ class properties_controller
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
 
-		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
-		$info["post"]["price_location"] = preg_replace("/[^0-9]/", "", $info["post"]["price_location"]);
+		$info["post"]["price_iptu"] = preg_replace("/[^0-9]/", "", $info["post"]["price_iptu"]);
 		if ($info["post"]["object_propertie"] == "location") {
-			$info["post"]["price_iptu"] = preg_replace("/[^0-9]/", "", $info["post"]["price_iptu"]);
+			$info["post"]["price_location"] = preg_replace("/[^0-9]/", "", $info["post"]["price_location"]);
+			$info["post"]["price_condominium"] = preg_replace("/[^0-9]/", "", $info["post"]["price_condominium"]);
 		} else {
-			$info["post"]["price_iptu"] = preg_replace("/[^0-9]/", "", $info["post"]["price_iptu_sale"]);
+			$info["post"]["porcent_propertie"] = preg_replace("/[^0-9]/", "", $info["post"]["porcent_propertie"]);
+			$info["post"]["price_propertie"] = preg_replace("/[^0-9]/", "", $info["post"]["price_propertie"]);
+			$info["post"]["price_sale"] = preg_replace("/[^0-9]/", "", $info["post"]["price_sale"]);
 		}
-
-		$info["post"]["price_condominium"] = preg_replace("/[^0-9]/", "", $info["post"]["price_condominium"]);
-		$info["post"]["price_propertie"] = preg_replace("/[^0-9]/", "", $info["post"]["price_propertie"]);
 
 		/* Imagens */
 		$arrayImages = [];
@@ -368,7 +367,7 @@ class properties_controller
 			$info["idx"] = $propertie->con->insert_id;
 		}
 
-		$propertie->save_attach(array("properties_id" => $info["idx"], "clients_id" => $info["post"]["clients_id"]), array("clients"), true);
+		$propertie->save_attach(array("properties_id" => $info["idx"], "clients_id" => $info["post"]["cod_client"]), array("clients"), true);
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

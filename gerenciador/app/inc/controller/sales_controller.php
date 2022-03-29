@@ -50,7 +50,7 @@ class sales_controller
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " first_name like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ";
 		}
 
 		return array($done, $filter);
@@ -78,8 +78,8 @@ class sales_controller
 		$sales->set_order(array($ordenation));
 
 		list($total, $data) = $sales->return_data();
-		// $sales->attach(array("offices", "partners", "properties"));
-		// $sales->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$sales->attach(array("offices", "partners", "properties"));
+		$sales->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 		$data = $sales->data;
 
 		switch ($info["format"]) {
@@ -103,11 +103,29 @@ class sales_controller
 					)
 				);
 
+				$ordenation_first_name = 'first_name-asc';
+				$ordenation_first_name_ordenation = 'bi bi-border';
 				$ordenation_address = 'address-asc';
-				$ordenation_address_ordenation = 'fas fa-border-none';
-				$ordenation_ncontract = 'n_contract-asc';
-				$ordenation_ncontract_ordenation = 'fas fa-border-none';
+				$ordenation_address_ordenation = 'bi bi-border';
+				$ordenation_district = 'district-asc';
+				$ordenation_district_ordenation = 'bi bi-border';
+				$ordenation_city = 'city-asc';
+				$ordenation_city_ordenation = 'bi bi-border';
+				$ordenation_uf = 'uf-asc';
+				$ordenation_uf_ordenation = 'bi bi-border';
+				$ordenation_is_aproved = 'is_aproved-asc';
+				$ordenation_is_aproved_ordenation = 'bi bi-border';
+				$ordenation_ncontract = 'is_aproved-asc';
+				$ordenation_ncontract_ordenation = 'bi bi-border';
 				switch ($ordenation) {
+					case 'first_name asc':
+						$ordenation_first_name = 'first_name-desc';
+						$ordenation_first_name_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'first_name desc':
+						$ordenation_first_name = 'first_name-asc';
+						$ordenation_first_name_ordenation = 'bi bi-arrow-down';
+						break;
 					case 'address asc':
 						$ordenation_address = 'address-desc';
 						$ordenation_address_ordenation = 'bi bi-arrow-up';
@@ -117,20 +135,44 @@ class sales_controller
 						$ordenation_address_ordenation = 'bi bi-arrow-down';
 						break;
 					case 'n_contract asc':
+						$ordenation_district = 'n_contract-desc';
+						$ordenation_district_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'city desc':
+						$ordenation_district = 'city-asc';
+						$ordenation_district_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'city asc':
+						$ordenation_city = 'city-desc';
+						$ordenation_city_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'n_contract desc':
+						$ordenation_city = 'n_contract-asc';
+						$ordenation_city_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'uf asc':
+						$ordenation_uf = 'uf-desc';
+						$ordenation_uf_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'uf desc':
+						$ordenation_uf = 'uf-asc';
+						$ordenation_uf_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'is_aproved asc':
+						$ordenation_is_aproved = 'is_aproved-desc';
+						$ordenation_is_aproved_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'is_aproved desc':
+						$ordenation_is_aproved = 'is_aproved-asc';
+						$ordenation_is_aproved_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'n_contract asc':
 						$ordenation_ncontract = 'n_contract-desc';
 						$ordenation_ncontract_ordenation = 'bi bi-arrow-up';
 						break;
 					case 'n_contract desc':
 						$ordenation_ncontract = 'n_contract-asc';
 						$ordenation_ncontract_ordenation = 'bi bi-arrow-down';
-						break;
-					case 'created_at asc':
-						$ordenation_createdat = 'created_at-desc';
-						$ordenation_createdat_ordenation = 'bi bi-arrow-up';
-						break;
-					case 'created_at desc':
-						$ordenation_createdat = 'created_at-asc';
-						$ordenation_createdat_ordenation = 'bi bi-arrow-down';
 						break;
 				}
 
@@ -164,8 +206,8 @@ class sales_controller
 			$sale = new sales_model();
 			$sale->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$sale->load_data();
-			// $sale->attach(array("offices", "partners", "properties"));
-			// $sale->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+			$sale->attach(array("offices", "partners", "properties"));
+			$sale->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 			$data = current($sale->data);
 			$form = array(
 				"title" => "Editar Venda",
@@ -188,74 +230,9 @@ class sales_controller
 		include(constant("cRootServer") . "ui/page/sales/sale.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
 		print("<script>");
-		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
-		print('})' . "\n");
 		include(constant("cRootServer") . "furniture/js/sales/sale.js");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
-	}
-
-	/**
-	 * Search Propertie for clients
-	 * 
-	 */
-	public function search_propertie($info)
-	{
-		if (!site_controller::check_login()) {
-			basic_redir($GLOBALS["home_url"]);
-		}
-
-		$done =  array();
-		$properties = new properties_model();
-
-		if ($info["post"]["cod_propertie"] != null) {
-			$properties->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
-
-			$properties->load_data();
-			$data = $properties->data;
-		}
-
-		$clients = new clients_model();
-
-		if ($info["post"]["name_client"] != null) {
-
-			$clients->set_filter(array(" first_name = '" . $info["post"]["name_client"] . "' "));
-
-			$clients->load_data();
-			$data = $clients->data;
-		}
-
-		if ($info["post"]["cpf_client"] != null) {
-
-			$clients->set_filter(array(" document = '" . $info["post"]["cpf_client"] . "' "));
-
-			$clients->load_data();
-			$data = $clients->data;
-		}
-
-		echo json_encode($data);
-	}
-
-	/**
-	 * Select Propertie after search
-	 * 
-	 */
-	public function select_propertie($info)
-	{
-		if (!site_controller::check_login()) {
-			basic_redir($GLOBALS["home_url"]);
-		}
-
-		$client = new properties_model();
-
-		$client->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' and is_used = 'no' "));
-
-		$client->load_data();
-		$client->attach(array("clients"), true);
-		$data = current($client->data);
-
-		echo json_encode($data);
 	}
 
 	public function save($info)
@@ -268,9 +245,13 @@ class sales_controller
 
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$sale->set_filter(array(" idx = '" . $info["idx"] . "' "));
-		} else {
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
+
+		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
+		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
+		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
+		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
 
 		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
 			$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");
@@ -290,7 +271,7 @@ class sales_controller
 			$info["post"]["properties"]["is_used"] = "yes";
 
 			$propertie = new properties_model();
-			$propertie->set_filter(array(" idx = '" . $info["post"]["properties_id"] . "' "));
+			$propertie->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
 
 			$propertie->populate($info["post"]["properties"]);
 			$propertie->save();
@@ -303,7 +284,7 @@ class sales_controller
 			$info["idx"] = $sale->con->insert_id;
 		}
 
-		$sale->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
+		$sale->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["cod_propertie"])), array("properties"));
 
 		/* save office */
 		$office = new offices_model();
@@ -323,7 +304,7 @@ class sales_controller
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
 		} else {
-			basic_redir($GLOBALS["locations_url"]);
+			basic_redir($GLOBALS["sales_url"]);
 		}
 	}
 
@@ -355,7 +336,7 @@ class sales_controller
 		$dompdf->render();
 
 		$dompdf->stream(
-			"contrato.pdf",
+			"contrato-de-venda.pdf",
 			array(
 				"Attachment" => true
 			)

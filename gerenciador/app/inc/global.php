@@ -18,7 +18,7 @@ define ("cBancoStr", 'mysql_imobiliaria');
 define("prefix_tables" , "");
 
 define( "cAppKey" , "sismob.gerenciador" );
-define( "cTitle" , "SYSMOB - Sistema Gestão de Imobiliárias" );
+define( "cTitle" , "SysMob - Sistema Gestão Imobiliárias" );
 
 define( "cAppRoot" , "/" );
 define( "cRootServer" ,  sprintf( "%s%s" , $_SERVER["DOCUMENT_ROOT"] , "/" ) ) ;
