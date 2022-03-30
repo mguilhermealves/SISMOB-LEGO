@@ -258,16 +258,26 @@ class clients_controller
 
 		$client = new clients_model();
 
+		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
+		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
+		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
+		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
+
+		$client->set_filter(array(" document = '" . $info["post"]["document"] . "' "));
+		$client->load_data();
+		$data = current($client->data);
+
+		if (!empty($data)) {
+			$_SESSION["messages_app"]["warning"][] = "Já existe um cadastro com esse CPF, favor verificar!";
+
+			basic_redir($GLOBALS["clients_url"]);
+		}
+
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$client->set_filter(array(" idx = '" . $info["idx"] . "' "));
 		} else {
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
-
-		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
-		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
-		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
-		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
 
 		$client->populate($info["post"]);
 		$client->save();

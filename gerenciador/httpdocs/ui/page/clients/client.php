@@ -52,14 +52,14 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">RG</label>
-                                        <input id="name" type="text" class="form-control" name="rg" value="<?php print(isset($data["rg"]) ? $data["rg"] : "") ?>" required>
+                                        <input id="name" type="text" class="form-control" name="rg" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?php print(isset($data["rg"]) ? $data["rg"] : "") ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">CNH</label>
-                                        <input id="name" type="text" class="form-control" name="cnh" value="<?php print(isset($data["cnh"]) ? $data["cnh"] : "") ?>" required>
+                                        <input id="name" type="text" class="form-control" name="cnh" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?php print(isset($data["cnh"]) ? $data["cnh"] : "") ?>" required>
                                     </div>
                                 </div>
 
@@ -216,14 +216,14 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">RG</label>
-                                            <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["rg_partner"] : "") ?>">
+                                            <input id="name" type="text" class="form-control" name="partner[rg_partner]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["rg_partner"] : "") ?>">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">CNH</label>
-                                            <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["cnh_partner"] : "") ?>">
+                                            <input id="name" type="text" class="form-control" name="partner[cnh_partner]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["cnh_partner"] : "") ?>">
                                         </div>
                                     </div>
 
