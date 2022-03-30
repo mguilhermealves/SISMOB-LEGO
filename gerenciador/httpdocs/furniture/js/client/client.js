@@ -3,8 +3,7 @@ $(document).ready(function () {
     $('#phone').mask("(99) 9999-9999");
     $('#celphone').mask("(99) 99999-9999");
     $('#code_postal').mask("99999-999");
-    $('#document').mask("999.999.999-99");
-    $('#document_partner').mask("999.999.999-99");
+    $('.document').mask("999.999.999-99");
 
     var status = ($('#marital_status').val());
 

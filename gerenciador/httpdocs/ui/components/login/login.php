@@ -29,16 +29,6 @@
                             <label>Senha:</label>
                             <input name="password" type="password" class="form-control" placeholder="Senha" aria-label="Senha" aria-describedby="senha" required>
                         </div>
-
-                        <!-- <div class="d-flex align-itens-center justify-content-between input-group-prepend pt-3">
-                            <div>
-                                <input type="checkbox" label="Lembrar-me" class="mr-2">
-                                <label class="mb-0">Lembrar-me</label>
-                            </div>
-                            <div>
-                                <a href="<?php print($GLOBALS["password_url"]) ?>" class="text-secondary" style="font-size: 0.75rem;">Esqueceu a Senha?</a>
-                            </div>
-                        </div> -->
                     </div>
                     <button name="btn_save" class="btn btn-block form-control " style="color: #fff;background-color: #26348c;">Acessar o Sistema</button>
                 </form>

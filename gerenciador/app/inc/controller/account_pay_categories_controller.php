@@ -22,7 +22,6 @@ class account_pay_categories_controller
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
 			$filter["q_name"] = " name like '%" . $info["get"]["q_name"] . "%' ";
-			$filter["q_enables"] = " enabled = 'yes' ";
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
@@ -51,14 +50,11 @@ class account_pay_categories_controller
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
 		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
 
-		list($done, $filter) = $this->filter($info);
-
 		$categories = new account_pay_categories_model();
 
 		switch ($info["format"]) {
 			case ".autocomplete":
 				$categories->set_paginate(array(0, 12));
-				$info["get"]["enabled"] = 'yes';
 
 				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
 					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
@@ -78,10 +74,11 @@ class account_pay_categories_controller
 				break;
 		}
 
+		list($done, $filter) = $this->filter($info);
 		$categories->set_filter($filter);
-		$categories->set_order(array($ordenation));
 
 		list($total, $data) = $categories->return_data();
+		$data = $categories->data;
 
 		$data = $categories->data;
 		switch ($info["format"]) {

@@ -434,7 +434,7 @@
                 </div>
 
                 <div class="col-sm-12 text-right btn">
-                    <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Editar" : "Salvar") ?></button>
+                    <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
                 </div>
             </form>
         </div>

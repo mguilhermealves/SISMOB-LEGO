@@ -22,7 +22,7 @@ class properties_controller
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
 			$filter["q_name"] = " first_name like '%" . $info["get"]["q_name"] . "%' and is_used = 'no' ";
-			$filter["q_enables"] = " enabled = 'yes' ";
+			$filter["q_is_used"] = " is_used = 'no' ";
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
@@ -86,7 +86,7 @@ class properties_controller
 		switch ($info["format"]) {
 			case ".autocomplete":
 				$properties->set_paginate(array(0, 12));
-				$info["get"]["enabled"] = 'yes';
+				$info["get"]["q_is_used"] = 'no';
 
 				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
 					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
@@ -106,10 +106,12 @@ class properties_controller
 				break;
 		}
 
+		list($done, $filter) = $this->filter($info);
 		$properties->set_filter($filter);
-		$properties->set_order(array($ordenation));
+
 		list($total, $data) = $properties->return_data();
 		$properties->attach(array("clients"), true);
+		$data = $properties->data;
 
 		$data = $properties->data;
 		switch ($info["format"]) {

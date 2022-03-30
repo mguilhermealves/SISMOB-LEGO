@@ -96,7 +96,7 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["name"]); ?></td>
-                            <td><?php print(str_pad($v["idx"], 3, '0', STR_PAD_LEFT)); ?></td>
+                            <td><?php print($v["cost_center"]); ?></td>
                             <td><?php print($v["account_pay_categories_attach"][0]["name"]); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="/contas-a-pagar/centro-de-custo/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>

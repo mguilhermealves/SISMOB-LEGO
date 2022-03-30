@@ -56,8 +56,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="cost_center">N° Centro de Custo</label>
-                                            <input id="cost_center" type="text" class="form-control" name="cost_center" value="<?php print(isset($data["idx"]) ? str_pad($data["idx"], 3, '0', STR_PAD_LEFT) : "") ?>" disabled>
-                                            <input id="cost_center" type="hidden" class="form-control" name="cost_center" value="<?php print(isset($data["idx"]) ? $data["idx"] : "") ?>">
+                                            <input id="cost_center" type="text" class="form-control" name="cost_center" value="<?php print(isset($data["idx"]) ? str_pad($data["idx"], 3, '0', STR_PAD_LEFT) : "") ?>">
                                         </div>
                                     </div>
 

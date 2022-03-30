@@ -490,16 +490,6 @@
                                         </div>
 
                                         <div class="col-lg-4">
-                                            <label>Valor do Imóvel</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">R$</span>
-                                                </div>
-                                                <input type="text" id="price_propertie" name="price_propertie" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["price_propertie"] : "") ?>" class="form-control money" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
                                             <label>Valor IPTU</label>
                                             <div class="input-group mb-3">
                                                 <div class="input-group-prepend">

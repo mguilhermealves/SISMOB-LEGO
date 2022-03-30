@@ -10,9 +10,7 @@ $(document).ready(function () {
         minChars: 3,
         deferRequestBy: 5,
         noCache: true,
-        onSelect: function (sugestion) {
-            console.log(sugestion);
-            
+        onSelect: function (sugestion) {            
             $("#cod_propertie").val(sugestion.data.idx);
             $("#cod_client").val(sugestion.data.clients_attach[0].idx);
             $("#client_first_name").val(sugestion.data.clients_attach[0].first_name);

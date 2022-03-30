@@ -22,7 +22,6 @@ class clients_controller
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
 			$filter["q_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["q_name"] . "%' ";
-			$filter["q_enables"] = " enabled = 'yes' ";
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
@@ -76,14 +75,11 @@ class clients_controller
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
 		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
 
-		list($done, $filter) = $this->filter($info);
-
 		$clients = new clients_model();
 
 		switch ($info["format"]) {
 			case ".autocomplete":
 				$clients->set_paginate(array(0, 12));
-				$info["get"]["enabled"] = 'yes';
 
 				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
 					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
@@ -102,28 +98,22 @@ class clients_controller
 				$clients->set_paginate(array((int)$info["sr"] > $paginate ? (int)$info["sr"] : 0, $paginate));
 				break;
 		}
-
+		list($done, $filter) = $this->filter($info);
 		$clients->set_filter($filter);
-		$clients->set_order(array($ordenation));
-		list($total, $data) = $clients->return_data();
 
+		list($total, $data) = $clients->return_data();
 		$data = $clients->data;
+
 		switch ($info["format"]) {
-			case ".json":
-				header('Content-type: application/json');
-				echo json_encode(
-					array(
-						"total" => array("total" => $total), "row" => $data
-					)
-				);
-				break;
 			case ".autocomplete":
+				
 				$out = array(
 					"query" => "", "suggestions" => array()
 				);
+
 				foreach ($data as $key => $value) {
 					$out["suggestions"][] = array(
-						"data" => $value, 
+						"data" => $value,
 						"value" => sprintf("%s %s (%s) ", $value["first_name"], $value["last_name"], $value["mail"])
 					);
 				}
@@ -287,41 +277,37 @@ class clients_controller
 		}
 
 		if ($info["post"]["marital_status"] == "married") {
-			if (isset($_FILES["partner"]) && is_file($_FILES["partner"]["tmp_name"])) {
 
-				$d = preg_split("/\./", $_FILES["partner"]["name"]);
+			if (isset($_FILES["partner"]) && is_file($_FILES["partner"]["tmp_name"]["file"])) {
+
+				$d = preg_split("/\./", $_FILES["partner"]["name"]["file"]);
 
 				$extension = $d[count($d) - 1];
 
-				$extension_permited = ["pdf"];
+				$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["partner"]["name"]["file"]));
+				$extension = date("YmdHis") . "." . $extension;
+				$file = "furniture/upload/client/" . $info["idx"] . "/partner/certification/" . $name . $extension;
 
-				if (array_search($d[1], $extension_permited)) {
-					$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["partner"]["name"]));
-					$extension = date("YmdHis") . "." . $extension;
-					$file = "furniture/upload/client/" . $info["idx"] . "/partner/certification/" . $name . $extension;
-
-					if (!file_exists(dirname(constant("cRootServer") . $file))) {
-						mkdir(dirname(constant("cRootServer") . $file), true);
-						chmod(dirname(constant("cRootServer") . $file), 0775);
-					}
-					if (file_exists(constant("cRootServer") . $file)) {
-						unlink(constant("cRootServer") . $file);
-					}
-					move_uploaded_file($_FILES["thumb"]["tmp_name"], constant("cRootServer") . $file);
-					$info["post"]["ico"] = $file;
-				} else {
-					$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo, extensão nao permitida. Somente (.PDF)";
+				if (!file_exists(dirname(constant("cRootServer") . $file))) {
+					mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+					chmod(dirname(constant("cRootServer") . $file), 0775);
 				}
+				if (file_exists(constant("cRootServer") . $file)) {
+					unlink(constant("cRootServer") . $file);
+				}
+				move_uploaded_file($_FILES["partner"]["tmp_name"]["file"], constant("cRootServer") . $file);
+				$info["post"]["ico"] = $file;
 			}
 
 			$partner = new partners_model();
-			$partner->populate($info["post"]);
+			$partner->populate($info["post"]["partner"]);
 			$partner->save();
+			$info["post"]["partners_id"] = $partner->con->insert_id;
 
-			$client->save_attach("partners");
+			$client->save_attach($info, array("partners"));
 		}
 
-		print_r($_SESSION["messages_app"]["success"] = array("Cliente Cadastrado com sucesso."));
+		$_SESSION["messages_app"]["success"] = array("Cliente Cadastrado com sucesso.");
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

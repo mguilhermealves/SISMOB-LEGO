@@ -29,7 +29,6 @@ $(document).ready(function () {
             $("#client_city").val(sugestion.data.city);
             $("#client_uf").val(sugestion.data.uf);
             $("#price_sale").val(sugestion.data.price_sale);
-            $("#price_propertie").val(sugestion.data.price_propertie);
             $("#price_iptu").val(sugestion.data.price_iptu);
             $("#price_condominium").val(sugestion.data.price_condominium);
             $("#type_propertie").val(sugestion.data.type_propertie);

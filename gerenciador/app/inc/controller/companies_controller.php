@@ -1,11 +1,11 @@
 <?php
 class companies_controller
 {
-	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "name")
+	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "")
 	{
 		$boiler = new companies_model();
 		$boiler->set_field(array($key, $field));
-		$boiler->set_order(array(" name asc "));
+		$boiler->set_order(array(" idx asc "));
 		$boiler->set_filter($filters);
 		$boiler->load_data();
 		$out = array();
@@ -19,15 +19,9 @@ class companies_controller
 	{
 		$done = array();
 		$filter = array(" active = 'yes' ");
-		if (!in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"], array(1, 2)) && !in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array('adm-premier', 'gestor-hsol'))) {
-			//$done["filter_profiles"] = $info["get"]["filter_profiles"];
-			$profiles_id = array_keys(profiles_controller::data4select("idx", array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"] . " in ( idx, parent ) ")));
-			$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id in ( '" . implode("','", $profiles_id) . "') ) ";
-		} else {
-			if (isset($info["get"]["filter_profiles"]) && !empty($info["get"]["filter_profiles"])) {
-				$done["filter_profiles"] = $info["get"]["filter_profiles"];
-				$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id = '" . $info["get"]["filter_profiles"] . "' ) ";
-			}
+
+		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
+			$filter["q_name"] = " name like '%" . $info["get"]["q_name"] . "%' ";
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
@@ -39,24 +33,12 @@ class companies_controller
 		if (isset($info["get"]["ordenation"]) && !empty($info["get"]["ordenation"])) {
 			$done["ordenation"] = $info["get"]["ordenation"];
 		}
-		if (isset($info["get"]["filter_id"]) && !empty($info["get"]["filter_id"])) {
-			$done["filter_id"] = $info["get"]["filter_id"];
-			$filter["filter_id"] = " idx like '%" . $info["get"]["filter_id"] . "%' ";
-		}
-
-		if (isset($info["get"]["filter_title"]) && !empty($info["get"]["filter_title"])) {
-			$done["filter_title"] = $info["get"]["filter_title"];
-			$filter["filter_title"] = " trail_title like '%" . $info["get"]["filter_title"] . "%' ";
-		}
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " trail_title like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " name like '%" . $info["get"]["filter_name"] . "%' ";
 		}
-		if (isset($info["get"]["filter_trail_status"]) && !empty($info["get"]["filter_trail_status"])) {
-			$done["filter_trail_status"] = $info["get"]["filter_trail_status"];
-			$filter["filter_trail_status"] = " trail_status = '" . $info["get"]["filter_trail_status"] . "' ";
-		}
+
 		return array($done, $filter);
 	}
 
@@ -68,20 +50,37 @@ class companies_controller
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
 		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
 
-		list($done, $filter) = $this->filter($info);
-
 		$companies = new companies_model();
 
-		if ($info["format"] != ".json") {
-			$companies->set_paginate(array($info["sr"], $paginate));
-		} else {
-			$companies->set_paginate(array(0, 900000));
+		switch ($info["format"]) {
+			case ".autocomplete":
+				$companies->set_paginate(array(0, 12));
+
+				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
+					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
+					$query = preg_replace("/\s+?|\t+?|\n+?/", " ", $query);
+					$query = preg_replace("/^ | $/", "", $query);
+					$query = preg_replace("/([A-z0-9\ \-\_])+?/", "$1", $query);
+
+					if (empty($query)) {
+						$query = " ";
+					} else {
+						$info["get"]["q_name"] = $query;
+					}
+				}
+				break;
+			default:
+				$companies->set_paginate(array((int)$info["sr"] > $paginate ? (int)$info["sr"] : 0, $paginate));
+				break;
 		}
 
+		list($done, $filter) = $this->filter($info);
 		$companies->set_filter($filter);
-		$companies->set_order(array($ordenation));
-		list($total, $data) = $companies->return_data();
 
+		list($total, $data) = $companies->return_data();
+		$data = $companies->data;
+
+		$data = $companies->data;
 		switch ($info["format"]) {
 			case ".json":
 				header('Content-type: application/json');
@@ -91,10 +90,24 @@ class companies_controller
 					)
 				);
 				break;
+			case ".autocomplete":
+				$out = array(
+					"query" => "", "suggestions" => array()
+				);
+				foreach ($data as $key => $value) {
+					$out["suggestions"][] = array(
+						"data" => $value,
+						"value" => sprintf("%s", $value["name"])
+					);
+				}
+
+				header('Content-type: application/json');
+				echo json_encode($out);
+				break;
 			default:
 				$page = 'Empresas';
 
-				$sidebar_color = "rgba(255, 147, 0, 0.82)";
+				$sidebar_color = "rgba(95, 158, 160, 1)";
 				$form = array(
 					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["companies_url"], $done) : $GLOBALS["companies_url"]), "pattern" => array(
 						"new" => $GLOBALS["newcompany_url"],
@@ -103,64 +116,24 @@ class companies_controller
 					)
 				);
 
-				$ordenation_positions = 'display_position-asc';
-				$ordenation_positions_ordenation = 'fas fa-border-none';
-				$ordenation_trail = 'trail_title-asc';
-				$ordenation_trail_ordenation = 'fas fa-border-none';
-				$ordenation_modifiedat = 'modified_at-asc';
-				$ordenation_modifiedat_ordenation = 'fas fa-border-none';
-				$ordenation_trail_status = 'trail_status-asc';
-				$ordenation_trail_status_ordenation = 'fas fa-border-none';
+				$ordenation_name = 'name-asc';
+				$ordenation_name_ordenation = 'bi bi-border';
 				switch ($ordenation) {
-					case 'display_position asc':
-						$ordenation_positions = 'display_position-desc';
-						$ordenation_positions_ordenation = 'fas fa-angle-up';
+					case 'name asc':
+						$ordenation_name = 'name-desc';
+						$ordenation_name_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'display_position desc':
-						$ordenation_positions = 'display_position-asc';
-						$ordenation_positions_ordenation = 'fas fa-angle-down';
-						break;
-					case 'trail_title asc':
-						$ordenation_trail = 'trail_title-desc';
-						$ordenation_trail_ordenation = 'fas fa-angle-up';
-						break;
-					case 'trail_title desc':
-						$ordenation_trail = 'trail_title-asc';
-						$ordenation_trail_ordenation = 'fas fa-angle-down';
-						break;
-					case 'modified_at asc':
-						$ordenation_modifiedat = 'modified_at-desc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-up';
-						break;
-					case 'modified_at desc':
-						$ordenation_modifiedat = 'modified_at-asc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-down';
-						break;
-					case 'trail_status asc':
-						$ordenation_trail_status = 'trail_status-desc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-up';
-						break;
-					case 'trail_status desc':
-						$ordenation_trail_status = 'trail_status-asc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-down';
+					case 'name desc':
+						$ordenation_name = 'name-asc';
+						$ordenation_name_ordenation = 'bi bi-arrow-down';
 						break;
 				}
 
 				include(constant("cRootServer") . "ui/common/header.inc.php");
 				include(constant("cRootServer") . "ui/common/head.inc.php");
-				include(constant("cRootServer") . "ui/page/companies/companies.php");
+				include(constant("cRootServer") . "ui/page/bills_payableds/companies/companies.php");
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
-				print('<script>' . "\n");
-				print('    data_agendas_json = {' . "\n");
-				print('        url: "' . $GLOBALS["scheduleds_url"] . '.json"' . "\n");
-				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["scheduled_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
-				print('        , template: ""' . "\n");
-				print('        , page: 1' . "\n");
-				print('    }' . "\n");
-				include(constant("cRootServer") . "furniture/js/add/companies.js");
-				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
 				break;
 		}
@@ -176,28 +149,28 @@ class companies_controller
 			$company = new companies_model();
 			$company->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$company->load_data();
-			$data = $company->data;
+			$data = current($company->data);
 			$form = array(
+				"title" => "Editar Empresa",
 				"url" => sprintf($GLOBALS["company_url"], $info["idx"])
 			);
 		} else {
 			$data = array();
 			$form = array(
+				"title" => "Cadastrar Empresa",
 				"url" => $GLOBALS["newcompany_url"]
 			);
 		}
 
-		$sidebar_color = "rgba(255, 147, 0, 0.82)";
+		$sidebar_color = "rgba(95, 158, 160, 1)";
 		$page = 'Empresa';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");
-		include(constant("cRootServer") . "ui/page/companies/company.php");
+		include(constant("cRootServer") . "ui/page/bills_payableds/companies/company.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
 		print("<script>");
-		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
-		print('})' . "\n");
+		include(constant("cRootServer") . "furniture/js/companies/company.js");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
 	}
@@ -226,7 +199,7 @@ class companies_controller
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
 		} else {
-			basic_redir($GLOBALS["companies_url"]);
+			basic_redir($GLOBALS["account_pay_categories_url"]);
 		}
 	}
 
@@ -244,6 +217,6 @@ class companies_controller
 			$company->remove();
 		}
 
-		basic_redir($GLOBALS["scheduleds_url"]);
+		basic_redir($GLOBALS["account_pay_categories_url"]);
 	}
 }

@@ -45,7 +45,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="document">CPF</label>
-                                        <input id="document" type="text" class="form-control document" name="document" value="<?php print(isset($data["document"]) ? $data["document"] : "") ?>" required>
+                                        <input id="document" type="text" class="form-control document" name="document" minlength="11" value="<?php print(isset($data["document"]) ? $data["document"] : "") ?>" required>
                                     </div>
                                 </div>
 
@@ -195,35 +195,35 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Nome</label>
-                                            <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"]["first_name_partner"]) ? $data["partners_attach"]["first_name_partner"] : "") ?>" required>
+                                            <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["first_name_partner"] : "") ?>">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Sobrenome</label>
-                                            <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"]["last_name_partner"]) ? $data["partners_attach"]["last_name_partner"] : "") ?>" required>
+                                            <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["last_name_partner"] : "") ?>">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <label for="name">CPF</label>
-                                            <input id="name" type="text" class="form-control" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"]["document_partner"]) ? $data["partners_attach"]["document_partner"] : "") ?>" required>
+                                            <label for="document">CPF</label>
+                                            <input id="document" type="text" class="form-control document" minlength="11" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["document_partner"] : "") ?>">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">RG</label>
-                                            <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"]["rg_partner"]) ? $data["partners_attach"]["rg_partner"] : "") ?>" required>
+                                            <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["rg_partner"] : "") ?>">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">CNH</label>
-                                            <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"]["cnh_partner"]) ? $data["partners_attach"]["cnh_partner"] : "") ?>" required>
+                                            <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["cnh_partner"] : "") ?>">
                                         </div>
                                     </div>
 
@@ -234,8 +234,8 @@
                                         </div>
                                     </div>
 
-                                    <?php if (!empty($data["partners_attach"]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"]["file"])) { ?>
-                                        <img class="img-fluid" src="/<?php print($data["partners_attach"]["file"]) ?>" />
+                                    <?php if (!empty($data["partners_attach"][0]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["file"])) { ?>
+                                        <img class="img-fluid" src="/<?php print($data["partners_attach"][0]["file"]) ?>" />
                                     <?php
                                     } ?>
                                 </div>
@@ -245,7 +245,7 @@
                 </div>
 
                 <div class="col-sm-12 text-right">
-                    <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Editar" : "Salvar") ?></button>
+                    <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
                 </div>
             </form>
         </div>

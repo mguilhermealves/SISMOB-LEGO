@@ -5,7 +5,7 @@
   if (isset($_SESSION[constant("cAppKey")]["credential"])) {
   ?>
 
-    <nav class="navbar navbar-expand-sm menu">
+    <nav class="navbar fixed-top navbar-expand-sm menu">
       <a class="navbar-brand" href="/"><img style="max-width: 250px;" src="<?php printf("%simg/logo.jpeg", constant("cFurniture")) ?>"></a>
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
