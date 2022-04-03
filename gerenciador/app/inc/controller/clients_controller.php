@@ -44,6 +44,7 @@ class clients_controller
 		}
 
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
+			$info["get"]["filter_cpf"] = preg_replace("/[^0-9]/", "", $info["get"]["filter_cpf"]);
 			$done["filter_cpf"] = $info["get"]["filter_cpf"];
 			$filter["filter_cpf"] = " document like '%" . $info["get"]["filter_cpf"] . "%' ";
 		}

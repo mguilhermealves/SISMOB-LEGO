@@ -39,6 +39,7 @@ class locations_controller
 		}
 
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
+			$info["get"]["filter_cpf"] = preg_replace("/[^0-9]/", "", $info["get"]["filter_cpf"]);
 			$done["filter_cpf"] = $info["get"]["filter_cpf"];
 			$filter["filter_cpf"] = " document like '%" . $info["get"]["filter_cpf"] . "%' ";
 		}
@@ -50,7 +51,7 @@ class locations_controller
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " first_name like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ";
 		}
 
 		return array($done, $filter);
@@ -248,6 +249,12 @@ class locations_controller
 		} else {
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
+
+		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
+		$info["post"]["partner"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["partner"]["document"]);
+		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
+		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
+		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
 
 		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
 			$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");

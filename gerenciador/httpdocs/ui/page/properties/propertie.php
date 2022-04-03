@@ -32,7 +32,7 @@
                 }
                 ?>
 
-                <input type="hidden" id="cod_client" name="cod_client" value="<?php print($data["clients_attach"][0]["idx"]); ?>">
+                <input type="hidden" id="clients_id" name="clients_id" value="<?php print($data["clients_attach"][0]["idx"]); ?>">
 
                 <!-- Dados do Proprietário -->
                 <div class="modal-content">
@@ -201,9 +201,12 @@
                 </div>
 
                 <!-- Dados da Locação -->
-                <div class="modal-content" id="location">
-                    <div class="modal-header label">
+                <div class="modal-content">
+                    <div class="modal-header label" id="location">
                         <h5 class="modal-title ">Dados da Locação</h5>
+                    </div>
+                    <div class="modal-header label" id="sale">
+                        <h5 class="modal-title ">Dados da Venda</h5>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
@@ -254,22 +257,8 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Dados da Venda -->
-                <div class="modal-content" id="sale">
-                    <div class="modal-header label">
-                        <h5 class="modal-title ">Dados da Venda</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="row col-lg-12">
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" id="sale">
                                         <label>Valor Venda</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
@@ -279,39 +268,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4">
-                                        <label>Valor IPTU</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">R$</span>
-                                            </div>
-                                            <input type="text" name="price_iptu" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <label>Valor do Imóvel</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">R$</span>
-                                            </div>
-                                            <input type="text" name="price_propertie" class="form-control money" value="<?php print(isset($data["price_propertie"]) ? $data["price_propertie"] : "") ?>" autofocus>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4" name="is_apartmant">
-                                        <div class="form-group">
-                                            <label>Valor do Condominio</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">R$</span>
-                                                </div>
-                                                <input type="text" name="price_condominium" class="form-control money" value="<?php print(isset($data["price_condominium"]) ? $data["price_condominium"] : "") ?>" autofocus>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" id="sale">
                                         <label>Porcentagem da Comissão</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
@@ -321,7 +278,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" id="sale">
                                         <div class="form-group">
                                             <label for="financial_propertie">Aceita Financiamento</label>
                                             <select name="financial_propertie" id="financial_propertie" class="form-control">
@@ -342,7 +299,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" id="sale">
                                         <div class="form-group">
                                             <label for="is_swap">Aceita Troca</label>
                                             <select name="is_swap" id="is_swap" class="form-control">

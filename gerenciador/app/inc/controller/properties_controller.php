@@ -21,8 +21,9 @@ class properties_controller
 		$filter = array(" active = 'yes' ");
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
-			$filter["q_name"] = " first_name like '%" . $info["get"]["q_name"] . "%' and is_used = 'no' ";
+			$filter["q_name"] = " idx in (select clients_properties.properties_id from clients_properties where active = 'yes' and clients_properties.clients_id in (select clients.idx from clients where first_name like '%" . $info["get"]["q_name"] . "%' ))";
 			$filter["q_is_used"] = " is_used = 'no' ";
+			
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
@@ -113,7 +114,6 @@ class properties_controller
 		$properties->attach(array("clients"), true);
 		$data = $properties->data;
 
-		$data = $properties->data;
 		switch ($info["format"]) {
 			case ".json":
 				header('Content-type: application/json');
@@ -127,13 +127,14 @@ class properties_controller
 				$out = array(
 					"query" => "", "suggestions" => array()
 				);
+
 				foreach ($data as $k => $value) {
-					if ($value["is_used"] == 'no') {
-						$out["suggestions"][] = array(
-							"data" => $value,
-							"value" => sprintf("%s %s (%s) - %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"], "Imóvel Disponível.")
-						);
-					} 
+					$out["suggestions"][] = array(
+						"data" => $value,
+						"value" => sprintf("%s %s (%s) - %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"], "Imóvel Disponível.")
+					);
+
+					print_pre($out, true);
 				}
 
 				header('Content-type: application/json');
@@ -369,7 +370,7 @@ class properties_controller
 			$info["idx"] = $propertie->con->insert_id;
 		}
 
-		$propertie->save_attach(array("properties_id" => $info["idx"], "clients_id" => $info["post"]["cod_client"]), array("clients"), true);
+		$propertie->save_attach($info, array("clients"), true);
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

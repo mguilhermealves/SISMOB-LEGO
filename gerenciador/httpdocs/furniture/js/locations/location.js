@@ -4,6 +4,11 @@ $(document).ready(function () {
         reverse: true
     });
 
+    $('.document').mask("999.999.999-99");
+    $('.phone').mask("(99) 9999-9999");
+    $('.celphone').mask("(99) 99999-9999");
+    $('.code_postal').mask("99999-999");
+
     $(".properties_search").autocomplete({
         serviceUrl: '<?php print($GLOBALS["properties_url"]) ?>.autocomplete',
         autoFocus: true,
