@@ -21,8 +21,7 @@ class account_pay_cost_center_controller
 		$filter = array(" active = 'yes' ");
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
-			$filter["q_name"] = " idx like '%" . $info["get"]["q_name"] . "%' ";
-			$filter["q_enables"] = " enabled = 'yes' ";
+			$filter["q_name"] = " cost_center LIKE '%" . $info["get"]["q_name"] . "%' ";
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
@@ -63,17 +62,15 @@ class account_pay_cost_center_controller
 		if (!site_controller::check_login()) {
 			basic_redir($GLOBALS["home_url"]);
 		}
+
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
 		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
-
-		list($done, $filter) = $this->filter($info);
 
 		$cost_centers = new account_pay_cost_center_model();
 
 		switch ($info["format"]) {
 			case ".autocomplete":
 				$cost_centers->set_paginate(array(0, 12));
-				$info["get"]["enabled"] = 'yes';
 
 				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
 					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
@@ -92,10 +89,11 @@ class account_pay_cost_center_controller
 				$cost_centers->set_paginate(array((int)$info["sr"] > $paginate ? (int)$info["sr"] : 0, $paginate));
 				break;
 		}
+		list($done, $filter) = $this->filter($info);
+		$cost_centers->set_filter($filter);
 
 		$cost_centers->set_filter($filter);
 		$cost_centers->set_order(array($ordenation));
-
 		list($total, $data) = $cost_centers->return_data();
 		$cost_centers->attach(array("account_pay_categories"));
 
@@ -116,7 +114,7 @@ class account_pay_cost_center_controller
 				foreach ($data as $key => $value) {
 					$out["suggestions"][] = array(
 						"data" => $value,
-						"value" => sprintf("%s - %s ", $value["idx"], $value["name"])
+						"value" => sprintf("%s - %s ", $value["cost_center"], $value["name"])
 					);
 				}
 

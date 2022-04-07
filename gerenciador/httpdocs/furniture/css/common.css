@@ -241,3 +241,9 @@ border: 1px solid;
 .form-inside-modal.open{
 right: 0;
 }
+
+.autocomplete-suggestions{overflow:auto;background-color:#fff; border: 1px solid #c0c0c0}
+.autocomplete-suggestion{background-color:#fff;clear:both;cursor:pointer;display:block; font-size:0.9rem; padding: 0.5rem;}
+.autocomplete-suggestion p{vertical-align:middle;padding-top:15px;color:#0A4C80;font-size:1.5rem}
+.autocomplete-selected{background-color:#0A4C80;color:#fff;}
+.autocomplete-selected p{color:#fff!important; font-size:0.9rem}

@@ -77,6 +77,8 @@ class account_pay_categories_controller
 		list($done, $filter) = $this->filter($info);
 		$categories->set_filter($filter);
 
+		$categories->set_filter($filter);
+		$categories->set_order(array($ordenation));
 		list($total, $data) = $categories->return_data();
 		$data = $categories->data;
 

@@ -4,34 +4,6 @@
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
 
-            <div class="modal-content">
-                <div class="modal-header label">
-                    <h5 class="modal-title ">Pesquisar Categoria</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label>Pesquisar Categoria:</label>
-                                        <small class="text-muted">Digite o nome da Categoria</small>
-                                        <input class="form-control categories_search" value="<?php print(isset($data["categories_attach"][0]) ? $data["categories_attach"][0]["name"] . " " . $data["categories_attach"][0]["name"] : '') ?>">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="name">Categoria selecionada:</label>
-                                        <strong id="categorie_name" style="text-decoration: underline; text-transform: uppercase; font-weight: bold;"><?php print(isset($data["categories_attach"][0]) ? $data["categories_attach"][0]["name"] : "") ?></strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
                 <?php
                 if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) {
@@ -40,8 +12,6 @@
                 <?php
                 }
                 ?>
-
-                <input type="hidden" id="cod_category" name="cod_category">
 
                 <!-- Dados do Locatário -->
                 <div class="modal-content">
@@ -55,22 +25,22 @@
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="cost_center">N° Centro de Custo</label>
-                                            <input id="cost_center" type="text" class="form-control" name="cost_center" value="<?php print(isset($data["idx"]) ? str_pad($data["idx"], 3, '0', STR_PAD_LEFT) : "") ?>">
+                                            <label for="name">Razão Social</label>
+                                            <input id="name" type="text" class="form-control" name="name" value="<?php print(isset($data["name"]) ? $data["name"] : "") ?>">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="name">Nome do Centro de Custo:</label>
-                                            <input id="name" type="text" class="form-control" name="name" value="<?php print(isset($data["name"]) ? $data["name"] : "") ?>">
+                                            <label for="cnpj">CNPJ:</label>
+                                            <input id="cnpj" type="text" class="form-control cnpj" name="cnpj" value="<?php print(isset($data["cnpj"]) ? $data["cnpj"] : "") ?>">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="comments">Observação</label>
-                                            <input id="comments" type="text" class="form-control editor" name="comments" value="<?php print(isset($data["comments"]) ? $data["comments"] : "") ?>">
+                                            <label for="description">Observação</label>
+                                            <input id="description" type="text" class="form-control editor" name="description" value="<?php print(isset($data["description"]) ? $data["description"] : "") ?>">
                                         </div>
                                     </div>
                                 </div>

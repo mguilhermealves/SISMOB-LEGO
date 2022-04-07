@@ -33,6 +33,35 @@
                     </div>
                 </div>
 
+                <!-- Empresa Beneficiária -->
+                <div class="modal-content">
+                    <div class="modal-header label">
+                        <h5 class="modal-title ">Empresa Beneficiária</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>Pesquisar Empresa Beneficiária:</label>
+                                            <small class="text-muted">Digite o nome da Empresa Beneficiária:</small>
+                                            <input class="form-control company_search" value="<?php print(isset($data["companies_attach"][0]) ? $data["companies_attach"][0]["idx"] . " - " . $data["companies_attach"][0]["name"] : '') ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="name">Empresa Beneficiária selecionado:</label>
+                                            <strong id="company_name" style="text-decoration: underline; text-transform: uppercase; font-weight: bold;"><?php print(isset($data["companies_attach"][0]) ? $data["companies_attach"][0]["name"] : "") ?></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
                     <?php
                     if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) {
@@ -42,28 +71,9 @@
                     }
                     ?>
 
-                    <input type="hidden" name="cod_center_count" id="cod_center_count">
+                    <input type="hidden" name="account_pay_cost_center_id" id="account_pay_cost_center_id">
+                    <input type="hidden" name="companies_id" id="companies_id">
 
-                    <!-- Empresa Beneficiária -->
-                    <div class="modal-content">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Empresa Beneficiária</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="company_beneficiary">Empresa Beneficiária</label>
-                                                <input id="company_beneficiary" type="text" class="form-control" name="company_beneficiary" value="<?php print(isset($data["company_beneficiary"]) ? $data["company_beneficiary"] : "") ?>" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Dados do Locatário -->
                     <div class="modal-content">
@@ -235,17 +245,5 @@
 
     .modal-lg {
         max-width: 80%;
-    }
-
-    .autocomplete-suggestions {
-        background-color: #fff;
-    }
-
-    .autocomplete-suggestion {
-        border-bottom: 1px solid #000;
-    }
-
-    .autocomplete-suggestion:hover {
-        background-color: #9cb3f1;
     }
 </style>

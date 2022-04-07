@@ -14,31 +14,17 @@
                 <hr>
             </div>
             
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
-                    <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome da Categoria">
+                    <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome da Empresa">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="filter_cost_center">CNPJ</label>
-                    <input type="text" id="filter_cost_center" class="form-control" name="filter_cost_center" value="<?php print(isset($info["get"]["filter_cost_center"]) ? $info["get"]["filter_cost_center"] : "") ?>" class="form-control" placeholder="Digite o N° do Centro de Custo">
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="filter_category">Categorias:</label>
-                    <select name="filter_category" id="filter_category" class="form-control">
-                        <option value="">Selecione</option>
-                        <?php
-                        foreach (account_pay_categories_controller::data4select("idx", array(" idx > 0 "), "name") as $k => $v) {
-                            printf('<option value="%s"%s>%s</option>' . "\n", $k, isset($info["get"]["filter_category"]) && $info["get"]["filter_category"] == $k ? ' selected="selected"' : '', $v);
-                        }
-                        ?>
-                    </select>
+                    <label for="filter_cnpj">CNPJ</label>
+                    <input type="text" id="filter_cnpj" class="form-control" name="filter_cnpj" value="<?php print(isset($info["get"]["filter_cnpj"]) ? $info["get"]["filter_cnpj"] : "") ?>" class="form-control" placeholder="Digite o CNPJ">
                 </div>
             </div>
 
@@ -62,8 +48,7 @@
             <thead class="thead-inverse">
                 <tr>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_cost_center))) ?>">Centro de Custo <i class="<?php print($ordenation_cost_center_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_category))) ?>">Categoria <i class="<?php print($ordenation_category_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_cnpj))) ?>">CNPJ <i class="<?php print($ordenation_cnpj_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -96,10 +81,9 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["name"]); ?></td>
-                            <td><?php print($v["cost_center"]); ?></td>
-                            <td><?php print($v["account_pay_categories_attach"][0]["name"]); ?></td>
+                            <td class="cnpj"><?php print($v["cnpj"]); ?></td>
                             <th>
-                                <a type="button" class="btn btn-outline-primary btn-sm" href="/contas-a-pagar/empresa/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="/empresa/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
                         </tr>
                     <?php

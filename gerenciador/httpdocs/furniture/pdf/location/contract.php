@@ -11,20 +11,26 @@
 </head>
 
 <body>
-    <p style="text-align: center; font-weight: 600">Contrato de Locação n° <?php print($data["n_contract"]) ?></p>
+    <h1 style="text-align: center; font-weight: 600; text-decoration:underline;">CONTRATO DE LOCAÇÃO</h1>
+    <p style="text-align: center; font-weight: 600; text-decoration:underline;">Contratantes</p>
 
     <table style="width:100%; padding: 0 3%;">
         <tr>
-            <th style="text-align: center;">1. Dados do Locatário</th>
+            <th style="text-align: left;">LOCADOR(ES):</th>
         </tr>
         <tr>
             <td>
-                <?php print($data["first_name"] . " " . $data["last_name"]); ?>, CPF: <?php print($data["document"]); ?>, RG: <?php print($data["rg"]); ?>, CNH: <?php print($data["cnh"]); ?>, localizado(a) no endereço: <?php print($data["address"]); ?>, N° <?php print($data["number_address"]); ?>, <?php print($data["district"]); ?>, <?php print($data["city"]); ?>, <?php print($data["uf"]); ?>.
+                a Sr(a) . <?php print($data["first_name"] . " " . $data["last_name"]); ?>, Brasileiro(a), <?php print($GLOBALS["marital_status"][$data["marital_status"]]); ?>, RG n° <?php print($data["rg"]); ?>, CPF: <?php print($data["document"]); ?>, neste ato representado pela EMPRESA, <strong>LUCIANE NEGÓCIOS IMOBILIÁRIOS LTDA EPP</strong> empresa inscrita no CNPJ/MF nº 43.225.675/0001-41, estabelecida na Rua Suíça nº 991, no Parque das Nações, em Santo André, São Paulo, CEP 09210-000, neste ato representada por  sua sócia <strong>LUCIANE ARIAS PAZZINI</strong>,  brasileira,  divorciada,  corretora  de  imóveis,  RG nº 16.703.610-5 SSP SP e do CPF/MF nº 140.393.698-66.
             </td>
         </tr>
-        
+
         <tr>
-            <th style="text-align: center;">2. Dados do Proprietário:</th>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <th style="text-align: left;">LOCATARIO(S)</th>
         </tr>
         <tr>
             <td>
@@ -33,7 +39,7 @@
         </tr>
 
         <tr>
-            <th style="text-align: center;">3. Objeto do Contrato:</th>
+            <th style="text-align: left;">3. Objeto do Contrato:</th>
         </tr>
         <tr>
             <td>
@@ -43,7 +49,7 @@
         </tr>
 
         <tr>
-            <th style="text-align: center;">4. Período de duração do contrato:</th>
+            <th style="text-align: left;">4. Período de duração do contrato:</th>
         </tr>
         <tr>
             <td>

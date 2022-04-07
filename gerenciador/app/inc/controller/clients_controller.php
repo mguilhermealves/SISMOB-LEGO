@@ -102,6 +102,8 @@ class clients_controller
 		list($done, $filter) = $this->filter($info);
 		$clients->set_filter($filter);
 
+		$clients->set_filter($filter);
+		$clients->set_order(array($ordenation));
 		list($total, $data) = $clients->return_data();
 		$data = $clients->data;
 

@@ -11,8 +11,21 @@ $(document).ready(function () {
         deferRequestBy: 5,
         noCache: true,
         onSelect: function (sugestion) {
-            $("#cod_center_count").val(sugestion.data.idx);
+            $("#account_pay_cost_center_id").val(sugestion.data.idx);
             $("#center_count_name").html(sugestion.data.name);
+        }
+    });
+
+    $(".company_search").autocomplete({
+        serviceUrl: '<?php print($GLOBALS["companies_url"]) ?>.autocomplete',
+        autoFocus: true,
+        minChars: 3,
+        deferRequestBy: 5,
+        noCache: true,
+        onSelect: function (sugestion) {
+            console.log(sugestion.data);
+            $("#companies_id").val(sugestion.data.idx);
+            $("#company_name").html(sugestion.data.name);
         }
     });
 

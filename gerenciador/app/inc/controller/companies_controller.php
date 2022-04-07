@@ -39,6 +39,11 @@ class companies_controller
 			$filter["filter_name"] = " name like '%" . $info["get"]["filter_name"] . "%' ";
 		}
 
+		if (isset($info["get"]["filter_cnpj"]) && !empty($info["get"]["filter_cnpj"])) {
+			$done["filter_cnpj"] = $info["get"]["filter_cnpj"];
+			$filter["filter_cnpj"] = " cnpj like '%" . $info["get"]["filter_cnpj"] . "%' ";
+		}
+
 		return array($done, $filter);
 	}
 
@@ -49,6 +54,8 @@ class companies_controller
 		}
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
 		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
+
+		list($done, $filter) = $this->filter($info);
 
 		$companies = new companies_model();
 
@@ -77,6 +84,8 @@ class companies_controller
 		list($done, $filter) = $this->filter($info);
 		$companies->set_filter($filter);
 
+		$companies->set_filter($filter);
+		$companies->set_order(array($ordenation));
 		list($total, $data) = $companies->return_data();
 		$data = $companies->data;
 
@@ -118,6 +127,8 @@ class companies_controller
 
 				$ordenation_name = 'name-asc';
 				$ordenation_name_ordenation = 'bi bi-border';
+				$ordenation_cnpj = 'cnpj-asc';
+				$ordenation_cnpj_ordenation = 'bi bi-border';
 				switch ($ordenation) {
 					case 'name asc':
 						$ordenation_name = 'name-desc';
@@ -127,6 +138,14 @@ class companies_controller
 						$ordenation_name = 'name-asc';
 						$ordenation_name_ordenation = 'bi bi-arrow-down';
 						break;
+					case 'cnpj asc':
+						$ordenation_cnpj = 'cnpj-desc';
+						$ordenation_cnpj_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'cnpj desc':
+						$ordenation_cnpj = 'cnpj-asc';
+						$ordenation_cnpj_ordenation = 'bi bi-arrow-down';
+						break;
 				}
 
 				include(constant("cRootServer") . "ui/common/header.inc.php");
@@ -134,6 +153,9 @@ class companies_controller
 				include(constant("cRootServer") . "ui/page/bills_payableds/companies/companies.php");
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
+				print('<script>' . "\n");
+				include(constant("cRootServer") . "furniture/js/companies/companies.js");
+				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
 				break;
 		}
@@ -183,6 +205,8 @@ class companies_controller
 
 		$company = new companies_model();
 
+		$info["post"]["cnpj"] = preg_replace("/[^0-9]/", "", $info["post"]["cnpj"]);
+
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$company->set_filter(array(" idx = '" . $info["idx"] . "' "));
 		} else {
@@ -199,7 +223,7 @@ class companies_controller
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
 		} else {
-			basic_redir($GLOBALS["account_pay_categories_url"]);
+			basic_redir($GLOBALS["companies_url"]);
 		}
 	}
 
@@ -217,6 +241,6 @@ class companies_controller
 			$company->remove();
 		}
 
-		basic_redir($GLOBALS["account_pay_categories_url"]);
+		basic_redir($GLOBALS["companies_url"]);
 	}
 }

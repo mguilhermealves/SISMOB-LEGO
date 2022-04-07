@@ -110,6 +110,8 @@ class properties_controller
 		list($done, $filter) = $this->filter($info);
 		$properties->set_filter($filter);
 
+		$properties->set_filter($filter);
+		$properties->set_order(array($ordenation));
 		list($total, $data) = $properties->return_data();
 		$properties->attach(array("clients"), true);
 		$data = $properties->data;
@@ -133,8 +135,6 @@ class properties_controller
 						"data" => $value,
 						"value" => sprintf("%s %s (%s) - %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"], "Imóvel Disponível.")
 					);
-
-					print_pre($out, true);
 				}
 
 				header('Content-type: application/json');

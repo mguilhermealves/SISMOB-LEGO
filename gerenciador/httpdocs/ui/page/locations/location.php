@@ -831,16 +831,4 @@
     .modal-lg {
         max-width: 80%;
     }
-
-    .autocomplete-suggestions {
-        background-color: #fff;
-    }
-
-    .autocomplete-suggestion {
-        border-bottom: 1px solid #000;
-    }
-
-    .autocomplete-suggestion:hover {
-        background-color: #9cb3f1;
-    }
 </style>

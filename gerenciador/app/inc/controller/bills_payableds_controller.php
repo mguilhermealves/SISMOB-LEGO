@@ -75,10 +75,8 @@ class bills_payableds_controller
 		$bills_payableds->set_order(array($ordenation));
 
 		list($total, $data) = $bills_payableds->return_data();
-		$bills_payableds->join("cost_center", "account_pay_cost_center", array("idx" => "center_count"));
+		$bills_payableds->attach(array("account_pay_cost_center", "companies"));
 		$data = $bills_payableds->data;
-
-		//print_pre($data, true);
 
 		switch ($info["format"]) {
 			case ".json":
@@ -174,7 +172,7 @@ class bills_payableds_controller
 			$bill_payabled = new account_pays_model();
 			$bill_payabled->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$bill_payabled->load_data();
-			$bill_payabled->attach(array("account_pay_cost_center"));
+			$bill_payabled->attach(array("account_pay_cost_center", "companies"));
 			$data = current($bill_payabled->data);
 			$form = array(
 				"title" => "Editar Contas a Pagar",
@@ -258,7 +256,8 @@ class bills_payableds_controller
 			$info["idx"] = $bill_payabled->con->insert_id;
 		}
 
-		$bill_payabled->save_attach(array("idx" => $info["idx"], "post" => array("account_pay_cost_center_id" =>  $info["post"]["cod_center_count"])), array("account_pay_cost_center"));
+		$bill_payabled->save_attach($info, array("account_pay_cost_center"));
+		$bill_payabled->save_attach($info, array("companies"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

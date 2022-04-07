@@ -114,9 +114,8 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
-                            <td><?php print($v["company_beneficiary"]); ?></td>
-                            <!-- <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td> -->
-                            <td><?php print(str_pad($v["cost_center_attach"][0]["idx"], 3, '0', STR_PAD_LEFT)); ?></td>
+                            <td><?php print($v["companies_attach"][0]["name"]); ?></td>
+                            <td><?php print($v["account_pay_cost_center_attach"][0]["name"]); ?></td>
                             <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
                             <td class="money"><?php print($v["amount"]); ?></td>
                             <td><?php print($GLOBALS["payment_status"][$v["status_payment"]]); ?></td>
