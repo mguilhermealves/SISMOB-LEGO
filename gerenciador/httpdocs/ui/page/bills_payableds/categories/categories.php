@@ -79,6 +79,7 @@
                             <td><?php print(mb_strimwidth($v["comments"], 0, 50, " ...")); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="/contas-a-pagar/categoria/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
+                                <a class="btn btn-outline-danger btn-sm" id="btn_remove_<?php print($v["idx"]) ?>" href="<?php printf($form["pattern"]["action"], $v["idx"]) ?>"><i class="bi bi-x-circle"></i> Excluir</a>
                             </th>
                         </tr>
                     <?php

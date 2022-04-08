@@ -9,7 +9,7 @@ $clientId = 'Client_Id_8f31bad8f7b617e1dd8c3f90b004b3a8bae64ffe'; // informe seu
 $clientSecret = 'Client_Secret_0c6477c6f0e9bc98d107f99a68c428c6b8f5e4ea'; // informe seu Client_Secret
 
 $payment = new payments_model();
-$payment->set_filter(array(" idx = '" . $info["post"]["idPayment"] . "' "));
+$payment->set_filter(array(" idx = '" . $info["idx"] . "' "));
 $payment->load_data();
 $data = current($payment->data);
 
@@ -25,13 +25,11 @@ $params = [
     'id' => $data["charge_id"]
 ];
 
-try {
-    $api = new Gerencianet($options);
-    $charge = $api->cancelCharge($params, []);
+$api = new Gerencianet($options);
+$charge = $api->detailCharge($params, []);
 
-    $_SESSION["messages_app"]["success"] = array("Boleto cancelado com sucesso.");
-} catch (GerencianetException $e) {
-    $_SESSION["messages_app"]["danger"] = array("Apenas transações com status: [Cobrança Gerada], [Aguardando] ou [Não Pago] podem ser canceladas.");
-} catch (Exception $e) {
-    $_SESSION["messages_app"]["danger"] = $e->getMessage();
-}
+$info["post"]["status"] = $charge["data"]["status"];
+$info["post"]["historic_bank"] = serialize($charge["data"]["history"]);
+
+$payment->populate($info["post"]);
+$payment->save();

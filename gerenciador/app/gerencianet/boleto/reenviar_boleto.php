@@ -11,6 +11,7 @@ $clientSecret = 'Client_Secret_0c6477c6f0e9bc98d107f99a68c428c6b8f5e4ea'; // inf
 $payment = new payments_model();
 $payment->set_filter(array(" idx = '" . $info["post"]["idPayment"] . "' "));
 $payment->load_data();
+$payment->attach(array("locations"), true);
 $data = current($payment->data);
 
 $options = [
@@ -25,13 +26,17 @@ $params = [
     'id' => $data["charge_id"]
 ];
 
+$body = [
+    'email' => $data["locations_attach"][0]["mail"]
+];
+
 try {
     $api = new Gerencianet($options);
-    $charge = $api->cancelCharge($params, []);
+    $charge = $api->resendBillet($params, $body);
 
-    $_SESSION["messages_app"]["success"] = array("Boleto cancelado com sucesso.");
+    $_SESSION["messages_app"]["success"] = array("Boleto enviado com sucesso.");
 } catch (GerencianetException $e) {
-    $_SESSION["messages_app"]["danger"] = array("Apenas transações com status: [Cobrança Gerada], [Aguardando] ou [Não Pago] podem ser canceladas.");
+    $_SESSION["messages_app"]["danger"] = array("Ocorreu um erro ao reenviar o boleto, comunique a equipe de TI ou tente novamente mais tarde.");
 } catch (Exception $e) {
     $_SESSION["messages_app"]["danger"] = $e->getMessage();
 }

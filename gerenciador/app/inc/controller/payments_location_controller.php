@@ -19,16 +19,6 @@ class payments_location_controller
 	{
 		$done = array();
 		$filter = array(" active = 'yes' ");
-		if (!in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"], array(1, 2)) && !in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array('adm-premier', 'gestor-hsol'))) {
-			//$done["filter_profiles"] = $info["get"]["filter_profiles"];
-			$profiles_id = array_keys(profiles_controller::data4select("idx", array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"] . " in ( idx, parent ) ")));
-			$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id in ( '" . implode("','", $profiles_id) . "') ) ";
-		} else {
-			if (isset($info["get"]["filter_profiles"]) && !empty($info["get"]["filter_profiles"])) {
-				$done["filter_profiles"] = $info["get"]["filter_profiles"];
-				$filter["filter_profiles"] = " idx in ( select trails_profiles.trails_id from trails_profiles where trails_profiles.active = 'yes' and trails_profiles.profiles_id = '" . $info["get"]["filter_profiles"] . "' ) ";
-			}
-		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
@@ -70,21 +60,20 @@ class payments_location_controller
 
 		list($done, $filter) = $this->filter($info);
 
-		$locations = new locations_model();
+		$payments = new payments_model();
 
 		if ($info["format"] != ".json") {
-			$locations->set_paginate(array($info["sr"], $paginate));
+			$payments->set_paginate(array($info["sr"], $paginate));
 		} else {
-			$locations->set_paginate(array(0, 900000));
+			$payments->set_paginate(array(0, 900000));
 		}
 
-		$locations->set_filter($filter);
-		$locations->set_order(array($ordenation));
+		$payments->set_filter($filter);
+		$payments->set_order(array($ordenation));
 
-		list($total, $data) = $locations->return_data();
-		$locations->attach(array("offices", "partners", "properties", "payments"));
-		$locations->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-		$data = $locations->data;
+		list($total, $data) = $payments->return_data();
+		$payments->attach(array("locations"), true);
+		$data = $payments->data;
 
 		switch ($info["format"]) {
 			case ".json":
@@ -96,14 +85,14 @@ class payments_location_controller
 				);
 				break;
 			default:
-				$page = 'Pagamento Locação';
+				$page = 'Contas a Receber';
 
 				$sidebar_color = "rgba(0, 139, 139, 1)";
 				$form = array(
-					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["location_payments_url"], $done) : $GLOBALS["location_payments_url"]), "pattern" => array(
-						"new" => $GLOBALS["newlocationpayment_url"],
-						"action" => $GLOBALS["location_payment_url"],
-						"search" => !empty($info["get"]) ? set_url($GLOBALS["location_payments_url"], $info["get"]) : $GLOBALS["location_payments_url"]
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["accounts_receivables_url"], $done) : $GLOBALS["accounts_receivables_url"]), "pattern" => array(
+						"new" => $GLOBALS["newaccountsreceivable_url"],
+						"action" => $GLOBALS["accounts_receivable_url"],
+						"search" => !empty($info["get"]) ? set_url($GLOBALS["accounts_receivables_url"], $info["get"]) : $GLOBALS["accounts_receivables_url"]
 					)
 				);
 
@@ -176,71 +165,37 @@ class payments_location_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 
-		if (isset($info["idx"])) {
-			$location = new locations_model();
-			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
-			$location->load_data();
-			$location->attach(array("offices", "partners", "properties", "payments"));
-			$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-			$data = current($location->data);
+		if (isset($info["idx"])) {			
+			$payment = new payments_model();
+			$payment->set_filter(array(" idx = '" . $info["idx"] . "' "));
+			$payment->load_data();
+			$data = current($payment->data);
+
+			if ($data["payment_method"] == "ticket") {
+				include(constant("cRootServer_APP") . "/gerencianet/boleto/atualizar_status.php");
+			}
+
 			$form = array(
-				"title" => "Editar Pagamento de Locação",
-				"url" => sprintf($GLOBALS["location_payment_url"], $info["idx"])
+				"title" => "Editar Conta a Receber",
+				"url" => sprintf($GLOBALS["accounts_receivable_url"], $info["idx"])
 			);
 		} else {
 			$data = array();
 			$form = array(
-				"title" => "Cadastrar Pagamento de Locação",
-				"url" => $GLOBALS["newlocationpayment_url"]
+				"title" => "Cadastrar Conta a Receber",
+				"url" => $GLOBALS["newaccountsreceivable_url"]
 			);
 		}
 
-		// print_pre($data, true);
-
 		$sidebar_color = "rgba(0, 139, 139, 1)";
-		$page = 'Locação';
+		$page = 'Conta a Receber';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");
 		include(constant("cRootServer") . "ui/page/locations/payments/payment.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
 		print("<script>");
-		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
-		print('})' . "\n");
 		include(constant("cRootServer") . "furniture/js/locations/payments/payment.js");
-		print('</script>' . "\n");
-		include(constant("cRootServer") . "ui/common/foot.inc.php");
-	}
-
-	public function form_detail($info)
-	{
-		if (!site_controller::check_login()) {
-			basic_redir($GLOBALS["home_url"]);
-		}
-
-		$payment = new payments_model();
-		$payment->set_filter(array(" idx = '" . $info["idx_payment"] . "' "));
-		$payment->load_data();
-		// $payment->attach(array("tickets"), true);
-		$data = current($payment->data);
-		$form = array(
-			"title" => "Detalhes do Pagamento da Locação",
-			"url" => sprintf($GLOBALS["location_payment_url"], $info["idx_location"])
-		);
-
-		$sidebar_color = "rgba(0, 139, 139, 1)";
-		$page = 'Detalhe Pagamento Locação';
-
-		include(constant("cRootServer") . "ui/common/header.inc.php");
-		include(constant("cRootServer") . "ui/common/head.inc.php");
-		include(constant("cRootServer") . "ui/page/locations/payments/payment_detail.php");
-		include(constant("cRootServer") . "ui/common/footer.inc.php");
-		print("<script>");
-		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
-		print('})' . "\n");
-		include(constant("cRootServer") . "furniture/js/locations/payments/payment_detail.js");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
 	}
@@ -293,11 +248,16 @@ class payments_location_controller
 			$payment->remove();
 		}
 
-		basic_redir($GLOBALS["location_payments_url"]);
+		basic_redir($GLOBALS["accountsreceivable_url"]);
 	}
 
 	public function cancel_billet($info)
 	{
 		include(constant("cRootServer_APP") . "/gerencianet/boleto/cancelar_boleto.php");
+	}
+
+	public function send_billet($info)
+	{
+		include(constant("cRootServer_APP") . "/gerencianet/boleto/reenviar_boleto.php");
 	}
 }

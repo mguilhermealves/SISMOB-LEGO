@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Pagamento de Locações</p>
+    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Contas a Receber</p>
     <hr class="col-lg-11 mx-auto" />
 
     <!-- Button trigger modal -->
@@ -9,32 +9,55 @@
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
         <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="filter_start_date">Data Inicio:</label>
+                    <input type="date" id="filter_start_date" class="form-control" name="filter_start_date" value="<?php print(isset($info["get"]["filter_start_date"]) ? $info["get"]["filter_start_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="filter_end_date">Data Fim:</label>
+                    <input type="date" id="filter_end_date" class="form-control" name="filter_end_date" value="<?php print(isset($info["get"]["filter_end_date"]) ? $info["get"]["filter_end_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
+                </div>
+            </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
                 </div>
             </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_cpf">CPF:</label>
                     <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
+
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_district">Bairro:</label>
-                    <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
+                    <label for="filter_status">Status:</label>
+                    <select name="filter_status" id="filter_status" class="form-control">
+                        <option value="">Selecione</option>
+                        <?php
+                        foreach ($GLOBALS["payment_status_gerencianet"] as $k => $v) {
+                            printf('<option value="%s">%s</option>', $k, $v);
+                        }
+                        ?>
+                    </select>
                 </div>
             </div>
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_uf">UF</label>
-                    <select name="filter_uf" id="filter_uf" class="form-control">
+                    <label for="filter_type">Tipo de Propriedade:</label>
+                    <select name="filter_type" id="filter_type" class="form-control">
                         <option value="">Selecione</option>
                         <?php
-                        foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
+                        foreach ($GLOBALS["propertie_objects"] as $k => $v) {
                             printf('<option value="%s">%s</option>', $k, $v);
                         }
                         ?>
@@ -62,10 +85,10 @@
                 <tr>
                     <th>Id</th>
                     <th>Nome do Locatário</th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Endereço <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th>Cidade</th>
-                    <th>UF</th>
-                    <th>Aprovado</th>
+                    <th>Forma de Pagamento</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Valor <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
+                    <th>Vencimento</th>
+                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -97,22 +120,14 @@
                 if ($total > 0) {
                     foreach ($data as $v) { ?>
                         <tr>
-                            <td><?php print($v["idx"]); ?></td>
-                            <td><?php print($v["first_name"] . " " . $v["last_name"]); ?></td>
-                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
-                            <td><?php print($v["city"]); ?></td>
-                            <td><?php print($v["uf"]); ?></td>
-                            <td>
-                                <?php
-                                if ($v["is_aproved"] == "reproved" || $v["is_aproved"] == "pending") {
-                                    print("Não");
-                                } else {
-                                    print("Sim");
-                                }
-                                ?>
-                            </td>
+                            <td><?php print($v["locations_attach"][0]["n_contract"]); ?></td>
+                            <td><?php print($v["locations_attach"][0]["first_name"] . " " . $v["locations_attach"][0]["last_name"]); ?></td>
+                            <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
+                            <td class="money"><?php print($v["amount"]); ?></td>
+                            <td><?php print(date_format(new DateTime($v["expire_at"]), "d/m/Y")); ?></td>
+                            <td><?php print($GLOBALS["payment_status_gerencianet"][$v["status"]]); ?></td>
                             <th>
-                                <a type="button" class="btn btn-outline-primary btn-sm" href="/locacao/pagamento/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="/conta-a-receber/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
                         </tr>
                     <?php

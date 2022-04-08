@@ -47,6 +47,7 @@ if( site_controller::check_login() ){
 	$dispatcher->add_route ( "POST" , "/donwload_contract" , "locations_controller:donwload_contract" , NULL, $params );
 
 	$dispatcher->add_route ( "POST" , "/cancel_billet" , "payments_location_controller:cancel_billet" , NULL, $params );
+	$dispatcher->add_route ( "POST" , "/send_billet" , "payments_location_controller:send_billet" , NULL, $params );
 }
 if ( ! $dispatcher->exec() ) {
 	//print_pre( $dispatcher );

@@ -67,7 +67,7 @@ class properties_controller
 
 		if (isset($info["get"]["filter_object_propertie"]) && !empty($info["get"]["filter_object_propertie"])) {
 			$done["filter_object_propertie"] = $info["get"]["filter_object_propertie"];
-			$filter["filter_object_propertie"] = " object_propertie = '%" . $info["get"]["filter_object_propertie"] . "%' ";
+			$filter["filter_object_propertie"] = " object_propertie = '" . $info["get"]["filter_object_propertie"] . "' ";
 		}
 		return array($done, $filter);
 	}
