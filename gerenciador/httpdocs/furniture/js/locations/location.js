@@ -15,7 +15,7 @@ $(document).ready(function () {
         minChars: 3,
         deferRequestBy: 5,
         noCache: true,
-        onSelect: function (sugestion) {            
+        onSelect: function (sugestion) {
             $("#cod_propertie").val(sugestion.data.idx);
             $("#cod_client").val(sugestion.data.clients_attach[0].idx);
             $("#client_first_name").val(sugestion.data.clients_attach[0].first_name);
@@ -28,8 +28,37 @@ $(document).ready(function () {
             $("#client_district").val(sugestion.data.district);
             $("#client_city").val(sugestion.data.city);
             $("#client_uf").val(sugestion.data.uf);
+
+            $("#porcent_propertie").val(sugestion.data.porcent_propertie);
+            $(".price_condominium").val(sugestion.data.price_condominium);
+            $(".price_iptu").val(sugestion.data.price_iptu);
+            $("#price_location").val(sugestion.data.price_location);
+            $("#price_sale").val(sugestion.data.price_sale);
+            $(".type_propertie").val(sugestion.data.type_propertie);
+            $(".deadline_contract").val(sugestion.data.deadline_contract);
+            $(".object_propertie").val(sugestion.data.object_propertie);
+
+            var type = sugestion.data.object_propertie;
+
+            if (type == 'location') {
+                $("#location").show();
+                $("#sale").hide();
+            } else {
+                $("#sale").show();
+                $("#location").hide();
+            }
         }
     });
+
+    var type = ($('.object_propertie').val());
+
+    if (type == 'location') {
+        $("#location").show();
+        $("#sale").hide();
+    } else {
+        $("#sale").show();
+        $("#location").hide();
+    }
 
     var status = ($('#marital_status').val());
 

@@ -133,7 +133,7 @@ class properties_controller
 				foreach ($data as $k => $value) {
 					$out["suggestions"][] = array(
 						"data" => $value,
-						"value" => sprintf("%s %s (%s) - %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"], "Imóvel Disponível.")
+						"value" => sprintf("%s %s (%s) - %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"], $GLOBALS["propertie_objects"][$value["object_propertie"]])
 					);
 				}
 
@@ -282,7 +282,6 @@ class properties_controller
 			$info["post"]["price_condominium"] = preg_replace("/[^0-9]/", "", $info["post"]["price_condominium"]);
 		} else {
 			$info["post"]["porcent_propertie"] = preg_replace("/[^0-9]/", "", $info["post"]["porcent_propertie"]);
-			$info["post"]["price_propertie"] = preg_replace("/[^0-9]/", "", $info["post"]["price_propertie"]);
 			$info["post"]["price_sale"] = preg_replace("/[^0-9]/", "", $info["post"]["price_sale"]);
 		}
 
@@ -325,7 +324,7 @@ class properties_controller
 			$info["post"]["imagem"] = serialize($arrayImages);
 		}
 
-		// /* Documentos */
+		/* Documentos */
 		$arrayDocs = [];
 		if (isset($_FILES["docs"]) && $_FILES["docs"]["name"][0] != "") {
 

@@ -29,14 +29,24 @@ class payments_location_controller
 		if (isset($info["get"]["ordenation"]) && !empty($info["get"]["ordenation"])) {
 			$done["ordenation"] = $info["get"]["ordenation"];
 		}
-		if (isset($info["get"]["filter_id"]) && !empty($info["get"]["filter_id"])) {
-			$done["filter_id"] = $info["get"]["filter_id"];
-			$filter["filter_id"] = " idx like '%" . $info["get"]["filter_id"] . "%' ";
-		}
 
-		if (isset($info["get"]["filter_title"]) && !empty($info["get"]["filter_title"])) {
-			$done["filter_title"] = $info["get"]["filter_title"];
-			$filter["filter_title"] = " trail_title like '%" . $info["get"]["filter_title"] . "%' ";
+		if( isset( $info["get"]["filter_start_date"] ) && !empty( $info["get"]["filter_start_date"] ) ){
+            $done["filter_start_date"] = $info["get"]["filter_start_date"] ;
+            $filter["filter_start_date"] = " expire_at >= '" . $info["get"]["filter_start_date"] . "' " ;
+        }else {
+            $filter["filter_start_date"] = " expire_at >= '" . date("Y-m-d") . "' " ;
+        }
+
+        if( isset( $info["get"]["filter_end_date"] ) && !empty( $info["get"]["filter_end_date"] ) ){
+            $done["filter_end_date"] = $info["get"]["filter_end_date"] ;
+            $filter["filter_end_date"] = " expire_at <= '" . $info["get"]["filter_end_date"] . "' " ;
+        } else {
+            $filter["filter_end_date"] = " expire_at <= '" . date("Y-m-d") . "' " ;
+        }
+
+		if (isset($info["get"]["filter_end_date"]) && !empty($info["get"]["filter_contract"])) {
+			$done["filter_contract"] = $info["get"]["filter_contract"];
+			$filter["filter_contract"] = " n_contract like '%" . $info["get"]["filter_contract"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
@@ -47,6 +57,7 @@ class payments_location_controller
 			$done["filter_trail_status"] = $info["get"]["filter_trail_status"];
 			$filter["filter_trail_status"] = " trail_status = '" . $info["get"]["filter_trail_status"] . "' ";
 		}
+
 		return array($done, $filter);
 	}
 
@@ -75,6 +86,15 @@ class payments_location_controller
 		$payments->attach(array("locations"), true);
 		$data = $payments->data;
 
+		
+
+		$total_amount = 0;
+		foreach ($data as $key => $v) {
+			if ($v["status"] == "waiting" && $v["active"] == "yes") {
+				$total_amount = $v['amount'] + $total_amount;
+			}
+		}
+
 		switch ($info["format"]) {
 			case ".json":
 				header('Content-type: application/json');
@@ -87,7 +107,7 @@ class payments_location_controller
 			default:
 				$page = 'Contas a Receber';
 
-				$sidebar_color = "rgba(0, 139, 139, 1)";
+				$sidebar_color = "rgba(218, 165, 32, 1)";
 				$form = array(
 					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["accounts_receivables_url"], $done) : $GLOBALS["accounts_receivables_url"]), "pattern" => array(
 						"new" => $GLOBALS["newaccountsreceivable_url"],
@@ -187,7 +207,7 @@ class payments_location_controller
 			);
 		}
 
-		$sidebar_color = "rgba(0, 139, 139, 1)";
+		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Conta a Receber';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");

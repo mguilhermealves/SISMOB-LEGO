@@ -212,7 +212,7 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="row col-lg-12">
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" id="location">
                                         <label>Valor Locação</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
@@ -222,39 +222,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" id="location">
                                         <label>Valor IPTU</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">R$</span>
                                             </div>
                                             <input type="text" name="price_iptu" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4" name="is_apartmant">
-                                        <div class="form-group">
-                                            <label>Valor do Condominio</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">R$</span>
-                                                </div>
-                                                <input type="text" name="price_condominium" class="form-control money" value="<?php print(isset($data["price_condominium"]) ? $data["price_condominium"] : "") ?>" autofocus>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <div class="form-group">
-                                            <label for="deadline_contract">Prazo Contrato</label>
-                                            <select name="deadline_contract" id="deadline_contract" class="form-control">
-                                                <option value="">Selecione</option>
-                                                <?php
-                                                foreach ($GLOBALS["deadline_contract"] as $k => $v) {
-                                                    printf('<option %s value="%s">%s</option>', isset($data["deadline_contract"]) && $k == $data["deadline_contract"] ? ' selected' : '', $k, $v);
-                                                }
-                                                ?>
-                                            </select>
                                         </div>
                                     </div>
 
@@ -275,6 +249,32 @@
                                                 <span class="input-group-text" id="basic-addon1">%</span>
                                             </div>
                                             <input type="text" name="porcent_propertie" class="form-control percent" value="<?php print(isset($data["porcent_propertie"]) ? $data["porcent_propertie"] : "") ?>" autofocus>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" name="is_apartmant">
+                                        <div class="form-group">
+                                            <label>Valor do Condominio</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">R$</span>
+                                                </div>
+                                                <input type="text" name="price_condominium" class="form-control money" value="<?php print(isset($data["price_condominium"]) ? $data["price_condominium"] : "") ?>" autofocus>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" id="location">
+                                        <div class="form-group">
+                                            <label for="deadline_contract">Prazo Contrato</label>
+                                            <select name="deadline_contract" id="deadline_contract" class="form-control">
+                                                <option value="">Selecione</option>
+                                                <?php
+                                                foreach ($GLOBALS["deadline_contract"] as $k => $v) {
+                                                    printf('<option %s value="%s">%s</option>', isset($data["deadline_contract"]) && $k == $data["deadline_contract"] ? ' selected' : '', $k, $v);
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
 

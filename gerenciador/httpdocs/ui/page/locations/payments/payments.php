@@ -9,14 +9,14 @@
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_start_date">Data Inicio:</label>
                     <input type="date" id="filter_start_date" class="form-control" name="filter_start_date" value="<?php print(isset($info["get"]["filter_start_date"]) ? $info["get"]["filter_start_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_end_date">Data Fim:</label>
                     <input type="date" id="filter_end_date" class="form-control" name="filter_end_date" value="<?php print(isset($info["get"]["filter_end_date"]) ? $info["get"]["filter_end_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
@@ -73,6 +73,13 @@
             </div>
 
             <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="">Valor a Receber:</label>
+                    <input type="text" id="total_amount" class="form-control" name="total_amount" value="<?php print("R$ " . number_format($total_amount, 2, ",", ".")); ?>" class="form-control" disabled>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
                 <label for="btn_search">&nbsp;</label>
                 <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
             </div>
@@ -83,7 +90,7 @@
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
-                    <th>Id</th>
+                    <th>N° Contrato</th>
                     <th>Nome do Locatário</th>
                     <th>Forma de Pagamento</th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Valor <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
