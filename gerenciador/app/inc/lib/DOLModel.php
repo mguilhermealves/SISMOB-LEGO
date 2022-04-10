@@ -135,6 +135,17 @@ class DOLModel extends rootOBJ {
 		$this->set_recordset( $this->con->result( $this->con->select( " count( " . implode(",", $this->keys["pk"] ) . ") as q " , $this->table, $fi . $gp ) , "q" , 0 ) );
 	}
 
+	public function load_data_vw(){
+		$ff = isset( $this->field ) ? implode( "," , $this->field ) : " * " ;
+		$fi = isset( $this->filter ) ? " where " . implode( " and " , $this->filter ) . " " : "" ;
+		$or = isset( $this->order ) ? " order by " . implode( " , " , $this->order ) . " " : "" ;
+		$gp = isset( $this->group ) ? " group by " . implode( " , " , $this->group ) . " " : "" ;
+		$pa = isset( $this->paginate ) ? " limit " . implode( " , " , $this->paginate ) . " " : "" ;
+		$r = $this->con->select( $ff, $this->table, $fi . $gp . $or . $pa );
+		$this->set_data( $this->con->results( $r ) );
+		$this->set_recordset( $this->con->result( $this->con->select( " count( 1 ) as q " , $this->table, $fi . $gp ) , "q" , 0 ) );
+	}
+
 	public function attach( $classes = array() , $reverse_table = null , $options = null , $class_field = null  ){
 		$new_data = array() ;
 		$_data = $this->data ;

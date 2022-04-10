@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print($GLOBALS["locations_url"]) ?>">Locações</a> / <?php print($form["title"]) ?></p>
+    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print($GLOBALS["locations_url"]) ?>">Locações e Vendas</a> / <?php print($form["title"]) ?></p>
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
 
@@ -548,7 +548,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">R$</span>
                                                 </div>
-                                                <input type="text" id="price_location" name="price_location" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["price_location"] : "") ?>" class="form-control money" disabled>
+                                                <input type="text" id="price_location" name="price_location" value="<?php print(isset($data["properties_attach"][0]) ? number_format($data["properties_attach"][0]["price_location"], 2, ".", ",") : "") ?>" class="form-control" disabled>
                                             </div>
                                         </div>
 
@@ -558,7 +558,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">R$</span>
                                                 </div>
-                                                <input type="text"  id=""  name="price_iptu" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["price_iptu"] : "") ?>" class="form-control price_iptu money" disabled>
+                                                <input type="text"  id=""  name="price_iptu" value="<?php print(isset($data["properties_attach"][0]) ? number_format($data["properties_attach"][0]["price_iptu"], 2, ".", ",") : "") ?>" class="form-control price_iptu money" disabled>
                                             </div>
                                         </div>
 
@@ -569,7 +569,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" id="basic-addon1">R$</span>
                                                     </div>
-                                                    <input type="text" id="price_condominium" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]) ? $data["price_condominium"] : "") ?>" class="form-control money" disabled>
+                                                    <input type="text" id="price_condominium" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]) ? $data["price_condominium"] : "") ?>" class="form-control" disabled>
                                                 </div>
                                             </div>
                                         </div>
@@ -664,7 +664,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">R$</span>
                                                 </div>
-                                                <input type="text" id="price_sale" name="price_sale" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["price_sale"] : "") ?>" class="form-control money" disabled>
+                                                <input type="text" id="price_sale" name="price_sale" value="<?php print(isset($data["properties_attach"][0]) ? number_format($data["properties_attach"][0]["price_sale"], 2, ".", ",") : "") ?>" class="form-control" disabled>
                                             </div>
                                         </div>
 
@@ -675,7 +675,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" id="basic-addon1">R$</span>
                                                     </div>
-                                                    <input type="text" id="" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["price_condominium"] : "") ?>" class="form-control price_condominium money" disabled>
+                                                    <input type="text" id="" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]) ? number_format($data["properties_attach"][0]["price_condominium"], 2, ".", ",") : "") ?>" class="form-control price_condominium" disabled>
                                                 </div>
                                             </div>
                                         </div>

@@ -30,32 +30,48 @@ class payments_location_controller
 			$done["ordenation"] = $info["get"]["ordenation"];
 		}
 
-		if( isset( $info["get"]["filter_start_date"] ) && !empty( $info["get"]["filter_start_date"] ) ){
-            $done["filter_start_date"] = $info["get"]["filter_start_date"] ;
-            $filter["filter_start_date"] = " expire_at >= '" . $info["get"]["filter_start_date"] . "' " ;
-        }else {
-            $filter["filter_start_date"] = " expire_at >= '" . date("Y-m-d") . "' " ;
-        }
+		if (isset($info["get"]["filter_start_date"]) && !empty($info["get"]["filter_start_date"])) {
+			$done["filter_start_date"] = $info["get"]["filter_start_date"];
+			$filter["filter_start_date"] = " expire_at >= '" . $info["get"]["filter_start_date"] . "' ";
+		} else {
+			$filter["filter_start_date"] = " expire_at >= '" . date("Y-m-d") . "' ";
+		}
 
-        if( isset( $info["get"]["filter_end_date"] ) && !empty( $info["get"]["filter_end_date"] ) ){
-            $done["filter_end_date"] = $info["get"]["filter_end_date"] ;
-            $filter["filter_end_date"] = " expire_at <= '" . $info["get"]["filter_end_date"] . "' " ;
-        } else {
-            $filter["filter_end_date"] = " expire_at <= '" . date("Y-m-d") . "' " ;
-        }
+		if (isset($info["get"]["filter_end_date"]) && !empty($info["get"]["filter_end_date"])) {
+			$done["filter_end_date"] = $info["get"]["filter_end_date"];
+			$filter["filter_end_date"] = " expire_at <= '" . $info["get"]["filter_end_date"] . "' ";
+		} else {
+			$filter["filter_end_date"] = " expire_at <= '" . date("Y-m-d") . "' ";
+		}
 
-		if (isset($info["get"]["filter_end_date"]) && !empty($info["get"]["filter_contract"])) {
+		if (isset($info["get"]["filter_status"]) && !empty($info["get"]["filter_status"])) {
+			$done["filter_status"] = $info["get"]["filter_status"];
+			$filter["filter_status"] = " status = '" . $info["get"]["filter_status"] . "' ";
+		}
+
+		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
+			$info["get"]["filter_cpf"] = preg_replace("/[^0-9]/", "", $info["get"]["filter_cpf"]);
+			$done["filter_cpf"] = $info["get"]["filter_cpf"];
+			$filter["filter_name"] = " idx in ( select locations_payments.payments_id from locations_payments, locations
+			WHERE locations_payments.active = 'yes' and locations.idx = locations_payments.locations_id and document = '" . $info["get"]["filter_cpf"] . "' ) ";
+		}
+
+		if (isset($info["get"]["filter_contract"]) && !empty($info["get"]["filter_contract"])) {
 			$done["filter_contract"] = $info["get"]["filter_contract"];
-			$filter["filter_contract"] = " n_contract like '%" . $info["get"]["filter_contract"] . "%' ";
+			$filter["filter_name"] = " idx in ( select locations_payments.payments_id from locations_payments, locations
+			WHERE locations_payments.active = 'yes' and locations.idx = locations_payments.locations_id and n_contract like '%" . $info["get"]["filter_contract"] . "%' ) ";
 		}
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " trail_title like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " idx in ( select locations_payments.payments_id from locations_payments, locations
+			WHERE locations_payments.active = 'yes' and locations.idx = locations_payments.locations_id and concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ) ";
+
 		}
-		if (isset($info["get"]["filter_trail_status"]) && !empty($info["get"]["filter_trail_status"])) {
-			$done["filter_trail_status"] = $info["get"]["filter_trail_status"];
-			$filter["filter_trail_status"] = " trail_status = '" . $info["get"]["filter_trail_status"] . "' ";
+
+		if (isset($info["get"]["filter_type"]) && !empty($info["get"]["filter_type"])) {
+			$done["filter_type"] = $info["get"]["filter_type"];
+			$filter["filter_type"] = " idx in ( SELECT locations_payments.payments_id FROM locations_payments, locations_properties, properties WHERE locations_payments.active = 'yes' and locations_payments.locations_id = locations_properties.locations_id and properties.idx = locations_properties.locations_id and properties.object_propertie = '" . $info["get"]["filter_type"] . "' ) ";
 		}
 
 		return array($done, $filter);
@@ -86,11 +102,9 @@ class payments_location_controller
 		$payments->attach(array("locations"), true);
 		$data = $payments->data;
 
-		
-
 		$total_amount = 0;
 		foreach ($data as $key => $v) {
-			if ($v["status"] == "waiting" && $v["active"] == "yes") {
+			if ($v["active"] == "yes") {
 				$total_amount = $v['amount'] + $total_amount;
 			}
 		}
@@ -116,46 +130,66 @@ class payments_location_controller
 					)
 				);
 
-				$ordenation_positions = 'display_position-asc';
-				$ordenation_positions_ordenation = 'fas fa-border-none';
-				$ordenation_trail = 'trail_title-asc';
-				$ordenation_trail_ordenation = 'fas fa-border-none';
-				$ordenation_modifiedat = 'modified_at-asc';
-				$ordenation_modifiedat_ordenation = 'fas fa-border-none';
-				$ordenation_trail_status = 'trail_status-asc';
-				$ordenation_trail_status_ordenation = 'fas fa-border-none';
+				$ordenation_n_contract = 'n_contract-asc';
+				$ordenation_n_contract_ordenation = 'fas fa-border-none';
+				$ordenation_name = 'first_name-asc';
+				$ordenation_name_ordenation = 'fas fa-border-none';
+				$ordenation_type_propertie = 'modified_at-asc';
+				$ordenation_type_propertie_ordenation = 'fas fa-border-none';
+				$ordenation_value = 'trail_status-asc';
+				$ordenation_value_ordenation = 'fas fa-border-none';
+				$ordenation_expire_at = 'trail_status-asc';
+				$ordenation_expire_at_ordenation = 'fas fa-border-none';
+				$ordenation_status = 'trail_status-asc';
+				$ordenation_status_ordenation = 'fas fa-border-none';
 				switch ($ordenation) {
-					case 'display_position asc':
-						$ordenation_positions = 'display_position-desc';
-						$ordenation_positions_ordenation = 'fas fa-angle-up';
+					case 'n_contract asc':
+						$ordenation_n_contract = 'n_contract-desc';
+						$ordenation_n_contract_ordenation = 'fas fa-angle-up';
 						break;
-					case 'display_position desc':
-						$ordenation_positions = 'display_position-asc';
-						$ordenation_positions_ordenation = 'fas fa-angle-down';
+					case 'n_contract desc':
+						$ordenation_n_contract = 'n_contract-asc';
+						$ordenation_n_contract_ordenation = 'fas fa-angle-down';
 						break;
-					case 'trail_title asc':
-						$ordenation_trail = 'trail_title-desc';
-						$ordenation_trail_ordenation = 'fas fa-angle-up';
+					case 'first_name asc':
+						$ordenation_name = 'first_name-desc';
+						$ordenation_name_ordenation = 'fas fa-angle-up';
 						break;
-					case 'trail_title desc':
-						$ordenation_trail = 'trail_title-asc';
-						$ordenation_trail_ordenation = 'fas fa-angle-down';
+					case 'first_name desc':
+						$ordenation_name = 'first_name-asc';
+						$ordenation_name_ordenation = 'fas fa-angle-down';
 						break;
 					case 'modified_at asc':
-						$ordenation_modifiedat = 'modified_at-desc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-up';
+						$ordenation_type_propertie = 'modified_at-desc';
+						$ordenation_type_propertie_ordenation = 'fas fa-angle-up';
 						break;
 					case 'modified_at desc':
-						$ordenation_modifiedat = 'modified_at-asc';
-						$ordenation_modifiedat_ordenation = 'fas fa-angle-down';
+						$ordenation_type_propertie = 'modified_at-asc';
+						$ordenation_type_propertie_ordenation = 'fas fa-angle-down';
 						break;
 					case 'trail_status asc':
-						$ordenation_trail_status = 'trail_status-desc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-up';
+						$ordenation_value = 'trail_status-desc';
+						$ordenation_value_ordenation = 'fas fa-angle-up';
 						break;
 					case 'trail_status desc':
-						$ordenation_trail_status = 'trail_status-asc';
-						$ordenation_trail_status_ordenation = 'fas fa-angle-down';
+						$ordenation_value = 'trail_status-asc';
+						$ordenation_value_ordenation = 'fas fa-angle-down';
+						break;
+					case 'trail_status asc':
+						$ordenation_expire_at = 'trail_status-desc';
+						$ordenation_expire_at_ordenation = 'fas fa-angle-up';
+						break;
+					case 'trail_status desc':
+						$ordenation_expire_at = 'trail_status-asc';
+						$ordenation_expire_at_ordenation = 'fas fa-angle-down';
+						break;
+					case 'trail_status asc':
+						$ordenation_status = 'trail_status-desc';
+						$ordenation_status_ordenation = 'fas fa-angle-up';
+						break;
+					case 'trail_status desc':
+						$ordenation_status = 'trail_status-asc';
+						$ordenation_status_ordenation = 'fas fa-angle-down';
 						break;
 				}
 
@@ -185,7 +219,7 @@ class payments_location_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 
-		if (isset($info["idx"])) {			
+		if (isset($info["idx"])) {
 			$payment = new payments_model();
 			$payment->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$payment->load_data();

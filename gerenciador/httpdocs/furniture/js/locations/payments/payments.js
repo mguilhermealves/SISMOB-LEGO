@@ -1,6 +1,4 @@
 $(document).ready(function () {
 
-    $('.money').mask("#.##0,00", {
-        reverse: true
-    });
+    $('.document').mask("999.999.999-99");
 });

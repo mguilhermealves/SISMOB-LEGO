@@ -140,7 +140,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 body, html{ margin:0px; padding: 0px;  background: #eee; }
-.footer { position: relative; bottom: 0; width: 100%; height: 60px; background-color: #26348c !important; }
+.footer { position: relative; bottom: 0; width: 100%; height: 60px; background-color: #006699 !important; }
 .footer-desc { color: #fff !important; }
 .container_context{ min-height: 75vh; padding: 0; padding-top: 150px; }
 

@@ -25,7 +25,7 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="filter_name">Nome:</label>
+                    <label for="filter_name">Nome do Locatário:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_cpf">CPF:</label>
-                    <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
+                    <input type="text" id="filter_cpf" class="form-control document" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
@@ -68,13 +68,13 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_district">N° Contrato:</label>
-                    <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
+                    <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o N° do contrato">
                 </div>
             </div>
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="">Valor a Receber:</label>
+                    <label for="">Valor total:</label>
                     <input type="text" id="total_amount" class="form-control" name="total_amount" value="<?php print("R$ " . number_format($total_amount, 2, ",", ".")); ?>" class="form-control" disabled>
                 </div>
             </div>
@@ -90,12 +90,12 @@
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
-                    <th>N° Contrato</th>
-                    <th>Nome do Locatário</th>
-                    <th>Forma de Pagamento</th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Valor <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th>Vencimento</th>
-                    <th>Status</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_n_contract))) ?>">N° Contrato <i class="<?php print($ordenation_n_contract_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome do Locatário <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_type_propertie))) ?>">Forma de Pagamento <i class="<?php print($ordenation_type_propertie_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_value))) ?>">Valor <i class="<?php print($ordenation_value_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_expire_at))) ?>">Vencimento <i class="<?php print($ordenation_expire_at_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_status))) ?>">Status <i class="<?php print($ordenation_status_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -130,7 +130,7 @@
                             <td><?php print($v["locations_attach"][0]["n_contract"]); ?></td>
                             <td><?php print($v["locations_attach"][0]["first_name"] . " " . $v["locations_attach"][0]["last_name"]); ?></td>
                             <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
-                            <td class="money"><?php print($v["amount"]); ?></td>
+                            <td><?php print("R$ " . number_format($v["amount"], 2, ".", ",")); ?></td>
                             <td><?php print(date_format(new DateTime($v["expire_at"]), "d/m/Y")); ?></td>
                             <td><?php print($GLOBALS["payment_status_gerencianet"][$v["status"]]); ?></td>
                             <th>

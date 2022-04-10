@@ -30,7 +30,7 @@
     </nav>
     <style>
       .menu {
-        background-color: #26348c !important;
+        background-color: #006699 !important;
       }
 
       .nav-link {

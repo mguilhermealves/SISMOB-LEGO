@@ -93,7 +93,7 @@ class locations_controller
 				);
 				break;
 			default:
-				$page = 'Imoveis';
+				$page = 'Locações e Vendas';
 				$sidebar_color = "rgba(218, 165, 32, 1)";
 
 				$form = array(
@@ -211,20 +211,20 @@ class locations_controller
 			$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 			$data = current($location->data);
 			$form = array(
-				"title" => "Editar Locação",
+				"title" => "Editar Locação e Venda",
 				"url" => sprintf($GLOBALS["location_url"], $info["idx"]),
 				"donwload_contract" => $GLOBALS["location_contract_url"]
 			);
 		} else {
 			$data = array();
 			$form = array(
-				"title" => "Cadastrar Locação",
+				"title" => "Cadastrar Locação e Venda",
 				"url" => $GLOBALS["newlocation_url"]
 			);
 		}
 
 		$sidebar_color = "rgba(218, 165, 32, 1)";
-		$page = 'Locação';
+		$page = 'Locação e Venda';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");
@@ -251,7 +251,9 @@ class locations_controller
 		}
 
 		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
-		$info["post"]["partner"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["partner"]["document"]);
+		if ($info["post"]["marital_status"] == "married") {
+			$info["post"]["partner"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["partner"]["document"]);
+		}
 		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
 		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
 		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);

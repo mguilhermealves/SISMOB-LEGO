@@ -30,7 +30,7 @@
                             <input name="password" type="password" class="form-control" placeholder="Senha" aria-label="Senha" aria-describedby="senha" required>
                         </div>
                     </div>
-                    <button name="btn_save" class="btn btn-block form-control " style="color: #fff;background-color: #26348c;">Acessar o Sistema</button>
+                    <button name="btn_save" class="btn btn-block form-control " style="color: #fff;background-color: #006699;">Acessar o Sistema</button>
                 </form>
             </div>
         </div>
