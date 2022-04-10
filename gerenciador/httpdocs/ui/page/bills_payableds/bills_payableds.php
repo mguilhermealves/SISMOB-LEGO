@@ -16,6 +16,20 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
+                    <label for="filter_start_date">Data Inicio:</label>
+                    <input type="date" id="filter_start_date" class="form-control" name="filter_start_date" value="<?php print(isset($info["get"]["filter_start_date"]) ? $info["get"]["filter_start_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="filter_end_date">Data Fim:</label>
+                    <input type="date" id="filter_end_date" class="form-control" name="filter_end_date" value="<?php print(isset($info["get"]["filter_end_date"]) ? $info["get"]["filter_end_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
                     <label for="filter_company">Empresa Beneficiária:</label>
                     <input type="text" id="filter_company" class="form-control" name="filter_company" value="<?php print(isset($info["get"]["filter_company"]) ? $info["get"]["filter_company"] : "") ?>" class="form-control" placeholder="Digite o Nome">
                 </div>
@@ -56,8 +70,11 @@
                 </div>
             </div>
 
-            <div class="col-sm-2">
-                
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="">Valor total:</label>
+                    <input type="text" id="total_amount" class="form-control" name="total_amount" value="<?php print("R$ " . number_format($total_amount, 2, ",", ".")); ?>" class="form-control" disabled>
+                </div>
             </div>
 
             <div class="col-sm-3">
@@ -80,7 +97,7 @@
                     <!-- <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Endereço <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th> -->
                     <th>Centro de Custo</th>
                     <th>Forma de Pagamento</th>
-                    <th>Valor (R$)</th>
+                    <th>Valor</th>
                     <th>Status</th>
                     <th>Ações</th>
                 </tr>
@@ -117,7 +134,7 @@
                             <td><?php print($v["companies_attach"][0]["name"]); ?></td>
                             <td><?php print($v["account_pay_cost_center_attach"][0]["name"]); ?></td>
                             <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
-                            <td class="money"><?php print($v["amount"]); ?></td>
+                            <td><?php print("R$ " . number_format($v["amount"], 2, ",", ".")); ?></td>
                             <td><?php print($GLOBALS["payment_status"][$v["status_payment"]]); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="/conta-a-pagar/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>

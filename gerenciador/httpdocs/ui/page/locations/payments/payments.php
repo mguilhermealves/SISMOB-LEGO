@@ -90,12 +90,12 @@
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_n_contract))) ?>">N° Contrato <i class="<?php print($ordenation_n_contract_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome do Locatário <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_type_propertie))) ?>">Forma de Pagamento <i class="<?php print($ordenation_type_propertie_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_value))) ?>">Valor <i class="<?php print($ordenation_value_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_expire_at))) ?>">Vencimento <i class="<?php print($ordenation_expire_at_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_status))) ?>">Status <i class="<?php print($ordenation_status_ordenation) ?>"></i></a></th>
+                    <th>N° Contrato</th>
+                    <th>Nome do Locatário</th>
+                    <th>Forma de Pagamento</th>
+                    <th>Valor</th>
+                    <th>Vencimento</th>
+                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
             </thead>

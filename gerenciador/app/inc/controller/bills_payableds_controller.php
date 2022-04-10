@@ -32,9 +32,24 @@ class bills_payableds_controller
 			$done["ordenation"] = $info["get"]["ordenation"];
 		}
 
+		if (isset($info["get"]["filter_start_date"]) && !empty($info["get"]["filter_start_date"])) {
+			$done["filter_start_date"] = $info["get"]["filter_start_date"];
+			$filter["filter_start_date"] = " day_due >= '" . $info["get"]["filter_start_date"] . "' ";
+		} else {
+			$filter["filter_start_date"] = " day_due >= '" . date("Y-m-d") . "' ";
+		}
+
+		if (isset($info["get"]["filter_end_date"]) && !empty($info["get"]["filter_end_date"])) {
+			$done["filter_end_date"] = $info["get"]["filter_end_date"];
+			$filter["filter_end_date"] = " day_due <= '" . $info["get"]["filter_end_date"] . "' ";
+		} else {
+			$filter["filter_end_date"] = " day_due <= '" . date("Y-m-d") . "' ";
+		}
+
 		if (isset($info["get"]["filter_company"]) && !empty($info["get"]["filter_company"])) {
 			$done["filter_company"] = $info["get"]["filter_company"];
-			$filter["filter_company"] = " company_beneficiary like '%" . $info["get"]["filter_company"] . "%' ";
+			$filter["filter_company"] = " idx in (select account_pays_companies.account_pays_id from account_pays_companies, companies
+			WHERE account_pays_companies.active = 'yes'  and companies.idx = account_pays_companies.companies_id and name like '%" . $info["get"]["filter_company"] . "%' ) ";
 		}
 
 		if (isset($info["get"]["filter_value"]) && !empty($info["get"]["filter_value"])) {
@@ -50,6 +65,7 @@ class bills_payableds_controller
 			$done["filter_status"] = $info["get"]["filter_status"];
 			$filter["filter_status"] = " status_payment = '" . $info["get"]["filter_status"] . "' ";
 		}
+
 		return array($done, $filter);
 	}
 
@@ -77,6 +93,13 @@ class bills_payableds_controller
 		list($total, $data) = $bills_payableds->return_data();
 		$bills_payableds->attach(array("account_pay_cost_center", "companies"));
 		$data = $bills_payableds->data;
+
+		$total_amount = 0;
+		foreach ($data as $key => $v) {
+			if ($v["active"] == "yes") {
+				$total_amount = $v['amount'] + $total_amount;
+			}
+		}
 
 		switch ($info["format"]) {
 			case ".json":

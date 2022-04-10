@@ -278,8 +278,41 @@ class locations_controller
 			$propertie = new properties_model();
 			$propertie->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
 
+			$data = current($propertie->data);
+
 			$propertie->populate($info["post"]["properties"]);
 			$propertie->save();
+
+			// $page = strtr(file_get_contents(constant("cFurniture") . "mail/location-sale.html"), array(
+			// 	"#HOST#" => constant("cFurniture") . "mail/location-sale.html",
+			// 	"#NOME#" => $data["first_name"] . " " . $data["last_name"],
+			// 	"#TYPE_PROPERTIE#" => $data["type_propertie"],
+			// 	"#DAY_DUE#" => date('d/m/Y', strtotime($info["post"]["day_due"])),
+			// 	"#PAYMENT_METHOD#" => $info["post"]["payment_method"],
+			// 	"#AMOUNT#" => $info["post"]["amount"],
+			// ));
+
+			// $messages_model = new messages_model();
+			// $messages_model->populate(array(
+			// 	"name" => "SISMOB - Locação Aprovada",
+			// 	"scheduled_at" => date("Y-m-d H:i:s"),
+			// 	"mailboxes" => serialize(array(
+			// 		"Address" => array(
+			// 			"name" => $_SESSION[constant("cAppKey")]["credential"]["first_name"] . " " . $_SESSION[constant("cAppKey")]["credential"]["last_name"],
+			// 			"mail" => $_SESSION[constant("cAppKey")]["credential"]["mail"]
+			// 		),
+			// 		"from" => array(
+			// 			"name" => constant("mail_from_name"),
+			// 			"mail" => constant("mail_from_user")
+			// 		),
+			// 		"replyTo" => array(
+			// 			"name" => constant("mail_from_name"),
+			// 			"mail" => constant("mail_from_user")
+			// 		)
+			// 	)), "htmlmsg" => $page, "textmsg" => strip_tags($page),
+			// 	"type" => "mail"
+			// ));
+			// $messages_model->save();
 		}
 
 		$location->populate($info["post"]);

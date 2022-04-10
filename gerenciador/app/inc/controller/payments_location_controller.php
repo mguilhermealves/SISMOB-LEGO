@@ -66,7 +66,6 @@ class payments_location_controller
 			$done["filter_name"] = $info["get"]["filter_name"];
 			$filter["filter_name"] = " idx in ( select locations_payments.payments_id from locations_payments, locations
 			WHERE locations_payments.active = 'yes' and locations.idx = locations_payments.locations_id and concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ) ";
-
 		}
 
 		if (isset($info["get"]["filter_type"]) && !empty($info["get"]["filter_type"])) {
