@@ -270,7 +270,8 @@ class bills_payableds_controller
 			$messages_model->save();
 		}
 
-		$info["post"]["amount"] = preg_replace("/[^0-9]/", "", $info["post"]["amount"]);
+		$str = str_replace('.', '', $info["post"]["amount"]);
+        $info["post"]["amount"] = str_replace(',', '.', $str);
 
 		$bill_payabled->populate($info["post"]);
 		$bill_payabled->save();

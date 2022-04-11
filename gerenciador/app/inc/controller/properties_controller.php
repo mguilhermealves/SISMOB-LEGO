@@ -23,7 +23,6 @@ class properties_controller
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
 			$filter["q_name"] = " idx in (select clients_properties.properties_id from clients_properties where active = 'yes' and clients_properties.clients_id in (select clients.idx from clients where first_name like '%" . $info["get"]["q_name"] . "%' ))";
 			$filter["q_is_used"] = " is_used = 'no' ";
-			
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
@@ -276,13 +275,25 @@ class properties_controller
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
 
-		$info["post"]["price_iptu"] = preg_replace("/[^0-9]/", "", $info["post"]["price_iptu"]);
+		$info["post"]["price_iptu"] = str_replace('.', '', $info["post"]["price_iptu"]);
+		$info["post"]["price_iptu"] = str_replace(',', '.', $info["post"]["price_iptu"]);
+
+		$info["post"]["price_condominium"] = str_replace('.', '', $info["post"]["price_condominium"]);
+		$info["post"]["price_condominium"] = str_replace(',', '.', $info["post"]["price_condominium"]);
+
 		if ($info["post"]["object_propertie"] == "location") {
-			$info["post"]["price_location"] = preg_replace("/[^0-9]/", "", $info["post"]["price_location"]);
-			$info["post"]["price_condominium"] = preg_replace("/[^0-9]/", "", $info["post"]["price_condominium"]);
+			$info["post"]["price_location"] = str_replace('.', '', $info["post"]["price_location"]);
+			$info["post"]["price_location"] = str_replace(',', '.', $info["post"]["price_location"]);
+
+			$info["post"]["porcent_propertie"] = null;
+			$info["post"]["price_sale"] = null;
 		} else {
 			$info["post"]["porcent_propertie"] = preg_replace("/[^0-9]/", "", $info["post"]["porcent_propertie"]);
-			$info["post"]["price_sale"] = preg_replace("/[^0-9]/", "", $info["post"]["price_sale"]);
+
+			$info["post"]["price_sale"] = str_replace('.', '', $info["post"]["price_sale"]);
+			$info["post"]["price_sale"] = str_replace(',', '.', $info["post"]["price_sale"]);
+
+			$info["post"]["price_location"] = null;
 		}
 
 		/* Imagens */
