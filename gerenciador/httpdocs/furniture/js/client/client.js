@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+    $('body').keypress(function(event) {
+        if (event.keyCode == '13') {
+            return false;
+        }
+    });
+
     $('#phone').mask("(99) 9999-9999");
     $('#celphone').mask("(99) 99999-9999");
     $('#code_postal').mask("99999-999");

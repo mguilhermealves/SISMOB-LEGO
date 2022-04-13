@@ -122,8 +122,8 @@
                     }
                     ?>
 
-                    <input id="cod_client" type="hidden" name="cod_client" value="<?php print($data["properties_attach"][0]["clients_attach"][0]["idx"]); ?>">
-                    <input id="cod_propertie" type="hidden" name="cod_propertie" value="<?php print($data["properties_attach"][0]["idx"]); ?>">
+                    <input id="cod_client" type="hidden" name="cod_client" value="<?php print($data["properties_attach"][0]["clients_attach"][0]["idx"]); ?>" required>
+                    <input id="cod_propertie" type="hidden" name="cod_propertie" value="<?php print($data["properties_attach"][0]["idx"]); ?>" required>
 
                     <!-- Dados do Locatário -->
                     <div class="modal-content">
@@ -349,190 +349,6 @@
                         </div>
                     </div>
 
-                    <!-- Dados Financeiros -->
-                    <div class="modal-content">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Dados Financeiros</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="type_work">Tipo de Regime</label>
-                                                <select name="offices[type_work]" id="type_work" class="form-control">
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    foreach ($GLOBALS["type_work"] as $k => $v) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["offices_attach"][0]["type_work"]) && $k == $data["offices_attach"][0]["type_work"] ? ' selected' : '', $k, $v);
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Razão Social</label>
-                                                <input type="text" class="form-control" name="offices[company_name]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>3 Ultimos comprovantes de renda</label>
-                                                <input type="file" class="form-control" name="offices[rent_file][]" multiple>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dados Financeiros clt -->
-                    <div class="modal-content" id="clt">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Dados Financeiros - CLT</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Cargo</label>
-                                                <input type="text" class="form-control" name="offices[office]" value="<?php print(isset($data["offices_attach"][0]["office"]) ? $data["offices_attach"][0]["office"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Tempo de Registro</label>
-                                                <input type="text" class="form-control" name="offices[registration_time]" value="<?php print(isset($data["offices_attach"][0]["registration_time"]) ? $data["offices_attach"][0]["registration_time"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label>Renda Mensal</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">R$</span>
-                                                </div>
-                                                <input type="text" name="offices[rent_monthly]" class="form-control money" value="<?php print(isset($data["offices_attach"][0]["rent_monthly"]) ? $data["offices_attach"][0]["rent_monthly"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Comprovante IRPF</label>
-                                                <input type="file" class="form-control" name="offices[IRPF_file][]" multiple>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dados Financeiros pj -->
-                    <div class="modal-content" id="pj">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Dados Financeiros - PJ</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Endereço</label>
-                                                <input type="file" class="form-control" name="offices[address_file]">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>CNPJ</label>
-                                                <input type="file" class="form-control" name="offices[cnpj_file]">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Contrato Social</label>
-                                                <input type="file" class="form-control" name="offices[contract_file]">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Conjuge -->
-                    <div class="modal-content" id="conjuge">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Dados do Conjuge</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Nome</label>
-                                                <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"]["first_name_partner"]) ? $data["partners_attach"]["first_name_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Sobrenome</label>
-                                                <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"]["last_name_partner"]) ? $data["partners_attach"]["last_name_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">CPF</label>
-                                                <input id="name" type="text" class="form-control document" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"]["document_partner"]) ? $data["partners_attach"]["document_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">RG</label>
-                                                <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"]["rg_partner"]) ? $data["partners_attach"]["rg_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">CNH</label>
-                                                <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"]["cnh_partner"]) ? $data["partners_attach"]["cnh_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="file">Certidão de Casamento (.pdf)</label>
-                                                <input type="file" id="file" name="partner[file]" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <?php if (!empty($data["partners_attach"]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"]["file"])) { ?>
-                                            <img class="img-fluid" src="/<?php print($data["partners_attach"]["file"]) ?>" />
-                                        <?php
-                                        } ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Dados da Locação -->
                     <div class="modal-content" id="location">
                         <div class="modal-header label">
@@ -558,7 +374,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">R$</span>
                                                 </div>
-                                                <input type="text"  id=""  name="price_iptu" value="<?php print(isset($data["properties_attach"][0]) ? number_format($data["properties_attach"][0]["price_iptu"], 2, ".", ",") : "") ?>" class="form-control price_iptu money" disabled>
+                                                <input type="text" id="" name="price_iptu" value="<?php print(isset($data["properties_attach"][0]) ? number_format($data["properties_attach"][0]["price_iptu"], 2, ".", ",") : "") ?>" class="form-control price_iptu money" disabled>
                                             </div>
                                         </div>
 
@@ -577,7 +393,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="deadline_contract">Prazo Contrato</label>
-                                                <select name="deadline_contract" id="deadline_contract" class="form-control" disabled>
+                                                <select name="deadline_contract" class="form-control deadline_contract" disabled>
                                                     <option value="">Selecione</option>
                                                     <?php
                                                     foreach ($GLOBALS["deadline_contract"] as $k => $v) {
@@ -591,7 +407,7 @@
                                         <div class="col-lg-4" id="object_propertie">
                                             <div class="form-group">
                                                 <label for="object_propertie">Objetivo do Imovel</label>
-                                                <select name="object_propertie"  id=""  class="form-control object_propertie" disabled>
+                                                <select name="object_propertie" id="" class="form-control object_propertie" disabled>
                                                     <option value="">Selecione</option>
                                                     <?php
                                                     foreach ($GLOBALS["propertie_objects"] as $k => $v) {
@@ -741,53 +557,242 @@
                         </div>
                     </div>
 
-                    <!-- Aprovação -->
-                    <div class="modal-content" id="status">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Status da Locação</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="is_aproved">Status</label>
-                                                <select name="is_aproved" id="is_aproved" class="form-control">
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    foreach ($GLOBALS["status_location"] as $k => $v) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["is_aproved"]) && $k == $data["is_aproved"] ? ' selected' : '', $k, $v);
-                                                    }
-                                                    ?>
-                                                </select>
+                    <?php if (isset($data["idx"])) { ?>
+                        <!-- Dados Financeiros -->
+                        <div class="modal-content">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Dados Financeiros</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="type_work">Tipo de Regime</label>
+                                                    <select name="offices[type_work]" id="type_work" class="form-control">
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["type_work"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["offices_attach"][0]["type_work"]) && $k == $data["offices_attach"][0]["type_work"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Razão Social</label>
+                                                    <input type="text" class="form-control" name="offices[company_name]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>3 Ultimos comprovantes de renda</label>
+                                                    <input type="file" class="form-control" name="offices[rent_file][]" multiple>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="n_contract">N° de Contrato</label>
-                                                <input id="n_contract" type="text" class="form-control" name="n_contract" value="<?php print(isset($data["n_contract"]) ? $data["n_contract"] : "") ?>" disabled>
-                                                <!-- <button type="button" id="download_contract" data-idlocation="<?php print($data["idx"]) ?>" class="btn btn-outline-primary btn-sm">Download Contrato</button> -->
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12" id="text_reproved">
-                                            <div class="form-group">
-                                                <label>Motivo da Reprovação</label>
-                                                <textarea name="comments" id="comments" rows="5" cols="100" style="overflow: auto; resize: none;"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <?php if (!empty($data["partners_attach"]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"]["file"])) { ?>
-                                            <img class="img-fluid" src="/<?php print($data["partners_attach"]["file"]) ?>" />
-                                        <?php
-                                        } ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <!-- Dados Financeiros clt -->
+                        <div class="modal-content" id="clt">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Dados Financeiros - CLT</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Cargo</label>
+                                                    <input type="text" class="form-control" name="offices[office]" value="<?php print(isset($data["offices_attach"][0]["office"]) ? $data["offices_attach"][0]["office"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Tempo de Registro</label>
+                                                    <input type="text" class="form-control" name="offices[registration_time]" value="<?php print(isset($data["offices_attach"][0]["registration_time"]) ? $data["offices_attach"][0]["registration_time"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <label>Renda Mensal</label>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">R$</span>
+                                                    </div>
+                                                    <input type="text" name="offices[rent_monthly]" class="form-control money" value="<?php print(isset($data["offices_attach"][0]["rent_monthly"]) ? $data["offices_attach"][0]["rent_monthly"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Comprovante IRPF</label>
+                                                    <input type="file" class="form-control" name="offices[IRPF_file][]" multiple>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dados Financeiros pj -->
+                        <div class="modal-content" id="pj">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Dados Financeiros - PJ</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Endereço</label>
+                                                    <input type="file" class="form-control" name="offices[address_file]">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>CNPJ</label>
+                                                    <input type="file" class="form-control" name="offices[cnpj_file]">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Contrato Social</label>
+                                                    <input type="file" class="form-control" name="offices[contract_file]">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Conjuge -->
+                        <div class="modal-content" id="conjuge">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Dados do Conjuge</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="name">Nome</label>
+                                                    <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"]["first_name_partner"]) ? $data["partners_attach"]["first_name_partner"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="name">Sobrenome</label>
+                                                    <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"]["last_name_partner"]) ? $data["partners_attach"]["last_name_partner"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="name">CPF</label>
+                                                    <input id="name" type="text" class="form-control document" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"]["document_partner"]) ? $data["partners_attach"]["document_partner"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="name">RG</label>
+                                                    <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"]["rg_partner"]) ? $data["partners_attach"]["rg_partner"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="name">CNH</label>
+                                                    <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"]["cnh_partner"]) ? $data["partners_attach"]["cnh_partner"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="file">Certidão de Casamento (.pdf)</label>
+                                                    <input type="file" id="file" name="partner[file]" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <?php if (!empty($data["partners_attach"]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"]["file"])) { ?>
+                                                <img class="img-fluid" src="/<?php print($data["partners_attach"]["file"]) ?>" />
+                                            <?php
+                                            } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <!-- Aprovação -->
+                    <?php
+                    if (isset($data["is_aproved"]) && $data["is_aproved"] != 'pending') { ?>
+                        <div class="modal-content" id="status">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Status da Locação</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="is_aproved">Status</label>
+                                                    <select name="is_aproved" id="is_aproved" class="form-control">
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["status_location"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["is_aproved"]) && $k == $data["is_aproved"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="n_contract">N° de Contrato</label>
+                                                    <input id="n_contract" type="text" class="form-control" name="n_contract" value="<?php print(isset($data["n_contract"]) ? $data["n_contract"] : "") ?>" disabled>
+                                                    <!-- <button type="button" id="download_contract" data-idlocation="<?php print($data["idx"]) ?>" class="btn btn-outline-primary btn-sm">Download Contrato</button> -->
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12" id="text_reproved">
+                                                <div class="form-group">
+                                                    <label>Motivo da Reprovação</label>
+                                                    <textarea name="comments" id="comments" rows="5" cols="100" style="overflow: auto; resize: none;"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <?php if (!empty($data["partners_attach"]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"]["file"])) { ?>
+                                                <img class="img-fluid" src="/<?php print($data["partners_attach"]["file"]) ?>" />
+                                            <?php
+                                            } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
 
                     <div class="col-sm-12 text-right">
                         <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>

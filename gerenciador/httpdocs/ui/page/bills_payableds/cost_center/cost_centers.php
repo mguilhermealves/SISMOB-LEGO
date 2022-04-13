@@ -13,7 +13,7 @@
                 <p class="h6 text-blue">Filtros de Busca:</p>
                 <hr>
             </div>
-            
+
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
@@ -58,6 +58,8 @@
     </form>
     <!-- Container Begin -->
     <div class="col-lg-12" style="overflow: auto;">
+        <?php html_notification_print(); ?>
+
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>

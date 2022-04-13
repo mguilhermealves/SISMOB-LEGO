@@ -226,8 +226,18 @@ class account_pay_cost_center_controller
 
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$cost_center->set_filter(array(" idx = '" . $info["idx"] . "' "));
-		} else {
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
+		} else {
+			$consult_cost_center = new account_pay_cost_center_model();
+			$consult_cost_center->set_filter(array(" cost_center = '" . $info["post"]["cost_center"] . "' "));
+			$consult_cost_center->load_data();
+			$data = current($consult_cost_center->data);
+
+			if (!empty($data)) {
+				$_SESSION["messages_app"]["warning"][] = "Já existe um centro de custo com esse número, favor verificar!";
+
+				basic_redir($GLOBALS["account_pay_cost_centers_url"]);
+			}
 		}
 
 		$cost_center->populate($info["post"]);

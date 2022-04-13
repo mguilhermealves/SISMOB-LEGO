@@ -223,6 +223,8 @@ class locations_controller
 			);
 		}
 
+		// print_pre($data, true);
+
 		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Locação e Venda';
 
