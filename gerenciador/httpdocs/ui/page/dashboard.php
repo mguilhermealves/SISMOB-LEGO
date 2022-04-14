@@ -5,51 +5,41 @@
 
     <hr class="col-lg-12 py-2">
 
-    <?php
-    $menus = new menus_model();
-    $menus->set_filter(array("active = 'yes'", " idx in ( select menus_profiles.menus_id from menus_profiles where menus_profiles.active = 'yes' and menus_profiles.profiles_id in ( '" . implode("','", isset($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]) ? array_column($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"], "idx") : array(0)) . "' ) ) "));
-    $menus->set_order(array("position"));
-    $menus->load_data();
-    $menus->attach(array("urls"));
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Clientes</h5>
+                    <p class="card-text">2</p>
+                </div>
+            </div>
+        </div>
 
-    foreach ($menus->data as $k => $v) {
-        if ($k == 0) {
-            $color = $v["color"];
-            print('<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="display:flex;justify-content: flex-start;align-items: flex-start;flex-direction: revert;flex-wrap: wrap;">');
-        }
-        if ($v["color"] != $color) {
-            $color = $v["color"];
-            print('</div><div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="display:flex;justify-content: flex-start;align-items: flex-start;flex-direction: revert;flex-wrap: wrap;">');
-        }
-        printf(
-            '<a id="linkside%s" class="p-3 my-3 mr-4 link-menu-sidebar" style="border-color:%s" href="%s"><p>%s</p></a>',
-            $k,
-            $v["color"],
-            isset($v["urls_attach"][0]) && isset($GLOBALS[$v["urls_attach"][0]["slug"] . "_url"]) ? $GLOBALS[$v["urls_attach"][0]["slug"] . "_url"] : "#",
-            $v["name"]
-        );
-        print('<style>a#linkside' . $k . ':hover{ background-image: linear-gradient(180deg, ' . $v["color"] . ' 0%, rgba(255, 255, 255, 1) 57%) !important; color:rgb(85, 85, 85); text-decoration:none }</style>');
-    }
-    ?>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Imóveis</h5>
+                    <p class="card-text">2</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Locações</h5>
+                    <p class="card-text">2</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Vendas</h5>
+                    <p class="card-text">2</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<style>
-    .link-menu-sidebar {
-        width: 142px !important;
-        height: 142px;
-        border: 3px solid rgb(0, 117, 18);
-        font-size: 1rem;
-        line-height: 1rem;
-        font-weight: 600;
-        color: rgb(85, 85, 85);
-        display: flex;
-        flex-direction: column;
-        box-shadow: none;
-        text-align: center;
-        transition: all 800ms ease-in-out;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        gap: 15px;
-    }
-</style>

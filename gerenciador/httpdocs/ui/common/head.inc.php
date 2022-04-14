@@ -6,22 +6,49 @@
   ?>
 
     <nav class="navbar fixed-top navbar-expand-sm menu">
-      <a class="navbar-brand" href="/"><img style="max-width: 250px;" src="<?php printf("%simg/logo.jpeg", constant("cFurniture")) ?>"></a>
+      <a class="navbar-brand" href="/"><img style="max-width: 150px;" src="<?php printf("%simg/logo.jpeg", constant("cFurniture")) ?>"></a>
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="collapsibleNavId">
 
-        <!-- <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home </a>
+          </li>
+
+          <li class="nav-item active">
+            <a class="nav-link" href="<?php print($GLOBALS["clients_url"]) ?>">Clientes <span class="sr-only">(current)</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="<?php print($GLOBALS["properties_url"]) ?>">Imoveis</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="financerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Financeiro</a>
+            <div class="dropdown-menu" aria-labelledby="financerId">
+              <a class="dropdown-item disabled" href="<?php print($GLOBALS["account_pay_categories_url"]) ?>">Categorias</a>
+              <a class="dropdown-item disabled" href="<?php print($GLOBALS["account_pay_cost_centers_url"]) ?>">Centro de Custo</a>
+              <a class="dropdown-item disabled" href="<?php print($GLOBALS["companies_url"]) ?>">Empresas</a>
+              <a class="dropdown-item disabled" href="<?php print($GLOBALS["bills_payableds_url"]) ?>">Contas a Pagar</a>
+              <a class="dropdown-item disabled" href="<?php print($GLOBALS["accounts_receivables_url"]) ?>">Contas a Receber</a>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="<?php print($GLOBALS["locations_url"]) ?>">Alugueis e Vendas</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="editUserId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php print($_SESSION[constant("cAppKey")]["credential"]["first_name"]) ?></a>
             <div class="dropdown-menu" aria-labelledby="editUserId">
               <a class="dropdown-item disabled" href="#">Editar Dados</a>
             </div>
           </li>
-        </ul> -->
 
-        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
           <li class="nav-item">
             <a class="nav-link" href="<?php print($GLOBALS["logout_url"]) ?>">Sair</a>
           </li>
@@ -44,10 +71,8 @@
         if ($info["server_uri"] != "") {
         ?>
           <div class="d-flex">
-            <div class="d-flex col-lg-2 col-sm-2" style="justify-content: flex-start;flex-direction:column">
-              <?php include(constant("cRootServer") . "ui/common/sidebar.inc.php"); ?>
-            </div>
-            <div class="d-flex col-lg-10 col-lg-9 row-margin">
+
+            <div class="d-flex col-lg-12 col-lg-9 row-margin">
               <div class="col-lg-12 p-3 d-flex flex-column whiteContainer">
               <?php
             } else {
