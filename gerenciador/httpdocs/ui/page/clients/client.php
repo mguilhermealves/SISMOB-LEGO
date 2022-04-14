@@ -104,10 +104,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <?php if (!empty($data["img"]) && file_exists(constant("cRootServer") . $data["img"])) {
-                                ?><img class="img-fluid" src="/<?php print($data["img"]) ?>" />
-                                <?php
-                                } ?>
                             </div>
                         </div>
                     </div>
@@ -234,8 +230,8 @@
                                         </div>
                                     </div>
 
-                                    <?php if (!empty($data["partners_attach"][0]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["file"])) { ?>
-                                        <img class="img-fluid" src="/<?php print($data["partners_attach"][0]["file"]) ?>" />
+                                    <?php if (!empty($data["partners_attach"][0]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["certification"])) { ?>
+                                        <iframe class="pdf" src="/<?php print($data["partners_attach"][0]["certification"]) ?>" width="100%" height="300px"></iframe>
                                     <?php
                                     } ?>
                                 </div>

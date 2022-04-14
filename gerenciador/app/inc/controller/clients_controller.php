@@ -309,15 +309,16 @@ class clients_controller
 					unlink(constant("cRootServer") . $file);
 				}
 				move_uploaded_file($_FILES["partner"]["tmp_name"]["file"], constant("cRootServer") . $file);
-				$info["post"]["ico"] = $file;
+
+				$info["post"]["partner"]["certification"] = $file;
+
+				$partner = new partners_model();
+				$partner->populate($info["post"]["partner"]);
+				$partner->save();
+				$info["post"]["partners_id"] = $partner->con->insert_id;
+
+				$client->save_attach($info, array("partners"));
 			}
-
-			$partner = new partners_model();
-			$partner->populate($info["post"]["partner"]);
-			$partner->save();
-			$info["post"]["partners_id"] = $partner->con->insert_id;
-
-			$client->save_attach($info, array("partners"));
 		}
 
 		$_SESSION["messages_app"]["success"] = array("Cliente Cadastrado com sucesso.");

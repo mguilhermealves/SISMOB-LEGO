@@ -58,7 +58,7 @@ class payments_location_controller
 
 		if (isset($info["get"]["filter_contract"]) && !empty($info["get"]["filter_contract"])) {
 			$done["filter_contract"] = $info["get"]["filter_contract"];
-			$filter["filter_name"] = " idx in ( select locations_payments.payments_id from locations_payments, locations
+			$filter["filter_contract"] = " idx in ( select locations_payments.payments_id from locations_payments, locations
 			WHERE locations_payments.active = 'yes' and locations.idx = locations_payments.locations_id and n_contract like '%" . $info["get"]["filter_contract"] . "%' ) ";
 		}
 

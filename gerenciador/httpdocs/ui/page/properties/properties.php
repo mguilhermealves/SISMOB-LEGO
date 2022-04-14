@@ -31,7 +31,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="filter_address">Endereço do Imóvel:</label>
-                    <input type="text" id="filter_address" class="form-control" name="filter_address" value="<?php print(isset($info["get"]["filter_address"]) ? $info["get"]["filter_address"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
+                    <input type="text" id="filter_address" class="form-control" name="filter_address" value="<?php print(isset($info["get"]["filter_address"]) ? $info["get"]["filter_address"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Endereço">
                 </div>
             </div>
 
@@ -71,7 +71,7 @@
             </div>
 
             <div class="col-sm-8">
-                
+
             </div>
 
             <div class="col-sm-2">
@@ -86,6 +86,8 @@
     </form>
     <!-- Container Begin -->
     <div class="col-lg-12" style="overflow: auto;">
+        <?php html_notification_print(); ?>
+        
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
