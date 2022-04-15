@@ -5,7 +5,7 @@
   if (isset($_SESSION[constant("cAppKey")]["credential"])) {
   ?>
 
-    <nav class="navbar fixed-top navbar-expand-sm menu">
+    <nav class="navbar fixed-top navbar-expand-sm navbar-light menu">
       <a class="navbar-brand" href="/"><img style="max-width: 150px;" src="<?php printf("%simg/logo.jpeg", constant("cFurniture")) ?>"></a>
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -13,6 +13,10 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
 
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item" style="border-right: 1px solid #fff">
+            <a class="nav-link">Bem vindo(a), <?php print($_SESSION[constant("cAppKey")]["credential"]["first_name"]) ?></a>
+          </li>
+
           <li class="nav-item active">
             <a class="nav-link" href="/">Home </a>
           </li>
@@ -25,27 +29,31 @@
             <a class="nav-link" href="<?php print($GLOBALS["properties_url"]) ?>">Imoveis</a>
           </li>
 
+          <li class="nav-item">
+            <a class="nav-link" href="<?php print($GLOBALS["locations_url"]) ?>">Alugueis / Vendas</a>
+          </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="financerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Financeiro</a>
             <div class="dropdown-menu" aria-labelledby="financerId">
-              <a class="dropdown-item disabled" href="<?php print($GLOBALS["account_pay_categories_url"]) ?>">Categorias</a>
-              <a class="dropdown-item disabled" href="<?php print($GLOBALS["account_pay_cost_centers_url"]) ?>">Centro de Custo</a>
-              <a class="dropdown-item disabled" href="<?php print($GLOBALS["companies_url"]) ?>">Empresas</a>
-              <a class="dropdown-item disabled" href="<?php print($GLOBALS["bills_payableds_url"]) ?>">Contas a Pagar</a>
-              <a class="dropdown-item disabled" href="<?php print($GLOBALS["accounts_receivables_url"]) ?>">Contas a Receber</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["account_pay_categories_url"]) ?>">Categorias</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["account_pay_cost_centers_url"]) ?>">Centro de Custo</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["companies_url"]) ?>">Empresas</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["bills_payableds_url"]) ?>">Contas a Pagar</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["accounts_receivables_url"]) ?>">Contas a Receber</a>
             </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="<?php print($GLOBALS["locations_url"]) ?>">Alugueis e Vendas</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="reportsId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Relatórios</a>
+            <div class="dropdown-menu" aria-labelledby="reportsId">
+              <a class="dropdown-item" href="<?php print($GLOBALS["clients_reports_url"]) ?>">Clientes</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["properties_reports_url"]) ?>">Imoveis</a>
+            </div>
           </li>
         </ul>
 
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-          <li class="nav-item" style="border-right: 1px solid #fff">
-            <a class="nav-link">Bem vindo(a), <?php print($_SESSION[constant("cAppKey")]["credential"]["first_name"]) ?></a>
-          </li>
-
           <li class="nav-item">
             <a class="nav-link" href="<?php print($GLOBALS["logout_url"]) ?>">Sair</a>
           </li>
