@@ -14,12 +14,15 @@ $(document).ready(function () {
                 idPayment: idPayment
             },
             beforeSend: function () {
-
+                $(".spinner-border").show();
             },
-            success: function (data) {
+            success: function () {
                 setTimeout(function () {
                     window.location.reload();
                 }, 1500);
+            },
+            complete: function () {
+                $('.spinner-border').hide();
             }
         });
     });
@@ -34,12 +37,15 @@ $(document).ready(function () {
                 idPayment: idPayment
             },
             beforeSend: function () {
-                
+                $(".spinner-border").show();
             },
-            success: function (data) {
+            success: function () {
                 setTimeout(function () {
                     window.location.reload();
                 }, 1500);
+            },
+            complete: function () {
+                $('.spinner-border').hide();
             }
         });
     });
