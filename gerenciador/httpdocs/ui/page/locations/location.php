@@ -435,7 +435,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="day_due">Melhor dia para Vencimento</label>
-                                                <select name="day_due" id="day_due" class="form-control">
+                                                <select name="day_due" id="day_due_location" class="form-control">
                                                     <option value="">Selecione</option>
                                                     <?php
                                                     for ($i = 1; $i <= 31; $i++) {
@@ -449,7 +449,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="type_work">Forma de Pagamento</label>
-                                                <select name="payment_method" id="payment_method" class="form-control">
+                                                <select name="payment_method" id="payment_method_location" class="form-control">
                                                     <option value="">Selecione</option>
                                                     <?php
                                                     foreach ($GLOBALS["payment_method"] as $k => $v) {
@@ -527,7 +527,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="day_due">Melhor dia para Vencimento</label>
-                                                <select name="day_due" id="day_due" class="form-control">
+                                                <select name="day_due" id="day_due_sale" class="form-control">
                                                     <option value="">Selecione</option>
                                                     <?php
                                                     for ($i = 1; $i <= 31; $i++) {
@@ -541,7 +541,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="type_work">Forma de Pagamento</label>
-                                                <select name="payment_method" id="payment_method" class="form-control">
+                                                <select name="payment_method" id="payment_method_sale" class="form-control">
                                                     <option value="">Selecione</option>
                                                     <?php
                                                     foreach ($GLOBALS["payment_method"] as $k => $v) {
@@ -693,35 +693,35 @@
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="name">Nome</label>
-                                                    <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"]["first_name_partner"]) ? $data["partners_attach"]["first_name_partner"] : "") ?>">
+                                                    <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["first_name_partner"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="name">Sobrenome</label>
-                                                    <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"]["last_name_partner"]) ? $data["partners_attach"]["last_name_partner"] : "") ?>">
+                                                    <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"][0]["last_name_partner"]) ? $data["partners_attach"][0]["last_name_partner"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="name">CPF</label>
-                                                    <input id="name" type="text" class="form-control document" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"]["document_partner"]) ? $data["partners_attach"]["document_partner"] : "") ?>">
+                                                    <input id="name" type="text" class="form-control document" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"][0]["document_partner"]) ? $data["partners_attach"][0]["document_partner"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="name">RG</label>
-                                                    <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"]["rg_partner"]) ? $data["partners_attach"]["rg_partner"] : "") ?>">
+                                                    <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"][0]["rg_partner"]) ? $data["partners_attach"][0]["rg_partner"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="name">CNH</label>
-                                                    <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"]["cnh_partner"]) ? $data["partners_attach"]["cnh_partner"] : "") ?>">
+                                                    <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"][0]["cnh_partner"]) ? $data["partners_attach"][0]["cnh_partner"] : "") ?>">
                                                 </div>
                                             </div>
 
@@ -732,7 +732,7 @@
                                                 </div>
                                             </div>
 
-                                            <?php if (!empty($data["partners_attach"]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"]["file"])) { ?>
+                                            <?php if (!empty($data["partners_attach"][0]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["file"])) { ?>
                                                 <img class="img-fluid" src="/<?php print($data["partners_attach"]["file"]) ?>" />
                                             <?php
                                             } ?>
@@ -745,7 +745,7 @@
 
                     <!-- Aprovação -->
                     <?php
-                    if (isset($data["is_aproved"]) && $data["is_aproved"] != 'pending') { ?>
+                    if (isset($data["is_aproved"]) && $data["is_aproved"] == 'pending') { ?>
                         <div class="modal-content" id="status">
                             <div class="modal-header label">
                                 <h5 class="modal-title ">Status da Locação</h5>

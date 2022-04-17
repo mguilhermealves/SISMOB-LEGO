@@ -30,8 +30,12 @@ try {
     $charge = $api->cancelCharge($params, []);
 
     $_SESSION["messages_app"]["success"] = array("Boleto cancelado com sucesso.");
+
+    basic_redir($GLOBALS["location_payments_url"]);
 } catch (GerencianetException $e) {
     $_SESSION["messages_app"]["danger"] = array("Apenas transações com status: [Cobrança Gerada], [Aguardando] ou [Não Pago] podem ser canceladas.");
+
+    basic_redir($GLOBALS["location_payments_url"]);
 } catch (Exception $e) {
     $_SESSION["messages_app"]["danger"] = $e->getMessage();
 }

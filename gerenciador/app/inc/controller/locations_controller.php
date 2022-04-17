@@ -207,7 +207,8 @@ class locations_controller
 			$location = new locations_model();
 			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$location->load_data();
-			$location->attach(array("offices", "partners", "properties"));
+			$location->attach(array("offices", "properties"));
+			$location->attach(array("partners"));
 			$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 			$data = current($location->data);
 			$form = array(
@@ -222,8 +223,6 @@ class locations_controller
 				"url" => $GLOBALS["newlocation_url"]
 			);
 		}
-
-		// print_pre($data, true);
 
 		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Locação e Venda';
@@ -248,74 +247,96 @@ class locations_controller
 
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
-		} else {
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
 
-		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
-		if ($info["post"]["marital_status"] == "married") {
-			$info["post"]["partner"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["partner"]["document"]);
+		// is approved
+		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
+			$location->load_data();
+			$location->attach(array("properties"));
+			$data = current($location->data);
+
+			if (empty($data["aproved_at"])) {
+				$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");
+				$info["post"]["aproved_by"] = $_SESSION[constant("cAppKey")]["credential"]["idx"];
+				$info["post"]["aproved_at"] = date("Y-m-d H:i:s");
+
+				$user_adm = new users_model();
+				$user_adm->set_filter(array(" idx in ( SELECT users_profiles.users_id from users_profiles where profiles_id in ( select profiles.idx from profiles where slug = 'administrador-sismob' ) )"));
+				$user_adm->load_data();
+				$data_useradm = $user_adm->data;
+
+				$user_approved = new users_model();
+				$user_approved->set_filter(array(" idx = '" . $info["post"]["aproved_by"] . "' "));
+				$user_approved->load_data();
+				$data_useraproved = current( $user_approved->data );
+
+				foreach ($data_useradm as $k => $v) {
+					if ($data["properties_attach"][0]["object_propertie"] == "location") {
+						$page = strtr(file_get_contents(constant("cFurniture") . "mail/new_location.html"), array(
+							"#HOST#" => constant("cFurniture") . "mail/new_location.html",
+							"#CONTRACT#" => $info["post"]["n_contract"],
+							"#OBJECT_PROPERTIE#" => $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]],
+							"#TYPE_PROPERTIE#" => $GLOBALS["propertie_types"][$data["properties_attach"][0]["type_propertie"]],
+							"#APROVED_BY#" => $data_useraproved["first_name"] . " " . $data_useraproved["last_name"],
+							"#APROVED_AT#" => date_format(new DateTime($info["post"]["aproved_at"]), "d/m/Y H:i:s"),
+							"#DAY_DUE#" => $data["day_due"],
+							"#PAYMENT_METHOD#" => $data["payment_method"],
+							"#AMOUNT_MONTH#" => $data["properties_attach"][0]["price_location"], // ajustar valor
+						));
+					} else {
+						$page = strtr(file_get_contents(constant("cFurniture") . "mail/new_location.html"), array(
+							"#HOST#" => constant("cFurniture") . "mail/new_location.html",
+							"#CONTRACT#" => $info["post"]["n_contract"],
+							"#OBJECT_PROPERTIE#" => $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]],
+							"#TYPE_PROPERTIE#" => $GLOBALS["propertie_types"][$data["properties_attach"][0]["type_propertie"]],
+							"#APROVED_BY#" => $data_useraproved["first_name"] . " " . $data_useraproved["last_name"],
+							"#APROVED_AT#" => date_format(new DateTime($info["post"]["aproved_at"]), "d/m/Y H:i:s"),
+							"#PAYMENT_METHOD#" => $data["payment_method"],
+							"#AMOUNT_MONTH#" => $data["properties_attach"][0]["price_sale"],
+						));
+					}
+
+					$messages_model = new messages_model();
+					$messages_model->populate(array(
+						"name" => "SISMOB - Locação Aprovada",
+						"scheduled_at" => date("Y-m-d H:i:s"),
+						"mailboxes" => serialize(array(
+							"Address" => array(
+								"name" => $v["first_name"] . " " . $v["last_name"],
+								"mail" => $v["mail"]
+							),
+							"from" => array(
+								"name" => constant("mail_from_name"),
+								"mail" => constant("mail_from_user")
+							),
+							"replyTo" => array(
+								"name" => constant("mail_from_name"),
+								"mail" => constant("mail_from_user")
+							)
+						)), "htmlmsg" => $page, "textmsg" => strip_tags($page),
+						"type" => "mail"
+					));
+					$messages_model->save();
+				}
+
+				/* update is used propertie */
+				$info["post"]["properties"]["is_used"] = "yes";
+
+				$propertie = new properties_model();
+				$propertie->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
+
+				$data = current($propertie->data);
+
+				$propertie->populate($info["post"]["properties"]);
+				$propertie->save();
+			}
 		}
+
+		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
 		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
 		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
 		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
-
-		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
-			$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");
-
-			$payment = new payments_model();
-
-			$info["post"]["day_due"] = $info["post"]["day_due"];
-
-			$payment->populate($info["post"]);
-			$payment->save();
-
-			$info["payments_id"] = $payment->con->insert_id;
-
-			$location->save_attach(array("idx" => $info["payments_id"], "post" => array("payments_id" =>  $info["payments_id"])), array("payments"));
-
-			/* update is used propertie */
-			$info["post"]["properties"]["is_used"] = "yes";
-
-			$propertie = new properties_model();
-			$propertie->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
-
-			$data = current($propertie->data);
-
-			$propertie->populate($info["post"]["properties"]);
-			$propertie->save();
-
-			// $page = strtr(file_get_contents(constant("cFurniture") . "mail/location-sale.html"), array(
-			// 	"#HOST#" => constant("cFurniture") . "mail/location-sale.html",
-			// 	"#NOME#" => $data["first_name"] . " " . $data["last_name"],
-			// 	"#TYPE_PROPERTIE#" => $data["type_propertie"],
-			// 	"#DAY_DUE#" => date('d/m/Y', strtotime($info["post"]["day_due"])),
-			// 	"#PAYMENT_METHOD#" => $info["post"]["payment_method"],
-			// 	"#AMOUNT#" => $info["post"]["amount"],
-			// ));
-
-			// $messages_model = new messages_model();
-			// $messages_model->populate(array(
-			// 	"name" => "SISMOB - Locação Aprovada",
-			// 	"scheduled_at" => date("Y-m-d H:i:s"),
-			// 	"mailboxes" => serialize(array(
-			// 		"Address" => array(
-			// 			"name" => $_SESSION[constant("cAppKey")]["credential"]["first_name"] . " " . $_SESSION[constant("cAppKey")]["credential"]["last_name"],
-			// 			"mail" => $_SESSION[constant("cAppKey")]["credential"]["mail"]
-			// 		),
-			// 		"from" => array(
-			// 			"name" => constant("mail_from_name"),
-			// 			"mail" => constant("mail_from_user")
-			// 		),
-			// 		"replyTo" => array(
-			// 			"name" => constant("mail_from_name"),
-			// 			"mail" => constant("mail_from_user")
-			// 		)
-			// 	)), "htmlmsg" => $page, "textmsg" => strip_tags($page),
-			// 	"type" => "mail"
-			// ));
-			// $messages_model->save();
-		}
 
 		$location->populate($info["post"]);
 		$location->save();
@@ -326,6 +347,18 @@ class locations_controller
 
 		$location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["cod_propertie"])), array("properties"));
 
+		// is married
+		if ($info["post"]["marital_status"] == "married") {
+			$info["post"]["partner"]["document_partner"] = preg_replace("/[^0-9]/", "", $info["post"]["partner"]["document_partner"]);
+
+			/* save partner */
+			$partner = new partners_model();
+			$partner->populate($info["post"]["partner"]);
+			$partner->save();
+			$info["partners_id"] = $partner->con->insert_id;
+			$location->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"])), array("partners"));
+		}
+
 		/* save office */
 		$office = new offices_model();
 		$office->populate($info["post"]["offices"]);
@@ -333,13 +366,6 @@ class locations_controller
 		$info["offices_id"] = $office->con->insert_id;
 
 		$location->save_attach(array("idx" => $info["idx"], "post" => array("offices_id" => $info["offices_id"])), array("offices"));
-
-		/* save partner */
-		$partner = new partners_model();
-		$partner->populate($info["post"]["partner"]);
-		$partner->save();
-		$info["partners_id"] = $office->con->insert_id;
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"])), array("partner"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

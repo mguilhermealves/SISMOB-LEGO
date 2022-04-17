@@ -102,8 +102,8 @@ class payments_location_controller
 		$data = $payments->data;
 
 		$total_amount = 0;
-		foreach ($data as $key => $v) {
-			if ($v["active"] == "yes") {
+		foreach ($data as $v) {
+			if ($v["status"] != "canceled") {
 				$total_amount = $v['amount'] + $total_amount;
 			}
 		}
@@ -223,6 +223,8 @@ class payments_location_controller
 			$payment->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$payment->load_data();
 			$data = current($payment->data);
+
+			$historic = unserialize($data["historic_bank"]);
 
 			if ($data["payment_method"] == "ticket") {
 				include(constant("cRootServer_APP") . "/gerencianet/boleto/atualizar_status.php");

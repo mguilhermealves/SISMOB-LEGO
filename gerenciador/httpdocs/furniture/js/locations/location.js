@@ -48,10 +48,18 @@ $(document).ready(function () {
 
             if (type == 'location') {
                 $("#location").show();
+                $("#day_due_location").prop( "disabled", false );
+                $("#payment_method_location").prop( "disabled", false );
                 $("#sale").hide();
+                $("#day_due_sale").prop( "disabled", true );
+                $("#payment_method_sale").prop( "disabled", true );
             } else {
                 $("#sale").show();
+                $("#day_due_sale").prop( "disabled", false );
+                $("#payment_method_sale").prop( "disabled", false );
                 $("#location").hide();
+                $("#day_due_location").prop( "disabled", true );
+                $("#payment_method_location").prop( "disabled", true );
             }
         }
     });
@@ -60,10 +68,18 @@ $(document).ready(function () {
 
     if (type == 'location') {
         $("#location").show();
+        $("#day_due_location").prop( "disabled", false );
+        $("#payment_method_location").prop( "disabled", false );
         $("#sale").hide();
+        $("#day_due_sale").prop( "disabled", true );
+        $("#payment_method_sale").prop( "disabled", true );
     } else {
         $("#sale").show();
+        $("#day_due_sale").prop( "disabled", false );
+        $("#payment_method_sale").prop( "disabled", false );
         $("#location").hide();
+        $("#day_due_location").prop( "disabled", true );
+        $("#payment_method_location").prop( "disabled", true );
     }
 
     var status = ($('#marital_status').val());

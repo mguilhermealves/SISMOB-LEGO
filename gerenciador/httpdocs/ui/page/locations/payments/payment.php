@@ -227,7 +227,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach (unserialize($data["historic_bank"]) as $v) { ?>
+                                                <?php foreach ($historic as $v) { ?>
                                                     <tr>
                                                         <td scope="row"><?php print(date_format(new DateTime($v["created_at"]),"d/m/Y H:i:s")) ?></td>
                                                         <td><?php print($v["message"]) ?></td>
@@ -236,7 +236,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

@@ -15,6 +15,8 @@ $location->attach(array("offices", "partners", "properties", "payments"));
 $location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 $data = current($location->data);
 
+print_pre($data, true);
+
 $options = [
     'client_id' => $clientId,
     'client_secret' => $clientSecret,
@@ -62,6 +64,8 @@ $body = [
     'items' => $items,
     'payment' => $payment
 ];
+
+print_pre($body, true);
 
 try {
     $api = new Gerencianet($options);
