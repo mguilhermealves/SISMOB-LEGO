@@ -269,7 +269,7 @@ class locations_controller
 				$user_approved = new users_model();
 				$user_approved->set_filter(array(" idx = '" . $info["post"]["aproved_by"] . "' "));
 				$user_approved->load_data();
-				$data_useraproved = current( $user_approved->data );
+				$data_useraproved = current($user_approved->data);
 
 				foreach ($data_useradm as $k => $v) {
 					if ($data["properties_attach"][0]["object_propertie"] == "location") {
@@ -387,26 +387,32 @@ class locations_controller
 		$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 		$data = current($location->data);
 
-		/* GERAR PDF */
+		/* GERAR DOCX */
 		include(constant("cRootServer_APP") . '/inc/lib/vendor/autoload.php');
 
-		$dompdf = new DOMPDF();
+		// //Instanciar o PhpWord
+		$phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-		ob_start();
-		require(constant("cFurniture1") . 'pdf/location/contract.php');
-		$html = ob_get_contents();
-		ob_end_clean();
+		$templateProcessor  = new \PhpOffice\PhpWord\TemplateProcessor(constant("cFurniture1") . 'docx/location/newcontract.docx');
+		// $templateProcessor->setValue('NUMERO_CONTRATO', $data["n_contract"]);
+		$templateProcessor->setValue('NOME_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"] );
+		$templateProcessor->setValue('RG_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["rg"] );
+		$templateProcessor->setValue('CPF_LOCADOR', preg_replace( "/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4",$data["properties_attach"][0]["clients_attach"][0]["document"] ) );
+		$templateProcessor->setValue('NOME_LOCATARIO', $data["first_name"] . " " . $data["last_name"] );
+		$templateProcessor->setValue('RG_LOCATARIO', $data["rg"]);
+		$templateProcessor->setValue('CPF_LOCATARIO', preg_replace( "/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["document"] ) );
+		$templateProcessor->setValue('EMAIL_LOCATARIO', $data["mail"]);
+		$templateProcessor->setValue('ENDERECO_LOCATARIO', $data["properties_attach"][0]["clients_attach"][0]["address"] . ', ' . 'N° ' . $data["properties_attach"][0]["clients_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["district"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["uf"]);
+		$templateProcessor->setValue('ENDERECO_PROPRIEDADE', $data["properties_attach"][0]["address"] . ', N° ' . $data["properties_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["district"] .', ' . $data["properties_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["uf"]);
+		$templateProcessor->setValue('FIM_EXCLUSIVO', $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]]);
 
-		$dompdf->loadHtml($html);
-		$dompdf->setPaper('A4', 'portrait');
-		$dompdf->render();
-
-		$dompdf->stream(
-			"contrato.pdf",
-			array(
-				"Attachment" => true
-			)
-		);
+		$templateProcessor->setValue('VALOR_ALUGUEL', "R$ " . number_format($data["properties_attach"][0]["price_location"], 2, ",", "."));
+		$templateProcessor->setValue('DIA_VENCIMENTO', $data["day_due"]);
+		$templateProcessor->setValue('PRAZO_CONTRATO', $data["properties_attach"][0]["deadline_contract"]);
+		$templateProcessor->setValue('NUMERO_PESSOAS', $data["number_residents"]);
+		$templateProcessor->setValue('FORMA_PAGAMENTO', $GLOBALS["payment_method"][$data["payment_method"]]);
+		
+		$templateProcessor->saveAs('contract.docx');
 	}
 
 	public function remove($info)

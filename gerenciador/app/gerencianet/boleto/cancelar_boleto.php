@@ -31,6 +31,12 @@ try {
 
     $_SESSION["messages_app"]["success"] = array("Boleto cancelado com sucesso.");
 
+    $payment = new payments_model();
+    $payment->set_filter(array(" idx = '" . $info["post"]["idPayment"] . "' "));
+    $info["post"]["active"] = "no";
+    $payment->populate($info["post"]);
+    $payment->save();
+
     basic_redir($GLOBALS["location_payments_url"]);
 } catch (GerencianetException $e) {
     $_SESSION["messages_app"]["danger"] = array("Apenas transações com status: [Cobrança Gerada], [Aguardando] ou [Não Pago] podem ser canceladas.");
