@@ -14,35 +14,35 @@
                 <hr>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-6 col-lg-4">
                 <div class="form-group">
                     <label for="filter_name">Nome do Proprietário:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-6 col-lg-4">
                 <div class="form-group">
                     <label for="filter_cpf">CPF do Proprietário:</label>
                     <input type="text" id="filter_cpf" class="form-control" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-6 col-lg-4">
                 <div class="form-group">
                     <label for="filter_address">Endereço do Imóvel:</label>
                     <input type="text" id="filter_address" class="form-control" name="filter_address" value="<?php print(isset($info["get"]["filter_address"]) ? $info["get"]["filter_address"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Endereço">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-6 col-lg-4">
                 <div class="form-group">
                     <label for="filter_district">Bairro do Imóvel:</label>
                     <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-6 col-lg-4">
                 <div class="form-group">
                     <label for="filter_uf">UF do Imóvel</label>
                     <select name="filter_uf" id="filter_uf" class="form-control">
@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-6 col-lg-4">
                 <div class="form-group">
                     <label for="filter_object_propertie">Objetivo da Propriedade</label>
                     <select name="filter_object_propertie" id="filter_object_propertie" class="form-control">
@@ -70,15 +70,20 @@
                 </div>
             </div>
 
-            <div class="col-sm-8">
+            <div class="col-sm-12 col-lg-6">
 
             </div>
 
-            <div class="col-sm-2">
+            <div class="col-sm-12 col-lg-2">
+                <label for="btn_export">&nbsp;</label>
+                <button id="btn_export" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-file-excel"></i> Exportar</button>
+            </div>
+
+            <div class="col-sm-12 col-lg-2">
                 <label for="btn_search">&nbsp;</label>
                 <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-12 col-lg-2">
                 <label for="btn_add">&nbsp;</label>
                 <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Imóvel</a>
             </div>
@@ -163,6 +168,26 @@
         </table>
     </div>
 </div>
+
+<script>
+    //export
+    window.setTimeout(function() {
+        jQuery("#btn_export").on("click", function() {
+            jQuery("#frm_filter").prop({
+                "action": "<?php print(set_url($GLOBALS["properties_url"] . ".xls", $info["get"])) ?>"
+            }).submit();
+        })
+    }, 1000);
+
+    //filter
+    window.setTimeout(function() {
+        jQuery("#btn_search").on("click", function() {
+            jQuery("#frm_filter").prop({
+                "action": "<?php print(set_url($GLOBALS["properties_url"])) ?>"
+            }).submit();
+        })
+    }, 1000);
+</script>
 
 <style>
     .card-header {

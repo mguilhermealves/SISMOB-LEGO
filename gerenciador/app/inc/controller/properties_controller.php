@@ -141,6 +141,67 @@ class properties_controller
 				header('Content-type: application/json');
 				echo json_encode($out);
 				break;
+			case ".xls":
+				$name = "Relatorio_Imóveis_" .  date("d-m-Y-H:s");
+				require_once(constant("cRootServer_APP") . '/inc/lib/PHPExcel-1.8/Classes/PHPExcel.php');
+				$objPHPExcel = new PHPExcel();
+				$objPHPExcel->getProperties()->setCreator("HSOL")
+					->setLastModifiedBy("SYSMOB")
+					->setTitle("Relatorio de Imóveis")
+					->setSubject("Relatorio de Imóveis")
+					->setDescription("Relatorio de Imóveis")
+					->setKeywords("Imóveis")
+					->setCategory("Imóveis");
+
+				$objPHPExcel = PHPExcel_IOFactory::load(constant("cFurniture1") . 'excel/properties/modelo-properties.xlsx');
+
+				$objPHPExcel->setActiveSheetIndex(0)->setTitle('Imóveis');
+
+				$x_in = 13;
+				foreach ($data as $k => $v) {
+					$objPHPExcel->setActiveSheetIndex(0)->insertNewRowBefore($x_in, 1);
+					$objPHPExcel->setActiveSheetIndex(0)->mergeCells('C' . $x_in . ':E' . $x_in);
+
+					if (!empty($v["complement"])) {
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["complement"] . ", " . $v["code_postal"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+					} else {
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["code_postal"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+					}
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F' . ($x_in - 1), $GLOBALS["propertie_objects"][$v["object_propertie"]]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G' . ($x_in - 1), $GLOBALS["propertie_types"][$v["type_propertie"]]);			
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["object_propertie"] == "location" ? $v["deadline_contract"] . " Meses" : "Não Possui");
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I' . ($x_in - 1), number_format($v["price_location"], 2, ",", "." ));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J' . ($x_in - 1), number_format($v["price_sale"], 2, ",", "." ));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('K' . ($x_in - 1), number_format($v["price_iptu"], 2, ",", "." ));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('L' . ($x_in - 1), $v["type_propertie"] == "apartmant" ? number_format($v["price_condominium"], 2, ",", "." ) : 0);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('M' . ($x_in - 1), $v["clients_attach"][0]["first_name"] . " " . $v["clients_attach"][0]["last_name"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('N' . ($x_in - 1), $v["clients_attach"][0]["document"]);
+
+					$x_in++;
+				}
+
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment; filename="' . $name . '.xlsx"');
+
+				header('Cache-Control: max-age=0');
+				// If you're serving to IE 9, then the following may be needed
+				header('Cache-Control: max-age=1');
+
+				// If you're serving to IE over SSL, then the following may be needed
+				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+				header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+				header('Pragma: public'); // HTTP/1.0
+				$objWriter->setIncludeCharts(TRUE);
+				$objWriter->save('php://output');
+				$objWriter->setOffice2003Compatibility(true);
+				$objPHPExcel->disconnectWorksheets();
+				$objPHPExcel->garbageCollect();
+				unset($objPHPExcel);
+				exit();
+				break;
 			default:
 				$page = 'Imoveis';
 
