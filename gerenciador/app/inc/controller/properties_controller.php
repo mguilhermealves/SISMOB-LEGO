@@ -142,10 +142,15 @@ class properties_controller
 				echo json_encode($out);
 				break;
 			case ".xls":
+
+				if (file_exists(constant("cFurniture1") . 'excel/properties/Relatorio.xls')) {
+					unlink(constant("cFurniture1") . 'excel/properties/Relatorio.xls');
+				}
+
 				$name = "Relatorio_Imóveis_" .  date("d-m-Y-H:s");
 				require_once(constant("cRootServer_APP") . '/inc/lib/PHPExcel-1.8/Classes/PHPExcel.php');
 				$objPHPExcel = new PHPExcel();
-				$objPHPExcel->getProperties()->setCreator("HSOL")
+				$objPHPExcel->getProperties()->setCreator("SYSMOB")
 					->setLastModifiedBy("SYSMOB")
 					->setTitle("Relatorio de Imóveis")
 					->setSubject("Relatorio de Imóveis")
@@ -163,25 +168,30 @@ class properties_controller
 					$objPHPExcel->setActiveSheetIndex(0)->mergeCells('C' . $x_in . ':E' . $x_in);
 
 					if (!empty($v["complement"])) {
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["complement"] . ", " . $v["code_postal"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["complement"] . ", " . preg_replace("/(.....)(...)$/", "$1-$2", preg_replace("/\.|-/", "", $v["code_postal"])) . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
 					} else {
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["code_postal"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . preg_replace("/(.....)(...)$/", "$1-$2", preg_replace("/\.|-/", "", $v["code_postal"])) . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
 					}
 
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F' . ($x_in - 1), $GLOBALS["propertie_objects"][$v["object_propertie"]]);
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G' . ($x_in - 1), $GLOBALS["propertie_types"][$v["type_propertie"]]);			
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G' . ($x_in - 1), $GLOBALS["propertie_types"][$v["type_propertie"]]);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["object_propertie"] == "location" ? $v["deadline_contract"] . " Meses" : "Não Possui");
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I' . ($x_in - 1), number_format($v["price_location"], 2, ",", "." ));
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J' . ($x_in - 1), number_format($v["price_sale"], 2, ",", "." ));
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('K' . ($x_in - 1), number_format($v["price_iptu"], 2, ",", "." ));
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('L' . ($x_in - 1), $v["type_propertie"] == "apartmant" ? number_format($v["price_condominium"], 2, ",", "." ) : 0);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I' . ($x_in - 1), number_format($v["price_location"], 2, ",", "."));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J' . ($x_in - 1), number_format($v["price_sale"], 2, ",", "."));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('K' . ($x_in - 1), number_format($v["price_iptu"], 2, ",", "."));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('L' . ($x_in - 1), $v["type_propertie"] == "apartmant" ? number_format($v["price_condominium"], 2, ",", ".") : 0);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('M' . ($x_in - 1), $v["clients_attach"][0]["first_name"] . " " . $v["clients_attach"][0]["last_name"]);
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('N' . ($x_in - 1), $v["clients_attach"][0]["document"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('N' . ($x_in - 1), preg_replace("/(...)(...)(...)(..)$/", "$1.$2.$3-$4", preg_replace("/\.|-/", "", $v["clients_attach"][0]["document"])));
 
 					$x_in++;
 				}
 
 				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				$objWriter->setIncludeCharts(TRUE);
+				$objWriter->save(constant("cFurniture1") . 'excel/properties/Relatorio.xlsx');
+				$objWriter->setOffice2003Compatibility(true);
+				$objPHPExcel->disconnectWorksheets();
+				$objPHPExcel->garbageCollect();
 				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 				header('Content-Disposition: attachment; filename="' . $name . '.xlsx"');
 
@@ -194,11 +204,9 @@ class properties_controller
 				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
 				header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
 				header('Pragma: public'); // HTTP/1.0
-				$objWriter->setIncludeCharts(TRUE);
-				$objWriter->save('php://output');
-				$objWriter->setOffice2003Compatibility(true);
-				$objPHPExcel->disconnectWorksheets();
-				$objPHPExcel->garbageCollect();
+				ob_clean();
+				flush();
+				readfile(constant("cFurniture1") . 'excel/properties/Relatorio.xlsx');
 				unset($objPHPExcel);
 				exit();
 				break;

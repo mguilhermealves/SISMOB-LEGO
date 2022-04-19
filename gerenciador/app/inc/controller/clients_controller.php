@@ -125,6 +125,10 @@ class clients_controller
 				echo json_encode($out);
 				break;
 			case ".xls":
+				if (file_exists(constant("cFurniture1") . 'excel/clients/Relatorio.xls')) {
+					unlink(constant("cFurniture1") . 'excel/clients/Relatorio.xls');
+				}
+
 				$name = "Relatorio_Clientes_" .  date("d-m-Y-H:s");
 				require_once(constant("cRootServer_APP") . '/inc/lib/PHPExcel-1.8/Classes/PHPExcel.php');
 				$objPHPExcel = new PHPExcel();
@@ -157,6 +161,11 @@ class clients_controller
 				}
 
 				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				$objWriter->setIncludeCharts(TRUE);
+				$objWriter->save(constant("cFurniture1") . 'excel/clients/Relatorio.xlsx');
+				$objWriter->setOffice2003Compatibility(true);
+				$objPHPExcel->disconnectWorksheets();
+				$objPHPExcel->garbageCollect();
 				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 				header('Content-Disposition: attachment; filename="' . $name . '.xlsx"');
 
@@ -169,11 +178,9 @@ class clients_controller
 				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
 				header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
 				header('Pragma: public'); // HTTP/1.0
-				$objWriter->setIncludeCharts(TRUE);
-				$objWriter->save('php://output');
-				$objWriter->setOffice2003Compatibility(true);
-				$objPHPExcel->disconnectWorksheets();
-				$objPHPExcel->garbageCollect();
+				ob_clean();
+				flush();
+				readfile(constant("cFurniture1") . 'excel/clients/Relatorio.xlsx');
 				unset($objPHPExcel);
 				exit();
 				break;
