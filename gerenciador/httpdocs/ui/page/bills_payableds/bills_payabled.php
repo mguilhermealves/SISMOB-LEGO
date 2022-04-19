@@ -112,7 +112,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-4">
+                                        <div class="col-sm-12 col-lg-4">
                                             <div class="form-group">
                                                 <label for="status_payment">Status</label>
                                                 <select name="status_payment" id="status_payment" class="form-control" required>
@@ -126,12 +126,26 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12">
+                                        <div class="col-sm-12 col-lg-12">
                                             <div class="form-group">
                                                 <label for="comments">Observação</label>
                                                 <input id="comments" type="text" class="form-control editor" name="comments" value="<?php print(isset($data["comments"]) ? $data["comments"] : "") ?>">
                                             </div>
                                         </div>
+
+                                        <?php if (isset($data["idx"]) && isset($data["idx"]) > 0) { ?>
+                                            <div class="col-sm-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="file">Comprovante</label>
+                                                    <input type="file" id="file" name="receipt_payment" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <?php if (!empty($data["receipt_payment"]) && file_exists(constant("cRootServer") . $data["receipt_payment"])) { ?>
+                                                <iframe class="pdf" src="/<?php print($data["receipt_payment"]) ?>" width="100%" height="300px"></iframe>
+                                            <?php
+                                            } ?>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>
