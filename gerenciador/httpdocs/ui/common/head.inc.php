@@ -43,14 +43,6 @@
               <a class="dropdown-item" href="<?php print($GLOBALS["accounts_receivables_url"]) ?>">Contas a Receber</a>
             </div>
           </li>
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="reportsId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Relatórios</a>
-            <div class="dropdown-menu" aria-labelledby="reportsId">
-              <a class="dropdown-item" href="<?php print($GLOBALS["clients_reports_url"]) ?>">Clientes</a>
-              <a class="dropdown-item" href="<?php print($GLOBALS["properties_reports_url"]) ?>">Imoveis</a>
-            </div>
-          </li>
         </ul>
 
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">

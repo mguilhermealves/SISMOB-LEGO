@@ -15,34 +15,34 @@
                 <hr>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-lg-3">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-lg-3">
                 <div class="form-group">
                     <label for="filter_cpf">CPF:</label>
                     <input type="text" id="filter_cpf" class="form-control document" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-lg-3">
                 <div class="form-group">
                     <label for="filter_district">Bairro:</label>
                     <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-lg-3">
                 <div class="form-group">
                     <label for="filter_city">Cidade:</label>
                     <input type="text" id="filter_city" class="form-control" name="filter_city" value="<?php print(isset($info["get"]["filter_city"]) ? $info["get"]["filter_city"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite a Cidade">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-lg-3">
                 <div class="form-group">
                     <label for="filter_uf">UF</label>
                     <select name="filter_uf" id="filter_uf" class="form-control">
@@ -56,13 +56,22 @@
                 </div>
             </div>
 
+            <div class="col-sm-3">
+
+            </div>
+
+            <div class="col-sm-2">
+                <label for="btn_export">&nbsp;</label>
+                <button id="btn_export" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-file-excel"></i> Exportar</button>
+            </div>
+
             <div class="col-sm-2">
                 <label for="btn_search">&nbsp;</label>
-                <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
+                <button id="btn_search" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
             </div>
             <div class="col-sm-2">
                 <label for="btn_add">&nbsp;</label>
-                <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Cliente</a>
+                <a id="btn_add" class="btn btn-outline-primary btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Cliente</a>
             </div>
         </div>
     </form>
@@ -140,6 +149,26 @@
         </table>
     </div>
 </div>
+
+<script>
+    //export
+    window.setTimeout(function() {
+        jQuery("#btn_export").on("click", function() {
+            jQuery("#frm_filter").prop({
+                "action": "<?php print(set_url($GLOBALS["clients_url"] . ".xls", $info["get"])) ?>"
+            }).submit();
+        })
+    }, 1000);
+
+    //filter
+    window.setTimeout(function() {
+        jQuery("#btn_search").on("click", function() {
+            jQuery("#frm_filter").prop({
+                "action": "<?php print(set_url($GLOBALS["clients_url"])) ?>"
+            }).submit();
+        })
+    }, 1000);
+</script>
 
 <style>
     .card-header {

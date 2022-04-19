@@ -124,6 +124,68 @@ class clients_controller
 				header('Content-type: application/json');
 				echo json_encode($out);
 				break;
+			case ".xls":
+				$name = "Relatorio_Clientes_" .  date("d-m-Y-H:s");
+				require_once(constant("cRootServer_APP") . '/inc/lib/PHPExcel-1.8/Classes/PHPExcel.php');
+				$objPHPExcel = new PHPExcel();
+				$objPHPExcel->getProperties()->setCreator("HSOL")
+					->setLastModifiedBy("SYSMOB")
+					->setTitle("Relatorio de Clientes")
+					->setSubject("Relatorio de Clientes")
+					->setDescription("Relatorio de Clientes")
+					->setKeywords("Clientes")
+					->setCategory("Clientes");
+
+				$objPHPExcel = PHPExcel_IOFactory::load(constant("cFurniture1") . 'excel/clients/modelo-clients.xlsx');
+
+				$objPHPExcel->setActiveSheetIndex(0)->setTitle('Clientes');
+
+				$x_in = 13;
+				foreach ($data as $k => $v) {
+					$objPHPExcel->setActiveSheetIndex(0)->insertNewRowBefore($x_in, 1);
+					$objPHPExcel->setActiveSheetIndex(0)->mergeCells('C' . $x_in . ':E' . $x_in);
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["first_name"] . " " . $v["last_name"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F' . ($x_in - 1), preg_replace("/(...)(...)(...)(..)$/", "$1.$2.$3-$4", preg_replace("/\.|-/", "", $v["document"])));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G' . ($x_in - 1), $v["mail"]);
+					if (!empty($v["complement"])) {
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["complement"] . ", " . $v["code_postal"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+					} else {
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["code_postal"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+					}
+					$x_in++;
+				}
+
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment; filename="' . $name . '.xlsx"');
+
+				header('Cache-Control: max-age=0');
+				// If you're serving to IE 9, then the following may be needed
+				header('Cache-Control: max-age=1');
+
+				// If you're serving to IE over SSL, then the following may be needed
+				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+				header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+				header('Pragma: public'); // HTTP/1.0
+				$objWriter->setIncludeCharts(TRUE);
+				$objWriter->save('php://output');
+				$objWriter->setOffice2003Compatibility(true);
+				$objPHPExcel->disconnectWorksheets();
+				$objPHPExcel->garbageCollect();
+				unset($objPHPExcel);
+				exit();
+				break;
+			case ".json":
+				$total = array("total" => 3);
+				header('Content-type: application/json');
+				echo json_encode(
+					array(
+						"total" => array_merge(array("total" => array_sum($total)), $total), "row" => $data
+					)
+				);
+				break;
 			default:
 				$page = 'Clientes';
 
