@@ -3,13 +3,13 @@ class payments_location_controller
 {
 	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "name")
 	{
-		$boiler = new payments_model();
-		$boiler->set_field(array($key, $field));
-		$boiler->set_order(array(" name asc "));
-		$boiler->set_filter($filters);
-		$boiler->load_data();
+		$payments = new payments_model();
+		$payments->set_field(array($key, $field));
+		$payments->set_order(array(" name asc "));
+		$payments->set_filter($filters);
+		$payments->load_data();
 		$out = array();
-		foreach ($boiler->data as $value) {
+		foreach ($payments->data as $value) {
 			$out[$value[$key]] = $value[$field];
 		}
 		return $out;
@@ -117,12 +117,74 @@ class payments_location_controller
 					)
 				);
 				break;
+			case ".xls":
+
+				if (file_exists(constant("cFurniture1") . 'excel/payments/Relatorio.xls')) {
+					unlink(constant("cFurniture1") . 'excel/payments/Relatorio.xls');
+				}
+
+				$name = "Relatorio_Contas_a_Receber_" .  date("d-m-Y-H:s");
+				require_once(constant("cRootServer_APP") . '/inc/lib/PHPExcel-1.8/Classes/PHPExcel.php');
+				$objPHPExcel = new PHPExcel();
+				$objPHPExcel->getProperties()->setCreator("SYSMOB")
+					->setLastModifiedBy("SYSMOB")
+					->setTitle("Relatorio de Contas a Receber")
+					->setSubject("Relatorio de Contas a Receber")
+					->setDescription("Relatorio de Contas a Receber")
+					->setKeywords("Contas a Receber")
+					->setCategory("Contas a Receber");
+
+				$objPHPExcel = PHPExcel_IOFactory::load(constant("cFurniture1") . 'excel/payments/modelo-payments.xlsx');
+
+				$objPHPExcel->setActiveSheetIndex(0)->setTitle('Contas a Receber');
+
+				$x_in = 13;
+
+				foreach ($data as $k => $v) {
+
+					$objPHPExcel->setActiveSheetIndex(0)->insertNewRowBefore($x_in, 1);
+					$objPHPExcel->setActiveSheetIndex(0)->mergeCells('C' . $x_in . ':E' . $x_in);
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["locations_attach"][0]["first_name"] . " " . $v["locations_attach"][0]["last_name"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F' . ($x_in - 1), date_format(new DateTime($v["expire_at"]), "d/m/Y"));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G' . ($x_in - 1), $GLOBALS["payment_method"][$v["payment_method"]]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), number_format($v['amount'], 2, ",", "."));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I' . ($x_in - 1), $GLOBALS["payment_status_gerencianet"][$v["status"]]);
+
+					$x_in++;
+				}
+
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				$objWriter->setIncludeCharts(TRUE);
+				$objWriter->save(constant("cFurniture1") . 'excel/payments/Relatorio.xlsx');
+				$objWriter->setOffice2003Compatibility(true);
+				$objPHPExcel->disconnectWorksheets();
+				$objPHPExcel->garbageCollect();
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment; filename="' . $name . '.xlsx"');
+
+				header('Cache-Control: max-age=0');
+				// If you're serving to IE 9, then the following may be needed
+				header('Cache-Control: max-age=1');
+
+				// If you're serving to IE over SSL, then the following may be needed
+				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+				header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+				header('Pragma: public'); // HTTP/1.0
+				ob_clean();
+				flush();
+				readfile(constant("cFurniture1") . 'excel/payments/Relatorio.xlsx');
+				unset($objPHPExcel);
+				exit();
+				break;
 			default:
 				$page = 'Contas a Receber';
 
 				$sidebar_color = "rgba(218, 165, 32, 1)";
 				$form = array(
-					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["accounts_receivables_url"], $done) : $GLOBALS["accounts_receivables_url"]), "pattern" => array(
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["accounts_receivables_url"], $done) : $GLOBALS["accounts_receivables_url"]),
+					"pattern" => array(
 						"new" => $GLOBALS["newaccountsreceivable_url"],
 						"action" => $GLOBALS["accounts_receivable_url"],
 						"search" => !empty($info["get"]) ? set_url($GLOBALS["accounts_receivables_url"], $info["get"]) : $GLOBALS["accounts_receivables_url"]
@@ -201,7 +263,7 @@ class payments_location_controller
 				print('    data_agendas_json = {' . "\n");
 				print('        url: "' . $GLOBALS["locations_url"] . '.json"' . "\n");
 				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["location_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
+				print('        , action: "' . set_url($GLOBALS["accounts_receivables_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
 				print('        , template: ""' . "\n");
 				print('        , page: 1' . "\n");
 				print('    }' . "\n");

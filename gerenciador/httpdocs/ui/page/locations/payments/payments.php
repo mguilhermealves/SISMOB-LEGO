@@ -9,35 +9,35 @@
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_start_date">Data Inicio:</label>
                     <input type="date" id="filter_start_date" class="form-control" name="filter_start_date" value="<?php print(isset($info["get"]["filter_start_date"]) ? $info["get"]["filter_start_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_end_date">Data Fim:</label>
                     <input type="date" id="filter_end_date" class="form-control" name="filter_end_date" value="<?php print(isset($info["get"]["filter_end_date"]) ? $info["get"]["filter_end_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_name">Nome do Locatário:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_cpf">CPF:</label>
                     <input type="text" id="filter_cpf" class="form-control document" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_status">Status:</label>
                     <select name="filter_status" id="filter_status" class="form-control">
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_type">Tipo de Propriedade:</label>
                     <select name="filter_type" id="filter_type" class="form-control">
@@ -65,21 +65,26 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_district">N° Contrato:</label>
                     <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o N° do contrato">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="">Valor total:</label>
                     <input type="text" id="total_amount" class="form-control" name="total_amount" value="<?php print("R$ " . number_format($total_amount, 2, ",", ".")); ?>" class="form-control" disabled>
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-2">
+                <label for="btn_export">&nbsp;</label>
+                <button id="btn_export" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-file-excel"></i> Exportar</button>
+            </div>
+
+            <div class="col-sm-12 col-lg-2">
                 <label for="btn_search">&nbsp;</label>
                 <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Filtrar</button>
             </div>
@@ -153,6 +158,26 @@
         </table>
     </div>
 </div>
+
+<script>
+    //export
+    window.setTimeout(function() {
+        jQuery("#btn_export").on("click", function() {
+            jQuery("#frm_filter").prop({
+                "action": "<?php print(set_url($GLOBALS["accounts_receivables_url"] . ".xls", $info["get"])) ?>"
+            }).submit();
+        })
+    }, 1000);
+
+    //filter
+    window.setTimeout(function() {
+        jQuery("#btn_search").on("click", function() {
+            jQuery("#frm_filter").prop({
+                "action": "<?php print(set_url($GLOBALS["accounts_receivables_url"])) ?>"
+            }).submit();
+        })
+    }, 1000);
+</script>
 
 <style>
     .card-header {
