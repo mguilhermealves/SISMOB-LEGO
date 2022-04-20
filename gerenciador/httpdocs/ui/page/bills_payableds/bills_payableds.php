@@ -14,35 +14,35 @@
                 <hr>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_start_date">Data Inicio:</label>
                     <input type="date" id="filter_start_date" class="form-control" name="filter_start_date" value="<?php print(isset($info["get"]["filter_start_date"]) ? $info["get"]["filter_start_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_end_date">Data Fim:</label>
                     <input type="date" id="filter_end_date" class="form-control" name="filter_end_date" value="<?php print(isset($info["get"]["filter_end_date"]) ? $info["get"]["filter_end_date"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_company">Empresa Beneficiária:</label>
                     <input type="text" id="filter_company" class="form-control" name="filter_company" value="<?php print(isset($info["get"]["filter_company"]) ? $info["get"]["filter_company"] : "") ?>" class="form-control" placeholder="Digite o Nome">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_value">Valor:</label>
                     <input type="text" id="filter_value" class="form-control" name="filter_value" value="<?php print(isset($info["get"]["filter_value"]) ? $info["get"]["filter_value"] : "") ?>" class="form-control" placeholder="Digite o Valor">
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_payment">Método de Pagamento</label>
                     <select name="filter_payment" id="filter_payment" class="form-control">
@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_status">Status</label>
                     <select name="filter_status" id="filter_status" class="form-control">
@@ -70,18 +70,27 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="">Valor total:</label>
                     <input type="text" id="total_amount" class="form-control" name="total_amount" value="<?php print("R$ " . number_format($total_amount, 2, ",", ".")); ?>" class="form-control" disabled>
                 </div>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-12 col-lg-2">
+                
+            </div>
+
+            <div class="col-sm-12 col-lg-2">
+                <label for="btn_export">&nbsp;</label>
+                <button id="btn_export" type="submit" class="btn btn-outline-primary btn-block btn-sm"><i class="bi bi-file-excel"></i> Exportar</button>
+            </div>
+
+            <div class="col-sm-12 col-lg-2">
                 <label for="btn_search">&nbsp;</label>
                 <button id="btn_search" type="submit" class="btn btn-outline-primary jss38 btn-block btn-sm"><i class="bi bi-search"></i> Pesquisar</button>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-12 col-lg-2">
                 <label for="btn_add">&nbsp;</label>
                 <a id="btn_add" class="btn btn-outline-primary jss38 btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Pagamento</a>
             </div>
@@ -157,6 +166,26 @@
         </table>
     </div>
 </div>
+
+<script>
+    //export
+    window.setTimeout(function() {
+        jQuery("#btn_export").on("click", function() {
+            jQuery("#frm_filter").prop({
+                "action": "<?php print(set_url($GLOBALS["bills_payableds_url"] . ".xls", $info["get"])) ?>"
+            }).submit();
+        })
+    }, 1000);
+
+    //filter
+    window.setTimeout(function() {
+        jQuery("#btn_search").on("click", function() {
+            jQuery("#frm_filter").prop({
+                "action": "<?php print(set_url($GLOBALS["bills_payableds_url"])) ?>"
+            }).submit();
+        })
+    }, 1000);
+</script>
 
 <style>
     .card-header {

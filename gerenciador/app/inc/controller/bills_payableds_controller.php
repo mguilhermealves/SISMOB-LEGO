@@ -110,6 +110,66 @@ class bills_payableds_controller
 					)
 				);
 				break;
+			case ".xls":
+
+				if (file_exists(constant("cFurniture1") . 'excel/pays_account/Relatorio.xls')) {
+					unlink(constant("cFurniture1") . 'excel/pays_account/Relatorio.xls');
+				}
+
+				$name = "Relatorio_Contas_a_Pagar_" .  date("d-m-Y-H:s");
+				require_once(constant("cRootServer_APP") . '/inc/lib/PHPExcel-1.8/Classes/PHPExcel.php');
+				$objPHPExcel = new PHPExcel();
+				$objPHPExcel->getProperties()->setCreator("SYSMOB")
+					->setLastModifiedBy("SYSMOB")
+					->setTitle("Relatorio de Contas a Pagar")
+					->setSubject("Relatorio de Contas a Pagar")
+					->setDescription("Relatorio de Contas a Pagar")
+					->setKeywords("Contas a Pagar")
+					->setCategory("Contas a Pagar");
+
+				$objPHPExcel = PHPExcel_IOFactory::load(constant("cFurniture1") . 'excel/pays_account/modelo-pays_account.xlsx');
+
+				$objPHPExcel->setActiveSheetIndex(0)->setTitle('Contas a Pagar');
+
+				$x_in = 13;
+				foreach ($data as $k => $v) {
+					$objPHPExcel->setActiveSheetIndex(0)->insertNewRowBefore($x_in, 1);
+					$objPHPExcel->setActiveSheetIndex(0)->mergeCells('C' . $x_in . ':E' . $x_in);
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["companies_attach"][0]["name"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F' . ($x_in - 1), $v["account_pay_cost_center_attach"][0]["cost_center"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G' . ($x_in - 1), date_format(new DateTime($v["day_due"]), "d/m/Y"));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $GLOBALS["payment_method"][$v["payment_method"]]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I' . ($x_in - 1), number_format($v['amount'], 2, ",", "."));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J' . ($x_in - 1), $GLOBALS["payment_status"][$v["status_payment"]]);
+
+					$x_in++;
+				}
+
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				$objWriter->setIncludeCharts(TRUE);
+				$objWriter->save(constant("cFurniture1") . 'excel/pays_account/Relatorio.xlsx');
+				$objWriter->setOffice2003Compatibility(true);
+				$objPHPExcel->disconnectWorksheets();
+				$objPHPExcel->garbageCollect();
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment; filename="' . $name . '.xlsx"');
+
+				header('Cache-Control: max-age=0');
+				// If you're serving to IE 9, then the following may be needed
+				header('Cache-Control: max-age=1');
+
+				// If you're serving to IE over SSL, then the following may be needed
+				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+				header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+				header('Pragma: public'); // HTTP/1.0
+				ob_clean();
+				flush();
+				readfile(constant("cFurniture1") . 'excel/pays_account/Relatorio.xlsx');
+				unset($objPHPExcel);
+				exit();
+				break;
 			default:
 				$page = 'Contas a Pagar';
 
@@ -264,14 +324,14 @@ class bills_payableds_controller
 						"name" => constant("mail_from_name"),
 						"mail" => constant("mail_from_user")
 					)
-				)), "htmlmsg" => $page, "textmsg" => strip_tags($page), 
+				)), "htmlmsg" => $page, "textmsg" => strip_tags($page),
 				"type" => "mail"
 			));
 			$messages_model->save();
 		}
 
 		$str = str_replace('.', '', $info["post"]["amount"]);
-        $info["post"]["amount"] = str_replace(',', '.', $str);
+		$info["post"]["amount"] = str_replace(',', '.', $str);
 
 		$bill_payabled->populate($info["post"]);
 		$bill_payabled->save();
