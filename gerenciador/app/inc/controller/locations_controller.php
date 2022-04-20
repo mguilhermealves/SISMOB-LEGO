@@ -92,6 +92,79 @@ class locations_controller
 					)
 				);
 				break;
+			case ".xls":
+
+				if (file_exists(constant("cFurniture1") . 'excel/locations/Relatorio.xls')) {
+					unlink(constant("cFurniture1") . 'excel/locations/Relatorio.xls');
+				}
+
+				$name = "Relatorio_Alugueis_e_Vendas_" .  date("d-m-Y-H:s");
+				require_once(constant("cRootServer_APP") . '/inc/lib/PHPExcel-1.8/Classes/PHPExcel.php');
+				$objPHPExcel = new PHPExcel();
+				$objPHPExcel->getProperties()->setCreator("SYSMOB")
+					->setLastModifiedBy("SYSMOB")
+					->setTitle("Relatorio de Aluguel e Vendas")
+					->setSubject("Relatorio de Aluguel e Vendas")
+					->setDescription("Relatorio de Aluguel e Vendas")
+					->setKeywords("Aluguel e Vendas")
+					->setCategory("Aluguel e Vendas");
+
+				$objPHPExcel = PHPExcel_IOFactory::load(constant("cFurniture1") . 'excel/locations/modelo-locations.xlsx');
+
+				$objPHPExcel->setActiveSheetIndex(0)->setTitle('Aluguel e Vendas');
+
+				$x_in = 13;
+				foreach ($data as $k => $v) {
+					$objPHPExcel->setActiveSheetIndex(0)->insertNewRowBefore($x_in, 1);
+					$objPHPExcel->setActiveSheetIndex(0)->mergeCells('C' . $x_in . ':E' . $x_in);
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["first_name"] . " " . $v["last_name"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F' . ($x_in - 1), preg_replace("/(...)(...)(...)(..)$/", "$1.$2.$3-$4", preg_replace("/\.|-/", "", $v["document"])));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G' . ($x_in - 1), $v["mail"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["number_residents"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I' . ($x_in - 1), $GLOBALS["status_location"][$v["is_aproved"]]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J' . ($x_in - 1), $v["day_due"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('K' . ($x_in - 1), $GLOBALS["payment_method"][$v["payment_method"]]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('L' . ($x_in - 1), $v["n_contract"]);
+
+					$objPHPExcel->setActiveSheetIndex(0)->mergeCells('M' . $x_in . ':N' . $x_in);
+
+					if (!empty($v["complement"])) {
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('M' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["complement"] . ", " . preg_replace("/(.....)(...)$/", "$1-$2", preg_replace("/\.|-/", "", $v["code_postal"])) . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+					} else {
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('M' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . preg_replace("/(.....)(...)$/", "$1-$2", preg_replace("/\.|-/", "", $v["code_postal"])) . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+					}
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('O' . ($x_in - 1), $v["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $v["properties_attach"][0]["clients_attach"][0]["last_name"]);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('P' . ($x_in - 1), preg_replace("/(...)(...)(...)(..)$/", "$1.$2.$3-$4", preg_replace("/\.|-/", "", $v["properties_attach"][0]["clients_attach"][0]["document"])));
+
+					$x_in++;
+				}
+
+				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+				$objWriter->setIncludeCharts(TRUE);
+				$objWriter->save(constant("cFurniture1") . 'excel/locations/Relatorio.xlsx');
+				$objWriter->setOffice2003Compatibility(true);
+				$objPHPExcel->disconnectWorksheets();
+				$objPHPExcel->garbageCollect();
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment; filename="' . $name . '.xlsx"');
+
+				header('Cache-Control: max-age=0');
+				// If you're serving to IE 9, then the following may be needed
+				header('Cache-Control: max-age=1');
+
+				// If you're serving to IE over SSL, then the following may be needed
+				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+				header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+				header('Pragma: public'); // HTTP/1.0
+				ob_clean();
+				flush();
+				readfile(constant("cFurniture1") . 'excel/locations/Relatorio.xlsx');
+				unset($objPHPExcel);
+				exit();
+				break;
 			default:
 				$page = 'Locações e Vendas';
 				$sidebar_color = "rgba(218, 165, 32, 1)";
@@ -395,15 +468,15 @@ class locations_controller
 
 		$templateProcessor  = new \PhpOffice\PhpWord\TemplateProcessor(constant("cFurniture1") . 'docx/location/newcontract.docx');
 		// $templateProcessor->setValue('NUMERO_CONTRATO', $data["n_contract"]);
-		$templateProcessor->setValue('NOME_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"] );
-		$templateProcessor->setValue('RG_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["rg"] );
-		$templateProcessor->setValue('CPF_LOCADOR', preg_replace( "/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4",$data["properties_attach"][0]["clients_attach"][0]["document"] ) );
-		$templateProcessor->setValue('NOME_LOCATARIO', $data["first_name"] . " " . $data["last_name"] );
+		$templateProcessor->setValue('NOME_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"]);
+		$templateProcessor->setValue('RG_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["rg"]);
+		$templateProcessor->setValue('CPF_LOCADOR', preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["properties_attach"][0]["clients_attach"][0]["document"]));
+		$templateProcessor->setValue('NOME_LOCATARIO', $data["first_name"] . " " . $data["last_name"]);
 		$templateProcessor->setValue('RG_LOCATARIO', $data["rg"]);
-		$templateProcessor->setValue('CPF_LOCATARIO', preg_replace( "/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["document"] ) );
+		$templateProcessor->setValue('CPF_LOCATARIO', preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["document"]));
 		$templateProcessor->setValue('EMAIL_LOCATARIO', $data["mail"]);
 		$templateProcessor->setValue('ENDERECO_LOCATARIO', $data["properties_attach"][0]["clients_attach"][0]["address"] . ', ' . 'N° ' . $data["properties_attach"][0]["clients_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["district"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["uf"]);
-		$templateProcessor->setValue('ENDERECO_PROPRIEDADE', $data["properties_attach"][0]["address"] . ', N° ' . $data["properties_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["district"] .', ' . $data["properties_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["uf"]);
+		$templateProcessor->setValue('ENDERECO_PROPRIEDADE', $data["properties_attach"][0]["address"] . ', N° ' . $data["properties_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["district"] . ', ' . $data["properties_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["uf"]);
 		$templateProcessor->setValue('FIM_EXCLUSIVO', $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]]);
 
 		$templateProcessor->setValue('VALOR_ALUGUEL', "R$ " . number_format($data["properties_attach"][0]["price_location"], 2, ",", "."));
@@ -411,7 +484,7 @@ class locations_controller
 		$templateProcessor->setValue('PRAZO_CONTRATO', $data["properties_attach"][0]["deadline_contract"]);
 		$templateProcessor->setValue('NUMERO_PESSOAS', $data["number_residents"]);
 		$templateProcessor->setValue('FORMA_PAGAMENTO', $GLOBALS["payment_method"][$data["payment_method"]]);
-		
+
 		$templateProcessor->saveAs('contract.docx');
 	}
 
