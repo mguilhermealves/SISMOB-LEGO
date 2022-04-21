@@ -280,8 +280,7 @@ class locations_controller
 			$location = new locations_model();
 			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$location->load_data();
-			$location->attach(array("offices", "properties"));
-			$location->attach(array("partners"));
+			$location->attach(array("offices", "properties", "partners"));
 			$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 			$data = current($location->data);
 			$form = array(
@@ -296,6 +295,8 @@ class locations_controller
 				"url" => $GLOBALS["newlocation_url"]
 			);
 		}
+
+		// print_pre($data, true);
 
 		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Locação e Venda';
@@ -321,6 +322,222 @@ class locations_controller
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
+
+			//upload files offices
+			if ($info["post"]["offices"]["type_work"] == "clt") {
+				$info["post"]["address_file"] = null;
+				$info["post"]["cnpj_file"] = null;
+				$info["post"]["contract_file"] = null;
+
+				/* Comprovante de Renda */
+				$arrayRent = [];
+				if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["rent_file"][0] != "") {
+
+					for ($i = 0; $i < count($_FILES["offices"]["name"]["rent_file"]); $i++) {
+						$d = preg_split("/\./", $_FILES["offices"]["name"]["rent_file"][$i]);
+
+						$extension = $d[count($d) - 1];
+
+						$extension_permited = ["pdf"];
+
+						$t = array_search($extension, $extension_permited);
+
+						if (array_search($extension, $extension_permited) >= 0) {
+							$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["rent_file"][$i]));
+
+							$extension = $i . "." . $extension;
+
+							$file = "furniture/upload/location/" . $info["idx"] . "/offices/rent_file/" . $name . $extension;
+
+							if (!file_exists(dirname(constant("cRootServer") . $file))) {
+								mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+								chmod(dirname(constant("cRootServer") . $file), 0775);
+							}
+
+							if (file_exists(constant("cRootServer") . $file)) {
+								unlink(constant("cRootServer") . $file);
+							}
+
+							move_uploaded_file($_FILES["offices"]["tmp_name"]["rent_file"][$i], constant("cRootServer") . $file);
+							array_push($arrayRent, $file);
+						} else {
+							$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [Comprovante de Renda], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
+						}
+					}
+
+					$info["post"]["offices"]["rent_file"] = serialize($arrayRent);
+				}
+
+				/* IRPF */
+				$arrayIRPF = [];
+				if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["IRPF_file"][0] != "") {
+
+					for ($i = 0; $i < count($_FILES["offices"]["name"]["IRPF_file"]); $i++) {
+						$d = preg_split("/\./", $_FILES["offices"]["name"]["IRPF_file"][$i]);
+
+						$extension = $d[count($d) - 1];
+
+						$extension_permited = ["pdf"];
+
+						$t = array_search($extension, $extension_permited);
+
+						if (array_search($extension, $extension_permited) >= 0) {
+							$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["IRPF_file"][$i]));
+
+							$extension = $i . "." . $extension;
+
+							$file = "furniture/upload/location/" . $info["idx"] . "/offices/IRPF/" . $name . $extension;
+
+							if (!file_exists(dirname(constant("cRootServer") . $file))) {
+								mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+								chmod(dirname(constant("cRootServer") . $file), 0775);
+							}
+
+							if (file_exists(constant("cRootServer") . $file)) {
+								unlink(constant("cRootServer") . $file);
+							}
+
+							move_uploaded_file($_FILES["offices"]["tmp_name"]["IRPF_file"][$i], constant("cRootServer") . $file);
+							array_push($arrayIRPF, $file);
+						} else {
+							$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [IRPF], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
+						}
+					}
+
+					$info["post"]["offices"]["IRPF_file"] = serialize($arrayIRPF);
+				}
+			} else {
+				$info["post"]["offices"]["rent_file"] = null;
+				$info["post"]["offices"]["IRPF_file"] = null;
+
+				/* Endereço PJ */
+				$arrayAddress = [];
+				if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["address_file"][0] != "") {
+
+					for ($i = 0; $i < count($_FILES["offices"]["name"]["address_file"]); $i++) {
+						$d = preg_split("/\./", $_FILES["offices"]["name"]["address_file"][$i]);
+
+						$extension = $d[count($d) - 1];
+
+						$extension_permited = ["pdf"];
+
+						$t = array_search($extension, $extension_permited);
+
+						if (array_search($extension, $extension_permited) >= 0) {
+							$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["address_file"][$i]));
+
+							$extension = $i . "." . $extension;
+
+							$file = "furniture/upload/location/" . $info["idx"] . "/offices/address_file/" . $name . $extension;
+
+							if (!file_exists(dirname(constant("cRootServer") . $file))) {
+								mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+								chmod(dirname(constant("cRootServer") . $file), 0775);
+							}
+
+							if (file_exists(constant("cRootServer") . $file)) {
+								unlink(constant("cRootServer") . $file);
+							}
+
+							move_uploaded_file($_FILES["offices"]["tmp_name"]["address_file"][$i], constant("cRootServer") . $file);
+							array_push($arrayAddress, $file);
+						} else {
+							$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [Comprovante de Renda], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
+						}
+					}
+
+					$info["post"]["offices"]["address_file"] = serialize($arrayAddress);
+				}
+
+				/* CNPJ */
+				$arrayCNPJ = [];
+				if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["cnpj_file"][0] != "") {
+
+					for ($i = 0; $i < count($_FILES["offices"]["name"]["cnpj_file"]); $i++) {
+						$d = preg_split("/\./", $_FILES["offices"]["name"]["cnpj_file"][$i]);
+
+						$extension = $d[count($d) - 1];
+
+						$extension_permited = ["pdf"];
+
+						$t = array_search($extension, $extension_permited);
+
+						if (array_search($extension, $extension_permited) >= 0) {
+							$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["cnpj_file"][$i]));
+
+							$extension = $i . "." . $extension;
+
+							$file = "furniture/upload/location/" . $info["idx"] . "/offices/CNPJ/" . $name . $extension;
+
+							if (!file_exists(dirname(constant("cRootServer") . $file))) {
+								mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+								chmod(dirname(constant("cRootServer") . $file), 0775);
+							}
+
+							if (file_exists(constant("cRootServer") . $file)) {
+								unlink(constant("cRootServer") . $file);
+							}
+
+							move_uploaded_file($_FILES["offices"]["tmp_name"]["cnpj_file"][$i], constant("cRootServer") . $file);
+							array_push($arrayCNPJ, $file);
+						} else {
+							$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [IRPF], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
+						}
+					}
+
+					$info["post"]["offices"]["cnpj_file"] = serialize($arrayCNPJ);
+				}
+
+				/* CONTRATO SOCIAL */
+				$arrayContract = [];
+				if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["contract_file"][0] != "") {
+
+					for ($i = 0; $i < count($_FILES["offices"]["name"]["contract_file"]); $i++) {
+						$d = preg_split("/\./", $_FILES["offices"]["name"]["contract_file"][$i]);
+
+						$extension = $d[count($d) - 1];
+
+						$extension_permited = ["pdf"];
+
+						$t = array_search($extension, $extension_permited);
+
+						if (array_search($extension, $extension_permited) >= 0) {
+							$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["contract_file"][$i]));
+
+							$extension = $i . "." . $extension;
+
+							$file = "furniture/upload/location/" . $info["idx"] . "/offices/contract/" . $name . $extension;
+
+							if (!file_exists(dirname(constant("cRootServer") . $file))) {
+								mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+								chmod(dirname(constant("cRootServer") . $file), 0775);
+							}
+
+							if (file_exists(constant("cRootServer") . $file)) {
+								unlink(constant("cRootServer") . $file);
+							}
+
+							move_uploaded_file($_FILES["offices"]["tmp_name"]["contract_file"][$i], constant("cRootServer") . $file);
+							array_push($arrayContract, $file);
+						} else {
+							$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [IRPF], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
+						}
+					}
+
+					$info["post"]["offices"]["contract_file"] = serialize($arrayContract);
+				}
+			}
+
+			/* save office */
+			$office = new offices_model();
+			$office->populate($info["post"]["offices"]);
+			$office->save();
+
+			if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
+				$info["offices_id"] = $office->con->insert_id;
+			}
+	
+			$location->save_attach($info, array("offices"));
 		}
 
 		// is approved
@@ -426,19 +643,16 @@ class locations_controller
 
 			/* save partner */
 			$partner = new partners_model();
+			$partner->set_filter(array(" document_partner = '" . $info["post"]["partner"]["document_partner"] . "' "));
 			$partner->populate($info["post"]["partner"]);
 			$partner->save();
-			$info["partners_id"] = $partner->con->insert_id;
-			$location->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"])), array("partners"));
+
+			if (!isset($info["idx"])) {
+				$info["post"]["partners_id"] = $partner->con->insert_id;
+			}
+
+			$location->save_attach($info, array("partners"));
 		}
-
-		/* save office */
-		$office = new offices_model();
-		$office->populate($info["post"]["offices"]);
-		$office->save();
-		$info["offices_id"] = $office->con->insert_id;
-
-		$location->save_attach(array("idx" => $info["idx"], "post" => array("offices_id" => $info["offices_id"])), array("offices"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

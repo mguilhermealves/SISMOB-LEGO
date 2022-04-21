@@ -343,7 +343,7 @@ class properties_controller
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$propertie->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
-		} else {
+
 			/* Imagens */
 			$arrayImages = [];
 			if (isset($_FILES["images"]) && $_FILES["images"]["name"][0] != "") {

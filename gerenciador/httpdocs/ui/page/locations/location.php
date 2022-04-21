@@ -594,6 +594,19 @@
                                                     <input type="file" class="form-control" name="offices[rent_file][]" multiple>
                                                 </div>
                                             </div>
+
+                                            <div class="col-12 col-lg-12">
+                                                <div class="row">
+                                                    <?php if (!empty($data["offices_attach"][0])) {
+                                                        foreach (unserialize($data["offices_attach"][0]["rent_file"]) as $key => $doc) {
+                                                    ?>
+                                                            <div class="col-12 col-sm-6 col-lg-4">
+                                                                <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="300px"></iframe>
+                                                            </div>
+                                                    <?php }
+                                                    } ?>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -638,6 +651,15 @@
                                                     <label>Comprovante IRPF</label>
                                                     <input type="file" class="form-control" name="offices[IRPF_file][]" multiple>
                                                 </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-12">
+                                                <?php if (!empty($data["offices_attach"][0])) {
+                                                    foreach (unserialize($data["offices_attach"][0]["IRPF_file"]) as $key => $doc) {
+                                                ?>
+                                                        <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="300px"></iframe>
+                                                <?php }
+                                                } ?>
                                             </div>
                                         </div>
                                     </div>
