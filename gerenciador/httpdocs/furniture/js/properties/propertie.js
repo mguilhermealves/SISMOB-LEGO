@@ -1,6 +1,8 @@
-$(document).ready(function () {
+jQuery(function() {
 
-    $('body').keypress(function(event) {
+    lightbox.init();
+
+    $('body').on(function(event) {
         if (event.keyCode == '13') {
             return false;
         }
@@ -68,6 +70,31 @@ $(document).ready(function () {
         $('div[id="sale"]').hide();
         $('div[id="location"]').hide();
     }
+
+    // $("#delete_img").on("click", function () {
+    //     var propertie_id = $(this).data("propertieid");
+    //     var img_id = $(this).data("imgid");
+
+    //     $.ajax({
+    //         method: "POST",
+    //         url: '/delete_img_propertie',
+    //         data: {
+    //             propertie_id: propertie_id,
+    //             img_id: img_id
+    //         },
+    //         beforeSend: function () {
+    //             $(".spinner-border").show();
+    //         },
+    //         success: function () {
+    //             // setTimeout(function () {
+    //             //     window.location.reload();
+    //             // }, 1500);
+    //         },
+    //         complete: function () {
+    //             $('.spinner-border').hide();
+    //         }
+    //     });
+    // });
 });
 
 $('#is_swap').change(function () {

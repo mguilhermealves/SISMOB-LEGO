@@ -362,7 +362,7 @@
                     </div>
                 </div>
 
-                <?php if ( !empty($data) ) { ?>
+                <?php if (!empty($data)) { ?>
 
                     <!-- Fotos do Imovel -->
                     <div class="modal-content">
@@ -382,15 +382,20 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12 mt-2 mb-2">
-                                            <?php
-                                            if (!empty($data["imagem"])) {
-                                                foreach (unserialize($data["imagem"]) as $key => $img) {
-                                            ?>
-                                                    <img class="img-thumbnail" src="/<?php print($img) ?>" alt="" style="width: 15vw; height: 15vw;">
-                                            <?php
-                                                }
-                                            } ?>
+                                        <div class="col-12 col-lg-12 mt-2 mb-2">
+                                            <div class="row">
+                                                <?php if (!empty($data["imagem"])) {
+                                                    foreach (unserialize($data["imagem"]) as $k => $img) { ?>
+                                                        <div class="col-4 col-sm-4 col-lg-3">
+
+                                                            <a class="example-image-link" href="/<?php print($img) ?>" data-lightbox="example-set" data-title="<?php print("Foto do Imovel Cod n° " . $data["idx"]) ?>"><img class="img-thumbnail d-block" id="<?php print("img_propertie_" . $k) ?>" src="/<?php print($img) ?>" alt="" style="width: 15vw; height: 15vw;"></a>
+
+
+                                                            <!-- <a type="button" id="delete_img" data-propertieid="<?php print($data["idx"]) ?>" data-imgid="<?php print($k) ?>" title="Excluir" class="btn btn-danger btn-sm"><i class="bi bi-x-circle"></i> </a> -->
+                                                        </div>
+                                                <?php }
+                                                } ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
