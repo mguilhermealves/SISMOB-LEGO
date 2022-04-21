@@ -9,3 +9,4 @@
     <link rel="stylesheet" href="<?php printf("%s%s",constant("cFurniture"),"css/common.css")?>" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="<?php printf("%s%s",constant("cFurniture"), "js/lightbox2-2.11.3/src/css/lightbox.css")?>" />

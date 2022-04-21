@@ -23,9 +23,9 @@
     }
     ?>
 
-<div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
 
     <style>
       .spinner-border {
@@ -50,6 +50,9 @@
     <script src="<?php printf("%s%s", constant("cFurniture"), "js/jQuery-TE_v.1.4.0/jquery-te-1.4.0.min.js") ?>"></script>
     <link rel="stylesheet" href="<?php printf("%s%s", constant("cFurniture"), "js/jQuery-TE_v.1.4.0/jquery-te-1.4.0.css") ?>" />
     <script type='text/javascript' src='<?php printf("%s%s", constant("cFurniture"), "js/jquery-autocomplete.js") ?>'></script>
+
+    <script type='text/javascript' src="<?php printf("%s%s", constant("cFurniture"), "js/lightbox2-2.11.3/src/js/lightbox.js") ?>"></script>
+
     <script type="text/javascript">
       $('.editor').jqte();
       $('.datepicker').datepicker({
