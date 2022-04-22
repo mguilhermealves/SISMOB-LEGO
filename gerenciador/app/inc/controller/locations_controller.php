@@ -296,6 +296,8 @@ class locations_controller
 			);
 		}
 
+		// print_pre($data, true);
+
 		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Locação e Venda';
 
@@ -526,15 +528,15 @@ class locations_controller
 				}
 			}
 
-			/* save office */
 			$office = new offices_model();
-			$office->populate($info["post"]["offices"]);
-			$office->save();
+			if (isset($info["post"]["offices"]["offices_id"]) && $info["post"]["offices"]["offices_id"] > 0) {
+				$office->set_filter(array(" idx = '" . $info["post"]["offices"]["offices_id"] . "' "));
 
-			if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
-				$info["offices_id"] = $office->con->insert_id;
+				$office->populate($info["post"]["offices"]);
+				$office->save();
 			}
-	
+
+			$info["post"]["offices_id"] = $office->con->insert_id;
 			$location->save_attach($info, array("offices"));
 		}
 
@@ -639,16 +641,37 @@ class locations_controller
 		if ($info["post"]["marital_status"] == "married") {
 			$info["post"]["partner"]["document_partner"] = preg_replace("/[^0-9]/", "", $info["post"]["partner"]["document_partner"]);
 
-			/* save partner */
-			$partner = new partners_model();
-			$partner->set_filter(array(" document_partner = '" . $info["post"]["partner"]["document_partner"] . "' "));
-			$partner->populate($info["post"]["partner"]);
-			$partner->save();
+			if (isset($_FILES["partner"]) && is_file($_FILES["partner"]["tmp_name"]["file"])) {
 
-			if (!isset($info["idx"])) {
-				$info["post"]["partners_id"] = $partner->con->insert_id;
+				$d = preg_split("/\./", $_FILES["partner"]["name"]["file"]);
+
+				$extension = $d[count($d) - 1];
+
+				$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["partner"]["name"]["file"]));
+				$extension = date("YmdHis") . "." . $extension;
+				$file = "furniture/upload/location/" . $info["idx"] . "/partner/certification/" . $name . $extension;
+
+				if (!file_exists(dirname(constant("cRootServer") . $file))) {
+					mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+					chmod(dirname(constant("cRootServer") . $file), 0775);
+				}
+				if (file_exists(constant("cRootServer") . $file)) {
+					unlink(constant("cRootServer") . $file);
+				}
+				move_uploaded_file($_FILES["partner"]["tmp_name"]["file"], constant("cRootServer") . $file);
+
+				$info["post"]["partner"]["certification"] = $file;
 			}
 
+			/* save partner */
+			$partner = new partners_model();
+			if (isset($info["post"]["partner"]["partners_id"]) && $info["post"]["partner"]["partners_id"] > 0) {
+				$partner->set_filter(array(" idx = '" . $info["post"]["partner"]["partners_id"] . "' "));
+				$partner->populate($info["post"]["partner"]);
+				$partner->save();
+			}
+
+			$info["post"]["partners_id"] = $partner->con->insert_id;
 			$location->save_attach($info, array("partners"));
 		}
 

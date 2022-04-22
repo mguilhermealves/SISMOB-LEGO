@@ -558,6 +558,10 @@
                     </div>
 
                     <?php if (isset($data["idx"])) { ?>
+
+                        <input type="hidden" name="offices[offices_id]" value="<?php print(isset($data["offices_attach"][0]["idx"]) ? $data["offices_attach"][0]["idx"] : ""); ?>">
+                        <input type="hidden" name="partner[partners_id]" value="<?php print(isset($data["partners_attach"][0]["idx"]) ? $data["partners_attach"][0]["idx"] : ""); ?>">
+
                         <!-- Dados Financeiros -->
                         <div class="modal-content">
                             <div class="modal-header label">
@@ -754,8 +758,8 @@
                                                 </div>
                                             </div>
 
-                                            <?php if (!empty($data["partners_attach"][0]["file"]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["file"])) { ?>
-                                                <img class="img-fluid" src="/<?php print($data["partners_attach"]["file"]) ?>" />
+                                            <?php if (!empty($data["partners_attach"][0]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["certification"])) { ?>
+                                                <iframe class="pdf" src="/<?php print($data["partners_attach"][0]["certification"]) ?>" width="100%" height="300px"></iframe>
                                             <?php
                                             } ?>
                                         </div>

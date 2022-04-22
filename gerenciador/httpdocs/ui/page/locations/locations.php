@@ -65,7 +65,7 @@
             </div>
             <div class="col-sm-12 col-lg-2">
                 <label for="btn_add">&nbsp;</label>
-                <a id="btn_add" class="btn btn-outline-primary btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Nova Locação</a>
+                <a id="btn_add" class="btn btn-outline-primary btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo</a>
             </div>
         </div>
     </form>
