@@ -601,7 +601,7 @@
 
                                             <div class="col-12 col-lg-12">
                                                 <div class="row">
-                                                    <?php if (!empty($data["offices_attach"][0])) {
+                                                    <?php if (!empty($data["offices_attach"][0]["rent_file"])) {
                                                         foreach (unserialize($data["offices_attach"][0]["rent_file"]) as $key => $doc) {
                                                     ?>
                                                             <div class="col-12 col-sm-6 col-lg-4">
@@ -658,7 +658,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12">
-                                                <?php if (!empty($data["offices_attach"][0])) {
+                                                <?php if (!empty($data["offices_attach"][0]["IRPF_file"])) {
                                                     foreach (unserialize($data["offices_attach"][0]["IRPF_file"]) as $key => $doc) {
                                                 ?>
                                                         <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="300px"></iframe>
