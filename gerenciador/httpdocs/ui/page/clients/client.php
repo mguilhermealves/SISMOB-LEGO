@@ -181,6 +181,7 @@
 
                 <!-- Conjuge -->
                 <div class="modal-content" id="conjuge">
+                    <input type="hidden" name="partner[partners_id]" value="<?php print(isset($data["partners_attach"][0]["idx"]) ? $data["partners_attach"][0]["idx"] : ""); ?>">
                     <div class="modal-header label">
                         <h5 class="modal-title ">Dados do Conjuge</h5>
                     </div>
