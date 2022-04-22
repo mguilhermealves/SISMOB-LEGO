@@ -531,10 +531,10 @@ class locations_controller
 			$office = new offices_model();
 			if (isset($info["post"]["offices"]["offices_id"]) && $info["post"]["offices"]["offices_id"] > 0) {
 				$office->set_filter(array(" idx = '" . $info["post"]["offices"]["offices_id"] . "' "));
-
-				$office->populate($info["post"]["offices"]);
-				$office->save();
 			}
+
+			$office->populate($info["post"]["offices"]);
+			$office->save();
 
 			$info["post"]["offices_id"] = $office->con->insert_id;
 			$location->save_attach($info, array("offices"));
