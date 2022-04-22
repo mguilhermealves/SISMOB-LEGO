@@ -686,6 +686,14 @@
                                                     <label>Endereço</label>
                                                     <input type="file" class="form-control" name="offices[address_file]">
                                                 </div>
+
+                                                <?php if (!empty($data["offices_attach"][0])) {
+                                                    foreach (unserialize($data["offices_attach"][0]["address_file"]) as $key => $address_file) {
+                                                ?>
+                                                        <iframe class="pdf" src="/<?php print($address_file) ?>" width="100%" height="300px"></iframe>
+                                                <?php
+                                                    }
+                                                } ?>
                                             </div>
 
                                             <div class="col-lg-6">
@@ -693,6 +701,14 @@
                                                     <label>CNPJ</label>
                                                     <input type="file" class="form-control" name="offices[cnpj_file]">
                                                 </div>
+
+                                                <?php if (!empty($data["offices_attach"][0])) {
+                                                    foreach (unserialize($data["offices_attach"][0]["cnpj_file"]) as $key => $cnpj_file) {
+                                                ?>
+                                                        <iframe class="pdf" src="/<?php print($cnpj_file) ?>" width="100%" height="300px"></iframe>
+                                                <?php
+                                                    }
+                                                } ?>
                                             </div>
 
                                             <div class="col-lg-6">
@@ -700,6 +716,14 @@
                                                     <label>Contrato Social</label>
                                                     <input type="file" class="form-control" name="offices[contract_file]">
                                                 </div>
+
+                                                <?php if (!empty($data["offices_attach"][0])) {
+                                                    foreach (unserialize($data["offices_attach"][0]["contract_file"]) as $key => $contract_file) {
+                                                ?>
+                                                        <iframe class="pdf" src="/<?php print($contract_file) ?>" width="100%" height="300px"></iframe>
+                                                <?php
+                                                    }
+                                                } ?>
                                             </div>
                                         </div>
                                     </div>

@@ -347,6 +347,43 @@ class clients_controller
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$client->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
+
+			//is married
+			if ($info["post"]["marital_status"] == "married") {
+
+				if (isset($_FILES["partner"]) && is_file($_FILES["partner"]["tmp_name"]["file"])) {
+					$d = preg_split("/\./", $_FILES["partner"]["name"]["file"]);
+
+					$extension = $d[count($d) - 1];
+
+					$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["partner"]["name"]["file"]));
+					$extension = date("YmdHis") . "." . $extension;
+					$file = "furniture/upload/client/" . $info["idx"] . "/partner/certification/" . $name . $extension;
+
+					if (!file_exists(dirname(constant("cRootServer") . $file))) {
+						mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+						chmod(dirname(constant("cRootServer") . $file), 0775);
+					}
+					if (file_exists(constant("cRootServer") . $file)) {
+						unlink(constant("cRootServer") . $file);
+					}
+					move_uploaded_file($_FILES["partner"]["tmp_name"]["file"], constant("cRootServer") . $file);
+
+					$info["post"]["partner"]["certification"] = $file;
+				}
+
+				/* save partner */
+				$partner = new partners_model();
+				if (isset($info["post"]["partner"]["partners_id"]) && $info["post"]["partner"]["partners_id"] > 0) {
+					$partner->set_filter(array(" idx = '" . $info["post"]["partner"]["partners_id"] . "' "));
+				}
+
+				$partner->populate($info["post"]["partner"]);
+				$partner->save();
+
+				$info["post"]["partners_id"] = $partner->con->insert_id;
+				$client->save_attach($info, array("partners"));
+			}
 		} else {
 			$consult_client = new clients_model();
 			$consult_client->set_filter(array(" document = '" . $info["post"]["document"] . "' "));
@@ -365,42 +402,6 @@ class clients_controller
 
 		if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
 			$info["idx"] = $client->con->insert_id;
-		}
-
-		if ($info["post"]["marital_status"] == "married") {
-
-			if (isset($_FILES["partner"]) && is_file($_FILES["partner"]["tmp_name"]["file"])) {
-				$d = preg_split("/\./", $_FILES["partner"]["name"]["file"]);
-
-				$extension = $d[count($d) - 1];
-
-				$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["partner"]["name"]["file"]));
-				$extension = date("YmdHis") . "." . $extension;
-				$file = "furniture/upload/client/" . $info["idx"] . "/partner/certification/" . $name . $extension;
-
-				if (!file_exists(dirname(constant("cRootServer") . $file))) {
-					mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-					chmod(dirname(constant("cRootServer") . $file), 0775);
-				}
-				if (file_exists(constant("cRootServer") . $file)) {
-					unlink(constant("cRootServer") . $file);
-				}
-				move_uploaded_file($_FILES["partner"]["tmp_name"]["file"], constant("cRootServer") . $file);
-
-				$info["post"]["partner"]["certification"] = $file;
-			}
-
-			/* save partner */
-			$partner = new partners_model();
-			if (isset($info["post"]["partner"]["partners_id"]) && $info["post"]["partner"]["partners_id"] > 0) {
-				$partner->set_filter(array(" idx = '" . $info["post"]["partner"]["partners_id"] . "' "));
-			}
-
-			$partner->populate($info["post"]["partner"]);
-			$partner->save();
-
-			$info["post"]["partners_id"] = $partner->con->insert_id;
-			$client->save_attach($info, array("partners"));
 		}
 
 		$_SESSION["messages_app"]["success"] = array("Cliente Cadastrado com sucesso.");

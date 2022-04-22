@@ -200,10 +200,13 @@
                     </div>
                 </div>
 
-                <!-- Dados da Locação -->
-                <div class="modal-content" id="location">
-                    <div class="modal-header label">
+                <!-- Dados da Locação ou Venda -->
+                <div class="modal-content" id="configs">
+                    <div class="modal-header label" id="location">
                         <h5 class="modal-title ">Dados da Locação</h5>
+                    </div>
+                    <div class="modal-header label" id="sale">
+                        <h5 class="modal-title ">Dados da Venda</h5>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
@@ -226,6 +229,26 @@
                                                 <span class="input-group-text" id="basic-addon1">R$</span>
                                             </div>
                                             <input type="text" name="price_iptu" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" id="sale">
+                                        <label>Valor Venda</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">R$</span>
+                                            </div>
+                                            <input type="text" name="price_sale" class="form-control money" value="<?php print(isset($data["price_sale"]) ? $data["price_sale"] : "") ?>" autofocus>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" id="sale">
+                                        <label>Porcentagem da Comissão</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">%</span>
+                                            </div>
+                                            <input type="text" name="porcent_propertie" class="form-control percent" value="<?php print(isset($data["porcent_propertie"]) ? $data["porcent_propertie"] : "") ?>" autofocus>
                                         </div>
                                     </div>
 
@@ -268,54 +291,8 @@
                                             <textarea name="comments" id="comments" rows="5" cols="100" style="overflow: auto; resize: none;"></textarea>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Dados da Venda -->
-                <div class="modal-content" id="sale">
-                    <div class="modal-header label">
-                        <h5 class="modal-title ">Dados da Venda</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="row col-lg-12">
-                                    <div class="col-lg-4">
-                                        <label>Valor Venda</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">R$</span>
-                                            </div>
-                                            <input type="text" name="price_sale" class="form-control money" value="<?php print(isset($data["price_sale"]) ? $data["price_sale"] : "") ?>" autofocus>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <label>Porcentagem da Comissão</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">%</span>
-                                            </div>
-                                            <input type="text" name="porcent_propertie" class="form-control percent" value="<?php print(isset($data["porcent_propertie"]) ? $data["porcent_propertie"] : "") ?>" autofocus>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4" name="is_apartmant">
-                                        <div class="form-group">
-                                            <label>Valor do Condominio</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">R$</span>
-                                                </div>
-                                                <input type="text" name="price_condominium" class="form-control money" value="<?php print(isset($data["price_condominium"]) ? $data["price_condominium"] : "") ?>" autofocus>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" id="sale">
                                         <div class="form-group">
                                             <label for="financial_propertie">Aceita Financiamento</label>
                                             <select name="financial_propertie" id="financial_propertie" class="form-control">
@@ -336,7 +313,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" id="sale">
                                         <div class="form-group">
                                             <label for="is_swap">Aceita Troca</label>
                                             <select name="is_swap" id="is_swap" class="form-control">
@@ -347,13 +324,6 @@
                                                 }
                                                 ?>
                                             </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12" name="text_exchange">
-                                        <div class="form-group">
-                                            <label>Informações Complementares</label>
-                                            <textarea name="comments" id="comments" rows="5" cols="100" style="overflow: auto; resize: none;"></textarea>
                                         </div>
                                     </div>
                                 </div>

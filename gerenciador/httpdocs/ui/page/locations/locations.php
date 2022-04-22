@@ -71,6 +71,8 @@
     </form>
     <!-- Container Begin -->
     <div class="col-lg-12" style="overflow: auto;">
+        <?php html_notification_print(); ?>
+        
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
