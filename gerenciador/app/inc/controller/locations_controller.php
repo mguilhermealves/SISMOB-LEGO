@@ -296,8 +296,6 @@ class locations_controller
 			);
 		}
 
-		// print_pre($data, true);
-
 		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Locação e Venda';
 
@@ -699,7 +697,21 @@ class locations_controller
 		$templateProcessor->setValue('NUMERO_PESSOAS', $data["number_residents"]);
 		$templateProcessor->setValue('FORMA_PAGAMENTO', $GLOBALS["payment_method"][$data["payment_method"]]);
 
-		$templateProcessor->saveAs('contract.docx');
+		$filename = "Contrato_" . $data["n_contract"] . ".docx";
+
+		$templateProcessor->saveAs($filename);
+
+		header('Content-Description: File Transfer');
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename=' . $filename);
+		header('Content-Transfer-Encoding: binary');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Pragma: public');
+		header('Content-Length: ' . filesize($filename));
+		flush();
+		readfile($filename);
+		unlink($filename);
 	}
 
 	public function remove($info)
