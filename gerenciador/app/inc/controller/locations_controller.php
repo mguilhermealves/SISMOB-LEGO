@@ -667,9 +667,10 @@ class locations_controller
 			$partner = new partners_model();
 			if (isset($info["post"]["partner"]["partners_id"]) && $info["post"]["partner"]["partners_id"] > 0) {
 				$partner->set_filter(array(" idx = '" . $info["post"]["partner"]["partners_id"] . "' "));
-				$partner->populate($info["post"]["partner"]);
-				$partner->save();
 			}
+
+			$partner->populate($info["post"]["partner"]);
+			$partner->save();
 
 			$info["post"]["partners_id"] = $partner->con->insert_id;
 			$location->save_attach($info, array("partners"));
