@@ -45,7 +45,7 @@
     .container_custom {
         display: flex;
         flex-direction: column;
-        border: 1px solid rgb(0 101 153);
+        border: 10px solid rgb(0 101 153);
         border-radius: .25rem !important;
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175) !important;
         /*margin: 10px;*/
@@ -79,8 +79,7 @@
     }
 
     .img-fluid {
-        width: 50%;
-        height: 130px;
+        height: 100px;
     }
 
     .login_body {
