@@ -19,8 +19,8 @@
                 <form action="<?php print($GLOBALS["home_url"]) ?>" method="POST" class="container">
                     <div class="form-group py-3">
                         <div class="d-flex flex-column input-group-prepend">
-                            <label>E-mail:</label>
-                            <input name="login" type="email" class="form-control" placeholder="E-mail" aria-label="E-mail" aria-describedby="email" required>
+                            <label>Login:</label>
+                            <input name="login" type="text" class="form-control" placeholder="Login" aria-label="Login" aria-describedby="login" required>
                         </div>
 
                         <br>

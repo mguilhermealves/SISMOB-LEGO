@@ -78,7 +78,7 @@
             </div>
 
             <div class="col-sm-12 col-lg-2">
-                
+
             </div>
 
             <div class="col-sm-12 col-lg-2">
@@ -106,6 +106,7 @@
                     <!-- <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Endereço <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th> -->
                     <th>Centro de Custo</th>
                     <th>Forma de Pagamento</th>
+                    <th>Vencimento</th>
                     <th>Valor</th>
                     <th>Status</th>
                     <th>Ações</th>
@@ -113,7 +114,7 @@
             </thead>
             <tfoot>
                 <tr>
-                    <th colspan="7">
+                    <th colspan="8">
                         <div class="row col-lg-12">
                             <div class="col-lg-3 form-group">
                                 <select class="form-control" id="select_paginage" class="col-lg-3 ">
@@ -143,8 +144,15 @@
                             <td><?php print($v["companies_attach"][0]["name"]); ?></td>
                             <td><?php print($v["account_pay_cost_center_attach"][0]["name"]); ?></td>
                             <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
+                            <td><?php print(date_format(new DateTime($v["day_due"]), "d/m/Y")); ?></td>
                             <td><?php print("R$ " . number_format($v["amount"], 2, ",", ".")); ?></td>
-                            <td><?php print($GLOBALS["payment_status"][$v["status_payment"]]); ?></td>
+                            <td>
+                                <?php if ($v["status_payment"] == "unpaid") { ?>
+                                    <p style="color: red; font-weight: bold;"><?php print($GLOBALS["payment_status"][$v["status_payment"]]); ?></p>
+                                <?php } else {
+                                    print($GLOBALS["payment_status"][$v["status_payment"]]);
+                                } ?>
+                            </td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="/conta-a-pagar/<?php print($v["idx"]) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                                 <a class="btn btn-outline-danger btn-sm" id="btn_remove_<?php print($v["idx"]) ?>" href="<?php printf($form["pattern"]["action"], $v["idx"]) ?>"><i class="bi bi-x-circle"></i> Excluir</a>
@@ -155,7 +163,7 @@
                 } else {
                     ?>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <p class="alert alert-warning text-center">Nenhum pagamento encontrado...</p>
                         </td>
                     </tr>

@@ -297,14 +297,35 @@ class bills_payableds_controller
 			$bill_payabled->set_filter(array(" idx = '" . $info["idx"] . "' "));
 
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
-		} else {
+		}
+
+		$str = str_replace('.', '', $info["post"]["amount"]);
+		$info["post"]["amount"] = str_replace(',', '.', $str);
+
+		$bill_payabled->populate($info["post"]);
+		$bill_payabled->save();
+
+		if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
+			$info["idx"] = $bill_payabled->con->insert_id;
+		}
+
+		$bill_payabled->save_attach($info, array("account_pay_cost_center"));
+		$bill_payabled->save_attach($info, array("companies"));
+
+		if (!isset($info["idx"])) {
+			$account_pay = new account_pays_model();
+			$account_pay->set_filter(array(" idx = '" . $info["idx"] . "' "));
+			$account_pay->load_data();
+			$account_pay->attach(array("account_pay_cost_center", "companies"));
+			$data = current($account_pay->data);
+
 			$page = strtr(file_get_contents(constant("cFurniture") . "mail/contas-a-pagar.html"), array(
 				"#HOST#" => constant("cFurniture") . "mail/contas-a-pagar.html",
 				"#NOME#" => $_SESSION[constant("cAppKey")]["credential"]["first_name"] . " " . $_SESSION[constant("cAppKey")]["credential"]["last_name"],
-				"#COMPANY_NAME#" => $info["post"]["company_beneficiary"],
-				"#DAY_DUE#" => date('d/m/Y', strtotime($info["post"]["day_due"])),
-				"#PAYMENT_METHOD#" => $info["post"]["payment_method"],
-				"#AMOUNT#" => $info["post"]["amount"],
+				"#COMPANY_NAME#" => $data["companies_attach"][0]["name"],
+				"#DAY_DUE#" => date('d/m/Y', strtotime($data["day_due"])),
+				"#PAYMENT_METHOD#" => $data["payment_method"],
+				"#AMOUNT#" => $data["amount"],
 			));
 
 			$messages_model = new messages_model();
@@ -329,19 +350,6 @@ class bills_payableds_controller
 			));
 			$messages_model->save();
 		}
-
-		$str = str_replace('.', '', $info["post"]["amount"]);
-		$info["post"]["amount"] = str_replace(',', '.', $str);
-
-		$bill_payabled->populate($info["post"]);
-		$bill_payabled->save();
-
-		if (!isset($info["idx"]) || (int)$info["idx"] == 0) {
-			$info["idx"] = $bill_payabled->con->insert_id;
-		}
-
-		$bill_payabled->save_attach($info, array("account_pay_cost_center"));
-		$bill_payabled->save_attach($info, array("companies"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
