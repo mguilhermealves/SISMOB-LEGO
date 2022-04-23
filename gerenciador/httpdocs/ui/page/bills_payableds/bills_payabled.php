@@ -136,7 +136,7 @@
                                         <?php if (isset($data["idx"]) && isset($data["idx"]) > 0) { ?>
                                             <div class="col-sm-12 col-lg-12">
                                                 <div class="form-group">
-                                                    <label for="file">Comprovante</label>
+                                                    <label for="file">Comprovante de Pagamento</label>
                                                     <input type="file" id="file" name="receipt_payment" class="form-control">
                                                 </div>
                                             </div>

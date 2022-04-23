@@ -297,6 +297,27 @@ class bills_payableds_controller
 			$bill_payabled->set_filter(array(" idx = '" . $info["idx"] . "' "));
 
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
+
+			if (isset($_FILES["receipt_payment"]) && is_file($_FILES["receipt_payment"]["tmp_name"])) {
+				$d = preg_split("/\./", $_FILES["receipt_payment"]["name"]);
+
+				$extension = $d[count($d) - 1];
+
+				$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["receipt_payment"]["name"]));
+				$extension = date("YmdHis") . "." . $extension;
+				$file = "furniture/upload/account_pay/" . $info["idx"] . "/receipt_payment/" . $name . $extension;
+
+				if (!file_exists(dirname(constant("cRootServer") . $file))) {
+					mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+					chmod(dirname(constant("cRootServer") . $file), 0775);
+				}
+				if (file_exists(constant("cRootServer") . $file)) {
+					unlink(constant("cRootServer") . $file);
+				}
+				move_uploaded_file($_FILES["receipt_payment"]["tmp_name"], constant("cRootServer") . $file);
+
+				$info["post"]["receipt_payment"] = $file;
+			}
 		}
 
 		$str = str_replace('.', '', $info["post"]["amount"]);
