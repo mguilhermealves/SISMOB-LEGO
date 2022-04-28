@@ -18,7 +18,8 @@ putenv('SCRIPT_NAME=index.php');
 set_include_path($_SERVER["DOCUMENT_ROOT"]  . PATH_SEPARATOR . get_include_path());
 require_once($_SERVER["DOCUMENT_ROOT"] . "../app/inc/main.php");
 
-include(constant("cRootServer_APP") . "/gn-api-sdk-php/vendor/autoload.php");
+// include(constant("cRootServer_APP") . "/gn-api-sdk-php/vendor/autoload.php");
+include( $_SERVER["DOCUMENT_ROOT"] . "../app/gn-api-sdk-php/vendor/autoload.php" );
 
 use Gerencianet\Exception\GerencianetException;
 use Gerencianet\Gerencianet;
