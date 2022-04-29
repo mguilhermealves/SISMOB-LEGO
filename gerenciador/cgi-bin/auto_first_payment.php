@@ -36,7 +36,7 @@ $resto = 0;
 foreach ($locations->data as $k => $v) {
 
     if ($v["properties_attach"][0]["object_propertie"] == "location") {
-        if (sizeof($v["payments_attach"]) == 0 && $v["payment_method"] == "ticket") {
+        if (!isset($v["payments_attach"][0]) && $v["payment_method"] == "ticket") {
             $dateNow = date("Y-m-d");
             $due = date('Y-m-' . $v["day_due"]);
             $sumOneMonth = date('Y-m-d', strtotime($due . ' + 1 month'));
