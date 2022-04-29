@@ -119,7 +119,7 @@ foreach ($locations->data as $k => $v) {
                 $info["payments_id"] = $payments->con->insert_id;
                 $info["idx"] = $v["properties_attach"][0]["idx"];
 
-                $payments->save_attach($info, array("locations"));
+                $payments->save_attach(array("idx" => $info["payments_id"], "post" => array("locations_id" =>  $v["idx"])), array("locations"), true);
             } catch (GerencianetException $e) {
                 print_r($e->code);
                 print_r($e->error);
