@@ -18,6 +18,8 @@ putenv('SCRIPT_NAME=index.php');
 set_include_path($_SERVER["DOCUMENT_ROOT"]  . PATH_SEPARATOR . get_include_path());
 require_once($_SERVER["DOCUMENT_ROOT"] . "../app/inc/main.php");
 
+// include(constant("cRootServer_APP") . "/gn-api-sdk-php/vendor/autoload.php");
+
 include("/var/projetos/SISMOB-LEGO/gerenciador/app/gn-api-sdk-php/vendor/autoload.php");
 
 use Gerencianet\Exception\GerencianetException;
@@ -80,7 +82,7 @@ foreach ($locations->data as $k => $v) {
 
             $bankingBillet = [
                 'expire_at' => $sumOneMonth, // data de vencimento do titulo
-                'message' => 'Aluguel n° 1 com vencimento em ' .  date_format(new \DateTime( $sumOneMonth ), "d/m/Y") . "\n". ' Aluguel R$ ' . number_format($price_location, 2, ",", ".") . "\n". 'IPTU R$ ' . number_format($price_iptu, 2, ",", "."), // mensagem a ser exibida no boleto
+                'message' => 'Aluguel n° 1 com vencimento em ' .  date_format(new \DateTime($sumOneMonth), "d/m/Y") . "\n" . ' Aluguel R$ ' . number_format($price_location, 2, ",", ".") . "\n" . 'IPTU R$ ' . number_format($price_iptu, 2, ",", "."), // mensagem a ser exibida no boleto
                 'customer' => $customer
             ];
 
@@ -93,35 +95,30 @@ foreach ($locations->data as $k => $v) {
                 'payment' => $payment
             ];
 
-            $info["post"]["payment"]["amount"] = $price_location + $price_iptu;
-            $info["post"]["payment"]["day_due"] = $v["day_due"];
-            $info["post"]["payment"]["payment_method"] = $v["payment_method"];
-
-            $payments->populate($info["post"]["payment"]);
-            $payments->save();
-
-            $info["payments_id"] = $payments->con->insert_id;
-            $info["idx"] = $v["properties_attach"][0]["idx"];
-
             try {
                 $api = new Gerencianet($options);
                 $pay_charge = $api->oneStep([], $body);
 
-                $info["post"]["payment_gerencianet"]["barcode"] = $pay_charge["data"]["barcode"];
-                $info["post"]["payment_gerencianet"]["link"] = $pay_charge["data"]["link"];
-                $info["post"]["payment_gerencianet"]["pdf"] = $pay_charge["data"]["pdf"]["charge"];
-                $info["post"]["payment_gerencianet"]["expire_at"] = $pay_charge["data"]["expire_at"];
-                $info["post"]["payment_gerencianet"]["charge_id"] = $pay_charge["data"]["charge_id"];
-                $info["post"]["payment_gerencianet"]["status"] = $pay_charge["data"]["status"];
-                $info["post"]["payment_gerencianet"]["total_atuality"] = $pay_charge["data"]["total"];
-                $info["post"]["payment_gerencianet"]["payment"] = $pay_charge["data"]["payment"];
+                $info["post"]["amount"] = $price_location + $price_iptu;
+                $info["post"]["day_due"] = $v["day_due"];
+                $info["post"]["payment_method"] = $v["payment_method"];
+                $info["post"]["barcode"] = $pay_charge["data"]["barcode"];
+                $info["post"]["link"] = $pay_charge["data"]["link"];
+                $info["post"]["pdf"] = $pay_charge["data"]["pdf"]["charge"];
+                $info["post"]["expire_at"] = $pay_charge["data"]["expire_at"];
+                $info["post"]["charge_id"] = $pay_charge["data"]["charge_id"];
+                $info["post"]["status"] = $pay_charge["data"]["status"];
+                $info["post"]["total_atuality"] = $pay_charge["data"]["total"];
+                $info["post"]["payment"] = $pay_charge["data"]["payment"];
 
-                $loadpayments->set_filter(array(" idx = '" . $info["payments_id"] . "' "));
-                $loadpayments->load_data();
+                $payments->load_data();
+                $payments->populate($info["post"]);
+                $payments->save();
 
-                $loadpayments->populate($info["post"]["payment_gerencianet"]);
-                $loadpayments->save();
-                $loadpayments->save_attach(array("locations"), true);
+                $info["payments_id"] = $payments->con->insert_id;
+                $info["idx"] = $v["properties_attach"][0]["idx"];
+
+                $payments->save_attach(array("locations"), true);
             } catch (GerencianetException $e) {
                 print_r($e->code);
                 print_r($e->error);
