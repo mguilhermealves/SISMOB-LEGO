@@ -31,23 +31,25 @@ $payment->set_filter(array(" idx = '" . $info["idx"] . "' "));
 $payment->load_data();
 $data = current($payment->data);
 
-$options = [
-    'client_id' => $clientId,
-    'client_secret' => $clientSecret,
-    'sandbox' => true, // altere conforme o ambiente (true = desenvolvimento e false = produção)
-    'timeout' => 10000
-];
+if (!empty($data)) {
+    $options = [
+        'client_id' => $clientId,
+        'client_secret' => $clientSecret,
+        'sandbox' => true, // altere conforme o ambiente (true = desenvolvimento e false = produção)
+        'timeout' => 10000
+    ];
 
-// $charge_id refere-se ao ID da transação ("charge_id")
-$params = [
-    'id' => $data["charge_id"]
-];
+    // $charge_id refere-se ao ID da transação ("charge_id")
+    $params = [
+        'id' => $data["charge_id"]
+    ];
 
-$api = new Gerencianet($options);
-$charge = $api->detailCharge($params, []);
+    $api = new Gerencianet($options);
+    $charge = $api->detailCharge($params, []);
 
-$info["post"]["status"] = $charge["data"]["status"];
-$info["post"]["historic_bank"] = serialize($charge["data"]["history"]);
+    $info["post"]["status"] = $charge["data"]["status"];
+    $info["post"]["historic_bank"] = serialize($charge["data"]["history"]);
 
-$payment->populate($info["post"]);
-$payment->save();
+    $payment->populate($info["post"]);
+    $payment->save();
+}
