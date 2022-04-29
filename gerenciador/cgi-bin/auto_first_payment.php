@@ -36,11 +36,11 @@ $resto = 0;
 foreach ($locations->data as $k => $v) {
 
     if ($v["properties_attach"][0]["object_propertie"] == "location") {
-        if (!isset($v["payments_attach"][0]) && $v["payment_method"] == "ticket") {
+        if (empty($v["payments_attach"][0]) && $v["payment_method"] == "ticket") {
             $dateNow = date("Y-m-d");
             $due = date('Y-m-' . $v["day_due"]);
             $sumOneMonth = date('Y-m-d', strtotime($due . ' + 1 month'));
-            $lastTendays = date('Y-m-d', strtotime($sumOneMonth . ' - 15 days'));
+            // $lastTendays = date('Y-m-d', strtotime($sumOneMonth . ' - 15 days'));
 
             $price_iptu = $v["properties_attach"][0]["price_iptu"] / $v["properties_attach"][0]["deadline_contract"];
             $price_location = $v["properties_attach"][0]["price_location"] - $price_iptu;
@@ -79,8 +79,8 @@ foreach ($locations->data as $k => $v) {
             ];
 
             $bankingBillet = [
-                'expire_at' => $lastTendays, // data de vencimento do titulo
-                'message' => 'Aluguel n° 1 com vencimento em ' .  date_format(new \DateTime( $lastTendays ), "d/m/Y") . ' R$ ' . number_format($price_location, 2, ",", ".") . nl2br("\n") . 'IPTU R$ ' . number_format($price_iptu, 2, ",", "."), // mensagem a ser exibida no boleto
+                'expire_at' => $sumOneMonth, // data de vencimento do titulo
+                'message' => 'Aluguel n° 1 com vencimento em ' .  date_format(new \DateTime( $sumOneMonth ), "d/m/Y") . "\n". ' Aluguel R$ ' . number_format($price_location, 2, ",", ".") . "\n". 'IPTU R$ ' . number_format($price_iptu, 2, ",", "."), // mensagem a ser exibida no boleto
                 'customer' => $customer
             ];
 
@@ -100,7 +100,8 @@ foreach ($locations->data as $k => $v) {
             $payments->populate($info["post"]["payment"]);
             $payments->save();
 
-            $info["payments_idx"] = $payments->con->insert_id;
+            $info["payments_id"] = $payments->con->insert_id;
+            $info["idx"] = $v["properties_attach"][0]["idx"];
 
             try {
                 $api = new Gerencianet($options);
@@ -115,54 +116,12 @@ foreach ($locations->data as $k => $v) {
                 $info["post"]["payment_gerencianet"]["total_atuality"] = $pay_charge["data"]["total"];
                 $info["post"]["payment_gerencianet"]["payment"] = $pay_charge["data"]["payment"];
 
-                $payments->set_filter(array(" idx = '" . $info["payments_idx"] . "' "));
+                $payments->set_filter(array(" idx = '" . $info["payments_id"] . "' "));
                 $payments->load_data();
 
                 $payments->populate($info["post"]["payment_gerencianet"]);
                 $payments->save();
-                $payments->save_attach(array("idx" => $info["payments_idx"], "post" => array("locations_id" =>  $v["idx"])), array("locations"), true);
-
-                /* ENVIO E-MAIL DE NOVO PAGAMENTO */
-
-                $venciment = date('Y-m-') . $v["day_due"];
-
-                $new_payments = new payments_model();
-                $new_payments->set_filter(array(" idx = '" . $info["payments_idx"] . "' "));
-                $new_payments->load_data();
-                $data = current($new_payments->data);
-
-                $page = strtr(file_get_contents(constant("cFurniture") . "mail/new-payment-billet.html"), array(
-                    "#HOST#" => constant("cFurniture") . "mail/new-payment-billet.html",
-                    "#NOME#" => $v["first_name"] . " " . $v["last_name"],
-                    "#CONTRACT#" => $v["n_contract"],
-                    "#DAY_DUE#" => date('d/m/Y', strtotime($venciment)),
-                    "#PAYMENT_METHOD#" => "Boleto Bancário",
-                    "#AMOUNT#" => number_format($v["properties_attach"][0]["price_location"], 2),
-                    "#BARCODE#" => $data["barcode"],
-                    "#LINK#" => $data["pdf"],
-                ));
-
-                $messages_model = new messages_model();
-                $messages_model->populate(array(
-                    "name" => "SISMOB - Novo Boleto de Locação Gerado",
-                    "scheduled_at" => date("Y-m-d H:i:s"),
-                    "mailboxes" => serialize(array(
-                        "Address" => array(
-                            "name" => $v["first_name"] . " " . $v["last_name"],
-                            "mail" => $v["mail"]
-                        ),
-                        "from" => array(
-                            "name" => constant("mail_from_name"),
-                            "mail" => constant("mail_from_user")
-                        ),
-                        "replyTo" => array(
-                            "name" => constant("mail_from_name"),
-                            "mail" => constant("mail_from_user")
-                        )
-                    )), "htmlmsg" => $page, "textmsg" => strip_tags($page),
-                    "type" => "mail"
-                ));
-                $messages_model->save();
+                $payments->save_attach(array("locations"), true);
             } catch (GerencianetException $e) {
                 print_r($e->code);
                 print_r($e->error);
