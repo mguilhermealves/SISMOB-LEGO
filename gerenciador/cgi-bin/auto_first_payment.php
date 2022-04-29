@@ -18,8 +18,6 @@ putenv('SCRIPT_NAME=index.php');
 set_include_path($_SERVER["DOCUMENT_ROOT"]  . PATH_SEPARATOR . get_include_path());
 require_once($_SERVER["DOCUMENT_ROOT"] . "../app/inc/main.php");
 
-// include(constant("cRootServer_APP") . "/gn-api-sdk-php/vendor/autoload.php");
-
 include("/var/projetos/SISMOB-LEGO/gerenciador/app/gn-api-sdk-php/vendor/autoload.php");
 
 use Gerencianet\Exception\GerencianetException;
@@ -102,6 +100,9 @@ foreach ($locations->data as $k => $v) {
                 $info["post"]["amount"] = $price_location + $price_iptu;
                 $info["post"]["day_due"] = $v["day_due"];
                 $info["post"]["payment_method"] = $v["payment_method"];
+                $info["post"]["amount"] = $price_location + $price_iptu;
+                $info["post"]["day_due"] = $v["day_due"];
+                $info["post"]["payment_method"] = $v["payment_method"];
                 $info["post"]["barcode"] = $pay_charge["data"]["barcode"];
                 $info["post"]["link"] = $pay_charge["data"]["link"];
                 $info["post"]["pdf"] = $pay_charge["data"]["pdf"]["charge"];
@@ -118,7 +119,7 @@ foreach ($locations->data as $k => $v) {
                 $info["payments_id"] = $payments->con->insert_id;
                 $info["idx"] = $v["properties_attach"][0]["idx"];
 
-                $payments->save_attach(array("locations"), true);
+                $payments->save_attach($info, array("locations"));
             } catch (GerencianetException $e) {
                 print_r($e->code);
                 print_r($e->error);

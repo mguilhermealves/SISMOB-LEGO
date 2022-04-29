@@ -288,10 +288,6 @@ class payments_location_controller
 
 			$historic = unserialize($data["historic_bank"]);
 
-			if ($data["payment_method"] == "ticket") {
-				include(constant("cRootServer_APP") . "/gerencianet/boleto/atualizar_status.php");
-			}
-
 			$form = array(
 				"title" => "Editar Conta a Receber",
 				"url" => sprintf($GLOBALS["accounts_receivable_url"], $info["idx"])
