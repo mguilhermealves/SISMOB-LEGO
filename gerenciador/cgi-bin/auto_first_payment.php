@@ -116,12 +116,12 @@ foreach ($locations->data as $k => $v) {
                 $info["post"]["payment_gerencianet"]["total_atuality"] = $pay_charge["data"]["total"];
                 $info["post"]["payment_gerencianet"]["payment"] = $pay_charge["data"]["payment"];
 
-                $payments->set_filter(array(" idx = '" . $info["payments_id"] . "' "));
-                $payments->load_data();
+                $loadpayments->set_filter(array(" idx = '" . $info["payments_id"] . "' "));
+                $loadpayments->load_data();
 
-                $payments->populate($info["post"]["payment_gerencianet"]);
-                $payments->save();
-                $payments->save_attach(array("locations"), true);
+                $loadpayments->populate($info["post"]["payment_gerencianet"]);
+                $loadpayments->save();
+                $loadpayments->save_attach(array("locations"), true);
             } catch (GerencianetException $e) {
                 print_r($e->code);
                 print_r($e->error);
