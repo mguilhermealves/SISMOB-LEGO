@@ -51,7 +51,9 @@ if (!empty($data)) {
         $info["post"]["status"] = $charge["data"]["status"];
         $info["post"]["historic_bank"] = serialize($charge["data"]["history"]);
         
-        $payment->populate($info["post"]);
-        $payment->save();
+        $payment_update = new payments_model();
+        $payment_update->set_filter(array(" idx = '" . $v["idx"] . "'"));
+        $payment_update->populate($info["post"]);
+        $payment_update->save();
     }
 }
