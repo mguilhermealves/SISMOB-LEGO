@@ -1,8 +1,8 @@
-jQuery(function() {
+jQuery(function () {
 
     lightbox.init();
 
-    $('body').on(function(event) {
+    $('body').on(function (event) {
         if (event.keyCode == '13') {
             return false;
         }
@@ -95,6 +95,16 @@ jQuery(function() {
     //         }
     //     });
     // });
+});
+
+$('#price_iptu').change(function () {
+    var price_iptu = ($(this).val());
+
+    var price_location = document.getElementById("price_location").value
+
+    var percentual = (price_iptu.replace(".", "").replace(",", "") * 100) / price_location.replace(".", "").replace(",", "");
+
+    $(".percentual_iptu").val(percentual);
 });
 
 $('#is_swap').change(function () {

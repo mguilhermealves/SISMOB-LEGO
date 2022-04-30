@@ -263,47 +263,6 @@ $genre_lists = array(
   , "female" => "Feminino"
 );
 
-$trail_list_status = array(
-  "published" => "Publicado"
-  , "draft" => "Rascunho"
-  , "filed" => "Arquivado"
-  , "hidden" => "Oculto"
-);
-
-$type_materials_list = array(
-  "text" => "Texto"
-  , "tincan" => "Tincan"
-  , "pdf" => "PDF"
-  , "video" => "Video"
-  , "imagem" => "Imagem"
-  , "powerpoint" => "PowerPoint"
-  , "planilhaexcel" => "Planilha Excel"
-);
-
-$display_status_list = array(
-  "Publicado" => "Publicado"
-  , "Rascunho" => "Rascunho"
-  , "Arquivado" => "Arquivado"
-  , "Oculto" => "Oculto"
-);
-$status_published_list =array(
-  "published" => "Publicado"
-  , "draft" => "Rascunho"
-  , "archived" => "Arquivado"
-  , "ocult" => "Oculto"  
-) ;
-$questions_types_list =array(
-  "alternativa" => "Alternativa"
-  , "dicotomia" => "Dicotomia"
-  , "dissertativa" => "Dissertativa"  
-) ;
-$background_pill_list = array(
-  "1" => "pill_01.6669b38d.png"
-  , "2" => "pill_02.7b45a8f2.png"
-  , "3" => "pill_03.8ac546fa.png"
-  , "4" => "pill_04.ecf3c9cf.png"
-) ;
-
 $genres = array(
   "male" => "Masculino"
   , "female" => "Feminino"

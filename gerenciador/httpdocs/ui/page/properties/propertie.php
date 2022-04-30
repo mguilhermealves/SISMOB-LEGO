@@ -161,7 +161,9 @@
                 <!-- Dados do Imovel -->
                 <div class="modal-content">
                     <div class="modal-header label">
-                        <h5 class="modal-title ">Dados do Imovel</h5>
+                        <h5 class="modal-title ">Dados do Imovel <?php if (isset($data["idx"]) && $data["idx"] > 0) {
+                                                                        print("N° " . $data["idx"]);
+                                                                    } ?></h5>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
@@ -218,7 +220,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">R$</span>
                                             </div>
-                                            <input type="text" name="price_location" class="form-control money" value="<?php print(isset($data["price_location"]) ? $data["price_location"] : "") ?>" autofocus>
+                                            <input type="text" name="price_location" id="price_location" class="form-control money" value="<?php print(isset($data["price_location"]) ? $data["price_location"] : "") ?>" autofocus>
                                         </div>
                                     </div>
 
@@ -228,7 +230,28 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">R$</span>
                                             </div>
-                                            <input type="text" name="price_iptu" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
+                                            <input type="text" name="price_iptu" id="price_iptu" class="form-control money" value="<?php print(isset($data["price_iptu"]) ? $data["price_iptu"] : "") ?>" autofocus>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" id="location">
+                                        <label>Percentual Correspondente IPTU</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">%</span>
+                                            </div>
+                                            <input type="text" value="<?php print(isset($data["percentual_iptu"]) ? $data["percentual_iptu"] : "") ?>" class="form-control percentual_iptu" disabled>
+                                            <input type="hidden" name="percentual_iptu" value="<?php print(isset($data["percentual_iptu"]) ? $data["percentual_iptu"] : "") ?>" class="form-control percentual_iptu">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label>Taxas Administrativas</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">R$</span>
+                                            </div>
+                                            <input type="text" id="administrative_fees" name="administrative_fees" value="<?php print(isset($data["administrative_fees"]) ? $data["administrative_fees"] : "") ?>" class="form-control money">
                                         </div>
                                     </div>
 
@@ -324,6 +347,20 @@
                                                 }
                                                 ?>
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" id="location">
+                                        <div class="form-group">
+                                            <label for="instalation_enel">Instalação ENEL</label>
+                                            <input id="instalation_enel" type="text" class="form-control" name="instalation_enel" value="<?php print(isset($data["instalation_enel"]) ? $data["instalation_enel"] : "") ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" id="location">
+                                        <div class="form-group">
+                                            <label for="instalation_sabesp">Instalação Sabesp</label>
+                                            <input id="instalation_sabesp" type="text" class="form-control" name="instalation_sabesp" value="<?php print(isset($data["instalation_sabesp"]) ? $data["instalation_sabesp"] : "") ?>">
                                         </div>
                                     </div>
                                 </div>

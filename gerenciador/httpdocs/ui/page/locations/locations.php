@@ -16,7 +16,7 @@
 
             <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
-                    <label for="filter_name">Nome do Locátario:</label>
+                    <label for="filter_name">Nome:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome">
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-3">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_uf">UF</label>
                     <select name="filter_uf" id="filter_uf" class="form-control">
@@ -47,11 +47,15 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-3">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_contract">N° Contrato:</label>
                     <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="form-control" placeholder="Digite o n° do contrato">
                 </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-6">
+                
             </div>
 
             <div class="col-sm-12 col-lg-2">
@@ -77,7 +81,7 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>Id</th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Nome do Locatário <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Nome <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_uf))) ?>">UF <i class="<?php print($ordenation_uf_ordenation) ?>"></i></a></th>

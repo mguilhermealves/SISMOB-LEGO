@@ -213,29 +213,33 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12 mt-3">
+                                    <?php if (isset($historic)) { ?>
 
-                                        <p class="lead">
-                                            Historico de Cobrança
-                                        </p>
+                                        <div class="col-lg-12 mt-3">
 
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Data</th>
-                                                    <th>Mensagem</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($historic as $v) { ?>
+                                            <p class="lead">
+                                                Historico de Cobrança
+                                            </p>
+
+                                            <table class="table">
+                                                <thead>
                                                     <tr>
-                                                        <td scope="row"><?php print(date_format(new DateTime($v["created_at"]),"d/m/Y H:i:s")) ?></td>
-                                                        <td><?php print($v["message"]) ?></td>
+                                                        <th>Data</th>
+                                                        <th>Mensagem</th>
                                                     </tr>
-                                                <?php } ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($historic as $v) { ?>
+                                                        <tr>
+                                                            <td scope="row"><?php print(date_format(new DateTime($v["created_at"]), "d/m/Y H:i:s")) ?></td>
+                                                            <td><?php print($v["message"]) ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

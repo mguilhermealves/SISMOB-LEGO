@@ -24,7 +24,7 @@
             </div>
 
             <!-- Dados do Proprietário -->
-            <div class="modal-content">
+            <!-- <div class="modal-content">
                 <div class="modal-header label">
                     <h5 class="modal-title ">Dados do Proprietário</h5>
                 </div>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div>
                 <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
@@ -457,6 +457,44 @@
                                                     }
                                                     ?>
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="indice">Índice</label>
+                                                <select name="indice" id="indice" class="form-control">
+                                                    <option value="">Selecione</option>
+                                                    <option value="igpm">IGP-M</option>
+                                                    <option value="ipca">IPCA</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <label>Percentual Correspondente IPTU</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">%</span>
+                                                </div>
+                                                <input type="text" name="percentual_iptu" class="form-control percentual_iptu" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="name">Classificação Fiscal Prefeitura</label>
+                                                <input id="classification" type="text" maxlength="20" class="form-control" name="classification" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["classification"] : "") ?>" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <label>Taxas Administrativas</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">R$</span>
+                                                </div>
+                                                <input type="text" id="administrative_fees" name="administrative_fees" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["administrative_fees"] : "") ?>"  class="form-control money">
                                             </div>
                                         </div>
                                     </div>

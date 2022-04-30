@@ -1,10 +1,8 @@
 <div class="body_login">
-    <div class="login_container col-lg-6 col-xl-6 col-md-6 col-sm-6 col-xs-6 mx-auto">
+    <div class="login_container col-lg-6 col-xl-6 col-md-6 col-sm-6 col-xs-6">
         <div class="container_custom">
             <div class="login_header">
-                <div class="login_header">
-                    <img class="img-fluid" src="<?php printf("%simg/logo.jpeg", constant("cFurniture")) ?>">
-                </div>
+                <div style="color: white;" class="panel-title">SysMob - Sistema de Gestão Imobiliária</div>
             </div>
 
             <div class="login_body">
@@ -36,6 +34,11 @@
         </div>
     </div>
 </div>
+
+<hr>
+<footer>
+    <p align="center"><a href="https://f4fsistemas.com.br" style="text-decoration:none;" target="_blank">© 2022 - F4F Sistemas | f4fsistemas.com.br</a></p>
+</footer>
 
 <style>
     body {
@@ -111,5 +114,12 @@
         color: rgba(158, 158, 158, 0.87);
         width: 18px;
         height: 18px;
+    }
+
+    footer {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
     }
 </style>

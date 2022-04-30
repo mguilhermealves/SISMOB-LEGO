@@ -61,9 +61,9 @@ class properties_controller
 			$filter["filter_district"] = " district like '%" . $info["get"]["filter_district"] . "%' ";
 		}
 
-		if (isset($info["get"]["filter_uf"]) && !empty($info["get"]["filter_uf"])) {
-			$done["filter_uf"] = $info["get"]["filter_uf"];
-			$filter["filter_uf"] = " uf like '%" . $info["get"]["filter_uf"] . "%' ";
+		if (isset($info["get"]["cod_propertie"]) && !empty($info["get"]["cod_propertie"])) {
+			$done["cod_propertie"] = $info["get"]["cod_propertie"];
+			$filter["cod_propertie"] = " idx like '%" . $info["get"]["cod_propertie"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_object_propertie"]) && !empty($info["get"]["filter_object_propertie"])) {
@@ -134,7 +134,7 @@ class properties_controller
 				foreach ($data as $k => $value) {
 					$out["suggestions"][] = array(
 						"data" => $value,
-						"value" => sprintf("%s %s (%s) - %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $value["clients_attach"][0]["mail"], $GLOBALS["propertie_objects"][$value["object_propertie"]])
+						"value" => sprintf("%s %s ( %s ) - Endereço: %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $GLOBALS["propertie_objects"][$value["object_propertie"]], empty($value["address"]) ? $value["address"] . ", N° " . $value["number_address"] . ", " . $value["complement"] . ", " . $value["code_postal"] . ", " . $value["district"] . ", " . $value["city"] . " - " . $value["uf"] : $value["address"] . ", N° " . $value["number_address"] . ", " . $value["code_postal"] . ", " . $value["district"] . ", " . $value["city"] . " - " . $value["uf"])
 					);
 				}
 
@@ -228,8 +228,8 @@ class properties_controller
 				$ordenation_district_ordenation = 'bi bi-border';
 				$ordenation_city = 'city-asc';
 				$ordenation_city_ordenation = 'bi bi-border';
-				$ordenation_uf = 'uf-asc';
-				$ordenation_uf_ordenation = 'bi bi-border';
+				$ordenation_cod = 'cod_propertie-asc';
+				$ordenation_cod_ordenation = 'bi bi-border';
 				$ordenation_objective = 'object_propertie-asc';
 				$ordenation_objective_ordenation = 'bi bi-border';
 				switch ($ordenation) {
@@ -257,13 +257,13 @@ class properties_controller
 						$ordenation_city = 'city-asc';
 						$ordenation_city_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'uf asc':
-						$ordenation_uf = 'uf-desc';
-						$ordenation_uf_ordenation = 'bi bi-arrow-up';
+					case 'cod_propertie asc':
+						$ordenation_cod = 'cod_propertie-desc';
+						$ordenation_cod_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'uf desc':
-						$ordenation_uf = 'uf-asc';
-						$ordenation_uf_ordenation = 'bi bi-arrow-down';
+					case 'cod_propertie desc':
+						$ordenation_cod = 'cod_propertie-asc';
+						$ordenation_cod_ordenation = 'bi bi-arrow-down';
 						break;
 					case 'object_propertie asc':
 						$ordenation_objective = 'object_propertie-desc';
@@ -431,6 +431,7 @@ class properties_controller
 		if ($info["post"]["object_propertie"] == "location") {
 			$info["post"]["price_location"] = str_replace('.', '', $info["post"]["price_location"]);
 			$info["post"]["price_location"] = str_replace(',', '.', $info["post"]["price_location"]);
+			$info["post"]["administrative_fees"] = str_replace(',', '.', $info["post"]["administrative_fees"]);
 
 			$info["post"]["porcent_propertie"] = null;
 			$info["post"]["price_sale"] = null;

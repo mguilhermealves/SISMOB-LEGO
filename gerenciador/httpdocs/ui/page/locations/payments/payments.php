@@ -25,7 +25,7 @@
 
             <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
-                    <label for="filter_name">Nome do Locatário:</label>
+                    <label for="filter_name">Nome:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
                 </div>
             </div>
@@ -96,7 +96,8 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>N° Contrato</th>
-                    <th>Nome do Locatário</th>
+                    <th>Nome</th>
+                    <th>Objetivo do Imovel</th>
                     <th>Forma de Pagamento</th>
                     <th>Valor</th>
                     <th>Vencimento</th>
@@ -134,6 +135,7 @@
                         <tr>
                             <td><?php print($v["locations_attach"][0]["n_contract"]); ?></td>
                             <td><?php print($v["locations_attach"][0]["first_name"] . " " . $v["locations_attach"][0]["last_name"]); ?></td>
+                            <td><?php print($GLOBALS["propertie_objects"][$v["locations_attach"][0]["properties_attach"][0]["object_propertie"]]); ?></td>
                             <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
                             <td><?php print("R$ " . number_format($v["amount"], 2, ".", ",")); ?></td>
                             <td><?php print(date_format(new DateTime($v["expire_at"]), "d/m/Y")); ?></td>

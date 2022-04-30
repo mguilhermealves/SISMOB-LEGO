@@ -761,8 +761,9 @@ class locations_controller
 		$templateProcessor->setValue('NUMERO_PESSOAS', $data["number_residents"]);
 		$templateProcessor->setValue('FORMA_PAGAMENTO', $GLOBALS["payment_method"][$data["payment_method"]]);
 
-		$filename = "Contrato_" . $data["n_contract"] . ".docx";
+		$filename = "Contrato.docx";
 
+		PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
 		$templateProcessor->saveAs($filename);
 
 		header('Content-Description: File Transfer');
@@ -773,6 +774,7 @@ class locations_controller
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($filename));
+		ob_clean();
 		flush();
 		readfile($filename);
 		unlink($filename);

@@ -99,6 +99,7 @@ class payments_location_controller
 
 		list($total, $data) = $payments->return_data();
 		$payments->attach(array("locations"), true);
+		$payments->attach_son("locations", array("properties"), null, null, null);
 		$data = $payments->data;
 
 		$total_amount = 0;

@@ -38,6 +38,9 @@ $(document).ready(function () {
             $("#porcent_propertie").val(sugestion.data.porcent_propertie);
             $(".price_condominium").val(sugestion.data.price_condominium);
             $(".price_iptu").val(sugestion.data.price_iptu);
+            $(".percentual_iptu").val(sugestion.data.percentual_iptu);
+            $("#administrative_fees").val(sugestion.data.administrative_fees);
+            
             $("#price_location").val(sugestion.data.price_location);
             $("#price_sale").val(sugestion.data.price_sale);
             $(".type_propertie").val(sugestion.data.type_propertie);

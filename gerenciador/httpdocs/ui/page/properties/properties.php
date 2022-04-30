@@ -44,15 +44,8 @@
 
             <div class="col-sm-6 col-lg-4">
                 <div class="form-group">
-                    <label for="filter_uf">UF do Imóvel</label>
-                    <select name="filter_uf" id="filter_uf" class="form-control">
-                        <option value="">Selecione</option>
-                        <?php
-                        foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
-                            printf('<option value="%s">%s</option>', $k, $v);
-                        }
-                        ?>
-                    </select>
+                    <label for="cod_propertie">Código do Imóvel:</label>
+                    <input type="text" id="cod_propertie" class="form-control" name="cod_propertie" value="<?php print(isset($info["get"]["cod_propertie"]) ? $info["get"]["cod_propertie"] : "") ?>" placeholder="Digite o Código do Imóvel">
                 </div>
             </div>
 
@@ -60,7 +53,7 @@
                 <div class="form-group">
                     <label for="filter_object_propertie">Objetivo da Propriedade</label>
                     <select name="filter_object_propertie" id="filter_object_propertie" class="form-control">
-                        <option value="">Selecione</option>
+                        <option value="">Todas</option>
                         <?php
                         foreach ($GLOBALS["propertie_objects"] as $k => $v) {
                             printf('<option value="%s">%s</option>', $k, $v);

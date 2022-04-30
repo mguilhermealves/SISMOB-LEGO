@@ -18,7 +18,9 @@ putenv('SCRIPT_NAME=index.php');
 set_include_path($_SERVER["DOCUMENT_ROOT"]  . PATH_SEPARATOR . get_include_path());
 require_once($_SERVER["DOCUMENT_ROOT"] . "../app/inc/main.php");
 
-include("/var/projetos/SISMOB-LEGO/gerenciador/app/gn-api-sdk-php/vendor/autoload.php");
+// include("/var/projetos/SISMOB-LEGO/gerenciador/app/gn-api-sdk-php/vendor/autoload.php");
+
+include(constant("cRootServer_APP") . "/gn-api-sdk-php/vendor/autoload.php");
 
 use Gerencianet\Exception\GerencianetException;
 use Gerencianet\Gerencianet;
