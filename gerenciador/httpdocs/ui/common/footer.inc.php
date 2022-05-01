@@ -1,13 +1,24 @@
-</div>
-</div>
-</div>
-</div>
-<!-- <hr class="mb-0" style="width: 100%; height: 3px;" /> -->
-<div class="footer" style="background-color:#FFFFFF">
-  <div class="container text-center pt-4 footer-desc">
-    © COPYRIGHT 2021-<?php print(date("Y")); ?> | SISMOB | TODOS OS DIREITOS RESERVADOS.
+<?php
+if (isset($_SESSION[constant("cAppKey")]["credential"])) { ?>
   </div>
-</div>
+  </div>
+  </div>
+  </div>
+  <?php if ($info["server_uri"] != "") { ?>
+
+  <?php } else { ?>
+    </div>
+  <?php } ?>
+  </div>
+
+  <div class="footer" style="background-color:#FFFFFF">
+    <div class="container text-center pt-4 footer-desc">
+      © COPYRIGHT 2021-<?php print(date("Y")); ?> | SYSMOB | TODOS OS DIREITOS RESERVADOS.
+    </div>
+  </div>
+<?php
+}
+?>
 
 <div class="spinner-border" role="status">
   <span class="sr-only">Loading...</span>

@@ -10,6 +10,7 @@ dist/
 upload/
 site/app/inc/global.php
 gerenciador/app/inc/global.php
+# gerenciador/httpdocs/furniture/excel/
 # Compiled Java class files
 *.class
 
