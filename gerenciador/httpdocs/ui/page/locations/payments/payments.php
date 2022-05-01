@@ -107,7 +107,7 @@
             </thead>
             <tfoot>
                 <tr>
-                    <th colspan="7">
+                    <th colspan="8">
                         <div class="row col-lg-12">
                             <div class="col-lg-3 form-group">
                                 <select class="form-control" id="select_paginage" class="col-lg-3 ">
@@ -149,7 +149,7 @@
                 } else {
                     ?>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <p class="alert alert-warning text-center">Nenhum pagamento encontrado...</p>
                         </td>
                     </tr>

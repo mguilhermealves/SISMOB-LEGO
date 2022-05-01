@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('body').keypress(function(event) {
+    $('body').keypress(function (event) {
         if (event.keyCode == '13') {
             return false;
         }
@@ -40,7 +40,7 @@ $(document).ready(function () {
             $(".price_iptu").val(sugestion.data.price_iptu);
             $(".percentual_iptu").val(sugestion.data.percentual_iptu);
             $("#administrative_fees").val(sugestion.data.administrative_fees);
-            
+
             $("#price_location").val(sugestion.data.price_location);
             $("#price_sale").val(sugestion.data.price_sale);
             $(".type_propertie").val(sugestion.data.type_propertie);
@@ -51,18 +51,18 @@ $(document).ready(function () {
 
             if (type == 'location') {
                 $("#location").show();
-                $("#day_due_location").prop( "disabled", false );
-                $("#payment_method_location").prop( "disabled", false );
+                $("#day_due_location").prop("disabled", false);
+                $("#payment_method_location").prop("disabled", false);
                 $("#sale").hide();
-                $("#day_due_sale").prop( "disabled", true );
-                $("#payment_method_sale").prop( "disabled", true );
+                $("#day_due_sale").prop("disabled", true);
+                $("#payment_method_sale").prop("disabled", true);
             } else {
                 $("#sale").show();
-                $("#day_due_sale").prop( "disabled", false );
-                $("#payment_method_sale").prop( "disabled", false );
+                $("#day_due_sale").prop("disabled", false);
+                $("#payment_method_sale").prop("disabled", false);
                 $("#location").hide();
-                $("#day_due_location").prop( "disabled", true );
-                $("#payment_method_location").prop( "disabled", true );
+                $("#day_due_location").prop("disabled", true);
+                $("#payment_method_location").prop("disabled", true);
             }
         }
     });
@@ -71,13 +71,20 @@ $(document).ready(function () {
 
     if (type == 'location') {
         $("#location").show();
-        $("#day_due_location").prop( "disabled", false );
-        $("#payment_method_location").prop( "disabled", false );
+        $("#day_due_location").prop("disabled", false);
+        $("#payment_method_location").prop("disabled", false);
         $("#sale").hide();
-        $("#day_due_sale").prop( "disabled", true );
-        $("#payment_method_sale").prop( "disabled", true );
-    } else {
+        $("#day_due_sale").prop("disabled", true);
+        $("#payment_method_sale").prop("disabled", true);
+    } else if (type == 'sale') {
         $("#sale").show();
+        $("#day_due_sale").prop("disabled", false);
+        $("#payment_method_sale").prop("disabled", false);
+        $("#location").hide();
+        $("#day_due_location").prop("disabled", true);
+        $("#payment_method_location").prop("disabled", true);
+    } else {
+        $("#sale").hide();
         $("#day_due_sale").prop( "disabled", false );
         $("#payment_method_sale").prop( "disabled", false );
         $("#location").hide();

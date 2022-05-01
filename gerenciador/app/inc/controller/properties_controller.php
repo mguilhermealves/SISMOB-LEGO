@@ -343,83 +343,6 @@ class properties_controller
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$propertie->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
-
-			/* Imagens */
-			$arrayImages = [];
-			if (isset($_FILES["images"]) && $_FILES["images"]["name"][0] != "") {
-
-				for ($i = 0; $i < count($_FILES["images"]["name"]); $i++) {
-					$d = preg_split("/\./", $_FILES["images"]["name"][$i]);
-
-					$extension = $d[count($d) - 1];
-
-					$extension_permited = ["png", "jpg", "jpeg"];
-
-					$t = array_search($extension, $extension_permited);
-
-					if (array_search($extension, $extension_permited) >= 0) {
-						$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["images"]["name"][$i]));
-
-						$extension = date("YmdHis") . "." . $extension;
-
-						$file = "furniture/upload/propertie/" . $info["idx"] . "/" . "images/" . $name . $extension;
-
-						if (!file_exists(dirname(constant("cRootServer") . $file))) {
-							mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-							chmod(dirname(constant("cRootServer") . $file), 0775);
-						}
-
-						if (file_exists(constant("cRootServer") . $file)) {
-							unlink(constant("cRootServer") . $file);
-						}
-
-						move_uploaded_file($_FILES["images"]["tmp_name"][$i], constant("cRootServer") . $file);
-						array_push($arrayImages, $file);
-					} else {
-						$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo, extensão nao permitida, tipo de imagem aceitas (.jpg, .png, .jpeg), entre na tela de edição e suba novamente o arquivo.";
-					}
-				}
-
-				$info["post"]["imagem"] = serialize($arrayImages);
-			}
-
-			/* Documentos */
-			$arrayDocs = [];
-			if (isset($_FILES["docs"]) && $_FILES["docs"]["name"][0] != "") {
-
-				for ($i = 0; $i < count($_FILES["docs"]["name"]); $i++) {
-					$d = preg_split("/\./", $_FILES["docs"]["name"][$i]);
-
-					$extension = $d[count($d) - 1];
-
-					$extension_permited = ["pdf"];
-
-					if (array_search($extension, $extension_permited) >= 0) {
-
-						$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["docs"]["name"][$i]));
-
-						$extension = date("YmdHis") . "." . $extension;
-
-						$file = "furniture/upload/propertie/" . $info["idx"] . "/" . "docs/" . $name . $extension;
-
-						if (!file_exists(dirname(constant("cRootServer") . $file))) {
-							mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-							chmod(dirname(constant("cRootServer") . $file), 0775);
-						}
-
-						if (file_exists(constant("cRootServer") . $file)) {
-							unlink(constant("cRootServer") . $file);
-						}
-
-						move_uploaded_file($_FILES["docs"]["tmp_name"][$i], constant("cRootServer") . $file);
-						array_push($arrayDocs, $file);
-					} else {
-						$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo, extensão nao permitida, tipo de arquivo aceito: (.PDF), entre na tela de edição e suba novamente o arquivo.";
-					}
-				}
-
-				$info["post"]["docs"] = serialize($arrayDocs);
-			}
 		}
 
 		$info["post"]["price_iptu"] = str_replace('.', '', $info["post"]["price_iptu"]);
@@ -451,7 +374,92 @@ class properties_controller
 			$info["idx"] = $propertie->con->insert_id;
 		}
 
-		$propertie->save_attach($info, array("clients"), true);
+		$boiler = new properties_model();
+		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
+			$boiler->set_filter(array(" idx = '" . $info["idx"] . "' "));
+		}
+
+		/* Imagens */
+		$arrayImages = [];
+		if (isset($_FILES["images"]) && $_FILES["images"]["name"][0] != "") {
+
+			for ($i = 0; $i < count($_FILES["images"]["name"]); $i++) {
+				$d = preg_split("/\./", $_FILES["images"]["name"][$i]);
+
+				$extension = $d[count($d) - 1];
+
+				$extension_permited = ["png", "jpg", "jpeg"];
+
+				$t = array_search($extension, $extension_permited);
+
+				if (array_search($extension, $extension_permited) >= 0) {
+					$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["images"]["name"][$i]));
+
+					$extension = date("YmdHis") . "." . $extension;
+
+					$file = "furniture/upload/propertie/" . $info["idx"] . "/" . "images/" . $name . $extension;
+
+					if (!file_exists(dirname(constant("cRootServer") . $file))) {
+						mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+						chmod(dirname(constant("cRootServer") . $file), 0775);
+					}
+
+					if (file_exists(constant("cRootServer") . $file)) {
+						unlink(constant("cRootServer") . $file);
+					}
+
+					move_uploaded_file($_FILES["images"]["tmp_name"][$i], constant("cRootServer") . $file);
+					array_push($arrayImages, $file);
+				} else {
+					$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo, extensão nao permitida, tipo de imagem aceitas (.jpg, .png, .jpeg), entre na tela de edição e suba novamente o arquivo.";
+				}
+			}
+
+			$info["post"]["imagem"] = serialize($arrayImages);
+		}
+
+		/* Documentos */
+		$arrayDocs = [];
+		if (isset($_FILES["docs"]) && $_FILES["docs"]["name"][0] != "") {
+
+			for ($i = 0; $i < count($_FILES["docs"]["name"]); $i++) {
+				$d = preg_split("/\./", $_FILES["docs"]["name"][$i]);
+
+				$extension = $d[count($d) - 1];
+
+				$extension_permited = ["pdf"];
+
+				if (array_search($extension, $extension_permited) >= 0) {
+
+					$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["docs"]["name"][$i]));
+
+					$extension = date("YmdHis") . "." . $extension;
+
+					$file = "furniture/upload/propertie/" . $info["idx"] . "/" . "docs/" . $name . $extension;
+
+					if (!file_exists(dirname(constant("cRootServer") . $file))) {
+						mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+						chmod(dirname(constant("cRootServer") . $file), 0775);
+					}
+
+					if (file_exists(constant("cRootServer") . $file)) {
+						unlink(constant("cRootServer") . $file);
+					}
+
+					move_uploaded_file($_FILES["docs"]["tmp_name"][$i], constant("cRootServer") . $file);
+					array_push($arrayDocs, $file);
+				} else {
+					$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo, extensão nao permitida, tipo de arquivo aceito: (.PDF), entre na tela de edição e suba novamente o arquivo.";
+				}
+			}
+
+			$info["post"]["docs"] = serialize($arrayDocs);
+		}
+
+		$boiler->populate($info["post"]);
+		$boiler->save();
+
+		$boiler->save_attach($info, array("clients"), true);
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

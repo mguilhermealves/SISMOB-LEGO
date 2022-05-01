@@ -128,7 +128,7 @@
                     <!-- Dados do Locatário -->
                     <div class="modal-content">
                         <div class="modal-header label">
-                            <h5 class="modal-title ">Dados do Locatário</h5>
+                            <h5 class="modal-title ">Dados do Locatário / Comprador</h5>
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
@@ -221,7 +221,7 @@
                     <!-- Endereço do Locatário -->
                     <div class="modal-content">
                         <div class="modal-header label">
-                            <h5 class="modal-title ">Endereço do Locatário</h5>
+                            <h5 class="modal-title ">Endereço do Locatário / Comprador</h5>
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
@@ -494,7 +494,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">R$</span>
                                                 </div>
-                                                <input type="text" id="administrative_fees" name="administrative_fees" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["administrative_fees"] : "") ?>"  class="form-control money">
+                                                <input type="text" id="administrative_fees" name="administrative_fees" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["administrative_fees"] : "") ?>" class="form-control money">
                                             </div>
                                         </div>
                                     </div>
@@ -595,111 +595,54 @@
                         </div>
                     </div>
 
-                    <?php if (isset($data["idx"])) { ?>
+                    <input type="hidden" name="offices[offices_id]" value="<?php print(isset($data["offices_attach"][0]["idx"]) ? $data["offices_attach"][0]["idx"] : ""); ?>">
+                    <input type="hidden" name="partner[partners_id]" value="<?php print(isset($data["partners_attach"][0]["idx"]) ? $data["partners_attach"][0]["idx"] : ""); ?>">
 
-                        <input type="hidden" name="offices[offices_id]" value="<?php print(isset($data["offices_attach"][0]["idx"]) ? $data["offices_attach"][0]["idx"] : ""); ?>">
-                        <input type="hidden" name="partner[partners_id]" value="<?php print(isset($data["partners_attach"][0]["idx"]) ? $data["partners_attach"][0]["idx"] : ""); ?>">
-
-                        <!-- Dados Financeiros -->
-                        <div class="modal-content">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Dados Financeiros</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="row col-lg-12">
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="type_work">Tipo de Regime</label>
-                                                    <select name="offices[type_work]" id="type_work" class="form-control">
-                                                        <option value="">Selecione</option>
-                                                        <?php
-                                                        foreach ($GLOBALS["type_work"] as $k => $v) {
-                                                            printf('<option %s value="%s">%s</option>', isset($data["offices_attach"][0]["type_work"]) && $k == $data["offices_attach"][0]["type_work"] ? ' selected' : '', $k, $v);
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Razão Social</label>
-                                                    <input type="text" class="form-control" name="offices[company_name]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>3 Ultimos comprovantes de renda</label>
-                                                    <input type="file" class="form-control" name="offices[rent_file][]" multiple>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-lg-12">
-                                                <div class="row">
-                                                    <?php if (!empty($data["offices_attach"][0]["rent_file"])) {
-                                                        foreach (unserialize($data["offices_attach"][0]["rent_file"]) as $key => $doc) {
+                    <!-- Dados Financeiros -->
+                    <div class="modal-content">
+                        <div class="modal-header label">
+                            <h5 class="modal-title ">Dados Financeiros</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="row col-lg-12">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="type_work">Tipo de Regime</label>
+                                                <select name="offices[type_work]" id="type_work" class="form-control">
+                                                    <option value="">Selecione</option>
+                                                    <?php
+                                                    foreach ($GLOBALS["type_work"] as $k => $v) {
+                                                        printf('<option %s value="%s">%s</option>', isset($data["offices_attach"][0]["type_work"]) && $k == $data["offices_attach"][0]["type_work"] ? ' selected' : '', $k, $v);
+                                                    }
                                                     ?>
-                                                            <div class="col-12 col-sm-6 col-lg-4">
-                                                                <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="300px"></iframe>
-                                                            </div>
-                                                    <?php }
-                                                    } ?>
-                                                </div>
+                                                </select>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Dados Financeiros clt -->
-                        <div class="modal-content" id="clt">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Dados Financeiros - CLT</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="row col-lg-12">
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Cargo</label>
-                                                    <input type="text" class="form-control" name="offices[office]" value="<?php print(isset($data["offices_attach"][0]["office"]) ? $data["offices_attach"][0]["office"] : "") ?>">
-                                                </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Razão Social</label>
+                                                <input type="text" class="form-control" name="offices[company_name]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Tempo de Registro</label>
-                                                    <input type="text" class="form-control" name="offices[registration_time]" value="<?php print(isset($data["offices_attach"][0]["registration_time"]) ? $data["offices_attach"][0]["registration_time"] : "") ?>">
-                                                </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>3 Ultimos comprovantes de renda</label>
+                                                <input type="file" class="form-control" name="offices[rent_file][]" multiple>
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-6">
-                                                <label>Renda Mensal</label>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1">R$</span>
-                                                    </div>
-                                                    <input type="text" name="offices[rent_monthly]" class="form-control money" value="<?php print(isset($data["offices_attach"][0]["rent_monthly"]) ? $data["offices_attach"][0]["rent_monthly"] : "") ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Comprovante IRPF</label>
-                                                    <input type="file" class="form-control" name="offices[IRPF_file][]" multiple>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-lg-12">
-                                                <?php if (!empty($data["offices_attach"][0]["IRPF_file"])) {
-                                                    foreach (unserialize($data["offices_attach"][0]["IRPF_file"]) as $key => $doc) {
+                                        <div class="col-12 col-lg-12">
+                                            <div class="row">
+                                                <?php if (!empty($data["offices_attach"][0]["rent_file"])) {
+                                                    foreach (unserialize($data["offices_attach"][0]["rent_file"]) as $key => $doc) {
                                                 ?>
-                                                        <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="300px"></iframe>
+                                                        <div class="col-12 col-sm-6 col-lg-4">
+                                                            <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="300px"></iframe>
+                                                        </div>
                                                 <?php }
                                                 } ?>
                                             </div>
@@ -708,128 +651,182 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Dados Financeiros pj -->
-                        <div class="modal-content" id="pj">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Dados Financeiros - PJ</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="row col-lg-12">
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Endereço</label>
-                                                    <input type="file" class="form-control" name="offices[address_file]">
-                                                </div>
-
-                                                <?php if (!empty($data["offices_attach"][0])) {
-                                                    foreach (unserialize($data["offices_attach"][0]["address_file"]) as $key => $address_file) {
-                                                ?>
-                                                        <iframe class="pdf" src="/<?php print($address_file) ?>" width="100%" height="300px"></iframe>
-                                                <?php
-                                                    }
-                                                } ?>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>CNPJ</label>
-                                                    <input type="file" class="form-control" name="offices[cnpj_file]">
-                                                </div>
-
-                                                <?php if (!empty($data["offices_attach"][0])) {
-                                                    foreach (unserialize($data["offices_attach"][0]["cnpj_file"]) as $key => $cnpj_file) {
-                                                ?>
-                                                        <iframe class="pdf" src="/<?php print($cnpj_file) ?>" width="100%" height="300px"></iframe>
-                                                <?php
-                                                    }
-                                                } ?>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Contrato Social</label>
-                                                    <input type="file" class="form-control" name="offices[contract_file]">
-                                                </div>
-
-                                                <?php if (!empty($data["offices_attach"][0])) {
-                                                    foreach (unserialize($data["offices_attach"][0]["contract_file"]) as $key => $contract_file) {
-                                                ?>
-                                                        <iframe class="pdf" src="/<?php print($contract_file) ?>" width="100%" height="300px"></iframe>
-                                                <?php
-                                                    }
-                                                } ?>
+                    <!-- Dados Financeiros clt -->
+                    <div class="modal-content" id="clt">
+                        <div class="modal-header label">
+                            <h5 class="modal-title ">Dados Financeiros - CLT</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="row col-lg-12">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Cargo</label>
+                                                <input type="text" class="form-control" name="offices[office]" value="<?php print(isset($data["offices_attach"][0]["office"]) ? $data["offices_attach"][0]["office"] : "") ?>">
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Conjuge -->
-                        <div class="modal-content" id="conjuge">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Dados do Conjuge</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="row col-lg-12">
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="name">Nome</label>
-                                                    <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["first_name_partner"] : "") ?>">
-                                                </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Tempo de Registro</label>
+                                                <input type="text" class="form-control" name="offices[registration_time]" value="<?php print(isset($data["offices_attach"][0]["registration_time"]) ? $data["offices_attach"][0]["registration_time"] : "") ?>">
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="name">Sobrenome</label>
-                                                    <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"][0]["last_name_partner"]) ? $data["partners_attach"][0]["last_name_partner"] : "") ?>">
+                                        <div class="col-lg-6">
+                                            <label>Renda Mensal</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">R$</span>
                                                 </div>
+                                                <input type="text" name="offices[rent_monthly]" class="form-control money" value="<?php print(isset($data["offices_attach"][0]["rent_monthly"]) ? $data["offices_attach"][0]["rent_monthly"] : "") ?>">
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="name">CPF</label>
-                                                    <input id="name" type="text" class="form-control document" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"][0]["document_partner"]) ? $data["partners_attach"][0]["document_partner"] : "") ?>">
-                                                </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Comprovante IRPF</label>
+                                                <input type="file" class="form-control" name="offices[IRPF_file][]" multiple>
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="name">RG</label>
-                                                    <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"][0]["rg_partner"]) ? $data["partners_attach"][0]["rg_partner"] : "") ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="name">CNH</label>
-                                                    <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"][0]["cnh_partner"]) ? $data["partners_attach"][0]["cnh_partner"] : "") ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="file">Certidão de Casamento (.pdf)</label>
-                                                    <input type="file" id="file" name="partner[file]" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <?php if (!empty($data["partners_attach"][0]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["certification"])) { ?>
-                                                <iframe class="pdf" src="/<?php print($data["partners_attach"][0]["certification"]) ?>" width="100%" height="300px"></iframe>
-                                            <?php
+                                        <div class="col-12 col-lg-12">
+                                            <?php if (!empty($data["offices_attach"][0]["IRPF_file"])) {
+                                                foreach (unserialize($data["offices_attach"][0]["IRPF_file"]) as $key => $doc) {
+                                            ?>
+                                                    <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="300px"></iframe>
+                                            <?php }
                                             } ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    <?php } ?>
+                    </div>
+
+                    <!-- Dados Financeiros pj -->
+                    <div class="modal-content" id="pj">
+                        <div class="modal-header label">
+                            <h5 class="modal-title ">Dados Financeiros - PJ</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="row col-lg-12">
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Endereço</label>
+                                                <input type="file" class="form-control" name="offices[address_file]">
+                                            </div>
+
+                                            <?php if (!empty($data["offices_attach"][0])) {
+                                                foreach (unserialize($data["offices_attach"][0]["address_file"]) as $key => $address_file) {
+                                            ?>
+                                                    <iframe class="pdf" src="/<?php print($address_file) ?>" width="100%" height="300px"></iframe>
+                                            <?php
+                                                }
+                                            } ?>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>CNPJ</label>
+                                                <input type="file" class="form-control" name="offices[cnpj_file]">
+                                            </div>
+
+                                            <?php if (!empty($data["offices_attach"][0])) {
+                                                foreach (unserialize($data["offices_attach"][0]["cnpj_file"]) as $key => $cnpj_file) {
+                                            ?>
+                                                    <iframe class="pdf" src="/<?php print($cnpj_file) ?>" width="100%" height="300px"></iframe>
+                                            <?php
+                                                }
+                                            } ?>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Contrato Social</label>
+                                                <input type="file" class="form-control" name="offices[contract_file]">
+                                            </div>
+
+                                            <?php if (!empty($data["offices_attach"][0])) {
+                                                foreach (unserialize($data["offices_attach"][0]["contract_file"]) as $key => $contract_file) {
+                                            ?>
+                                                    <iframe class="pdf" src="/<?php print($contract_file) ?>" width="100%" height="300px"></iframe>
+                                            <?php
+                                                }
+                                            } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conjuge -->
+                    <div class="modal-content" id="conjuge">
+                        <div class="modal-header label">
+                            <h5 class="modal-title ">Dados do Conjuge</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="row col-lg-12">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="name">Nome</label>
+                                                <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["first_name_partner"] : "") ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="name">Sobrenome</label>
+                                                <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"][0]["last_name_partner"]) ? $data["partners_attach"][0]["last_name_partner"] : "") ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="name">CPF</label>
+                                                <input id="name" type="text" class="form-control document" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"][0]["document_partner"]) ? $data["partners_attach"][0]["document_partner"] : "") ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="name">RG</label>
+                                                <input id="name" type="text" class="form-control" name="partner[rg_partner]" value="<?php print(isset($data["partners_attach"][0]["rg_partner"]) ? $data["partners_attach"][0]["rg_partner"] : "") ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="name">CNH</label>
+                                                <input id="name" type="text" class="form-control" name="partner[cnh_partner]" value="<?php print(isset($data["partners_attach"][0]["cnh_partner"]) ? $data["partners_attach"][0]["cnh_partner"] : "") ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="file">Certidão de Casamento (.pdf)</label>
+                                                <input type="file" id="file" name="partner[file]" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <?php if (!empty($data["partners_attach"][0]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["certification"])) { ?>
+                                            <iframe class="pdf" src="/<?php print($data["partners_attach"][0]["certification"]) ?>" width="100%" height="300px"></iframe>
+                                        <?php
+                                        } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Aprovação -->
                     <?php

@@ -369,79 +369,75 @@
                     </div>
                 </div>
 
-                <?php if (!empty($data)) { ?>
+                <!-- Fotos do Imovel -->
+                <div class="modal-content">
+                    <div class="modal-header label">
+                        <h5 class="modal-title ">Fotos do Imovel</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="row col-lg-12">
 
-                    <!-- Fotos do Imovel -->
-                    <div class="modal-content">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Fotos do Imovel</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Fotos</label>
-                                                <input type="file" class="form-control" name="images[]" aria-describedby="helpId" multiple>
-                                                <small id="helpId" class="form-text text-muted">Arquivos Permitidos (.jpg, .png, .jpeg)</small>
-                                            </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Fotos</label>
+                                            <input type="file" class="form-control" name="images[]" aria-describedby="helpId" multiple>
+                                            <small id="helpId" class="form-text text-muted">Arquivos Permitidos (.jpg, .png, .jpeg)</small>
                                         </div>
+                                    </div>
 
-                                        <div class="col-12 col-lg-12 mt-2 mb-2">
-                                            <div class="row">
-                                                <?php if (!empty($data["imagem"])) {
-                                                    foreach (unserialize($data["imagem"]) as $k => $img) { ?>
-                                                        <div class="col-4 col-sm-4 col-lg-3">
+                                    <div class="col-12 col-lg-12 mt-2 mb-2">
+                                        <div class="row">
+                                            <?php if (!empty($data["imagem"])) {
+                                                foreach (unserialize($data["imagem"]) as $k => $img) { ?>
+                                                    <div class="col-4 col-sm-4 col-lg-3">
 
-                                                            <a class="example-image-link" href="/<?php print($img) ?>" data-lightbox="example-set" data-title="<?php print("Foto do Imovel Cod n° " . $data["idx"]) ?>"><img class="img-thumbnail d-block" id="<?php print("img_propertie_" . $k) ?>" src="/<?php print($img) ?>" alt="" style="width: 15vw; height: 15vw;"></a>
+                                                        <a class="example-image-link" href="/<?php print($img) ?>" data-lightbox="example-set" data-title="<?php print("Foto do Imovel Cod n° " . $data["idx"]) ?>"><img class="img-thumbnail d-block" id="<?php print("img_propertie_" . $k) ?>" src="/<?php print($img) ?>" alt="" style="width: 15vw; height: 15vw;"></a>
 
 
-                                                            <!-- <a type="button" id="delete_img" data-propertieid="<?php print($data["idx"]) ?>" data-imgid="<?php print($k) ?>" title="Excluir" class="btn btn-danger btn-sm"><i class="bi bi-x-circle"></i> </a> -->
-                                                        </div>
-                                                <?php }
-                                                } ?>
-                                            </div>
+                                                        <!-- <a type="button" id="delete_img" data-propertieid="<?php print($data["idx"]) ?>" data-imgid="<?php print($k) ?>" title="Excluir" class="btn btn-danger btn-sm"><i class="bi bi-x-circle"></i> </a> -->
+                                                    </div>
+                                            <?php }
+                                            } ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Documentação do Imovel -->
-                    <div class="modal-content">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Documentação do Imovel</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
+                <!-- Documentação do Imovel -->
+                <div class="modal-content">
+                    <div class="modal-header label">
+                        <h5 class="modal-title ">Documentação do Imovel</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="row col-lg-12">
 
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Documentação</label>
-                                                <input type="file" class="form-control" name="docs[]" aria-describedby="helpId" multiple>
-                                                <small id="helpId" class="form-text text-muted">Arquivos Permitidos (.pdf)</small>
-                                            </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Documentação</label>
+                                            <input type="file" class="form-control" name="docs[]" aria-describedby="helpId" multiple>
+                                            <small id="helpId" class="form-text text-muted">Arquivos Permitidos (.pdf)</small>
                                         </div>
-
-                                        <?php if (!empty($data["docs"])) {
-                                            foreach (unserialize($data["docs"]) as $key => $doc) {
-                                        ?>
-                                                <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="200px"></iframe>
-                                        <?php
-                                            }
-                                        } ?>
                                     </div>
+
+                                    <?php if (!empty($data["docs"])) {
+                                        foreach (unserialize($data["docs"]) as $key => $doc) {
+                                    ?>
+                                            <iframe class="pdf" src="/<?php print($doc) ?>" width="100%" height="200px"></iframe>
+                                    <?php
+                                        }
+                                    } ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                <?php } ?>
+                </div>
 
                 <div class="col-sm-12 text-right btn">
                     <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>

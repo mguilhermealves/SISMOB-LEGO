@@ -179,7 +179,6 @@
                     </div>
                 </div>
 
-                <?php if (isset($data["idx"])) { ?>
 
                     <input type="hidden" name="partner[partners_id]" value="<?php print(isset($data["partners_attach"][0]["idx"]) ? $data["partners_attach"][0]["idx"] : ""); ?>">
 
@@ -244,7 +243,7 @@
                         </div>
                     </div>
 
-                <?php } ?>
+
 
                 <div class="col-sm-12 text-right">
                     <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
