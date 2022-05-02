@@ -28,6 +28,31 @@ class site_controller
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		if (site_controller::check_login()) {
 			$page = 'dashboard';
+
+			$clients = new clients_model();
+			$clients->set_filter(array( " active = 'yes'"));
+			list($totalClients) = $clients->return_data();
+
+			$properties = new properties_model();
+			$properties->set_filter(array( " active = 'yes'"));
+			list($totalProperties) = $properties->return_data();
+
+			$locations = new locations_model();
+			$locations->set_filter(array( " active = 'yes'"));
+			$locations->load_data();
+			$locations->attach(array("properties"));
+			$data = $locations->data;
+
+			$totalLocations = 0;
+			$totalSales = 0;
+			foreach ($data as $k => $v) {
+				if ($v["properties_attach"][0]["object_propertie"] == "location") {
+					$totalLocations = $totalLocations + 1;
+				} else {
+					$totalSales = $totalSales + 1;
+				}
+			}
+
 			include(constant("cRootServer") . "ui/common/head.inc.php");
 			include(constant("cRootServer") . "ui/page/dashboard.php");
 		} else {

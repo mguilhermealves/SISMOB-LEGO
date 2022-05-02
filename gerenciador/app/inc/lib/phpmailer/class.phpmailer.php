@@ -81,20 +81,20 @@ class PHPMailer {
    * Sets the From email address for the message.
    * @var string
    */
-  public $From              = 'atendimento@onetooneclub.com.br';
+  public $From              = '';
 
   /**
    * Sets the From name of the message.
    * @var string
    */
-  public $FromName          = 'One to One Club ';
+  public $FromName          = '';
 
   /**
    * Sets the Sender email (Return-Path) of the message.  If not empty,
    * will be sent via -f to sendmail or as 'MAIL FROM' in smtp mode.
    * @var string
    */
-  public $Sender            = 'atendimento@onetooneclub.com.br';
+  public $Sender            = '';
 
   /**
    * Sets the Subject of the message.
@@ -208,13 +208,13 @@ class PHPMailer {
    * Sets SMTP username.
    * @var string
    */
-  public $Username      = 'atendimento@onetooneclub.com.br';
+  public $Username      = '';
 
   /**
    * Sets SMTP password.
    * @var string
    */
-  public $Password      = '@t3Nd1M3nt0T3mpluz';
+  public $Password      = '';
 
   /**
    * Sets the SMTP server timeout in seconds.

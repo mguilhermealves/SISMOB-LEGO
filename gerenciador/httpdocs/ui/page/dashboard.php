@@ -7,37 +7,37 @@
 
     <div class="row">
         <div class="col-lg-6 my-5">
-            <div class="card">
+            <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Total de Clientes</h5>
-                    <p class="card-text">2</p>
+                    <h3 class="card-text"><?php print("Ativos: " . $totalClients); ?></h3>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-6 my-5">
-            <div class="card">
+            <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Total de Imóveis</h5>
-                    <p class="card-text">2</p>
+                    <h3 class="card-text"><?php print("Ativos: " . $totalProperties); ?></h3>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-6 my-5">
-            <div class="card">
+            <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Total de Locações</h5>
-                    <p class="card-text">2</p>
+                    <h3 class="card-text"><?php print("Ativos: " . $totalLocations); ?></h3>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-6 my-5">
-            <div class="card">
+            <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Total de Vendas</h5>
-                    <p class="card-text">2</p>
+                    <h3 class="card-text"><?php print("Ativos: " . $totalSales); ?></h3>
                 </div>
             </div>
         </div>
