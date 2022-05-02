@@ -40,6 +40,7 @@ $(document).ready(function () {
             $(".price_iptu").val(sugestion.data.price_iptu);
             $(".percentual_iptu").val(sugestion.data.percentual_iptu);
             $("#administrative_fees").val(sugestion.data.administrative_fees);
+            $("#classification").val(sugestion.data.classification);
 
             $("#price_location").val(sugestion.data.price_location);
             $("#price_sale").val(sugestion.data.price_sale);

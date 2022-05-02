@@ -483,8 +483,8 @@
 
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label for="name">Classificação Fiscal Prefeitura</label>
-                                                <input id="classification" type="text" maxlength="20" class="form-control" name="classification" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["classification"] : "") ?>" required>
+                                                <label for="classification">Classificação Fiscal Prefeitura</label>
+                                                <input id="classification" type="text" maxlength="20" class="form-control" name="classification" disabled>
                                             </div>
                                         </div>
 

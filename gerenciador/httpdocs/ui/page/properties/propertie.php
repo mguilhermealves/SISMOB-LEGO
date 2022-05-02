@@ -363,6 +363,13 @@
                                             <input id="instalation_sabesp" type="text" class="form-control" name="instalation_sabesp" value="<?php print(isset($data["instalation_sabesp"]) ? $data["instalation_sabesp"] : "") ?>">
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="classification">Classificação Fiscal Prefeitura</label>
+                                            <input id="classification" type="text" maxlength="20" class="form-control" name="classification" value="<?php print(isset($data["classification"]) ? $data["classification"] : "") ?>" required>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
