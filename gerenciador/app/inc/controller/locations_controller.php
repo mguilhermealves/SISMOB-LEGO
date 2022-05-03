@@ -744,30 +744,49 @@ class locations_controller
 		$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
 		$data = current($location->data);
 
+		$date_start = date_format(new DateTime($data["aproved_at"]), "d/m/Y");
+
+		if ($data["properties_attach"][0]["deadline_contract"] > 12) {
+			$total_years = $data["properties_attach"][0]["deadline_contract"] / 12;
+		} else {
+			$total_years = 1;
+		}
+
+		$date_end = date('d/m/Y', strtotime("+" . $total_years . " years", strtotime($data["aproved_at"]))); 
+
 		/* GERAR DOCX */
 		include(constant("cRootServer_APP") . '/inc/lib/vendor/autoload.php');
 
 		// //Instanciar o PhpWord
 		$phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-		$templateProcessor  = new \PhpOffice\PhpWord\TemplateProcessor(constant("cFurniture1") . 'docx/location/newcontract.docx');
+		$templateProcessor  = new \PhpOffice\PhpWord\TemplateProcessor(constant("cFurniture1") . 'docx/location/newnewcontract.docx');
 		// $templateProcessor->setValue('NUMERO_CONTRATO', $data["n_contract"]);
 		$templateProcessor->setValue('NOME_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"]);
 		$templateProcessor->setValue('RG_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["rg"]);
+		$templateProcessor->setValue('ESTADO_CIVIL_LOCADOR', $GLOBALS["marital_status"][$data["properties_attach"][0]["clients_attach"][0]["marital_status"]]);
 		$templateProcessor->setValue('CPF_LOCADOR', preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["properties_attach"][0]["clients_attach"][0]["document"]));
 		$templateProcessor->setValue('NOME_LOCATARIO', $data["first_name"] . " " . $data["last_name"]);
 		$templateProcessor->setValue('RG_LOCATARIO', $data["rg"]);
 		$templateProcessor->setValue('CPF_LOCATARIO', preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["document"]));
 		$templateProcessor->setValue('EMAIL_LOCATARIO', $data["mail"]);
+		$templateProcessor->setValue('ESTADO_CIVIL', $GLOBALS["marital_status"][$data["marital_status"]]);
+		$templateProcessor->setValue('PROFISSAO_LOCATARIO', $data["offices_attach"][0]["office"]);
 		$templateProcessor->setValue('ENDERECO_LOCATARIO', $data["properties_attach"][0]["clients_attach"][0]["address"] . ', ' . 'N° ' . $data["properties_attach"][0]["clients_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["district"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["uf"]);
 		$templateProcessor->setValue('ENDERECO_PROPRIEDADE', $data["properties_attach"][0]["address"] . ', N° ' . $data["properties_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["district"] . ', ' . $data["properties_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["uf"]);
 		$templateProcessor->setValue('FIM_EXCLUSIVO', $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]]);
-
+		$templateProcessor->setValue('DATA_INICIO', $date_start);
+		$templateProcessor->setValue('DATA_FIM', $date_end);
+		
 		$templateProcessor->setValue('VALOR_ALUGUEL', "R$ " . number_format($data["properties_attach"][0]["price_location"], 2, ",", "."));
 		$templateProcessor->setValue('DIA_VENCIMENTO', $data["day_due"]);
 		$templateProcessor->setValue('PRAZO_CONTRATO', $data["properties_attach"][0]["deadline_contract"]);
 		$templateProcessor->setValue('NUMERO_PESSOAS', $data["number_residents"]);
 		$templateProcessor->setValue('FORMA_PAGAMENTO', $GLOBALS["payment_method"][$data["payment_method"]]);
+		$templateProcessor->setValue('PERCENTUAL_IPTU', $data["properties_attach"][0]["percentual_iptu"]);
+		$templateProcessor->setValue('CLASSIFICACAO_FISCAL', $data["properties_attach"][0]["classification"]);
+		$templateProcessor->setValue('N_SABESP', $data["properties_attach"][0]["instalation_sabesp"]);
+		$templateProcessor->setValue('N_ENEL', $data["properties_attach"][0]["instalation_enel"]);
 
 		$filename = "Contrato.docx";
 
