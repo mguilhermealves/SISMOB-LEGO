@@ -15,7 +15,7 @@
                                 <div class="form-group">
                                     <label>Pesquisar Proprietario:</label>
                                     <small class="text-muted">Digite o nome do Proprietario:</small>
-                                    <input type="text" class="form-control properties_search" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"] . " (" . $data["properties_attach"][0]["clients_attach"][0]["mail"] . ") " : '') ?>">
+                                    <input type="text" class="form-control properties_search" value="<?php print(isset($data["properties_attach"][0]["clients_attach"][0]) ? $data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"] . " (" . $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]] . ") " . " - Endereço: " . $data["properties_attach"][0]["address"] . ", N° " . $data["properties_attach"][0]["number_address"] . ", " . $data["properties_attach"][0]["complement"] . ", " . $data["properties_attach"][0]["code_postal"] . ", " . $data["properties_attach"][0]["district"] . ", " . $data["properties_attach"][0]["city"] . " - " . $data["properties_attach"][0]["uf"]: '') ?>">
                                 </div>
                             </div>
                         </div>
