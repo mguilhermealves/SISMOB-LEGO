@@ -46,7 +46,7 @@ class site_controller
 			$totalLocations = 0;
 			$totalSales = 0;
 			foreach ($data as $k => $v) {
-				if ($v["properties_attach"][0]["object_propertie"] == "location") {
+				if (isset($v["properties_attach"][0]) && $v["properties_attach"][0]["object_propertie"] == "location") {
 					$totalLocations = $totalLocations + 1;
 				} else {
 					$totalSales = $totalSales + 1;
