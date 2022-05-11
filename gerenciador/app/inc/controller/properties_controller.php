@@ -1,11 +1,11 @@
 <?php
 class properties_controller
 {
-	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "name")
+	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "idx")
 	{
 		$boiler = new properties_model();
 		$boiler->set_field(array($key, $field));
-		$boiler->set_order(array(" name asc "));
+		$boiler->set_order(array(" idx desc "));
 		$boiler->set_filter($filters);
 		$boiler->load_data();
 		$out = array();
@@ -18,7 +18,7 @@ class properties_controller
 	private function filter($info)
 	{
 		$done = array();
-		$filter = array(" active = 'yes' ");
+		$filter = array(" active = 'yes'");
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
 			$filter["q_name"] = " idx in (select clients_properties.properties_id from clients_properties where active = 'yes' and clients_properties.clients_id in (select clients.idx from clients where first_name like '%" . $info["get"]["q_name"] . "%' ))";
@@ -79,7 +79,7 @@ class properties_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
-		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
+		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx desc';
 
 		list($done, $filter) = $this->filter($info);
 

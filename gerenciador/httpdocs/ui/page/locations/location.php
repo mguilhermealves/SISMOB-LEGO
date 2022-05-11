@@ -689,7 +689,8 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Comprovante IRPF</label>
-                                                <input type="file" class="form-control" name="offices[IRPF_file][]" multiple>
+                                                <input type="file" class="form-control" name="offices[IRPF_file][]" aria-describedby="helpId" multiple>
+                                                <small id="helpId" class="form-text text-muted">Arquivos Permitidos (.pdf)</small>
                                             </div>
                                         </div>
 

@@ -342,7 +342,7 @@ class locations_controller
 			$data = current($location->data);
 
 			if (empty($data["aproved_at"])) {
-				$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");
+				$info["post"]["n_contract"] = $info["idx"];
 				$info["post"]["aproved_by"] = $_SESSION[constant("cAppKey")]["credential"]["idx"];
 				$info["post"]["aproved_at"] = date("Y-m-d H:i:s");
 
@@ -488,7 +488,7 @@ class locations_controller
 
 					$t = array_search($extension, $extension_permited);
 
-					if (array_search($extension, $extension_permited) >= 0) {
+					if (empty($t) != 1) {
 						$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["IRPF_file"][$i]));
 
 						$extension = $i . "." . $extension;

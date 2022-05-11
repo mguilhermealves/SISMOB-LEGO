@@ -261,13 +261,6 @@ class payments_location_controller
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
-				print('    data_agendas_json = {' . "\n");
-				print('        url: "' . $GLOBALS["locations_url"] . '.json"' . "\n");
-				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["accounts_receivables_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
-				print('        , template: ""' . "\n");
-				print('        , page: 1' . "\n");
-				print('    }' . "\n");
 				include(constant("cRootServer") . "furniture/js/locations/payments/payments.js");
 				print('</script>' . "\n");
 				include(constant("cRootServer") . "ui/common/foot.inc.php");
@@ -308,8 +301,11 @@ class payments_location_controller
 		include(constant("cRootServer") . "ui/common/head.inc.php");
 		include(constant("cRootServer") . "ui/page/locations/payments/payment.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
-		print("<script>");
 		include(constant("cRootServer") . "furniture/js/locations/payments/payment.js");
+		print("<script>");
+		print('$("button[name=\'btn_back\']").bind("click", function(){');
+		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["accounts_receivables_url"]) . '" ');
+		print('})' . "\n");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
 	}

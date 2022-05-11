@@ -52,6 +52,7 @@ class routes_controller{
 				, "done" => isset( $info["get"]["done"] ) ? $info["get"]["done"] : set_url( $GLOBALS["routes_url"] , $info["get"] )
 			);
 		}
+
 		$page = 'pjroutes';
         $sidebar_color = current( menus_controller::data4select("idx" , array( " name = 'Rotas' " ), "color" ) ) ;
 		include(constant("cRootServer") . "ui/common/header.inc.php");

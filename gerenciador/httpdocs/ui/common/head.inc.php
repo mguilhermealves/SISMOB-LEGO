@@ -29,7 +29,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="<?php print($GLOBALS["locations_url"]) ?>">Alugueis / Vendas</a>
+            <a class="nav-link" href="<?php print($GLOBALS["locations_url"]) ?>">Locações / Vendas</a>
           </li>
 
           <li class="nav-item dropdown">

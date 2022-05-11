@@ -247,6 +247,17 @@
                 </div>
             <?php } ?>
             </div>
+            <?php
+            if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) {
+            ?>
+                <input type="hidden" id="done" name="done" value="<?php print($info["get"]["done"]) ?>">
+            <?php
+            }
+            ?>
+
+            <div class="col-lg-6 form-group">
+                <button class="btn btn-warning" type="button" name="btn_back">Voltar</button>
+            </div>
     </div>
 </div>
 <style>
