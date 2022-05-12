@@ -319,6 +319,8 @@ class properties_controller
 			);
 		}
 
+		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["properties_url"];
+
 		$sidebar_color = "rgba(127, 255, 212, 1)";
 		$page = 'Imovel';
 
