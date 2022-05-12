@@ -58,7 +58,7 @@
                         <option value="">Selecione</option>
                         <?php
                         foreach ($GLOBALS["propertie_objects"] as $k => $v) {
-                            printf('<option value="%s">%s</option>', $k, $v);
+                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_type"]) && $k == $info["get"]["filter_type"] ? ' selected' : '', $k, $v);
                         }
                         ?>
                     </select>
@@ -141,7 +141,7 @@
                             <td><?php print(date_format(new DateTime($v["expire_at"]), "d/m/Y")); ?></td>
                             <td><?php print($GLOBALS["payment_status_gerencianet"][$v["status"]]); ?></td>
                             <th>
-                                <a type="button" class="btn btn-outline-primary btn-sm" href="<?php printf(  $form["pattern"]["action"] , $v["idx"] ) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="<?php print( set_url( sprintf( $form["pattern"]["action"], $v["idx"] ) , array( "done" => urlencode( $form["pattern"]["search"] ) ) ) ) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
                         </tr>
                     <?php

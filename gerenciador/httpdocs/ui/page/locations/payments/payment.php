@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print($GLOBALS["accounts_receivables_url"]) ?>">Contas a Receber</a> / Conta a Receber </p>
+    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print(set_url($info["get"]["done"])) ?>">Contas a Receber</a> / Conta a Receber </p>
     <div class="container-fluid box solaris-head mt-5">
         <?php html_notification_print(); ?>
 
@@ -246,17 +246,6 @@
                     </div>
                 </div>
             <?php } ?>
-            </div>
-            <?php
-            if (isset($info["get"]["done"]) && !empty($info["get"]["done"])) {
-            ?>
-                <input type="hidden" id="done" name="done" value="<?php print($info["get"]["done"]) ?>">
-            <?php
-            }
-            ?>
-
-            <div class="col-lg-6 form-group">
-                <button class="btn btn-warning" type="button" name="btn_back">Voltar</button>
             </div>
     </div>
 </div>

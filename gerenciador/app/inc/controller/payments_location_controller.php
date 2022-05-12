@@ -70,7 +70,7 @@ class payments_location_controller
 
 		if (isset($info["get"]["filter_type"]) && !empty($info["get"]["filter_type"])) {
 			$done["filter_type"] = $info["get"]["filter_type"];
-			$filter["filter_type"] = " idx in ( SELECT locations_payments.payments_id FROM locations_payments, locations_properties, properties WHERE locations_payments.active = 'yes' and locations_payments.locations_id = locations_properties.locations_id and properties.idx = locations_properties.locations_id and properties.object_propertie = '" . $info["get"]["filter_type"] . "' ) ";
+			$filter["filter_type"] = " idx in ( SELECT locations_payments.payments_id FROM locations_payments, locations_properties, properties WHERE locations_payments.active = 'yes' and locations_payments.locations_id = locations_properties.locations_id and properties.idx = locations_properties.properties_id and properties.object_propertie = '" . $info["get"]["filter_type"] . "' ) ";
 		}
 
 		return array($done, $filter);
@@ -294,6 +294,8 @@ class payments_location_controller
 			);
 		}
 
+		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["newaccountsreceivables_url"];
+
 		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Conta a Receber';
 
@@ -301,11 +303,11 @@ class payments_location_controller
 		include(constant("cRootServer") . "ui/common/head.inc.php");
 		include(constant("cRootServer") . "ui/page/locations/payments/payment.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
-		include(constant("cRootServer") . "furniture/js/locations/payments/payment.js");
 		print("<script>");
-		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["accounts_receivables_url"]) . '" ');
-		print('})' . "\n");
+		include(constant("cRootServer") . "furniture/js/locations/payments/payment.js");
+		// print('$("button[name=\'btn_back\']").bind("click", function(){');
+		// print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["accounts_receivables_url"]) . '" ');
+		// print('})' . "\n");
 		print('</script>' . "\n");
 		include(constant("cRootServer") . "ui/common/foot.inc.php");
 	}
