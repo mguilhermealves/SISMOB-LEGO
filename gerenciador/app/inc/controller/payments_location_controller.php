@@ -294,7 +294,7 @@ class payments_location_controller
 			);
 		}
 
-		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["newaccountsreceivables_url"];
+		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["accountsreceivables_url"];
 
 		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Conta a Receber';

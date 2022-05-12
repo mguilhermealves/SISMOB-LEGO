@@ -296,6 +296,8 @@ class locations_controller
 			);
 		}
 
+		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["locations_url"];
+
 		$sidebar_color = "rgba(218, 165, 32, 1)";
 		$page = 'Locação e Venda';
 
