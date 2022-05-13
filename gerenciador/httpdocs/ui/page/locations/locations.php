@@ -54,6 +54,20 @@
                 </div>
             </div>
 
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group">
+                    <label for="filter_status">Status</label>
+                    <select name="filter_status" id="filter_status" class="form-control">
+                        <option value="">Selecione</option>
+                        <?php
+                        foreach ($GLOBALS["status_location"] as $k => $v) {
+                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_status"]) && $k == $info["get"]["filter_status"] ? ' selected' : '', $k, $v);
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+
             <div class="col-sm-12 col-lg-6">
                 
             </div>

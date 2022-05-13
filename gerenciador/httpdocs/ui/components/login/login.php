@@ -2,7 +2,7 @@
     <div class="login_container col-lg-6 col-xl-6 col-md-6 col-sm-6 col-xs-6">
         <div class="container_custom">
             <div class="login_header">
-                <div style="color: white;" class="panel-title">SysMob - Sistema de Gestão Imobiliária</div>
+                <div style="color: #000;" class="panel-title">SysMob - Sistema de Gestão Imobiliária</div>
             </div>
 
             <div class="login_body">
@@ -78,7 +78,7 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        background: #006599;
+        /* background: #006599; */
     }
 
     .img-fluid {

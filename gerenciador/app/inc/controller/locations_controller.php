@@ -8,7 +8,7 @@ class locations_controller
 	{
 		$boiler = new locations_model();
 		$boiler->set_field(array($key, $field));
-		$boiler->set_order(array(" idx asc "));
+		$boiler->set_order(array(" idx desc "));
 		$boiler->set_filter($filters);
 		$boiler->load_data();
 		$out = array();
@@ -38,6 +38,11 @@ class locations_controller
 			$filter["filter_uf"] = " uf like '%" . $info["get"]["filter_uf"] . "%' ";
 		}
 
+		if (isset($info["get"]["filter_status"]) && !empty($info["get"]["filter_status"])) {
+			$done["filter_status"] = $info["get"]["filter_status"];
+			$filter["filter_status"] = " is_aproved = '" . $info["get"]["filter_status"] . "' ";
+		}
+
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
 			$info["get"]["filter_cpf"] = preg_replace("/[^0-9]/", "", $info["get"]["filter_cpf"]);
 			$done["filter_cpf"] = $info["get"]["filter_cpf"];
@@ -63,7 +68,7 @@ class locations_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
-		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
+		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx desc';
 
 		list($done, $filter) = $this->filter($info);
 

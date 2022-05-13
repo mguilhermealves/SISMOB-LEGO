@@ -5,7 +5,7 @@ class bills_payableds_controller
 	{
 		$boiler = new account_pays_model();
 		$boiler->set_field(array($key, $field));
-		$boiler->set_order(array(" name asc "));
+		$boiler->set_order(array(" idx desc "));
 		$boiler->set_filter($filters);
 		$boiler->load_data();
 		$out = array();
@@ -75,7 +75,7 @@ class bills_payableds_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
-		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx asc';
+		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx desc';
 
 		list($done, $filter) = $this->filter($info);
 
