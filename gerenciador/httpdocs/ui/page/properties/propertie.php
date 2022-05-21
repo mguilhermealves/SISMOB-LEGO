@@ -15,7 +15,7 @@
                                 <div class="form-group">
                                     <label>Pesquisar Proprietario:</label>
                                     <small class="text-muted">Digite o nome ou email do Proprietario</small>
-                                    <input type="text" class="form-control clients_search" value="<?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["first_name"] . " " . $data["clients_attach"][0]["last_name"] : '') ?>">
+                                    <input type="text" class="form-control clients_search" value="<?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["first_name"] . " " . $data["users_attach"][0]["last_name"] : '') ?>">
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                 }
                 ?>
 
-                <input type="hidden" id="clients_id" name="clients_id" value="<?php print($data["clients_attach"][0]["idx"]); ?>" required>
+                <input type="hidden" id="users_id" name="users_id" value="<?php print($data["users_attach"][0]["idx"]); ?>" required>
 
                 <!-- Dados do Proprietário -->
                 <div class="modal-content">
@@ -45,42 +45,42 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="name">Nome:</label>
-                                        <strong id="clients_first_name"><?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["first_name"] : "") ?></strong>
+                                        <strong id="clients_first_name"><?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["first_name"] : "") ?></strong>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="name">Sobrenome:</label>
-                                        <strong id="clients_last_name"><?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["last_name"] : "") ?></strong>
+                                        <strong id="clients_last_name"><?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["last_name"] : "") ?></strong>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="name">E-mail:</label>
-                                        <strong id="clients_mail"><?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["mail"] : "") ?></strong>
+                                        <strong id="clients_mail"><?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["mail"] : "") ?></strong>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="name">CPF:</label>
-                                        <strong class="document" id="clients_document"><?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["document"] : "") ?></strong>
+                                        <strong class="document" id="clients_document"><?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["cpf"] : "") ?></strong>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="name">Telefone</label>
-                                        <strong id="clients_phone"><?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["phone"] : "") ?></strong>
+                                        <strong id="clients_phone"><?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["phone"] : "") ?></strong>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="name">Celular</label>
-                                        <strong id="clients_celphone"><?php print(isset($data["clients_attach"][0]) ? $data["clients_attach"][0]["celphone"] : "") ?></strong>
+                                        <strong id="clients_celphone"><?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["celphone"] : "") ?></strong>
                                     </div>
                                 </div>
                             </div>

@@ -29,8 +29,8 @@ class site_controller
 		if (site_controller::check_login()) {
 			$page = 'dashboard';
 
-			$clients = new clients_model();
-			$clients->set_filter(array( " active = 'yes'"));
+			$clients = new users_model();
+			$clients->set_filter(array( " active = 'yes'", " idx in ( select users_profiles.users_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id = '7' ) "));
 			list($totalClients) = $clients->return_data();
 
 			$properties = new properties_model();

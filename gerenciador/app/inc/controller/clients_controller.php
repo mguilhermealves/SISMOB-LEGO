@@ -3,7 +3,7 @@ class clients_controller
 {
 	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "first_name")
 	{
-		$boiler = new clients_model();
+		$boiler = new users_model();
 		$boiler->set_field(array($key, $field));
 		$boiler->set_order(array(" idx desc "));
 		$boiler->set_filter($filters);
@@ -18,7 +18,7 @@ class clients_controller
 	private function filter($info)
 	{
 		$done = array();
-		$filter = array(" active = 'yes' ");
+		$filter = array(" active = 'yes' ", " idx in ( select users_profiles.users_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id = '7' ) ");
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
 			$filter["q_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["q_name"] . "%' ";
@@ -46,7 +46,7 @@ class clients_controller
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
 			$info["get"]["filter_cpf"] = preg_replace("/[^0-9]/", "", $info["get"]["filter_cpf"]);
 			$done["filter_cpf"] = $info["get"]["filter_cpf"];
-			$filter["filter_cpf"] = " document like '%" . $info["get"]["filter_cpf"] . "%' ";
+			$filter["filter_cpf"] = " cpf like '%" . $info["get"]["filter_cpf"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_district"]) && !empty($info["get"]["filter_district"])) {
@@ -76,7 +76,7 @@ class clients_controller
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
 		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx desc';
 
-		$clients = new clients_model();
+		$clients = new users_model();
 
 		switch ($info["format"]) {
 			case ".autocomplete":
@@ -150,12 +150,12 @@ class clients_controller
 					$objPHPExcel->setActiveSheetIndex(0)->mergeCells('C' . $x_in . ':E' . $x_in);
 
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C' . ($x_in - 1), $v["first_name"] . " " . $v["last_name"]);
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F' . ($x_in - 1), preg_replace("/(...)(...)(...)(..)$/", "$1.$2.$3-$4", preg_replace("/\.|-/", "", $v["document"])));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F' . ($x_in - 1), preg_replace("/(...)(...)(...)(..)$/", "$1.$2.$3-$4", preg_replace("/\.|-/", "", $v["cpf"])));
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G' . ($x_in - 1), $v["mail"]);
 					if (!empty($v["complement"])) {
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["complement"] . ", " . $v["code_postal"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["complement"] . ", " . $v["postalcode"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
 					} else {
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["code_postal"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H' . ($x_in - 1), $v["address"] . ", N° " . $v["number_address"] . ", " . $v["postalcode"] . ", " . $v["district"] . ", " . $v["city"] . " - " .  $v["uf"]);
 					}
 					$x_in++;
 				}
@@ -207,7 +207,7 @@ class clients_controller
 
 				$ordenation_name = 'first_name-asc';
 				$ordenation_name_ordenation = 'bi bi-border';
-				$ordenation_document = 'document-asc';
+				$ordenation_document = 'cpf-asc';
 				$ordenation_document_ordenation = 'bi bi-border';
 				$ordenation_address = 'address-asc';
 				$ordenation_address_ordenation = 'bi bi-border';
@@ -226,12 +226,12 @@ class clients_controller
 						$ordenation_name = 'first_name-asc';
 						$ordenation_name_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'document asc':
-						$ordenation_document = 'document-desc';
+					case 'cpf asc':
+						$ordenation_document = 'cpf-desc';
 						$ordenation_document_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'document desc':
-						$ordenation_document = 'document-asc';
+					case 'cpf desc':
+						$ordenation_document = 'cpf-asc';
 						$ordenation_document_ordenation = 'bi bi-arrow-down';
 						break;
 					case 'address asc':
@@ -288,7 +288,7 @@ class clients_controller
 		}
 
 		if (isset($info["idx"])) {
-			$client = new clients_model();
+			$client = new users_model();
 			$client->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$client->load_data();
 			$client->attach(array("partners"));
@@ -330,11 +330,11 @@ class clients_controller
 			basic_redir($GLOBALS["home_url"]);
 		}
 
-		$client = new clients_model();
+		$client = new users_model();
 
-		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
+		$info["post"]["cpf"] = preg_replace("/[^0-9]/", "", $info["post"]["cpf"]);
 
-		$validCpf = $this->validaCPF($info["post"]["document"]);
+		$validCpf = $this->validaCPF($info["post"]["cpf"]);
 
 		if (empty($validCpf)) {
 			$_SESSION["messages_app"]["warning"][] = "CPF Inválido";
@@ -344,14 +344,14 @@ class clients_controller
 
 		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
 		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
-		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
+		$info["post"]["postalcode"] = preg_replace("/[^0-9]/", "", $info["post"]["postalcode"]);
 
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$client->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		} else {
-			$consult_client = new clients_model();
-			$consult_client->set_filter(array(" document = '" . $info["post"]["document"] . "' "));
+			$consult_client = new users_model();
+			$consult_client->set_filter(array(" cpf = '" . $info["post"]["cpf"] . "' "));
 			$consult_client->load_data();
 			$data = current($consult_client->data);
 
@@ -369,7 +369,7 @@ class clients_controller
 			$info["idx"] = $client->con->insert_id;
 		}
 
-		$boiler = new clients_model();
+		$boiler = new users_model();
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$boiler->set_filter(array(" idx = '" . $info["idx"] . "' "));
 		}
@@ -414,6 +414,10 @@ class clients_controller
 		$boiler->populate($info["post"]);
 		$boiler->save();
 
+		$info["post"]["profiles_id"] = "7";
+
+		$boiler->save_attach($info, array("profiles"));
+
 		$_SESSION["messages_app"]["success"] = array("Cliente Cadastrado com sucesso.");
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
@@ -430,7 +434,7 @@ class clients_controller
 		}
 
 		if (isset($info["idx"])) {
-			$company = new clients_model();
+			$company = new users_model();
 
 			$company->set_filter(array(" idx = '" . $info["idx"] . "' "));
 

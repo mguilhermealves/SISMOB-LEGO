@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     $('#phone').mask("(99) 9999-9999");
     $('#celphone').mask("(99) 99999-9999");
-    $('#code_postal').mask("99999-999");
+    $('#postalcode').mask("99999-999");
     $('.document').mask("999.999.999-99");
 
     var status = ($('#marital_status').val());
@@ -31,7 +31,7 @@ $('#marital_status').change(function () {
 });
 
 /* CONSULTA CEP */
-$("#code_postal").change(function () {
+$("#postalcode").change(function () {
 
     //Nova variável "cep" somente com dígitos.
     var cep = $(this).val().replace(/\D/g, '');

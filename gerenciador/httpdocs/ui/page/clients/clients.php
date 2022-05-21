@@ -123,8 +123,8 @@
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
                             <td><?php print($v["first_name"]); ?></td>
-                            <td class="document"><?php print($v["document"]); ?></td>
-                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
+                            <td class="cpf"><?php print($v["cpf"]); ?></td>
+                            <td><?php print($v["address"] . ", N° " . $v["number"]); ?></td>
                             <td><?php print($v["district"]); ?></td>
                             <td><?php print($v["city"]); ?></td>
                             <td><?php print($v["uf"]); ?></td>

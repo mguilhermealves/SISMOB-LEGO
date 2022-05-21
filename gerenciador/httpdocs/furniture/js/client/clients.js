@@ -1,3 +1,3 @@
 $(document).ready(function () {
-    $('.document').mask("999.999.999-99");
+    $('.cpf').mask("999.999.999-99");
 });

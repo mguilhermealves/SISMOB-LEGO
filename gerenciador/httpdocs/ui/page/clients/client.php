@@ -44,8 +44,8 @@
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label for="document">CPF</label>
-                                        <input id="document" type="text" class="form-control document" name="document" minlength="11" value="<?php print(isset($data["document"]) ? $data["document"] : "") ?>" required>
+                                        <label for="cpf">CPF</label>
+                                        <input id="cpf" type="text" class="form-control document" name="cpf" minlength="11" value="<?php print(isset($data["cpf"]) ? $data["cpf"] : "") ?>" required>
                                     </div>
                                 </div>
 
@@ -120,14 +120,14 @@
                                 <div class="row col-lg-12">
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <label for="name">CEP</label>
-                                            <input id="code_postal" type="text" class="form-control" name="code_postal" value="<?php print(isset($data["code_postal"]) ? $data["code_postal"] : "") ?>" required>
+                                            <label for="postalcode">CEP</label>
+                                            <input id="postalcode" type="text" class="form-control" name="postalcode" value="<?php print(isset($data["postalcode"]) ? $data["postalcode"] : "") ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <label for="name">Endereço</label>
+                                            <label for="address">Endereço</label>
                                             <input id="address" type="text" class="form-control" name="address" value="<?php print(isset($data["address"]) ? $data["address"] : "") ?>" required>
                                         </div>
                                     </div>
@@ -135,7 +135,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="name">Numero</label>
-                                            <input type="text" class="form-control" name="number_address" value="<?php print(isset($data["number_address"]) ? $data["number_address"] : "") ?>" required>
+                                            <input type="text" class="form-control" name="number" value="<?php print(isset($data["number"]) ? $data["number"] : "") ?>" required>
                                         </div>
                                     </div>
 

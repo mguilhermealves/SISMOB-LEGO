@@ -9,8 +9,8 @@
         <div class="col-lg-6 my-5">
             <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Total de Clientes</h5>
-                    <h3 class="card-text"><?php print("Ativos: " . $totalClients); ?></h3>
+                    <h3 class="card-title">Clientes</h3>
+                    <h5 class="card-text"><?php print("Total de clientes ativos: " . $totalClients); ?></h5>
                 </div>
             </div>
         </div>

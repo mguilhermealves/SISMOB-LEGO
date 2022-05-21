@@ -114,7 +114,7 @@ class properties_controller
 		$properties->set_filter($filter);
 		$properties->set_order(array($ordenation));
 		list($total, $data) = $properties->return_data();
-		$properties->attach(array("clients"), true);
+		$properties->attach(array("users"), true);
 		$data = $properties->data;
 
 		switch ($info["format"]) {
@@ -305,7 +305,7 @@ class properties_controller
 			$propertie = new properties_model();
 			$propertie->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$propertie->load_data();
-			$propertie->attach(array("clients"), true);
+			$propertie->attach(array("users"), true);
 			$data = current($propertie->data);
 			$form = array(
 				"title" => "Editar Imovel",
@@ -461,7 +461,7 @@ class properties_controller
 		$boiler->populate($info["post"]);
 		$boiler->save();
 
-		$boiler->save_attach($info, array("clients"), true);
+		$boiler->save_attach($info, array("users"), true);
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

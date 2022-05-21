@@ -85,7 +85,7 @@ class locations_controller
 
 		list($total, $data) = $locations->return_data();
 		$locations->attach(array("offices", "partners", "properties"));
-		$locations->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$locations->attach_son("properties", array("users"), true, null, array("idx", "name"));
 		$data = $locations->data;
 
 		switch ($info["format"]) {
@@ -286,7 +286,7 @@ class locations_controller
 			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$location->load_data();
 			$location->attach(array("offices", "properties", "partners"));
-			$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+			$location->attach_son("properties", array("users"), true, null, array("idx", "name"));
 			$data = current($location->data);
 			$form = array(
 				"title" => "Editar Locação e Venda",
@@ -324,17 +324,17 @@ class locations_controller
 
 		$location = new locations_model();
 
-		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
+		$info["post"]["cpf"] = preg_replace("/[^0-9]/", "", $info["post"]["cpf"]);
 		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
 		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
 		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
 
-		$validCpf = $this->validaCPF($info["post"]["document"]);
+		$validCpf = $this->validaCPF($info["post"]["cpf"]);
 
 		if (empty($validCpf)) {
 			$_SESSION["messages_app"]["warning"][] = "CPF Inválido";
 
-			basic_redir($GLOBALS["clients_url"]);
+			basic_redir($GLOBALS["locations_url"]);
 		}
 
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
