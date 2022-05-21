@@ -49,14 +49,14 @@
                 </div>
             </div>
 
-            <div class="col-sm-6 col-lg-4">
+            <div class="col-sm-6 col-md-6 col-xs-12 col-md-2 col-lg-4">
                 <div class="form-group">
-                    <label for="filter_object_propertie">Objetivo da Propriedade</label>
+                    <label for="filter_object_propertie">Status</label>
                     <select name="filter_object_propertie" id="filter_object_propertie" class="form-control">
-                        <option value="">Todas</option>
+                        <option value="">Todos</option>
                         <?php
                         foreach ($GLOBALS["propertie_objects"] as $k => $v) {
-                            printf('<option value="%s">%s</option>', $k, $v);
+                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_object_propertie"]) && $k == $info["get"]["filter_object_propertie"] ? ' selected' : '', $k, $v);
                         }
                         ?>
                     </select>
