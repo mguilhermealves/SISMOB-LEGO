@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Clientes</p>
+    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Locatários</p>
     <hr class="col-lg-11 mx-auto" />
 
     <!-- Button trigger modal -->
@@ -8,41 +8,32 @@
         <input type="hidden" name="paginate" id="paginate" value="<?php print($paginate) ?>">
         <input type="hidden" name="ordenation" id="ordenation" value="<?php print($ordenation) ?>">
         <input type="hidden" name="sr" id="sr" value="<?php print($info["sr"]) ?>">
-
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-lg-12">
                 <p class="h6 text-blue">Filtros de Busca:</p>
                 <hr>
             </div>
 
-            <div class="col-sm-12 col-lg-3">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
-                    <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Nome">
+                    <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome">
                 </div>
             </div>
-            <div class="col-sm-12 col-lg-3">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_cpf">CPF:</label>
-                    <input type="text" id="filter_cpf" class="form-control document" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o CPF">
+                    <input type="text" id="filter_cpf" class="form-control document" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="form-control" placeholder="Digite o CPF">
                 </div>
             </div>
-
-            <div class="col-sm-12 col-lg-3">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_district">Bairro:</label>
-                    <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite o Bairro">
+                    <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="form-control" placeholder="Digite o Bairro">
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-3">
-                <div class="form-group">
-                    <label for="filter_city">Cidade:</label>
-                    <input type="text" id="filter_city" class="form-control" name="filter_city" value="<?php print(isset($info["get"]["filter_city"]) ? $info["get"]["filter_city"] : "") ?>" class="MuiInputBase-input form-control" placeholder="Digite a Cidade">
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-lg-3">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <label for="filter_uf">UF</label>
                     <select name="filter_uf" id="filter_uf" class="form-control">
@@ -56,8 +47,29 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-3">
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group">
+                    <label for="filter_contract">N° Contrato:</label>
+                    <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="form-control" placeholder="Digite o n° do contrato">
+                </div>
+            </div>
 
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group">
+                    <label for="filter_status">Status</label>
+                    <select name="filter_status" id="filter_status" class="form-control">
+                        <option value="">Selecione</option>
+                        <?php
+                        foreach ($GLOBALS["status_location"] as $k => $v) {
+                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_status"]) && $k == $info["get"]["filter_status"] ? ' selected' : '', $k, $v);
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-6">
+                
             </div>
 
             <div class="col-sm-12 col-lg-2">
@@ -71,22 +83,20 @@
             </div>
             <div class="col-sm-12 col-lg-2">
                 <label for="btn_add">&nbsp;</label>
-                <a id="btn_add" class="btn btn-outline-primary btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo Cliente</a>
+                <a id="btn_add" class="btn btn-outline-primary btn-block btn-sm" title="Adicionar" href="<?php print($form["pattern"]["new"]) ?>"><i class="bi bi-plus-circle"></i> Novo</a>
             </div>
         </div>
     </form>
-
     <!-- Container Begin -->
-    <div class="col-sm-12 col-lg-12" style="overflow: auto;">
+    <div class="col-lg-12" style="overflow: auto;">
         <?php html_notification_print(); ?>
-
+        
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_document))) ?>">CPF <i class="<?php print($ordenation_document_ordenation) ?>"></i></a></th>
+                    <th>Id</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Nome <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_district))) ?>">Bairro <i class="<?php print($ordenation_district_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_uf))) ?>">UF <i class="<?php print($ordenation_uf_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
@@ -120,15 +130,13 @@
                 if ($total > 0) {
                     foreach ($data as $v) { ?>
                         <tr>
-                            <td><?php print($v["first_name"]); ?></td>
-                            <td class="cpf"><?php print($v["cpf"]); ?></td>
+                            <td><?php print($v["idx"]); ?></td>
+                            <td><?php print($v["first_name"] . " " . $v["last_name"]); ?></td>
                             <td><?php print($v["address"] . ", N° " . $v["number"]); ?></td>
-                            <td><?php print($v["district"]); ?></td>
                             <td><?php print($v["city"]); ?></td>
                             <td><?php print($v["uf"]); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="<?php print( set_url( sprintf( $form["pattern"]["action"], $v["idx"] ) , array( "done" => urlencode( $form["pattern"]["search"] ) ) ) ) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
-                                <!-- <a class="btn btn-outline-danger btn-sm" id="btn_remove_<?php print($v["idx"]) ?>" href="<?php printf($form["pattern"]["action"], $v["idx"]) ?>"><i class="bi bi-x-circle"></i> Excluir</a> -->
                             </th>
                         </tr>
                     <?php
@@ -136,8 +144,8 @@
                 } else {
                     ?>
                     <tr>
-                        <td colspan="8">
-                            <p class="alert alert-warning text-center">Nenhum cliente encontrado...</p>
+                        <td colspan="6">
+                            <p class="alert alert-warning text-center">Nenhum(a) locatário(a) encontrado(a) ...</p>
                         </td>
                     </tr>
                 <?php
@@ -153,7 +161,7 @@
     window.setTimeout(function() {
         jQuery("#btn_export").on("click", function() {
             jQuery("#frm_filter").prop({
-                "action": "<?php print(set_url($GLOBALS["clients_url"] . ".xls", $info["get"])) ?>"
+                "action": "<?php print(set_url($GLOBALS["locations_url"] . ".xls", $info["get"])) ?>"
             }).submit();
         })
     }, 1000);
@@ -162,7 +170,7 @@
     window.setTimeout(function() {
         jQuery("#btn_search").on("click", function() {
             jQuery("#frm_filter").prop({
-                "action": "<?php print(set_url($GLOBALS["clients_url"])) ?>"
+                "action": "<?php print(set_url($GLOBALS["locations_url"])) ?>"
             }).submit();
         })
     }, 1000);

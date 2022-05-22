@@ -21,7 +21,7 @@ class properties_controller
 		$filter = array(" active = 'yes'");
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
-			$filter["q_name"] = " idx in (select clients_properties.properties_id from clients_properties where active = 'yes' and clients_properties.clients_id in (select clients.idx from clients where first_name like '%" . $info["get"]["q_name"] . "%' ))";
+			$filter["q_name"] = " idx in (select users_properties.properties_id from users_properties where active = 'yes' and users_properties.users_id in (select users.idx from users where first_name like '%" . $info["get"]["q_name"] . "%' and idx in (select users_profiles.users_id from users_profiles where users_profiles.profiles_id in (select profiles.idx from profiles where slug = 'cliente'))))";
 			$filter["q_is_used"] = " is_used = 'no' ";
 		}
 
@@ -134,7 +134,7 @@ class properties_controller
 				foreach ($data as $k => $value) {
 					$out["suggestions"][] = array(
 						"data" => $value,
-						"value" => sprintf("%s %s ( %s ) - Endereço: %s", $value["clients_attach"][0]["first_name"], $value["clients_attach"][0]["last_name"], $GLOBALS["propertie_objects"][$value["object_propertie"]], empty($value["address"]) ? $value["address"] . ", N° " . $value["number_address"] . ", " . $value["complement"] . ", " . $value["code_postal"] . ", " . $value["district"] . ", " . $value["city"] . " - " . $value["uf"] : $value["address"] . ", N° " . $value["number_address"] . ", " . $value["code_postal"] . ", " . $value["district"] . ", " . $value["city"] . " - " . $value["uf"])
+						"value" => sprintf("%s %s - %s ( %s )", $value["users_attach"][0]["first_name"], $value["users_attach"][0]["last_name"], $GLOBALS["propertie_objects"][$value["object_propertie"]], empty($value["address"]) ? $value["address"] . ", N° " . $value["number_address"] . ", " . $value["complement"] . ", " . $value["code_postal"] . ", " . $value["district"] . ", " . $value["city"] . " - " . $value["uf"] : $value["address"] . ", N° " . $value["number_address"] . ", " . $value["code_postal"] . ", " . $value["district"] . ", " . $value["city"] . " - " . $value["uf"])
 					);
 				}
 

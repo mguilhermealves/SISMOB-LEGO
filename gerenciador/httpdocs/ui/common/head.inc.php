@@ -4,7 +4,7 @@
   <?php
   if (isset($_SESSION[constant("cAppKey")]["credential"])) { ?>
 
-    <nav class="navbar fixed-top navbar-expand-sm navbar-light menu">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light menu">
       <a class="navbar-brand" href="/"><img style="max-width: 150px;" src="<?php printf("%simg/logo.jpeg", constant("cFurniture")) ?>"></a>
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -20,16 +20,28 @@
             <a class="nav-link" href="/">Home </a>
           </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="<?php print($GLOBALS["clients_url"]) ?>">Clientes <span class="sr-only">(current)</span></a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="clients" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clientes</a>
+            <div class="dropdown-menu" aria-labelledby="clients">
+              <a class="dropdown-item" href="<?php print($GLOBALS["clients_url"]) ?>">Clientes</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["properties_url"]) ?>">Imoveis</a>
+            </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="<?php print($GLOBALS["properties_url"]) ?>">Imoveis</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="locations" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Locações</a>
+            <div class="dropdown-menu" aria-labelledby="locations">
+              <a class="dropdown-item" href="<?php print($GLOBALS["tenants_url"]) ?>">Locatários</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["locations_url"]) ?>">Locações</a>
+            </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="<?php print($GLOBALS["locations_url"]) ?>">Locações / Vendas</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="sales" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vendas</a>
+            <div class="dropdown-menu" aria-labelledby="sales">
+              <a class="dropdown-item" href="<?php print($GLOBALS["sales_url"]) ?>">Compradores</a>
+              <a class="dropdown-item" href="<?php print($GLOBALS["sales_url"]) ?>">Vendas</a>
+            </div>
           </li>
 
           <li class="nav-item dropdown">

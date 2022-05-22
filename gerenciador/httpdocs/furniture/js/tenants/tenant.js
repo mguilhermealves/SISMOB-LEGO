@@ -15,84 +15,6 @@ $(document).ready(function () {
     $('.celphone').mask("(99) 99999-9999");
     $('.postalcode').mask("99999-999");
 
-    $(".properties_search").autocomplete({
-        serviceUrl: '<?php print($GLOBALS["properties_url"]) ?>.autocomplete',
-        autoFocus: true,
-        minChars: 3,
-        deferRequestBy: 5,
-        noCache: true,
-        onSelect: function (sugestion) {
-            $("#properties_id").val(sugestion.data.idx);
-            $("#clients_id").val(sugestion.data.users_attach[0].idx);
-            $("#client_first_name").val(sugestion.data.users_attach[0].first_name);
-            $("#client_last_name").val(sugestion.data.users_attach[0].last_name);
-            $("#client_document").val(sugestion.data.users_attach[0].document);
-            $("#client_address").val(sugestion.data.address);
-            $("#client_number_address").val(sugestion.data.number_address);
-            $("#client_complement").val(sugestion.data.complement);
-            $("#client_code_postal").val(sugestion.data.code_postal);
-            $("#client_district").val(sugestion.data.district);
-            $("#client_city").val(sugestion.data.city);
-            $("#client_uf").val(sugestion.data.uf);
-
-            $("#porcent_propertie").val(sugestion.data.porcent_propertie);
-            $(".price_condominium").val(sugestion.data.price_condominium);
-            $(".price_iptu").val(sugestion.data.price_iptu);
-            $(".percentual_iptu").val(sugestion.data.percentual_iptu);
-            $("#administrative_fees").val(sugestion.data.administrative_fees);
-            $("#classification").val(sugestion.data.classification);
-
-            $("#price_location").val(sugestion.data.price_location);
-            $("#price_sale").val(sugestion.data.price_sale);
-            $(".type_propertie").val(sugestion.data.type_propertie);
-            $(".deadline_contract").val(sugestion.data.deadline_contract);
-            $(".object_propertie").val(sugestion.data.object_propertie);
-
-            var type = sugestion.data.object_propertie;
-
-            if (type == 'location') {
-                $("#location").show();
-                $("#day_due_location").prop("disabled", false);
-                $("#payment_method_location").prop("disabled", false);
-                $("#sale").hide();
-                $("#day_due_sale").prop("disabled", true);
-                $("#payment_method_sale").prop("disabled", true);
-            } else {
-                $("#sale").show();
-                $("#day_due_sale").prop("disabled", false);
-                $("#payment_method_sale").prop("disabled", false);
-                $("#location").hide();
-                $("#day_due_location").prop("disabled", true);
-                $("#payment_method_location").prop("disabled", true);
-            }
-        }
-    });
-
-    var type = ($('.object_propertie').val());
-
-    if (type == 'location') {
-        $("#location").show();
-        $("#day_due_location").prop("disabled", false);
-        $("#payment_method_location").prop("disabled", false);
-        $("#sale").hide();
-        $("#day_due_sale").prop("disabled", true);
-        $("#payment_method_sale").prop("disabled", true);
-    } else if (type == 'sale') {
-        $("#sale").show();
-        $("#day_due_sale").prop("disabled", false);
-        $("#payment_method_sale").prop("disabled", false);
-        $("#location").hide();
-        $("#day_due_location").prop("disabled", true);
-        $("#payment_method_location").prop("disabled", true);
-    } else {
-        $("#sale").hide();
-        $("#day_due_sale").prop( "disabled", false );
-        $("#payment_method_sale").prop( "disabled", false );
-        $("#location").hide();
-        $("#day_due_location").prop( "disabled", true );
-        $("#payment_method_location").prop( "disabled", true );
-    }
-
     var status = ($('#marital_status').val());
 
     if (status == 'married') {
@@ -159,32 +81,6 @@ $(document).ready(function () {
         $('#pj_guarantor').hide();
         $('#clt_guarantor').hide();
         $('#fiance_guarantor').hide();
-    }
-
-    var is_aproved = ($('#is_aproved').val());
-
-    if (is_aproved == 'pending') {
-        $('#number_contract_aproved').hide();
-        $('#text_reproved').hide();
-    } else if (is_aproved == 'approved') {
-        $('#number_contract_aproved').show();
-        $('#n_contract').attr('disabled', 'disabled');
-        $('#is_aproved').attr('disabled', 'disabled');
-        $('#text_reproved').hide();
-    } else if (is_aproved == 'reproved') {
-        $('#text_reproved').show();
-        $('#number_contract_aproved').hide();
-    } else {
-        $('#text_reproved').hide();
-        $('#number_contract_aproved').hide();
-    }
-
-    var object_propertie = ($('#object_propertie_searh').val());
-
-    if (object_propertie == 'apartmant') {
-        $('#is_apartmant').show();
-    } else {
-        $('#is_apartmant').hide();
     }
 });
 
@@ -264,21 +160,6 @@ $('#type_guarantor').change(function () {
         $('#surety_bond').hide();
         $('#guarantor').hide();
         $('#type_work_guarantor_div').hide();
-    }
-});
-
-$('#is_aproved').change(function () {
-    var status = ($(this).val());
-
-    if (status == 'pending') {
-        $('#number_contract_aproved').hide();
-        $('#text_reproved').hide();
-    } else if (status == 'approved') {
-        $('#number_contract_aproved').hide();
-        $('#text_reproved').hide();
-    } else if (status == 'reproved') {
-        $('#text_reproved').show();
-        $('#number_contract_aproved').hide();
     }
 });
 
