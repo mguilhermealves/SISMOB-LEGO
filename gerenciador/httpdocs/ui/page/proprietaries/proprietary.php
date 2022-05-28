@@ -13,6 +13,8 @@
                 }
                 ?>
 
+                <div class="col-lg-12 text-center mb-2 d-none" id="error_cpf"></div>
+
                 <!-- Info Cliente -->
                 <div class="modal-content">
                     <div class="modal-header label">
@@ -180,73 +182,73 @@
                 </div>
 
 
-                    <input type="hidden" name="partner[partners_id]" value="<?php print(isset($data["partners_attach"][0]["idx"]) ? $data["partners_attach"][0]["idx"] : ""); ?>">
+                <input type="hidden" name="partner[partners_id]" value="<?php print(isset($data["partners_attach"][0]["idx"]) ? $data["partners_attach"][0]["idx"] : ""); ?>">
 
-                    <!-- Conjuge -->
-                    <div class="modal-content" id="conjuge">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Dados do Conjuge</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Nome</label>
-                                                <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["first_name_partner"] : "") ?>">
-                                            </div>
+                <!-- Conjuge -->
+                <div class="modal-content" id="conjuge">
+                    <div class="modal-header label">
+                        <h5 class="modal-title ">Dados do Conjuge</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="name">Nome</label>
+                                            <input id="name" type="text" class="form-control" name="partner[first_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["first_name_partner"] : "") ?>">
                                         </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">Sobrenome</label>
-                                                <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["last_name_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="document">CPF</label>
-                                                <input id="document" type="text" class="form-control document" minlength="11" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["document_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">RG</label>
-                                                <input id="name" type="text" class="form-control" name="partner[rg_partner]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["rg_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="name">CNH</label>
-                                                <input id="name" type="text" class="form-control" name="partner[cnh_partner]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["cnh_partner"] : "") ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="file">Certidão de Casamento (.pdf)</label>
-                                                <input type="file" id="file" name="partner[file]" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <?php if (!empty($data["partners_attach"][0]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["certification"])) { ?>
-                                            <iframe class="pdf" src="/<?php print($data["partners_attach"][0]["certification"]) ?>" width="100%" height="300px"></iframe>
-                                        <?php
-                                        } ?>
                                     </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="name">Sobrenome</label>
+                                            <input id="name" type="text" class="form-control" name="partner[last_name_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["last_name_partner"] : "") ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="document">CPF</label>
+                                            <input id="document" type="text" class="form-control document" minlength="11" name="partner[document_partner]" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["document_partner"] : "") ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="name">RG</label>
+                                            <input id="name" type="text" class="form-control" name="partner[rg_partner]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["rg_partner"] : "") ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="name">CNH</label>
+                                            <input id="name" type="text" class="form-control" name="partner[cnh_partner]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?php print(isset($data["partners_attach"][0]) ? $data["partners_attach"][0]["cnh_partner"] : "") ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="file">Certidão de Casamento (.pdf)</label>
+                                            <input type="file" id="file" name="partner[file]" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <?php if (!empty($data["partners_attach"][0]) && file_exists(constant("cRootServer") . $data["partners_attach"][0]["certification"])) { ?>
+                                        <iframe class="pdf" src="/<?php print($data["partners_attach"][0]["certification"]) ?>" width="100%" height="300px"></iframe>
+                                    <?php
+                                    } ?>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
 
                 <div class="col-sm-12 text-right">
-                    <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
+                    <button type="submit" name="btn_save" id="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
                 </div>
             </form>
         </div>

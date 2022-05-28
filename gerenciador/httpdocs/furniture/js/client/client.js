@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('body').keypress(function(event) {
+    $('body').keypress(function (event) {
         if (event.keyCode == '13') {
             return false;
         }
@@ -28,6 +28,34 @@ $('#marital_status').change(function () {
     } else {
         $("#conjuge").hide();
     }
+});
+
+/* CONSULTA CPF */
+$("#cpf").change(function () {
+    var cpf = $(this).val().replace(/\D/g, '');
+
+    $.ajax({
+        method: "POST",
+        url: '/consultar_cpf',
+        data: {
+            cpf: cpf
+        },
+        beforeSend: function () {
+            $(".spinner-border").show();
+        },
+        success: function (data) {
+            var jsonData = JSON.parse(data);
+            if (jsonData.error == true) {
+                $("#error_cpf").removeClass("d-none").html('<span>' + jsonData.message + '</span>').css("color", "red");
+                $("#btn_save").addClass("d-none");
+            } else {
+                $("#btn_save").removeClass("d-none");
+            }
+        },
+        complete: function () {
+            $('.spinner-border').hide();
+        }
+    });
 });
 
 /* CONSULTA CEP */

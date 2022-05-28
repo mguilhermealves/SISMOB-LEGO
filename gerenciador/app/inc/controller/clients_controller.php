@@ -475,4 +475,25 @@ class clients_controller
 
 		return true;
 	}
+
+	public function consultar_cpf($info)
+	{
+		$validCpf = $this->validaCPF($info["post"]["cpf"]);
+
+		if (empty($validCpf)) {
+			$error = array('error' => true, "message" => "CPF Incorreto...");
+			return print(json_encode($error));
+		} else {
+			$client = new users_model();
+			$client->set_filter(array(" cpf = '" . $info["post"]["cpf"] . "' "));
+			$client->load_data();
+			$client->attach(array("profiles"));
+			$data = current($client->data);
+	
+			if (isset($client->data[0])) {
+				$error = array('error' => true, "message" => "Usuário não encontrato ou já utilizado na base.");
+				return print(json_encode($error));
+			}
+		}
+	}
 }

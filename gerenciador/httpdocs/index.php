@@ -39,11 +39,7 @@ if( site_controller::check_login() ){
 		$dispatcher->add_route( $v["method"] , "/" .  $v["pattern"] , $v["controller"] , $check , $p ) ;
 	}
 
-	$dispatcher->add_route ( "POST" , "/search_client" , "properties_controller:search_client" , NULL, $params );
-	$dispatcher->add_route ( "POST" , "/select_client" , "properties_controller:select_client" , NULL, $params );
-
-	$dispatcher->add_route ( "POST" , "/search_propertie" , "locations_controller:search_propertie" , NULL, $params );
-	$dispatcher->add_route ( "POST" , "/select_propertie" , "locations_controller:select_propertie" , NULL, $params );
+	$dispatcher->add_route ( "POST" , "/consultar_cpf" , "clients_controller:consultar_cpf" , NULL, $params );
 
 	$dispatcher->add_route ( "POST" , "/cancel_billet" , "payments_location_controller:cancel_billet" , NULL, $params );
 	$dispatcher->add_route ( "POST" , "/send_billet" , "payments_location_controller:send_billet" , NULL, $params );
