@@ -169,8 +169,11 @@
                                                 <label for="indice">Índice</label>
                                                 <select name="indice" id="indice" class="form-control">
                                                     <option value="">Selecione</option>
-                                                    <option value="igpm">IGP-M</option>
-                                                    <option value="ipca">IPCA</option>
+                                                    <?php
+                                                    foreach ($GLOBALS["indice"] as $k => $v) {
+                                                        printf('<option %s value="%s">%s</option>', isset($data["indice"]) && $k == $data["indice"] ? ' selected' : '', $k, $v);
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>

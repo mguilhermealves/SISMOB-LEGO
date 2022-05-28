@@ -345,3 +345,8 @@ $payment_status_gerencianet = array(
   ,"canceled" => "Cancelado"
   , "expired" => "Vencido"
 );
+
+$indice = array(
+  "igpm" => "IGP-M"
+  , "ipca" => "IPCA"
+);
