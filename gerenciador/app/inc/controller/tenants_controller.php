@@ -22,7 +22,7 @@ class tenants_controller
 		$filter = array(" active = 'yes' ", " idx in ( select users_profiles.users_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id = '8' ) ");
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
-			$filter["q_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["q_name"] . "%' ";
+			$filter["q_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["q_name"] . "%'";
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
@@ -89,9 +89,11 @@ class tenants_controller
 				break;
 		}
 
+		list($done, $filter) = $this->filter($info);
+		$tenants->set_filter($filter);
+
 		$tenants->set_filter($filter);
 		$tenants->set_order(array($ordenation));
-
 		list($total, $data) = $tenants->return_data();
 		$tenants->attach(array("profiles"));
 		$data = $tenants->data;
