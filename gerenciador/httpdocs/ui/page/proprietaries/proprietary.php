@@ -44,12 +44,23 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="cpf">CPF</label>
-                                        <input id="cpf" type="text" class="form-control document" name="cpf" minlength="11" value="<?php print(isset($data["cpf"]) ? $data["cpf"] : "") ?>" required>
+                                <?php if (isset($data["idx"])) { ?>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="cpf">CPF</label>
+                                            <input id="cpf" type="text" class="form-control document" name="cpf" minlength="11" value="<?php print(isset($data["cpf"]) ? $data["cpf"] : "") ?>" disabled>
+                                        </div>
                                     </div>
-                                </div>
+
+                                <?php } else { ?>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="cpf">CPF</label>
+                                            <input id="cpf" type="text" class="form-control document" name="cpf" minlength="11" value="<?php print(isset($data["cpf"]) ? $data["cpf"] : "") ?>" required>
+                                        </div>
+                                    </div>
+                                <?php }  ?>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
