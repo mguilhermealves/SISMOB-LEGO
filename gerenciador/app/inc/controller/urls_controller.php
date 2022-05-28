@@ -59,7 +59,6 @@ class urls_controller{
 			);
 		}
 		$page = 'urls';
-        $sidebar_color = current( menus_controller::data4select("idx" , array( " name = 'Urls' " ), "color" ) ) ;
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");
 		include(constant("cRootServer") . "ui/page/url.php");
@@ -92,9 +91,6 @@ class urls_controller{
 
 		list( $total , $data ) = $pjurls->return_data();
 
-		//$data = $pjurls->data;
-		//$total = $pjurls->con->result($pjurls->con->select(" ifnull( count( idx ) , 0 ) as s ", " pjurls ", " where " . implode(" and ", $filter)), "s", 0);
-
 		switch ($info["format"]) {
 			case ".json":
 				$t = array("total" => 3);
@@ -107,7 +103,6 @@ class urls_controller{
 				break;
 			default:
 				$page = 'urls';
-				$sidebar_color = current( menus_controller::data4select("idx" , array( " name = 'Urls' " ), "color" ) ) ;
 		
 				$ordenation_name = 'name-asc';
 				$ordenation_name_ordenation = 'fas fa-border-none';

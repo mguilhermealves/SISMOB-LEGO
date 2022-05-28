@@ -194,14 +194,14 @@ class clients_controller
 				);
 				break;
 			default:
-				$page = 'Clientes';
+				$page = 'Proprietarios';
 
 				$sidebar_color = "rgba(127, 255, 212, 1)";
 				$form = array(
-					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["clients_url"], $done) : $GLOBALS["clients_url"]), "pattern" => array(
-						"new" => $GLOBALS["newclient_url"],
-						"action" => $GLOBALS["client_url"],
-						"search" => !empty($info["get"]) ? set_url($GLOBALS["clients_url"], $info["get"]) : $GLOBALS["clients_url"]
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["proprietaries_url"], $done) : $GLOBALS["proprietaries_url"]), "pattern" => array(
+						"new" => $GLOBALS["newproprietary_url"],
+						"action" => $GLOBALS["proprietary_url"],
+						"search" => !empty($info["get"]) ? set_url($GLOBALS["proprietaries_url"], $info["get"]) : $GLOBALS["proprietaries_url"]
 					)
 				);
 
@@ -270,7 +270,7 @@ class clients_controller
 
 				include(constant("cRootServer") . "ui/common/header.inc.php");
 				include(constant("cRootServer") . "ui/common/head.inc.php");
-				include(constant("cRootServer") . "ui/page/clients/clients.php");
+				include(constant("cRootServer") . "ui/page/proprietaries/proprietaries.php");
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
@@ -295,29 +295,28 @@ class clients_controller
 			$data = current($client->data);
 
 			$form = array(
-				"title" => "Editar Cliente",
-				"url" => sprintf($GLOBALS["client_url"], $info["idx"])
+				"title" => "Editar Proprietario",
+				"url" => sprintf($GLOBALS["proprietary_url"], $info["idx"])
 			);
 		} else {
 			$data = array();
 			$form = array(
-				"title" => "Cadastrar Cliente",
-				"url" => $GLOBALS["newclient_url"]
+				"title" => "Cadastrar Proprietarios",
+				"url" => $GLOBALS["newproprietary_url"]
 			);
 		}
 
-		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["clients_url"];
+		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["proprietaries_url"];
 
-		$sidebar_color = "rgba(127, 255, 212, 1)";
-		$page = 'Cliente';
+		$page = 'Proprietario';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");
-		include(constant("cRootServer") . "ui/page/clients/client.php");
+		include(constant("cRootServer") . "ui/page/proprietaries/proprietary.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
 		print("<script>");
 		print('$("button[name=\'btn_back\']").bind("click", function(){');
-		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["trails_url"]) . '" ');
+		print(' document.location = "' . (isset($info["get"]["done"]) ? $info["get"]["done"] : $GLOBALS["proprietaries_url"]) . '" ');
 		print('})' . "\n");
 		include(constant("cRootServer") . "furniture/js/client/client.js");
 		print('</script>' . "\n");
@@ -339,7 +338,7 @@ class clients_controller
 		if (empty($validCpf)) {
 			$_SESSION["messages_app"]["warning"][] = "CPF Inválido";
 
-			basic_redir($GLOBALS["clients_url"]);
+			basic_redir($GLOBALS["proprietaries_url"]);
 		}
 
 		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
@@ -358,7 +357,7 @@ class clients_controller
 			if (!empty($data)) {
 				$_SESSION["messages_app"]["warning"][] = "Já existe um cadastro com esse CPF, favor verificar!";
 
-				basic_redir($GLOBALS["clients_url"]);
+				basic_redir($GLOBALS["proprietaries_url"]);
 			}
 		}
 
@@ -423,7 +422,7 @@ class clients_controller
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
 		} else {
-			basic_redir($GLOBALS["clients_url"]);
+			basic_redir($GLOBALS["proprietaries_url"]);
 		}
 	}
 
@@ -441,7 +440,7 @@ class clients_controller
 			$company->remove();
 		}
 
-		basic_redir($GLOBALS["clients_url"]);
+		basic_redir($GLOBALS["proprietaries_url"]);
 	}
 
 	/**

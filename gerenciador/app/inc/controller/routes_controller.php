@@ -54,7 +54,7 @@ class routes_controller{
 		}
 
 		$page = 'pjroutes';
-        $sidebar_color = current( menus_controller::data4select("idx" , array( " name = 'Rotas' " ), "color" ) ) ;
+
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");
 		include(constant("cRootServer") . "ui/page/route.php");
@@ -103,7 +103,6 @@ class routes_controller{
 				break;
 			default:
 				$page = 'routes';
-				$sidebar_color = current( menus_controller::data4select("idx" , array( " name = 'Rotas' " ), "color" ) ) ;
 
 				$ordenation_name = 'name-asc';
 				$ordenation_name_ordenation = 'fas fa-border-none';

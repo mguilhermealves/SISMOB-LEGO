@@ -10,53 +10,48 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="collapsibleNavId">
-
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item" style="border-right: 1px solid #fff">
-            <a class="nav-link">Bem vindo(a), <?php print($_SESSION[constant("cAppKey")]["credential"]["first_name"]) ?></a>
-          </li>
+          <?php
+          $b = new menus_model();
+          $fs = array("active = 'yes'", " idx in ( select menus_profiles.menus_id from menus_profiles where menus_profiles.active = 'yes' and menus_profiles.profiles_id in ( '" . implode("','", isset($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]) ? array_column($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"], "idx") : array(0)) . "' ) ) ");
+          $b->set_order(array("position"));
+          $b->load_data();
+          $b->attach(array("urls"));
+          $b->join("menus", "menus", array("parent" => "idx"), " and active = 'yes' and idx in ( select menus_profiles.menus_id from menus_profiles where menus_profiles.active = 'yes' and menus_profiles.profiles_id in ('" . implode("','", isset($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]) ? array_column($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"], "idx") : array(0))  . "') ) order by position ");
+          $b->attach_son("menus", array("urls"));
 
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home </a>
-          </li>
+          foreach ($b->data as $k => $v) {
+            if (isset($v["menus_attach"][0])) { ?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="<?php print($v["name"]) ?>" id="<?php print("menu_" . $k) ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <?php print($v["name"]) ?>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="<?php print("menu_" . $k) ?>">
+                  <?php foreach ($v["menus_attach"] as $r) { ?>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="clients" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clientes</a>
-            <div class="dropdown-menu" aria-labelledby="clients">
-              <a class="dropdown-item" href="<?php print($GLOBALS["clients_url"]) ?>">Clientes</a>
-              <a class="dropdown-item" href="<?php print($GLOBALS["properties_url"]) ?>">Imoveis</a>
-            </div>
-          </li>
+                    <a class="dropdown-item" href="<?php print($GLOBALS[$r["urls_attach"][0]["slug"] . "_url"]) ?>">
+                      <?php print($r["name"]) ?>
+                    </a>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="locations" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Locações</a>
-            <div class="dropdown-menu" aria-labelledby="locations">
-              <a class="dropdown-item" href="<?php print($GLOBALS["tenants_url"]) ?>">Locatários</a>
-              <a class="dropdown-item" href="<?php print($GLOBALS["locations_url"]) ?>">Locações</a>
-            </div>
-          </li>
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="sales" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vendas</a>
-            <div class="dropdown-menu" aria-labelledby="sales">
-              <a class="dropdown-item" href="<?php print($GLOBALS["sales_url"]) ?>">Compradores</a>
-              <a class="dropdown-item" href="<?php print($GLOBALS["sales_url"]) ?>">Vendas</a>
-            </div>
-          </li>
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="financerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Financeiro</a>
-            <div class="dropdown-menu" aria-labelledby="financerId">
-              <a class="dropdown-item" href="<?php print($GLOBALS["account_pay_categories_url"]) ?>">Categorias</a>
-              <a class="dropdown-item" href="<?php print($GLOBALS["account_pay_cost_centers_url"]) ?>">Centro de Custo</a>
-              <a class="dropdown-item" href="<?php print($GLOBALS["companies_url"]) ?>">Empresas</a>
-              <a class="dropdown-item" href="<?php print($GLOBALS["bills_payableds_url"]) ?>">Contas a Pagar</a>
-              <a class="dropdown-item" href="<?php print($GLOBALS["accounts_receivables_url"]) ?>">Contas a Receber</a>
-            </div>
-          </li>
+                  <?php } ?>
+                </div>
+              </li>
+            <?php } else if ($v["parent"] == '-1') { ?>
+              <li class="nav-item">
+                <a class="nav-link <?php print(isset($page) && in_array($page, array($v["name"]), true) ? 'active' : '') ?>" href="<?php print($GLOBALS[$v["urls_attach"][0]["slug"] . "_url"]) ?>"><?php print($v["name"]) ?></a>
+              </li>
+          <?php }
+          } ?>
         </ul>
 
-        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+        <ul class="navbar-nav ml-5 mr-2 mt-5 mt-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="editUserId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php print("Bem vindo(a), " . $_SESSION[constant("cAppKey")]["credential"]["first_name"]) ?></a>
+            <div class="dropdown-menu" aria-labelledby="editUserId">
+              <a class="dropdown-item" href="#">Dados</a>
+            </div>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="<?php print($GLOBALS["logout_url"]) ?>">Sair</a>
           </li>

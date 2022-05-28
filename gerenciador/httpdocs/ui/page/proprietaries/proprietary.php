@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print(set_url($info["get"]["done"])) ?>">Clientes</a> / <?php print($form["title"]) ?></p>
+    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print(set_url($info["get"]["done"])) ?>">Proprietarios</a> / <?php print($form["title"]) ?></p>
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
 

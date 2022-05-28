@@ -58,13 +58,25 @@ $(document).ready(function () {
                 $("#day_due_sale").prop("disabled", true);
                 $("#payment_method_sale").prop("disabled", true);
             } else {
-                $("#sale").show();
-                $("#day_due_sale").prop("disabled", false);
-                $("#payment_method_sale").prop("disabled", false);
                 $("#location").hide();
                 $("#day_due_location").prop("disabled", true);
                 $("#payment_method_location").prop("disabled", true);
             }
+            // else if (type == 'sale') {
+            //     $("#sale").show();
+            //     $("#day_due_sale").prop("disabled", false);
+            //     $("#payment_method_sale").prop("disabled", false);
+            //     $("#location").hide();
+            //     $("#day_due_location").prop("disabled", true);
+            //     $("#payment_method_location").prop("disabled", true);
+            // } else {
+            //     $("#sale").hide();
+            //     $("#day_due_sale").prop( "disabled", false );
+            //     $("#payment_method_sale").prop( "disabled", false );
+            //     $("#location").hide();
+            //     $("#day_due_location").prop( "disabled", true );
+            //     $("#payment_method_location").prop( "disabled", true );
+            // }
         }
     });
 
@@ -101,11 +113,11 @@ $(document).ready(function () {
         $("#payment_method_location").prop("disabled", true);
     } else {
         $("#sale").hide();
-        $("#day_due_sale").prop( "disabled", false );
-        $("#payment_method_sale").prop( "disabled", false );
+        $("#day_due_sale").prop("disabled", false);
+        $("#payment_method_sale").prop("disabled", false);
         $("#location").hide();
-        $("#day_due_location").prop( "disabled", true );
-        $("#payment_method_location").prop( "disabled", true );
+        $("#day_due_location").prop("disabled", true);
+        $("#payment_method_location").prop("disabled", true);
     }
 
     var is_aproved = ($('#is_aproved').val());
