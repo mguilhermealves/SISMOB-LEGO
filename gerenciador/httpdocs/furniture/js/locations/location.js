@@ -68,6 +68,21 @@ $(document).ready(function () {
         }
     });
 
+    $(".tenants_search").autocomplete({
+        serviceUrl: '<?php print($GLOBALS["tenants_url"]) ?>.autocomplete',
+        autoFocus: true,
+        minChars: 3,
+        deferRequestBy: 5,
+        noCache: true,
+        onSelect: function (sugestion) {
+            console.log(sugestion);
+            $("#users_id").val(sugestion.data.idx);
+            $("#tenant_first_name").val(sugestion.data.first_name);
+            $("#tenant_last_name").val(sugestion.data.last_name);
+            $("#tenant_cpf").val(sugestion.data.cpf);
+        }
+    });
+
     var type = ($('.object_propertie').val());
 
     if (type == 'location') {
@@ -91,74 +106,6 @@ $(document).ready(function () {
         $("#location").hide();
         $("#day_due_location").prop( "disabled", true );
         $("#payment_method_location").prop( "disabled", true );
-    }
-
-    var status = ($('#marital_status').val());
-
-    if (status == 'married') {
-        $("#conjuge").show();
-    } else {
-        $("#conjuge").hide();
-    }
-
-    var is_pet = ($('#is_pet').val());
-
-    if (is_pet == 'yes') {
-        $("#type_pet").show();
-    } else {
-        $("#type_pet").hide();
-    }
-
-    var work = ($('#type_work').val());
-
-    if (work == 'clt') {
-        $('#clt').show();
-        $('#pj').hide();
-        $('#show_address_info_financeiras').show();
-    } else if (work == 'pj') {
-        $('#pj').show();
-        $('#clt').hide();
-        $('#show_address_info_financeiras').show();
-    } else {
-        $('#pj').hide();
-        $('#clt').hide();
-        $('#show_address_info_financeiras').hide();
-    }
-
-    var guarantor = ($('#type_guarantor').val());
-
-    if (guarantor == 'guarantor') {
-        $('#guarantor').show();
-        $('#type_work_guarantor_div').show();
-        $('#surety_bond').hide();
-    } else if (guarantor == 'surety_bond') {
-        $('#surety_bond').show();
-        $('#type_work_guarantor_div').hide();
-        $('#guarantor').hide();
-    } else {
-        $('#surety_bond').hide();
-        $('#guarantor').hide();
-        $('#type_work_guarantor_div').hide();
-    }
-
-    var type_work_guarantor = ($('#type_work_guarantor').val());
-
-    if (type_work_guarantor == 'clt_guarantor') {
-        $('#clt_guarantor').show();
-        $('#pj_guarantor').hide();
-        $('#fiance_guarantor').hide();
-    } else if (type_work_guarantor == 'pj_guarantor') {
-        $('#pj_guarantor').show();
-        $('#clt_guarantor').hide();
-        $('#fiance_guarantor').hide();
-    } else if (type_work_guarantor == 'fiance_guarantor') {
-        $('#fiance_guarantor').show();
-        $('#pj_guarantor').hide();
-        $('#clt_guarantor').hide();
-    } else {
-        $('#pj_guarantor').hide();
-        $('#clt_guarantor').hide();
-        $('#fiance_guarantor').hide();
     }
 
     var is_aproved = ($('#is_aproved').val());

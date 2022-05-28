@@ -84,8 +84,7 @@ class locations_controller
 		$locations->set_order(array($ordenation));
 
 		list($total, $data) = $locations->return_data();
-		$locations->attach(array("offices", "partners", "properties"));
-		$locations->attach_son("properties", array("users"), true, null, array("idx", "name"));
+		$locations->attach(array("users"), true);
 		$data = $locations->data;
 
 		switch ($info["format"]) {
@@ -171,7 +170,7 @@ class locations_controller
 				exit();
 				break;
 			default:
-				$page = 'Locações e Vendas';
+				$page = 'Locações';
 				$sidebar_color = "rgba(218, 165, 32, 1)";
 
 				$form = array(
@@ -285,18 +284,19 @@ class locations_controller
 			$location = new locations_model();
 			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$location->load_data();
-			$location->attach(array("offices", "properties", "partners"));
-			$location->attach_son("properties", array("users"), true, null, array("idx", "name"));
+			$location->attach(array("users"), true);
+			$location->attach(array("properties"));
+			$location->attach_son("properties", array("users"), true);
 			$data = current($location->data);
 			$form = array(
-				"title" => "Editar Locação e Venda",
+				"title" => "Editar Locação",
 				"url" => sprintf($GLOBALS["location_url"], $info["idx"]),
 				"donwload_contract" => $GLOBALS["location_contract_url"]
 			);
 		} else {
 			$data = array();
 			$form = array(
-				"title" => "Cadastrar Locação e Venda",
+				"title" => "Cadastrar Locação",
 				"url" => $GLOBALS["newlocation_url"]
 			);
 		}
@@ -324,19 +324,6 @@ class locations_controller
 
 		$location = new locations_model();
 
-		$info["post"]["cpf"] = preg_replace("/[^0-9]/", "", $info["post"]["cpf"]);
-		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
-		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
-		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
-
-		$validCpf = $this->validaCPF($info["post"]["cpf"]);
-
-		if (empty($validCpf)) {
-			$_SESSION["messages_app"]["warning"][] = "CPF Inválido";
-
-			basic_redir($GLOBALS["locations_url"]);
-		}
-
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$location->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
@@ -345,7 +332,9 @@ class locations_controller
 		// is approved
 		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
 			$location->load_data();
+			$location->attach(array("users"), true);
 			$location->attach(array("properties"));
+			$location->attach_son("properties", array("users"), true);
 			$data = current($location->data);
 
 			if (empty($data["aproved_at"])) {
@@ -353,75 +342,14 @@ class locations_controller
 				$info["post"]["aproved_by"] = $_SESSION[constant("cAppKey")]["credential"]["idx"];
 				$info["post"]["aproved_at"] = date("Y-m-d H:i:s");
 
-				$user_adm = new users_model();
-				$user_adm->set_filter(array(" idx in ( SELECT users_profiles.users_id from users_profiles where profiles_id in ( select profiles.idx from profiles where slug = 'administrador-sismob' ) )"));
-				$user_adm->load_data();
-				$data_useradm = $user_adm->data;
-
-				$user_approved = new users_model();
-				$user_approved->set_filter(array(" idx = '" . $info["post"]["aproved_by"] . "' "));
-				$user_approved->load_data();
-				$data_useraproved = current($user_approved->data);
-
-				foreach ($data_useradm as $k => $v) {
-					if ($data["properties_attach"][0]["object_propertie"] == "location") {
-						$page = strtr(file_get_contents(constant("cFurniture") . "mail/new_location.html"), array(
-							"#HOST#" => constant("cFurniture") . "mail/new_location.html",
-							"#CONTRACT#" => $info["post"]["n_contract"],
-							"#OBJECT_PROPERTIE#" => $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]],
-							"#TYPE_PROPERTIE#" => $GLOBALS["propertie_types"][$data["properties_attach"][0]["type_propertie"]],
-							"#APROVED_BY#" => $data_useraproved["first_name"] . " " . $data_useraproved["last_name"],
-							"#APROVED_AT#" => date_format(new DateTime($info["post"]["aproved_at"]), "d/m/Y H:i:s"),
-							"#DAY_DUE#" => $data["day_due"],
-							"#PAYMENT_METHOD#" => $data["payment_method"],
-							"#AMOUNT_MONTH#" => $data["properties_attach"][0]["price_location"], // ajustar valor
-						));
-					} else {
-						$page = strtr(file_get_contents(constant("cFurniture") . "mail/new_location.html"), array(
-							"#HOST#" => constant("cFurniture") . "mail/new_location.html",
-							"#CONTRACT#" => $info["post"]["n_contract"],
-							"#OBJECT_PROPERTIE#" => $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]],
-							"#TYPE_PROPERTIE#" => $GLOBALS["propertie_types"][$data["properties_attach"][0]["type_propertie"]],
-							"#APROVED_BY#" => $data_useraproved["first_name"] . " " . $data_useraproved["last_name"],
-							"#APROVED_AT#" => date_format(new DateTime($info["post"]["aproved_at"]), "d/m/Y H:i:s"),
-							"#PAYMENT_METHOD#" => $data["payment_method"],
-							"#AMOUNT_MONTH#" => $data["properties_attach"][0]["price_sale"],
-						));
-					}
-
-					$messages_model = new messages_model();
-					$messages_model->populate(array(
-						"name" => "SISMOB - Locação Aprovada",
-						"scheduled_at" => date("Y-m-d H:i:s"),
-						"mailboxes" => serialize(array(
-							"Address" => array(
-								"name" => $v["first_name"] . " " . $v["last_name"],
-								"mail" => $v["mail"]
-							),
-							"from" => array(
-								"name" => constant("mail_from_name"),
-								"mail" => constant("mail_from_user")
-							),
-							"replyTo" => array(
-								"name" => constant("mail_from_name"),
-								"mail" => constant("mail_from_user")
-							)
-						)), "htmlmsg" => $page, "textmsg" => strip_tags($page),
-						"type" => "mail"
-					));
-					$messages_model->save();
-				}
-
 				/* update is used propertie */
-				$info["post"]["properties"]["is_used"] = "yes";
+				$info["post"]["is_used"] = "yes";
 
-				$propertie = new properties_model();
-				$propertie->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
+				$boiler = new properties_model();
+				$boiler->set_filter(array(" idx = '" . $data["properties_attach"][0]["idx"] . "' "));
 
-				$data = current($propertie->data);
-
-				$propertie->populate($info["post"]["properties"]);
-				$propertie->save();
+				$boiler->populate($info["post"]);
+				$boiler->save();
 			}
 		}
 
@@ -432,302 +360,8 @@ class locations_controller
 			$info["idx"] = $location->con->insert_id;
 		}
 
-		$boiler = new locations_model();
-		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
-			$boiler->set_filter(array(" idx = '" . $info["idx"] . "' "));
-		}
-
-		//upload files offices
-		if ($info["post"]["offices"]["type_work"] == "clt") {
-			$info["post"]["address_file"] = null;
-			$info["post"]["cnpj_file"] = null;
-			$info["post"]["contract_file"] = null;
-
-			/* Comprovante de Renda */
-			$arrayRent = [];
-			if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["rent_file"][0] != "") {
-
-				for ($i = 0; $i < count($_FILES["offices"]["name"]["rent_file"]); $i++) {
-					$d = preg_split("/\./", $_FILES["offices"]["name"]["rent_file"][$i]);
-
-					$extension = $d[count($d) - 1];
-
-					$extension_permited = ["pdf"];
-
-					$t = array_search($extension, $extension_permited);
-
-					if (array_search($extension, $extension_permited) >= 0) {
-						$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["rent_file"][$i]));
-
-						$extension = $i . "." . $extension;
-
-						$file = "furniture/upload/location/" . $info["idx"] . "/offices/rent_file/" . $name . $extension;
-
-						if (!file_exists(dirname(constant("cRootServer") . $file))) {
-							mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-							chmod(dirname(constant("cRootServer") . $file), 0775);
-						}
-
-						if (file_exists(constant("cRootServer") . $file)) {
-							unlink(constant("cRootServer") . $file);
-						}
-
-						move_uploaded_file($_FILES["offices"]["tmp_name"]["rent_file"][$i], constant("cRootServer") . $file);
-						array_push($arrayRent, $file);
-					} else {
-						$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [Comprovante de Renda], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
-					}
-				}
-
-				$info["post"]["offices"]["rent_file"] = serialize($arrayRent);
-			}
-
-			/* IRPF */
-			$arrayIRPF = [];
-			if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["IRPF_file"][0] != "") {
-
-				for ($i = 0; $i < count($_FILES["offices"]["name"]["IRPF_file"]); $i++) {
-					$d = preg_split("/\./", $_FILES["offices"]["name"]["IRPF_file"][$i]);
-
-					$extension = $d[count($d) - 1];
-
-					$extension_permited = ["pdf"];
-
-					$t = array_search($extension, $extension_permited);
-
-					if (empty($t) != 1) {
-						$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["IRPF_file"][$i]));
-
-						$extension = $i . "." . $extension;
-
-						$file = "furniture/upload/location/" . $info["idx"] . "/offices/IRPF/" . $name . $extension;
-
-						if (!file_exists(dirname(constant("cRootServer") . $file))) {
-							mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-							chmod(dirname(constant("cRootServer") . $file), 0775);
-						}
-
-						if (file_exists(constant("cRootServer") . $file)) {
-							unlink(constant("cRootServer") . $file);
-						}
-
-						move_uploaded_file($_FILES["offices"]["tmp_name"]["IRPF_file"][$i], constant("cRootServer") . $file);
-						array_push($arrayIRPF, $file);
-					} else {
-						$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [IRPF], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
-					}
-				}
-
-				$info["post"]["offices"]["IRPF_file"] = serialize($arrayIRPF);
-			}
-		} else {
-			$info["post"]["offices"]["IRPF_file"] = null;
-
-			/* Comprovante de Renda */
-			$arrayRent = [];
-			if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["rent_file"][0] != "") {
-
-				for ($i = 0; $i < count($_FILES["offices"]["name"]["rent_file"]); $i++) {
-					$d = preg_split("/\./", $_FILES["offices"]["name"]["rent_file"][$i]);
-
-					$extension = $d[count($d) - 1];
-
-					$extension_permited = ["pdf"];
-
-					$t = array_search($extension, $extension_permited);
-
-					if (array_search($extension, $extension_permited) >= 0) {
-						$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["rent_file"][$i]));
-
-						$extension = $i . "." . $extension;
-
-						$file = "furniture/upload/location/" . $info["idx"] . "/offices/rent_file/" . $name . $extension;
-
-						if (!file_exists(dirname(constant("cRootServer") . $file))) {
-							mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-							chmod(dirname(constant("cRootServer") . $file), 0775);
-						}
-
-						if (file_exists(constant("cRootServer") . $file)) {
-							unlink(constant("cRootServer") . $file);
-						}
-
-						move_uploaded_file($_FILES["offices"]["tmp_name"]["rent_file"][$i], constant("cRootServer") . $file);
-						array_push($arrayRent, $file);
-					} else {
-						$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [Comprovante de Renda], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
-					}
-				}
-
-				$info["post"]["offices"]["rent_file"] = serialize($arrayRent);
-			}
-
-			/* Endereço PJ */
-			$arrayAddress = [];
-			if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["address_file"] != "") {
-
-				$d = preg_split("/\./", $_FILES["offices"]["name"]["address_file"]);
-
-				$extension = $d[count($d) - 1];
-
-				$extension_permited = ["pdf"];
-
-				$t = array_search($extension, $extension_permited);
-
-				if (array_search($extension, $extension_permited) >= 0) {
-					$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["address_file"]));
-
-					$extension = date("YmdHis") . "." . $extension;
-
-					$file = "furniture/upload/location/" . $info["idx"] . "/offices/address_file/" . $name . $extension;
-
-					if (!file_exists(dirname(constant("cRootServer") . $file))) {
-						mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-						chmod(dirname(constant("cRootServer") . $file), 0775);
-					}
-
-					if (file_exists(constant("cRootServer") . $file)) {
-						unlink(constant("cRootServer") . $file);
-					}
-
-					move_uploaded_file($_FILES["offices"]["tmp_name"]["address_file"], constant("cRootServer") . $file);
-					array_push($arrayAddress, $file);
-				} else {
-					$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [Comprovante de Renda], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
-				}
-
-				$info["post"]["offices"]["address_file"] = serialize($arrayAddress);
-			}
-
-			/* CNPJ */
-			$arrayCNPJ = [];
-			if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["cnpj_file"] != "") {
-
-				$d = preg_split("/\./", $_FILES["offices"]["name"]["cnpj_file"]);
-
-				$extension = $d[count($d) - 1];
-
-				$extension_permited = ["pdf"];
-
-				$t = array_search($extension, $extension_permited);
-
-				if (array_search($extension, $extension_permited) >= 0) {
-					$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["cnpj_file"]));
-
-					$extension = date("YmdHis") . "." . $extension;
-
-					$file = "furniture/upload/location/" . $info["idx"] . "/offices/CNPJ/" . $name . $extension;
-
-					if (!file_exists(dirname(constant("cRootServer") . $file))) {
-						mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-						chmod(dirname(constant("cRootServer") . $file), 0775);
-					}
-
-					if (file_exists(constant("cRootServer") . $file)) {
-						unlink(constant("cRootServer") . $file);
-					}
-
-					move_uploaded_file($_FILES["offices"]["tmp_name"]["cnpj_file"], constant("cRootServer") . $file);
-					array_push($arrayCNPJ, $file);
-				} else {
-					$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [IRPF], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
-				}
-
-				$info["post"]["offices"]["cnpj_file"] = serialize($arrayCNPJ);
-			}
-
-			/* CONTRATO SOCIAL */
-			$arrayContract = [];
-			if (isset($_FILES["offices"]) && $_FILES["offices"]["name"]["contract_file"] != "") {
-
-				$d = preg_split("/\./", $_FILES["offices"]["name"]["contract_file"]);
-
-				$extension = $d[count($d) - 1];
-
-				$extension_permited = ["pdf"];
-
-				$t = array_search($extension, $extension_permited);
-
-				if (array_search($extension, $extension_permited) >= 0) {
-					$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["offices"]["name"]["contract_file"]));
-
-					$extension = date("YmdHis") . "." . $extension;
-
-					$file = "furniture/upload/location/" . $info["idx"] . "/offices/contract/" . $name . $extension;
-
-					if (!file_exists(dirname(constant("cRootServer") . $file))) {
-						mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-						chmod(dirname(constant("cRootServer") . $file), 0775);
-					}
-
-					if (file_exists(constant("cRootServer") . $file)) {
-						unlink(constant("cRootServer") . $file);
-					}
-
-					move_uploaded_file($_FILES["offices"]["tmp_name"]["contract_file"], constant("cRootServer") . $file);
-					array_push($arrayContract, $file);
-				} else {
-					$_SESSION["messages_app"]["warning"][] = "Não foi possível importar o arquivo [IRPF], extensão nao permitida, tipo de imagem aceitas (.pdf), faça o upload do arquivo novamente.";
-				}
-
-				$info["post"]["offices"]["contract_file"] = serialize($arrayContract);
-			}
-		}
-
-		$office = new offices_model();
-		if (isset($info["post"]["offices"]["offices_id"]) && $info["post"]["offices"]["offices_id"] > 0) {
-			$office->set_filter(array(" idx = '" . $info["post"]["offices"]["offices_id"] . "' "));
-		}
-
-		$office->populate($info["post"]["offices"]);
-		$office->save();
-
-		$info["post"]["offices_id"] = $office->con->insert_id;
-		$location->save_attach($info, array("offices"));
-
-		// is married
-		if ($info["post"]["marital_status"] == "married") {
-			$info["post"]["partner"]["document_partner"] = preg_replace("/[^0-9]/", "", $info["post"]["partner"]["document_partner"]);
-
-			if (isset($_FILES["partner"]) && is_file($_FILES["partner"]["tmp_name"]["file"])) {
-
-				$d = preg_split("/\./", $_FILES["partner"]["name"]["file"]);
-
-				$extension = $d[count($d) - 1];
-
-				$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["partner"]["name"]["file"]));
-				$extension = date("YmdHis") . "." . $extension;
-				$file = "furniture/upload/location/" . $info["idx"] . "/partner/certification/" . $name . $extension;
-
-				if (!file_exists(dirname(constant("cRootServer") . $file))) {
-					mkdir(dirname(constant("cRootServer") . $file), 0777, true);
-					chmod(dirname(constant("cRootServer") . $file), 0775);
-				}
-				if (file_exists(constant("cRootServer") . $file)) {
-					unlink(constant("cRootServer") . $file);
-				}
-				move_uploaded_file($_FILES["partner"]["tmp_name"]["file"], constant("cRootServer") . $file);
-
-				$info["post"]["partner"]["certification"] = $file;
-			}
-
-			/* save partner */
-			$partner = new partners_model();
-			if (isset($info["post"]["partner"]["partners_id"]) && $info["post"]["partner"]["partners_id"] > 0) {
-				$partner->set_filter(array(" idx = '" . $info["post"]["partner"]["partners_id"] . "' "));
-			}
-
-			$partner->populate($info["post"]["partner"]);
-			$partner->save();
-
-			$info["post"]["partners_id"] = $partner->con->insert_id;
-			$location->save_attach($info, array("partners"));
-		}
-
-		$boiler->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["cod_propertie"])), array("properties"));
-
-		$boiler->populate($info["post"]);
-		$boiler->save();
+		$location->save_attach(array("idx" => $info["idx"], "post" => array("users_id" =>  $info["post"]["users_id"])), array("users"), true);
+		$location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
 
 		$_SESSION["messages_app"]["success"] = array("Cadastro efeutado com sucesso.");
 
@@ -747,8 +381,10 @@ class locations_controller
 		$location = new locations_model();
 		$location->set_filter(array(" idx = '" . $info["post"]["idx"] . "' "));
 		$location->load_data();
-		$location->attach(array("offices", "partners", "properties"));
-		$location->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$location->attach(array("users"), true);
+		$location->attach_son("users", array("offices"));
+		$location->attach(array("properties"));
+		$location->attach_son("properties", array("users"), true);
 		$data = current($location->data);
 
 		$date_start = date_format(new DateTime($data["aproved_at"]), "d/m/Y");
@@ -759,7 +395,7 @@ class locations_controller
 			$total_years = 1;
 		}
 
-		$date_end = date('d/m/Y', strtotime("+" . $total_years . " years", strtotime($data["aproved_at"]))); 
+		$date_end = date('d/m/Y', strtotime("+" . $total_years . " years", strtotime($data["aproved_at"])));
 
 		/* GERAR DOCX */
 		include(constant("cRootServer_APP") . '/inc/lib/vendor/autoload.php');
@@ -769,22 +405,22 @@ class locations_controller
 
 		$templateProcessor  = new \PhpOffice\PhpWord\TemplateProcessor(constant("cFurniture1") . 'docx/location/newnewcontract.docx');
 		// $templateProcessor->setValue('NUMERO_CONTRATO', $data["n_contract"]);
-		$templateProcessor->setValue('NOME_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["clients_attach"][0]["last_name"]);
-		$templateProcessor->setValue('RG_LOCADOR', $data["properties_attach"][0]["clients_attach"][0]["rg"]);
-		$templateProcessor->setValue('ESTADO_CIVIL_LOCADOR', $GLOBALS["marital_status"][$data["properties_attach"][0]["clients_attach"][0]["marital_status"]]);
-		$templateProcessor->setValue('CPF_LOCADOR', preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["properties_attach"][0]["clients_attach"][0]["document"]));
-		$templateProcessor->setValue('NOME_LOCATARIO', $data["first_name"] . " " . $data["last_name"]);
+		$templateProcessor->setValue('NOME_LOCADOR', $data["properties_attach"][0]["users_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["users_attach"][0]["last_name"]);
+		$templateProcessor->setValue('RG_LOCADOR', $data["properties_attach"][0]["users_attach"][0]["rg"]);
+		$templateProcessor->setValue('ESTADO_CIVIL_LOCADOR', $GLOBALS["marital_status"][$data["properties_attach"][0]["users_attach"][0]["marital_status"]]);
+		$templateProcessor->setValue('CPF_LOCADOR', preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["properties_attach"][0]["users_attach"][0]["cpf"]));
+		$templateProcessor->setValue('NOME_LOCATARIO', $data["users_attach"][0]["first_name"] . " " . $data["users_attach"][0]["last_name"]);
 		$templateProcessor->setValue('RG_LOCATARIO', $data["rg"]);
-		$templateProcessor->setValue('CPF_LOCATARIO', preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["document"]));
-		$templateProcessor->setValue('EMAIL_LOCATARIO', $data["mail"]);
-		$templateProcessor->setValue('ESTADO_CIVIL', $GLOBALS["marital_status"][$data["marital_status"]]);
-		$templateProcessor->setValue('PROFISSAO_LOCATARIO', $data["offices_attach"][0]["office"]);
-		$templateProcessor->setValue('ENDERECO_LOCATARIO', $data["properties_attach"][0]["clients_attach"][0]["address"] . ', ' . 'N° ' . $data["properties_attach"][0]["clients_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["district"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["clients_attach"][0]["uf"]);
-		$templateProcessor->setValue('ENDERECO_PROPRIEDADE', $data["properties_attach"][0]["address"] . ', N° ' . $data["properties_attach"][0]["number_address"] . ', ' . $data["properties_attach"][0]["district"] . ', ' . $data["properties_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["uf"]);
+		$templateProcessor->setValue('CPF_LOCATARIO', preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["users_attach"][0]["cpf"]));
+		$templateProcessor->setValue('EMAIL_LOCATARIO', $data["users_attach"][0]["mail"]);
+		$templateProcessor->setValue('ESTADO_CIVIL', $GLOBALS["marital_status"][$data["users_attach"][0]["marital_status"]]);
+		$templateProcessor->setValue('PROFISSAO_LOCATARIO', $data["users_attach"][0]["offices_attach"][0]["office"]);
+		$templateProcessor->setValue('ENDERECO_LOCATARIO', $data["users_attach"][0]["address"] . ', ' . 'N° ' . $data["users_attach"][0]["number"] . ', ' . $data["users_attach"][0]["district"] . ', ' . $data["users_attach"][0]["city"] . ', ' . $data["users_attach"][0]["uf"]);
+		$templateProcessor->setValue('ENDERECO_PROPRIEDADE', $data["properties_attach"][0]["address"] . ', N° ' . $data["properties_attach"][0]["number"] . ', ' . $data["properties_attach"][0]["district"] . ', ' . $data["properties_attach"][0]["city"] . ', ' . $data["properties_attach"][0]["uf"]);
 		$templateProcessor->setValue('FIM_EXCLUSIVO', $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]]);
 		$templateProcessor->setValue('DATA_INICIO', $date_start);
 		$templateProcessor->setValue('DATA_FIM', $date_end);
-		
+
 		$templateProcessor->setValue('VALOR_ALUGUEL', "R$ " . number_format($data["properties_attach"][0]["price_location"], 2, ",", "."));
 		$templateProcessor->setValue('DIA_VENCIMENTO', $data["day_due"]);
 		$templateProcessor->setValue('PRAZO_CONTRATO', $data["properties_attach"][0]["deadline_contract"]);
@@ -829,38 +465,5 @@ class locations_controller
 		}
 
 		basic_redir($GLOBALS["locations_url"]);
-	}
-
-	/**
-	 * Validation CPF
-	 */
-	function validaCPF($cpf)
-	{
-
-		// Extrai somente os números
-		$cpf = preg_replace('/[^0-9]/is', '', $cpf);
-
-		// Verifica se foi informado todos os digitos corretamente
-		if (strlen($cpf) != 11) {
-			return false;
-		}
-
-		// Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
-		if (preg_match('/(\d)\1{10}/', $cpf)) {
-			return false;
-		}
-
-		// Faz o calculo para validar o CPF
-		for ($t = 9; $t < 11; $t++) {
-			for ($d = 0, $c = 0; $c < $t; $c++) {
-				$d += $cpf[$c] * (($t + 1) - $c);
-			}
-			$d = ((10 * $d) % 11) % 10;
-			if ($cpf[$c] != $d) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 }

@@ -21,6 +21,10 @@ class tenants_controller
 		$done = array();
 		$filter = array(" active = 'yes' ", " idx in ( select users_profiles.users_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id = '8' ) ");
 
+		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
+			$filter["q_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["q_name"] . "%' ";
+		}
+
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
 		}
@@ -55,6 +59,7 @@ class tenants_controller
 		if (!site_controller::check_login()) {
 			basic_redir($GLOBALS["home_url"]);
 		}
+
 		$paginate = isset($info["get"]["paginate"]) && (int)$info["get"]["paginate"] > 20 ? $info["get"]["paginate"] : 20;
 		$ordenation = isset($info["get"]["ordenation"]) ? preg_replace("/-/", " ", $info["get"]["ordenation"]) : 'idx desc';
 
@@ -62,10 +67,26 @@ class tenants_controller
 
 		$tenants = new users_model();
 
-		if ($info["format"] != ".json") {
-			$tenants->set_paginate(array($info["sr"], $paginate));
-		} else {
-			$tenants->set_paginate(array(0, 900000));
+		switch ($info["format"]) {
+			case ".autocomplete":
+				$tenants->set_paginate(array(0, 12));
+
+				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
+					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
+					$query = preg_replace("/\s+?|\t+?|\n+?/", " ", $query);
+					$query = preg_replace("/^ | $/", "", $query);
+					$query = preg_replace("/([A-z0-9\ \-\_])+?/", "$1", $query);
+
+					if (empty($query)) {
+						$query = " ";
+					} else {
+						$info["get"]["q_name"] = $query;
+					}
+				}
+				break;
+			default:
+				$tenants->set_paginate(array((int)$info["sr"] > $paginate ? (int)$info["sr"] : 0, $paginate));
+				break;
 		}
 
 		$tenants->set_filter($filter);
@@ -83,6 +104,21 @@ class tenants_controller
 						"total" => array("total" => $total), "row" => $data
 					)
 				);
+				break;
+			case ".autocomplete":
+				$out = array(
+					"query" => "", "suggestions" => array()
+				);
+
+				foreach ($data as $k => $value) {
+					$out["suggestions"][] = array(
+						"data" => $value,
+						"value" => sprintf("%s %s - %s ", $value["first_name"], $value["last_name"], $value["cpf"])
+					);
+				}
+
+				header('Content-type: application/json');
+				echo json_encode($out);
 				break;
 			case ".xls":
 
@@ -271,7 +307,8 @@ class tenants_controller
 			$tenant = new users_model();
 			$tenant->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$tenant->load_data();
-			$tenant->attach(array("offices", "partners"));
+			$tenant->attach(array("offices", "partners", "locations"));
+			$tenant->attach_son("locations", array("properties"));
 			$data = current($tenant->data);
 			$form = array(
 				"title" => "Editar Locatário",

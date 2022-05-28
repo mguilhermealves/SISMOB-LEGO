@@ -288,6 +288,16 @@ $propertie_types = array(
   , "other" => "Outros"
 );
 
+$type_guarantors = array(
+  "guarantor" => "Fiador",
+  "surety_bond" => "Seguro Fiança"
+);
+
+$type_works = array(
+  "clt" => "CLT",
+  "pj" => "Pessoa Juridica"
+);
+
 $propertie_objects = array(
   "sale" => "Venda"
   , "location" => "Locação"

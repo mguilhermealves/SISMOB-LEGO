@@ -36,11 +36,9 @@ $(document).ready(function () {
     if (work == 'clt') {
         $('#clt').show();
         $('#pj').hide();
-        $('#show_address_info_financeiras').show();
     } else if (work == 'pj') {
         $('#pj').show();
         $('#clt').hide();
-        $('#show_address_info_financeiras').show();
     } else {
         $('#pj').hide();
         $('#clt').hide();
@@ -111,11 +109,9 @@ $('#type_work').change(function () {
     if (status == 'clt') {
         $('#clt').show();
         $('#pj').hide();
-        $('#show_address_info_financeiras').show();
     } else if (status == 'pj') {
         $('#pj').show();
         $('#clt').hide();
-        $('#show_address_info_financeiras').show();
     } else {
         $('#pj').hide();
         $('#clt').hide();
@@ -126,17 +122,11 @@ $('#type_work').change(function () {
 $('#type_work_guarantor').change(function () {
     var status = ($(this).val());
 
-    if (status == 'clt_guarantor') {
+    if (status == 'clt') {
         $('#clt_guarantor').show();
         $('#pj_guarantor').hide();
-        $('#fiance_guarantor').hide();
-    } else if (status == 'pj_guarantor') {
+    } else if (status == 'pj') {
         $('#pj_guarantor').show();
-        $('#clt_guarantor').hide();
-        $('#fiance_guarantor').hide();
-    } else if (status == 'fiance_guarantor') {
-        $('#fiance_guarantor').show();
-        $('#pj_guarantor').hide();
         $('#clt_guarantor').hide();
     } else {
         $('#pj_guarantor').hide();

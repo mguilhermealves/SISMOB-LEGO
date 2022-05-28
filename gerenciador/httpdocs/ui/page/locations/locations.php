@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Locações e Vendas</p>
+    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Locações</p>
     <hr class="col-lg-11 mx-auto" />
 
     <!-- Button trigger modal -->
@@ -133,10 +133,10 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
-                            <td><?php print($v["first_name"] . " " . $v["last_name"]); ?></td>
-                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
-                            <td><?php print($v["city"]); ?></td>
-                            <td><?php print($v["uf"]); ?></td>
+                            <td><?php print($v["users_attach"][0]["first_name"] . " " . $v["users_attach"][0]["last_name"]); ?></td>
+                            <td><?php print($v["users_attach"][0]["address"] . ", N° " . $v["users_attach"][0]["number"]); ?></td>
+                            <td><?php print($v["users_attach"][0]["city"]); ?></td>
+                            <td><?php print($v["users_attach"][0]["uf"]); ?></td>
                             <td>
                                 <?php
                                 if ($v["is_aproved"] == "reproved" || $v["is_aproved"] == "pending") {
@@ -146,10 +146,9 @@
                                 }
                                 ?>
                             </td>
-                            <td><?php print($v["n_contract"]); ?></td>
+                            <td><?php print(isset($v["n_contract"]) ? $v["n_contract"] : "-"); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="<?php print( set_url( sprintf( $form["pattern"]["action"], $v["idx"] ) , array( "done" => urlencode( $form["pattern"]["search"] ) ) ) ) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
-                                <a class="btn btn-outline-danger btn-sm" id="btn_remove_<?php print($v["idx"]) ?>" href="<?php printf($form["pattern"]["action"], $v["idx"]) ?>"><i class="bi bi-x-circle"></i> Excluir</a>
                             </th>
                         </tr>
                     <?php

@@ -21,8 +21,7 @@ class properties_controller
 		$filter = array(" active = 'yes'");
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
-			$filter["q_name"] = " idx in (select users_properties.properties_id from users_properties where active = 'yes' and users_properties.users_id in (select users.idx from users where first_name like '%" . $info["get"]["q_name"] . "%' and idx in (select users_profiles.users_id from users_profiles where users_profiles.profiles_id in (select profiles.idx from profiles where slug = 'cliente'))))";
-			$filter["q_is_used"] = " is_used = 'no' ";
+			$filter["q_name"] = " idx in (select users_properties.properties_id from users_properties where active = 'yes' and users_properties.users_id in (select users.idx from users where first_name like '%" . $info["get"]["q_name"] . "%' and idx in (select users_profiles.users_id from users_profiles where users_profiles.profiles_id in (select profiles.idx from profiles where slug = 'cliente')))) and is_used = 'no'";
 		}
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
