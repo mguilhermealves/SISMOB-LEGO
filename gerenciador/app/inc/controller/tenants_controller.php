@@ -115,7 +115,7 @@ class tenants_controller
 				foreach ($data as $k => $value) {
 					$out["suggestions"][] = array(
 						"data" => $value,
-						"value" => sprintf("%s %s - %s ", $value["first_name"], $value["last_name"], $value["cpf"])
+						"value" => sprintf("%s %s - %s ", $value["first_name"], $value["last_name"], preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $value["cpf"]))
 					);
 				}
 

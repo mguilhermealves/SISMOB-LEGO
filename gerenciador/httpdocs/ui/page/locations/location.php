@@ -13,8 +13,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Pesquisar Proprietario:</label>
-                                    <small class="text-muted">Digite o nome do Proprietario:</small>
+                                    <label>Digite o nome do Proprietário:</label>
                                     <input type="text" class="form-control properties_search" value="<?php print(isset($data["properties_attach"][0]["users_attach"][0]) ? $data["properties_attach"][0]["users_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["users_attach"][0]["last_name"] . " (" . $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]] . ") " . " - Endereço: " . $data["properties_attach"][0]["address"] . ", N° " . $data["properties_attach"][0]["number_address"] . ", " . $data["properties_attach"][0]["complement"] . ", " . $data["properties_attach"][0]["code_postal"] . ", " . $data["properties_attach"][0]["district"] . ", " . $data["properties_attach"][0]["city"] . " - " . $data["properties_attach"][0]["uf"]: '') ?>">
                                 </div>
                             </div>
@@ -32,9 +31,8 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Pesquisar Proprietario:</label>
-                                    <small class="text-muted">Digite o nome do Proprietario:</small>
-                                    <input type="text" class="form-control tenants_search" value="<?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["first_name"] . " " . $data["users_attach"][0]["last_name"] . " (" . $data["users_attach"][0]["cpf"] . ") . " : "") ?>">
+                                    <label>Digite o nome do Locatário:</label>
+                                    <input type="text" class="form-control tenants_search" value="<?php print(isset($data["users_attach"][0]) ? $data["users_attach"][0]["first_name"] . " " . $data["users_attach"][0]["last_name"] . " (" . preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data["users_attach"][0]["cpf"]) . ") " : "") ?>">
                                 </div>
                             </div>
                         </div>
