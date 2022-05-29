@@ -44,7 +44,7 @@
           } ?>
         </ul>
 
-        <ul class="navbar-nav ml-5 mr-2 mt-5 mt-lg-0">
+        <ul class="navbar-nav">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="editUserId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php print("Bem vindo(a), " . $_SESSION[constant("cAppKey")]["credential"]["first_name"]) ?></a>
             <div class="dropdown-menu" aria-labelledby="editUserId">
