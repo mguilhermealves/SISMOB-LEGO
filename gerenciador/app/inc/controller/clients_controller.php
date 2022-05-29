@@ -333,14 +333,6 @@ class clients_controller
 
 		$info["post"]["cpf"] = preg_replace("/[^0-9]/", "", $info["post"]["cpf"]);
 
-		$validCpf = $this->validaCPF($info["post"]["cpf"]);
-
-		if (empty($validCpf)) {
-			$_SESSION["messages_app"]["warning"][] = "CPF Inválido";
-
-			basic_redir($GLOBALS["proprietaries_url"]);
-		}
-
 		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
 		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
 		$info["post"]["postalcode"] = preg_replace("/[^0-9]/", "", $info["post"]["postalcode"]);

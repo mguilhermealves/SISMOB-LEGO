@@ -352,14 +352,6 @@ class tenants_controller
 		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
 		$info["post"]["postalcode"] = preg_replace("/[^0-9]/", "", $info["post"]["postalcode"]);
 
-		$validCpf = $this->validaCPF($info["post"]["cpf"]);
-
-		if (empty($validCpf)) {
-			$_SESSION["messages_app"]["warning"][] = "CPF Inválido";
-
-			basic_redir($GLOBALS["locations_url"]);
-		}
-
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$tenant->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
