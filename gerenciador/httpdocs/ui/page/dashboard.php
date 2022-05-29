@@ -9,8 +9,8 @@
         <div class="col-lg-6 my-5">
             <div class="card text-center">
                 <div class="card-body">
-                    <h3 class="card-title">Clientes</h3>
-                    <h5 class="card-text"><?php print("Total de clientes ativos: " . $totalClients); ?></h5>
+                    <h3 class="card-title">Proprietários</h3>
+                    <h5 class="card-text"><?php print("Total: " . $totalClients); ?></h5>
                 </div>
             </div>
         </div>
@@ -18,8 +18,8 @@
         <div class="col-lg-6 my-5">
             <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Total de Imóveis</h5>
-                    <h3 class="card-text"><?php print("Ativos: " . $totalProperties); ?></h3>
+                    <h3 class="card-title">Imóveis</h3>
+                    <h5 class="card-text"><?php print("Total: " . $totalProperties); ?></h5>
                 </div>
             </div>
         </div>
@@ -27,8 +27,8 @@
         <div class="col-lg-6 my-5">
             <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Total de Locações</h5>
-                    <h3 class="card-text"><?php print("Ativos: " . $totalLocations); ?></h3>
+                    <h3 class="card-title">Locações</h3>
+                    <h5 class="card-text"><?php print("Total: " . $totalLocations); ?></h5>
                 </div>
             </div>
         </div>
@@ -36,8 +36,8 @@
         <div class="col-lg-6 my-5">
             <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Total de Vendas</h5>
-                    <h3 class="card-text"><?php print("Ativos: " . $totalSales); ?></h3>
+                    <h3 class="card-title">Vendas</h3>
+                    <h5 class="card-text"><?php print("Total: " . $totalSales); ?></h5>
                 </div>
             </div>
         </div>

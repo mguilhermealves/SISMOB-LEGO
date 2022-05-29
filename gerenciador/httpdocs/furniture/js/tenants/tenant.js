@@ -153,6 +153,34 @@ $('#type_guarantor').change(function () {
     }
 });
 
+/* CONSULTA CPF */
+$("#cpf").change(function () {
+    var cpf = $(this).val().replace(/\D/g, '');
+
+    $.ajax({
+        method: "POST",
+        url: '/consultar_cpf_tenant',
+        data: {
+            cpf: cpf
+        },
+        beforeSend: function () {
+            $(".spinner-border").show();
+        },
+        success: function (data) {
+            var jsonData = JSON.parse(data);
+            if (jsonData.error == true) {
+                $("#error_cpf").removeClass("d-none").html('<span>' + jsonData.message + '</span>').css("color", "red");
+                $("#btn_save").addClass("d-none");
+            } else {
+                $("#btn_save").removeClass("d-none");
+            }
+        },
+        complete: function () {
+            $('.spinner-border').hide();
+        }
+    });
+});
+
 /* CONSULTA CEP */
 $("#postalcode").change(function () {
 

@@ -30,7 +30,7 @@ class site_controller
 			$page = 'dashboard';
 
 			$clients = new users_model();
-			$clients->set_filter(array( " active = 'yes'", " idx in ( select users_profiles.users_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id = '7' ) "));
+			$clients->set_filter(array( " idx in ( select users_profiles.users_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id = '7' ) "));
 			list($totalClients) = $clients->return_data();
 
 			$properties = new properties_model();

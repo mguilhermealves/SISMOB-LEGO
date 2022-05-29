@@ -10,6 +10,8 @@
 
                 <input id="profiles_id" type="hidden" name="profiles_id" value="8" required>
 
+                <div class="col-lg-12 text-center mb-2 d-none" id="error_cpf"></div>
+
                 <!-- Dados do Locatário -->
                 <div class="modal-content">
                     <div class="modal-header label">
@@ -36,8 +38,8 @@
 
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <label for="document">CPF</label>
-                                            <input id="document" type="text" class="form-control document" name="cpf" value="<?php print(isset($data["cpf"]) ? $data["cpf"] : "") ?>">
+                                            <label for="cpf">CPF</label>
+                                            <input id="cpf" type="text" class="form-control document" name="cpf" value="<?php print(isset($data["cpf"]) ? $data["cpf"] : "") ?>">
                                         </div>
                                     </div>
 
@@ -626,7 +628,7 @@
                 </div>
 
                 <div class="col-sm-12 text-right">
-                    <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
+                    <button type="submit" id="btn_save" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
                 </div>
             </form>
         </div>
