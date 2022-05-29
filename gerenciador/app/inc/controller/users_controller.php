@@ -15,19 +15,17 @@ class users_controller
 	private function filter($info)
 	{
 		$done = array();
-		$filter = array(" active = 'yes' ");
+		$filter = array(" active = 'yes' ", " idx in ( select users_profiles.users_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id in (2, 3, 4, 5, 6) ) ");
 
 		if (!in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"], array(1, 2)) && !in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array('adm-premier', 'gestor-hsol'))) {
 			$profiles_id = array_keys(profiles_controller::data4select("idx", array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["idx"] . " in ( idx, parent ) ")));
 			$filter["filter_profiles"] = " idx in ( select users_profiles.trails_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id in ( '" . implode("','", $profiles_id) . "') ) ";
 		}
+
 		if (isset($info["get"]["filter_profile"]) && !empty($info["get"]["filter_profile"])) {
 			$done["filter_profile"] = $info["get"]["filter_profile"];
 			$filter["filter_profile"] = " idx in ( select users_profiles.users_id from users_profiles where users_profiles.active = 'yes' and users_profiles.profiles_id = '" . $info["get"]["filter_profile"] . "' ) ";
 		}
-
-
-
 
 		if (isset($info["get"]["q_name"]) && !empty($info["get"]["q_name"])) {
 			$filter["filter_q"] = " concat_ws(' ', first_name, last_name ) like '%" . $info["get"]["q_name"] . "%' ";
@@ -115,7 +113,7 @@ class users_controller
 		$users->attach(array("profiles"), false, null, array("idx", "name"));
 		$users->attach(array("address"));
 		$data = $users->data;
-		$profiles_lists = profiles_controller::data4select("idx", array(" idx > 2 "), "name");
+		$profiles_lists = profiles_controller::data4select("idx", array(" idx in (2, 3, 4, 5, 6) "), "name");
 
 		switch ($info["format"]) {
 			case ".autocomplete":
@@ -406,7 +404,9 @@ class users_controller
 		}
 
 		$data["tk_pwd"] = sprintf($GLOBALS["tkpwd_url"], $data["tokens_name"]);
-		$profiles_lists = profiles_controller::data4select("idx", array(" idx > 2 "), "name");
+
+		$profiles_lists = profiles_controller::data4select("idx", array(" idx in (3, 4, 5, 6) "), "name");
+		
 		$page = 'user';
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");

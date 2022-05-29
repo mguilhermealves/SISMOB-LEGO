@@ -82,11 +82,14 @@ class site_controller
 			$users->set_filter(array(" login = '" . $users->con->real_escape_string($info["post"]["login"]) . "' ", " password = '" . $users->con->real_escape_string(md5($info["post"]["password"])) . "' ", " idx in ( select users_profiles.users_id from users_profiles, profiles where profiles.active = 'yes' and users_profiles.active = 'yes' and profiles.idx = users_profiles.profiles_id ) "));
 			$users->set_paginate(array(" 1 "));
 			$users->load_data();
+
 			if (isset($users->data[0]["idx"])) {
 				$users->attach(array("profiles"), false, " limit 1 ");
+
 				$_SESSION[constant("cAppKey")] = array(
 					"credential" => current($users->data)
 				);
+				
 				$users->populate(array("last_login" => date("Y-m-d H:i:s")));
 				$users->save();
 			}

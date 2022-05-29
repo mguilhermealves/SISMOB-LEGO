@@ -153,7 +153,7 @@
     window.setTimeout(function() {
         jQuery("#btn_export").on("click", function() {
             jQuery("#frm_filter").prop({
-                "action": "<?php print(set_url($GLOBALS["clients_url"] . ".xls", $info["get"])) ?>"
+                "action": "<?php print(set_url($GLOBALS["proprietaries_url"] . ".xls", $info["get"])) ?>"
             }).submit();
         })
     }, 1000);
@@ -162,7 +162,7 @@
     window.setTimeout(function() {
         jQuery("#btn_search").on("click", function() {
             jQuery("#frm_filter").prop({
-                "action": "<?php print(set_url($GLOBALS["clients_url"])) ?>"
+                "action": "<?php print(set_url($GLOBALS["proprietaries_url"])) ?>"
             }).submit();
         })
     }, 1000);

@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Vendas</p>
+    <p class="mb-0 col-lg-6"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / Compradores</p>
     <hr class="col-lg-11 mx-auto" />
 
     <!-- Button trigger modal -->
@@ -99,8 +99,6 @@
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_uf))) ?>">UF <i class="<?php print($ordenation_uf_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_is_aproved))) ?>">Aprovado <i class="<?php print($ordenation_is_aproved_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_ncontract))) ?>">N° Contrato <i class="<?php print($ordenation_ncontract_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -133,20 +131,10 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
-                            <td><?php print($v["users_attach"][0]["first_name"] . " " . $v["users_attach"][0]["last_name"]); ?></td>
-                            <td><?php print($v["users_attach"][0]["address"] . ", N° " . $v["users_attach"][0]["number"]); ?></td>
-                            <td><?php print($v["users_attach"][0]["city"]); ?></td>
-                            <td><?php print($v["users_attach"][0]["uf"]); ?></td>
-                            <td>
-                                <?php
-                                if ($v["is_aproved"] == "reproved" || $v["is_aproved"] == "pending") {
-                                    print("Não");
-                                } else {
-                                    print("Sim");
-                                }
-                                ?>
-                            </td>
-                            <td><?php print(isset($v["n_contract"]) ? $v["n_contract"] : "-"); ?></td>
+                            <td><?php print($v["first_name"] . " " . $v["last_name"]); ?></td>
+                            <td><?php print($v["address"] . ", N° " . $v["number"]); ?></td>
+                            <td><?php print($v["city"]); ?></td>
+                            <td><?php print($v["uf"]); ?></td>
                             <th>
                                 <a type="button" class="btn btn-outline-primary btn-sm" href="<?php print( set_url( sprintf( $form["pattern"]["action"], $v["idx"] ) , array( "done" => urlencode( $form["pattern"]["search"] ) ) ) ) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                             </th>
@@ -156,8 +144,8 @@
                 } else {
                     ?>
                     <tr>
-                        <td colspan="8">
-                            <p class="alert alert-warning text-center">Nenhuma venda encontrada...</p>
+                        <td colspan="6">
+                            <p class="alert alert-warning text-center">Nenhum(a) comprador(a) encontrado(a) ...</p>
                         </td>
                     </tr>
                 <?php
@@ -173,7 +161,7 @@
     window.setTimeout(function() {
         jQuery("#btn_export").on("click", function() {
             jQuery("#frm_filter").prop({
-                "action": "<?php print(set_url($GLOBALS["sales_url"] . ".xls", $info["get"])) ?>"
+                "action": "<?php print(set_url($GLOBALS["locations_url"] . ".xls", $info["get"])) ?>"
             }).submit();
         })
     }, 1000);
@@ -182,7 +170,7 @@
     window.setTimeout(function() {
         jQuery("#btn_search").on("click", function() {
             jQuery("#frm_filter").prop({
-                "action": "<?php print(set_url($GLOBALS["sales_url"])) ?>"
+                "action": "<?php print(set_url($GLOBALS["locations_url"])) ?>"
             }).submit();
         })
     }, 1000);

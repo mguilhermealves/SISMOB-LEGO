@@ -18,7 +18,7 @@ jQuery(function () {
     $('.document').mask("999.999.999-99");
 
     $(".clients_search").autocomplete({
-        serviceUrl: '<?php print($GLOBALS["clients_url"]) ?>.autocomplete',
+        serviceUrl: '<?php print($GLOBALS["proprietaries_url"]) ?>.autocomplete',
         autoFocus: true,
         minChars: 3,
         deferRequestBy: 5,

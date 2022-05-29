@@ -161,9 +161,7 @@
                 <!-- Dados do Imovel -->
                 <div class="modal-content">
                     <div class="modal-header label">
-                        <h5 class="modal-title ">Dados do Imovel <?php if (isset($data["idx"]) && $data["idx"] > 0) {
-                                                                        print("N° " . $data["idx"]);
-                                                                    } ?></h5>
+                        <h5 class="modal-title ">Dados do Imovel</h5>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
@@ -298,13 +296,6 @@
                                                 }
                                                 ?>
                                             </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4" name="is_financer">
-                                        <div class="form-group">
-                                            <label>Nome da Financiadora</label>
-                                            <input type="text" name="financer_name" class="form-control" value="<?php print(isset($data["financer_name"]) ? $data["financer_name"] : "") ?>" autofocus>
                                         </div>
                                     </div>
 

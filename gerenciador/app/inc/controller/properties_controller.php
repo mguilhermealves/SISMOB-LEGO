@@ -87,7 +87,6 @@ class properties_controller
 		switch ($info["format"]) {
 			case ".autocomplete":
 				$properties->set_paginate(array(0, 12));
-				$info["get"]["q_is_used"] = 'no';
 
 				if (isset($info["get"]["query"]) && strlen(addslashes($info["get"]["query"]))) {
 					$query = preg_replace("/\[+?|\]+?/", "", toUtf8($info["get"]["query"]));
@@ -460,7 +459,7 @@ class properties_controller
 		$boiler->populate($info["post"]);
 		$boiler->save();
 
-		$boiler->save_attach($info, array("users"), true);
+		$boiler->save_attach(array("idx" => $info["idx"], "post" => array("users_id" =>  $info["post"]["users_id"])), array("users"), true);
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

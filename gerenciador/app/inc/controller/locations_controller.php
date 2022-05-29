@@ -174,7 +174,8 @@ class locations_controller
 				$sidebar_color = "rgba(218, 165, 32, 1)";
 
 				$form = array(
-					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["locations_url"], $done) : $GLOBALS["locations_url"]), "pattern" => array(
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["locations_url"], $done) : $GLOBALS["locations_url"]),
+					"pattern" => array(
 						"new" => $GLOBALS["newlocation_url"],
 						"action" => $GLOBALS["location_url"],
 						"search" => !empty($info["get"]) ? set_url($GLOBALS["locations_url"], $info["get"]) : $GLOBALS["locations_url"]

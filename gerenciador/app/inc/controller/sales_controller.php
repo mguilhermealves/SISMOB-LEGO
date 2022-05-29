@@ -78,8 +78,7 @@ class sales_controller
 		$sales->set_order(array($ordenation));
 
 		list($total, $data) = $sales->return_data();
-		$sales->attach(array("offices", "partners", "properties"));
-		$sales->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+		$sales->attach(array("users"), true);
 		$data = $sales->data;
 
 		switch ($info["format"]) {
@@ -206,8 +205,9 @@ class sales_controller
 			$sale = new sales_model();
 			$sale->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$sale->load_data();
-			$sale->attach(array("offices", "partners", "properties"));
-			$sale->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+			$sale->attach(array("users"), true);
+			$sale->attach(array("properties"));
+			$sale->attach_son("properties", array("users"), true);
 			$data = current($sale->data);
 			$form = array(
 				"title" => "Editar Venda",
@@ -222,7 +222,8 @@ class sales_controller
 			);
 		}
 
-		$sidebar_color = "rgba(218, 165, 32, 1)";
+		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["sales_url"];
+
 		$page = 'Venda';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
@@ -248,17 +249,10 @@ class sales_controller
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
 
-		$info["post"]["document"] = preg_replace("/[^0-9]/", "", $info["post"]["document"]);
-		$info["post"]["phone"] = preg_replace("/[^0-9]/", "", $info["post"]["phone"]);
-		$info["post"]["celphone"] = preg_replace("/[^0-9]/", "", $info["post"]["celphone"]);
-		$info["post"]["code_postal"] = preg_replace("/[^0-9]/", "", $info["post"]["code_postal"]);
-
 		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
 			$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");
 
 			$payment = new payments_model();
-
-			$info["post"]["day_due"] = $info["post"]["day_due"];
 
 			$payment->populate($info["post"]);
 			$payment->save();
@@ -285,21 +279,6 @@ class sales_controller
 		}
 
 		$sale->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["cod_propertie"])), array("properties"));
-
-		/* save office */
-		$office = new offices_model();
-		$office->populate($info["post"]["offices"]);
-		$office->save();
-		$info["offices_id"] = $office->con->insert_id;
-
-		$sale->save_attach(array("idx" => $info["idx"], "post" => array("offices_id" => $info["offices_id"])), array("offices"));
-
-		/* save partner */
-		$partner = new partners_model();
-		$partner->populate($info["post"]["partner"]);
-		$partner->save();
-		$info["partners_id"] = $office->con->insert_id;
-		$sale->save_attach(array("idx" => $info["idx"], "post" => array("partners_id" => $info["partners_id"])), array("partner"));
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
