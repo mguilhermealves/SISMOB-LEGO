@@ -340,17 +340,6 @@ class clients_controller
 		if (isset($info["idx"]) && (int)$info["idx"] > 0) {
 			$client->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
-		} else {
-			$consult_client = new users_model();
-			$consult_client->set_filter(array(" cpf = '" . $info["post"]["cpf"] . "' "));
-			$consult_client->load_data();
-			$data = current($consult_client->data);
-
-			if (!empty($data)) {
-				$_SESSION["messages_app"]["warning"][] = "Já existe um cadastro com esse CPF, favor verificar!";
-
-				basic_redir($GLOBALS["proprietaries_url"]);
-			}
 		}
 
 		$client->populate($info["post"]);
