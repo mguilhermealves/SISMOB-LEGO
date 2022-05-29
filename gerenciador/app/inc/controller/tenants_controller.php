@@ -731,9 +731,18 @@ class tenants_controller
 			$client->load_data();
 			$client->attach(array("profiles"), null, "and slug = 'locatario' ");
 			$data = current($client->data);
-	
+
 			if (isset($client->data[0])) {
-				$error = array('error' => true, "message" => "Usuário não encontrato ou já utilizado na base.");
+				$error = array(
+					'error' => true,
+					"message" => "Usuário não encontrato ou já utilizado na base."
+				);
+				return print(json_encode($error));
+			} else {
+				$error = array(
+					'error' => false,
+					"message" => ""
+				);
 				return print(json_encode($error));
 			}
 		}

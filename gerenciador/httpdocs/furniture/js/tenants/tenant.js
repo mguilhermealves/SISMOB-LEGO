@@ -172,6 +172,7 @@ $("#cpf").change(function () {
                 $("#error_cpf").removeClass("d-none").html('<span>' + jsonData.message + '</span>').css("color", "red");
                 $("#btn_save").addClass("d-none");
             } else {
+                $("#error_cpf").addClass("d-none");
                 $("#btn_save").removeClass("d-none");
             }
         },

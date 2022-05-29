@@ -48,7 +48,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="editUserId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php print("Bem vindo(a), " . $_SESSION[constant("cAppKey")]["credential"]["first_name"]) ?></a>
             <div class="dropdown-menu" aria-labelledby="editUserId">
-              <a class="dropdown-item" href="#">Dados</a>
+              <a class="dropdown-item" href="<?php printf($GLOBALS["user_url"], $_SESSION[constant("cAppKey")]["credential"]["idx"]) ?>">Meus Dados</a>
             </div>
           </li>
 

@@ -157,7 +157,7 @@
                     ?>
                     <tr>
                         <td colspan="8">
-                            <p class="alert alert-warning text-center">Nenhuma locação encontrada...</p>
+                            <p class="alert alert-warning text-center">Nenhuma venda encontrada...</p>
                         </td>
                     </tr>
                 <?php
