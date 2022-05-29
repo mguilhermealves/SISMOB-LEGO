@@ -186,32 +186,6 @@
                         <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
                     </div>
                 </form>
-
-                <br>
-
-                <?php
-                if (isset($data["is_aproved"]) && $data["is_aproved"] == 'approved') { ?>
-                    <form action="<?php print($form["donwload_contract"]) ?>" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="idx" value="<?php print($data["idx"]) ?>">
-
-                        <div class="modal-content" id="status">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Contrato de Locação</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="row col-lg-12">
-                                            <div class="col-sm-12">
-                                                <button type="submit" class="btn btn-outline-primary btn-sm">Download Contrato</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                <?php } ?>
             </div>
         </div>
     </div>

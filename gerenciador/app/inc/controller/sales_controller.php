@@ -250,7 +250,7 @@ class sales_controller
 		}
 
 		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
-			$info["post"]["n_contract"] = $info["idx"] . date("YmdHis");
+			$info["post"]["n_contract"] = $info["idx"];
 
 			$payment = new payments_model();
 
@@ -265,9 +265,9 @@ class sales_controller
 			$info["post"]["properties"]["is_used"] = "yes";
 
 			$propertie = new properties_model();
-			$propertie->set_filter(array(" idx = '" . $info["post"]["cod_propertie"] . "' "));
+			$propertie->set_filter(array(" idx = '" . $info["post"]["properties_id"] . "' "));
 
-			$propertie->populate($info["post"]["properties"]);
+			$propertie->populate($info["post"]);
 			$propertie->save();
 		}
 
