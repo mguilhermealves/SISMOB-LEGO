@@ -302,7 +302,7 @@ class locations_controller
 		}
 
 		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["locations_url"];
-		
+
 		$page = 'Locação e Venda';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
