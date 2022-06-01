@@ -173,11 +173,11 @@ class locations_in_progress_controller
 				$page = 'Locações e Vendas';
 
 				$form = array(
-					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["location_inprogress_url"], $done) : $GLOBALS["location_inprogress_url"]),
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["locations_inprogress_url"], $done) : $GLOBALS["locations_inprogress_url"]),
 					"pattern" => array(
 						"new" => $GLOBALS["newlocationinprogress_url"],
 						"action" => $GLOBALS["location_inprogress_url"],
-						"search" => !empty($info["get"]) ? set_url($GLOBALS["location_inprogress_url"], $info["get"]) : $GLOBALS["location_inprogress_url"]
+						"search" => !empty($info["get"]) ? set_url($GLOBALS["locations_inprogress_url"], $info["get"]) : $GLOBALS["locations_inprogress_url"]
 					)
 				);
 
@@ -261,9 +261,9 @@ class locations_in_progress_controller
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
 				print('    data_location_json = {' . "\n");
-				print('        url: "' . $GLOBALS["location_inprogress_url"] . '.json"' . "\n");
+				print('        url: "' . $GLOBALS["locations_inprogress_url"] . '.json"' . "\n");
 				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["location_inprogress_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
+				print('        , action: "' . set_url($GLOBALS["locations_inprogress_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
 				print('        , template: ""' . "\n");
 				print('        , page: 1' . "\n");
 				print('    }' . "\n");
@@ -301,7 +301,7 @@ class locations_in_progress_controller
 			);
 		}
 
-		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["location_inprogress_url"];
+		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["locations_inprogress_url"];
 
 		$page = 'Locação em Andamento';
 

@@ -89,7 +89,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" id="basic-addon1">R$</span>
                                                     </div>
-                                                    <input type="text" id="price_condominium" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]) ? $data["price_condominium"] : "") ?>" class="form-control" disabled>
+                                                    <input type="text" id="price_condominium" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["price_condominium"] : "") ?>" class="form-control" disabled>
                                                 </div>
                                             </div>
                                         </div>
