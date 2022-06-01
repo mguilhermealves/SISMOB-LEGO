@@ -134,7 +134,7 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["locations_attach"][0]["n_contract"]); ?></td>
-                            <td><?php print($v["locations_attach"][0]["first_name"] . " " . $v["locations_attach"][0]["last_name"]); ?></td>
+                            <td><?php print($v["locations_attach"][0]["users_attach"][0]["first_name"] . " " . $v["locations_attach"][0]["users_attach"][0]["last_name"]); ?></td>
                             <td><?php print($GLOBALS["propertie_objects"][$v["locations_attach"][0]["properties_attach"][0]["object_propertie"]]); ?></td>
                             <td><?php print($GLOBALS["payment_method"][$v["payment_method"]]); ?></td>
                             <td><?php print("R$ " . number_format($v["amount"], 2, ".", ",")); ?></td>

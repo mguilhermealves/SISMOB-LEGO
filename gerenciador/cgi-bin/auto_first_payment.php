@@ -30,15 +30,14 @@ $clientSecret = 'Client_Secret_0c6477c6f0e9bc98d107f99a68c428c6b8f5e4ea'; // inf
 
 $locations = new locations_model();
 $locations->load_data();
+$locations->attach(array("users"), true);
 $locations->attach(array("properties", "payments"));
-$locations->attach_son("properties", array("clients"), true, null, array("idx", "name"));
-
-$resto = 0;
+$locations->attach_son("properties", array("users"), true);
 
 foreach ($locations->data as $k => $v) {
 
     if ($v["properties_attach"][0]["object_propertie"] == "location") {
-        if (empty($v["payments_attach"][0]) && $v["payment_method"] == "ticket") {
+        if (empty($v["payments_attach"][0]) && $v["payment_method"] == "ticket" && $v["in_progress"] == "no") {
             $dateNow = date("Y-m-d");
             $due = date('Y-m-' . $v["day_due"]);
             $sumOneMonth = date('Y-m-d', strtotime($due . ' + 1 month'));
@@ -59,7 +58,7 @@ foreach ($locations->data as $k => $v) {
             ];
 
             $item_1 = [
-                'name' => $v["first_name"] . " " . $v["last_name"],
+                'name' => $v["users_attach"][0]["first_name"] . " " . $v["users_attach"][0]["last_name"],
                 'amount' => 1,
                 'value' => (int) $v["properties_attach"][0]["price_location"]
             ];
@@ -69,10 +68,10 @@ foreach ($locations->data as $k => $v) {
             ];
 
             $customer = [
-                'name' => $v["first_name"] . " " . $v["last_name"],
-                'cpf' => $v["document"],
-                'phone_number' => $v["phone"],
-                'email' => $v["mail"]
+                'name' => $v["users_attach"][0]["first_name"] . " " . $v["users_attach"][0]["last_name"],
+                'cpf' => $v["users_attach"][0]["cpf"],
+                'phone_number' => $v["users_attach"][0]["phone"],
+                'email' => $v["users_attach"][0]["mail"]
             ];
 
             $configurations = [ // configurações de juros e mora
@@ -102,9 +101,7 @@ foreach ($locations->data as $k => $v) {
                 $info["post"]["amount"] = $price_location + $price_iptu;
                 $info["post"]["day_due"] = $v["day_due"];
                 $info["post"]["payment_method"] = $v["payment_method"];
-                $info["post"]["amount"] = $price_location + $price_iptu;
-                $info["post"]["day_due"] = $v["day_due"];
-                $info["post"]["payment_method"] = $v["payment_method"];
+                
                 $info["post"]["barcode"] = $pay_charge["data"]["barcode"];
                 $info["post"]["link"] = $pay_charge["data"]["link"];
                 $info["post"]["pdf"] = $pay_charge["data"]["pdf"]["charge"];

@@ -213,41 +213,54 @@
                                         </div>
                                     </div>
 
-                                    <?php if (isset($historic)) { ?>
+                                    <?php
+                                    print('<div class="col-lg-12 mt-3">');
+                                    print('<p class="lead"> Historico de Cobrança </p>');
+                                    if (!empty($historic)) { ?>
 
-                                        <div class="col-lg-12 mt-3">
-
-                                            <p class="lead">
-                                                Historico de Cobrança
-                                            </p>
-
-                                            <table class="table">
-                                                <thead>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Data</th>
+                                                    <th>Mensagem</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($historic as $v) { ?>
                                                     <tr>
-                                                        <th>Data</th>
-                                                        <th>Mensagem</th>
+                                                        <td scope="row"><?php print(date_format(new DateTime($v["created_at"]), "d/m/Y H:i:s")) ?></td>
+                                                        <td><?php print($v["message"]) ?></td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php foreach ($historic as $v) { ?>
-                                                        <tr>
-                                                            <td scope="row"><?php print(date_format(new DateTime($v["created_at"]), "d/m/Y H:i:s")) ?></td>
-                                                            <td><?php print($v["message"]) ?></td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                    <?php } ?>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
                                 </div>
+
+                            <?php } else { ?>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Mensagem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p class="alert alert-warning text-center">Histórico ainda não está disponível, tente novamente.</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <?php }  ?>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php } ?>
             </div>
+        <?php } ?>
     </div>
+</div>
 </div>
 <style>
     .blockquote p {
