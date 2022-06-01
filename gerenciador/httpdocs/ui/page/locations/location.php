@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print(set_url($info["get"]["done"])) ?>">Locações</a> / <?php print($form["title"]) ?></p>
+    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print(set_url($info["get"]["done"])) ?>">Locações e Vendas</a> / <?php print($form["title"]) ?></p>
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
 
@@ -14,7 +14,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Digite o nome do Proprietário:</label>
-                                    <input type="text" class="form-control properties_search" value="<?php print(isset($data["properties_attach"][0]["users_attach"][0]) ? $data["properties_attach"][0]["users_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["users_attach"][0]["last_name"] . " (" . $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]] . ") " . " - Endereço: " . $data["properties_attach"][0]["address"] . ", N° " . $data["properties_attach"][0]["number_address"] . ", " . $data["properties_attach"][0]["complement"] . ", " . $data["properties_attach"][0]["code_postal"] . ", " . $data["properties_attach"][0]["district"] . ", " . $data["properties_attach"][0]["city"] . " - " . $data["properties_attach"][0]["uf"]: '') ?>">
+                                    <input type="text" class="form-control properties_search" value="<?php print(isset($data["properties_attach"][0]["users_attach"][0]) ? $data["properties_attach"][0]["users_attach"][0]["first_name"] . " " . $data["properties_attach"][0]["users_attach"][0]["last_name"] . " (" . $GLOBALS["propertie_objects"][$data["properties_attach"][0]["object_propertie"]] . ") " . " - Endereço: " . $data["properties_attach"][0]["address"] . ", N° " . $data["properties_attach"][0]["number_address"] . ", " . $data["properties_attach"][0]["complement"] . ", " . $data["properties_attach"][0]["code_postal"] . ", " . $data["properties_attach"][0]["district"] . ", " . $data["properties_attach"][0]["city"] . " - " . $data["properties_attach"][0]["uf"] : '') ?>">
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-4" id="is_apartmant">
+                                        <div class="col-lg-4 is_apartmant">
                                             <div class="form-group">
                                                 <label>Valor do Condominio</label>
                                                 <div class="input-group mb-3">
@@ -229,7 +229,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-4" id="is_apartmant">
+                                        <div class="col-lg-4 is_apartmant">
                                             <div class="form-group">
                                                 <label>Valor do Condominio</label>
                                                 <div class="input-group mb-3">
@@ -238,6 +238,16 @@
                                                     </div>
                                                     <input type="text" id="" name="price_condominium" value="<?php print(isset($data["properties_attach"][0]) ? number_format($data["properties_attach"][0]["price_condominium"], 2, ".", ",") : "") ?>" class="form-control price_condominium" disabled>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4" id="sale">
+                                            <label>Porcentagem da Comissão</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">%</span>
+                                                </div>
+                                                <input type="text" name="porcent_propertie" class="form-control percent" value="<?php print(isset($data["properties_attach"][0]) ? $data["properties_attach"][0]["porcent_propertie"] : "") ?>" disabled>
                                             </div>
                                         </div>
 
@@ -263,20 +273,6 @@
                                                     <?php
                                                     foreach ($GLOBALS["propertie_types"] as $k => $v) {
                                                         printf('<option %s value="%s">%s</option>', isset($data["properties_attach"][0]["type_propertie"]) && $k == $data["properties_attach"][0]["type_propertie"] ? ' selected' : '', $k, $v);
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="day_due">Melhor dia para Vencimento</label>
-                                                <select name="day_due" id="day_due_sale" class="form-control">
-                                                    <option value="">Selecione</option>
-                                                    <?php
-                                                    for ($i = 1; $i <= 31; $i++) {
-                                                        printf('<option %s value="%s">%s</option>', isset($data["day_due"]) && $i == $data["day_due"] ? ' selected' : '', $i, $i);
                                                     }
                                                     ?>
                                                 </select>
@@ -361,7 +357,7 @@
                 <br>
 
                 <?php
-                if (isset($data["is_aproved"]) && $data["is_aproved"] == 'approved') { ?>
+                if (isset($data["is_aproved"]) && $data["is_aproved"] == 'approved' && $data["properties_attach"][0]["object_propertie"] == "location") { ?>
                     <form action="<?php print($form["donwload_contract"]) ?>" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="idx" value="<?php print($data["idx"]) ?>">
 

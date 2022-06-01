@@ -196,7 +196,7 @@ class tenants_controller
 				exit();
 				break;
 			default:
-				$page = 'Locatários';
+				$page = 'Locatários e Compradores';
 
 				$form = array(
 					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["tenants_url"], $done) : $GLOBALS["tenants_url"]), "pattern" => array(
@@ -313,13 +313,13 @@ class tenants_controller
 			$tenant->attach_son("locations", array("properties"));
 			$data = current($tenant->data);
 			$form = array(
-				"title" => "Editar Locatário",
+				"title" => "Editar Locatário e Comprador",
 				"url" => sprintf($GLOBALS["tenant_url"], $info["idx"])
 			);
 		} else {
 			$data = array();
 			$form = array(
-				"title" => "Cadastrar Locatário",
+				"title" => "Cadastrar Locatário e Comprador",
 				"url" => $GLOBALS["newtenant_url"]
 			);
 		}

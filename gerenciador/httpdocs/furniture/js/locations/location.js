@@ -10,6 +10,10 @@ $(document).ready(function () {
         reverse: true
     });
 
+    $('.percent').mask('#.##0,00', {
+        reverse: true
+    });
+
     $('.document').mask("999.999.999-99");
     $('.phone').mask("(99) 9999-9999");
     $('.celphone').mask("(99) 99999-9999");
@@ -57,26 +61,21 @@ $(document).ready(function () {
                 $("#sale").hide();
                 $("#day_due_sale").prop("disabled", true);
                 $("#payment_method_sale").prop("disabled", true);
-            } else {
+            } else if (type == 'sale') {
+                $("#sale").show();
+                $("#day_due_sale").prop("disabled", false);
+                $("#payment_method_sale").prop("disabled", false);
                 $("#location").hide();
                 $("#day_due_location").prop("disabled", true);
                 $("#payment_method_location").prop("disabled", true);
+            } else {
+                $("#sale").hide();
+                $("#day_due_sale").prop( "disabled", false );
+                $("#payment_method_sale").prop( "disabled", false );
+                $("#location").hide();
+                $("#day_due_location").prop( "disabled", true );
+                $("#payment_method_location").prop( "disabled", true );
             }
-            // else if (type == 'sale') {
-            //     $("#sale").show();
-            //     $("#day_due_sale").prop("disabled", false);
-            //     $("#payment_method_sale").prop("disabled", false);
-            //     $("#location").hide();
-            //     $("#day_due_location").prop("disabled", true);
-            //     $("#payment_method_location").prop("disabled", true);
-            // } else {
-            //     $("#sale").hide();
-            //     $("#day_due_sale").prop( "disabled", false );
-            //     $("#payment_method_sale").prop( "disabled", false );
-            //     $("#location").hide();
-            //     $("#day_due_location").prop( "disabled", true );
-            //     $("#payment_method_location").prop( "disabled", true );
-            // }
         }
     });
 
@@ -138,12 +137,12 @@ $(document).ready(function () {
         $('#number_contract_aproved').hide();
     }
 
-    var object_propertie = ($('#object_propertie_searh').val());
+    var object_propertie = ($('.type_propertie').val());
 
     if (object_propertie == 'apartmant') {
-        $('#is_apartmant').show();
+        $('.is_apartmant').show();
     } else {
-        $('#is_apartmant').hide();
+        $('.is_apartmant').hide();
     }
 });
 

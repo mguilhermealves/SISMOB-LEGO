@@ -170,8 +170,7 @@ class locations_controller
 				exit();
 				break;
 			default:
-				$page = 'Locações';
-				$sidebar_color = "rgba(218, 165, 32, 1)";
+				$page = 'Locações e Vendas';
 
 				$form = array(
 					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["locations_url"], $done) : $GLOBALS["locations_url"]),
@@ -290,21 +289,20 @@ class locations_controller
 			$location->attach_son("properties", array("users"), true);
 			$data = current($location->data);
 			$form = array(
-				"title" => "Editar Locação",
+				"title" => "Editar Locação e Venda",
 				"url" => sprintf($GLOBALS["location_url"], $info["idx"]),
 				"donwload_contract" => $GLOBALS["location_contract_url"]
 			);
 		} else {
 			$data = array();
 			$form = array(
-				"title" => "Cadastrar Locação",
+				"title" => "Cadastrar Locação e Venda",
 				"url" => $GLOBALS["newlocation_url"]
 			);
 		}
 
 		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["locations_url"];
-
-		$sidebar_color = "rgba(218, 165, 32, 1)";
+		
 		$page = 'Locação e Venda';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");

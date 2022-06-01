@@ -1,6 +1,6 @@
 <!-- Container Begin -->
 <div class="row">
-    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print(set_url($info["get"]["done"])) ?>">Locatários</a> / <?php print($form["title"]) ?></p>
+    <p class="mb-0 col-lg-12"><a href="<?php print($GLOBALS["home_url"]) ?>">Home</a> / <a href="<?php print(set_url($info["get"]["done"])) ?>">Locatários e Compradores</a> / <?php print($form["title"]) ?></p>
     <div class="container-fluid box solaris-head mt-5">
         <div class="box-body">
             <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
@@ -15,7 +15,7 @@
                 <!-- Dados do Locatário -->
                 <div class="modal-content">
                     <div class="modal-header label">
-                        <h5 class="modal-title ">Dados do Locatário</h5>
+                        <h5 class="modal-title ">Dados do Locatário/Comprador</h5>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
@@ -107,7 +107,7 @@
                 <!-- Endereço do Locatário -->
                 <div class="modal-content">
                     <div class="modal-header label">
-                        <h5 class="modal-title ">Endereço do Locatário</h5>
+                        <h5 class="modal-title ">Endereço do Locatário/Comprador</h5>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
@@ -641,7 +641,7 @@
                     <!-- Dados do Locatário -->
                     <div class="modal-content">
                         <div class="modal-header label">
-                            <h5 class="modal-title ">Imóveis do Locatário</h5>
+                            <h5 class="modal-title ">Imóveis</h5>
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
