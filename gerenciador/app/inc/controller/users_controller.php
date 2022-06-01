@@ -87,7 +87,7 @@ class users_controller
 					break;
 			}
 		}
-		$sidebar_color = "rgba(132, 132, 132, 1)";
+
 		list($done, $filter) = $this->filter($info);
 		$users = new users_model();
 		//   switch ($info["format"]) {
@@ -113,6 +113,7 @@ class users_controller
 		$users->attach(array("profiles"), false, null, array("idx", "name"));
 		$users->attach(array("address"));
 		$data = $users->data;
+
 		$profiles_lists = profiles_controller::data4select("idx", array(" idx in (2, 3, 4, 5, 6) "), "name");
 
 		switch ($info["format"]) {
@@ -216,7 +217,6 @@ class users_controller
 				break;
 			default:
 				$page = 'users';
-
 
 				$p = array();
 				foreach ($profiles_lists as $k => $v) {
@@ -362,8 +362,6 @@ class users_controller
 		if (!site_controller::check_login()) {
 			basic_redir($GLOBALS["home_url"]);
 		}
-
-		$sidebar_color = "rgba(132, 132, 132, 1)";
 
 		if (isset($info["idx"])) {
 			$users = new users_model();

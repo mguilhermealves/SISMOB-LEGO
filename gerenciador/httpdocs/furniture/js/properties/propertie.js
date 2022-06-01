@@ -24,7 +24,7 @@ jQuery(function () {
         deferRequestBy: 5,
         noCache: true,
         onSelect: function (sugestion) {
-            $("#clients_id").val(sugestion.data.idx);
+            $("#users_id").val(sugestion.data.idx);
             $("#clients_first_name").html(sugestion.data.first_name);
             $("#clients_last_name").html(sugestion.data.last_name);
             $("#clients_mail").html(sugestion.data.mail);

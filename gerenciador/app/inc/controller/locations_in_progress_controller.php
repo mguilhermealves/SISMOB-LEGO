@@ -2,7 +2,7 @@
 
 use Dompdf\Dompdf;
 
-class locations_controller
+class locations_in_progress_controller
 {
 	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "")
 	{
@@ -21,7 +21,7 @@ class locations_controller
 	private function filter($info)
 	{
 		$done = array();
-		$filter = array(" active = 'yes' ", "in_progress = 'no'");
+		$filter = array(" active = 'yes' ", "in_progress = 'yes'");
 
 		if (isset($info["get"]["paginate"]) && !empty($info["get"]["paginate"])) {
 			$done["paginate"] = $info["get"]["paginate"];
@@ -173,11 +173,11 @@ class locations_controller
 				$page = 'Locações e Vendas';
 
 				$form = array(
-					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["locations_url"], $done) : $GLOBALS["locations_url"]),
+					"done" => rawurlencode(!empty($done) ? set_url($GLOBALS["location_inprogress_url"], $done) : $GLOBALS["location_inprogress_url"]),
 					"pattern" => array(
-						"new" => $GLOBALS["newlocation_url"],
-						"action" => $GLOBALS["location_url"],
-						"search" => !empty($info["get"]) ? set_url($GLOBALS["locations_url"], $info["get"]) : $GLOBALS["locations_url"]
+						"new" => $GLOBALS["newlocationinprogress_url"],
+						"action" => $GLOBALS["location_inprogress_url"],
+						"search" => !empty($info["get"]) ? set_url($GLOBALS["location_inprogress_url"], $info["get"]) : $GLOBALS["location_inprogress_url"]
 					)
 				);
 
@@ -256,14 +256,14 @@ class locations_controller
 
 				include(constant("cRootServer") . "ui/common/header.inc.php");
 				include(constant("cRootServer") . "ui/common/head.inc.php");
-				include(constant("cRootServer") . "ui/page/locations/locations.php");
+				include(constant("cRootServer") . "ui/page/locations/in_progress/locations.php");
 				include(constant("cRootServer") . "ui/common/footer.inc.php");
 				include(constant("cRootServer") . "ui/common/list_actions.php");
 				print('<script>' . "\n");
 				print('    data_location_json = {' . "\n");
-				print('        url: "' . $GLOBALS["locations_url"] . '.json"' . "\n");
+				print('        url: "' . $GLOBALS["location_inprogress_url"] . '.json"' . "\n");
 				print('        , data: ' . json_encode($done) . "\n");
-				print('        , action: "' . set_url($GLOBALS["location_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
+				print('        , action: "' . set_url($GLOBALS["location_inprogress_url"], array("done" => rawurlencode($form["done"]))) . '"' . "\n");
 				print('        , template: ""' . "\n");
 				print('        , page: 1' . "\n");
 				print('    }' . "\n");
@@ -289,25 +289,25 @@ class locations_controller
 			$location->attach_son("properties", array("users"), true);
 			$data = current($location->data);
 			$form = array(
-				"title" => "Editar Locação e Venda",
-				"url" => sprintf($GLOBALS["location_url"], $info["idx"]),
+				"title" => "Editar Locação em Andamento",
+				"url" => sprintf($GLOBALS["location_inprogress_url"], $info["idx"]),
 				"donwload_contract" => $GLOBALS["location_contract_url"]
 			);
 		} else {
 			$data = array();
 			$form = array(
-				"title" => "Cadastrar Locação e Venda",
-				"url" => $GLOBALS["newlocation_url"]
+				"title" => "Cadastrar Locação em Andamento",
+				"url" => $GLOBALS["newlocationinprogress_url"]
 			);
 		}
 
-		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["locations_url"];
+		$info["get"]["done"] = isset($info["get"]["done"]) ? rawurldecode($info["get"]["done"]) : $GLOBALS["location_inprogress_url"];
 
-		$page = 'Locação e Venda';
+		$page = 'Locação em Andamento';
 
 		include(constant("cRootServer") . "ui/common/header.inc.php");
 		include(constant("cRootServer") . "ui/common/head.inc.php");
-		include(constant("cRootServer") . "ui/page/locations/location.php");
+		include(constant("cRootServer") . "ui/page/locations/in_progress/location.php");
 		include(constant("cRootServer") . "ui/common/footer.inc.php");
 		print("<script>");
 		include(constant("cRootServer") . "furniture/js/locations/location.js");
@@ -328,27 +328,30 @@ class locations_controller
 			$info["post"]["modified_at"] = date("Y-m-d H:i:s");
 		}
 
-		// is approved
-		if (isset($info["post"]["is_aproved"]) && $info["post"]["is_aproved"] == "approved") {
-			$location->load_data();
-			$location->attach(array("users"), true);
-			$location->attach(array("properties"));
-			$location->attach_son("properties", array("users"), true);
-			$data = current($location->data);
+		$info["post"]["is_aproved"] = "approved";
+		$info["post"]["in_progress"] = "yes";
 
-			if (empty($data["aproved_at"])) {
-				$info["post"]["n_contract"] = $info["idx"];
+		// is approved
+		if ($info["post"]["is_aproved"] == "approved") {
+			$boiler = new locations_model();
+			$boiler->load_data();
+			$boiler->attach(array("users"), true);
+			$boiler->attach(array("properties"));
+			$boiler->attach_son("properties", array("users"), true);
+			$data = current($boiler->data);
+
+			$propertie = new properties_model();
+			$propertie->set_filter(array(" idx = '" . $data["properties_attach"][0]["idx"] . "' "));
+
+			if (!empty($data["aproved_at"])) {
 				$info["post"]["aproved_by"] = $_SESSION[constant("cAppKey")]["credential"]["idx"];
 				$info["post"]["aproved_at"] = date("Y-m-d H:i:s");
 
 				/* update is used propertie */
-				$info["post"]["is_used"] = "yes";
+				$info["post"]["propertie"]["is_used"] = "yes";
 
-				$boiler = new properties_model();
-				$boiler->set_filter(array(" idx = '" . $data["properties_attach"][0]["idx"] . "' "));
-
-				$boiler->populate($info["post"]);
-				$boiler->save();
+				$propertie->populate($info["post"]["propertie"]);
+				$propertie->save();
 			}
 		}
 
@@ -367,7 +370,7 @@ class locations_controller
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);
 		} else {
-			basic_redir($GLOBALS["locations_url"]);
+			basic_redir($GLOBALS["locations_inprogress_url"]);
 		}
 	}
 
@@ -463,6 +466,6 @@ class locations_controller
 			$propertie->remove();
 		}
 
-		basic_redir($GLOBALS["locations_url"]);
+		basic_redir($GLOBALS["location_inprogress_url"]);
 	}
 }

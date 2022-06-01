@@ -23,7 +23,7 @@
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label for="first_name">
-                              Primeiro Nome:
+                              Nome:
                            </label>
                            <input id="first_name" type="text" class="form-control" name="first_name" value="<?php print(isset($data["first_name"]) ? $data["first_name"] : "") ?>" required>
                         </div>
@@ -32,7 +32,7 @@
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label for="last_name">
-                              Último Nome:
+                              Sobrenome:
                            </label>
                            <input id="last_name" type="text" class="form-control" name="last_name" value="<?php print(isset($data["last_name"]) ? $data["last_name"] : "") ?>" required>
                         </div>
@@ -232,9 +232,9 @@
                         </div>
                      </div>
 
-                     <!-- <?php
-                           if (in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array("master", "adm"))) {
-                           ?>
+                     <?php
+                     if (in_array($_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["slug"], array("master", "adm"))) {
+                     ?>
                         <div class="col-sm-12">
                            <div class="form-group">
                               <input type="hidden" name="tokens_id" value="<?php print($data["tokens_id"]) ?>">
@@ -243,19 +243,19 @@
                               <div class="input-group mb-3">
                                  <input class="form-control" disabled id="tk_pwd" name="tk_pwd" type="text" value="<?php print($data["tk_pwd"]) ?>">
                                  <div class="input-group-append">
-                                    <button id="btntk_pwd" type="button" style="background: #FFF;color: #707070;"><i style="font-size: 1.7rem;" class="fa fa-copy"></i></button>
+                                    <button class="btn btn-primary btn-sm" id="btntk_pwd" type="button" style="background: #FFF;color: #707070;"><i style="font-size: 1.7rem;" class="fa fa-copy"></i></button>
                                  </div>
                               </div>
                            </div>
                         </div>
                      <?php
-                           } else {
+                     } else {
                      ?>
                         <input type="hidden" class="form-control" name="tokens_id" value="<?php print($data["tokens_id"]) ?>">
                         <input type="hidden" class="form-control" name="tokens_name" value="<?php print($data["tokens_name"]) ?>">
                      <?php
-                           }
-                     ?> -->
+                     }
+                     ?>
                   </div>
                </div>
             </div>
