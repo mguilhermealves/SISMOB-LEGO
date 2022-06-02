@@ -27,7 +27,7 @@ $clientId = 'Client_Id_8f31bad8f7b617e1dd8c3f90b004b3a8bae64ffe'; // informe seu
 $clientSecret = 'Client_Secret_0c6477c6f0e9bc98d107f99a68c428c6b8f5e4ea'; // informe seu Client_Secret
 
 $payment = new payments_model();
-$payment->set_filter(array(" active = 'yes' and payment_method = 'ticket'"));
+$payment->set_filter(array(" active = 'yes'", "payment_method = 'ticket'"));
 $payment->load_data();
 $data = $payment->data;
 
