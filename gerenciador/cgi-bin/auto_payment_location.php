@@ -28,12 +28,14 @@ $clientSecret = 'Client_Secret_0c6477c6f0e9bc98d107f99a68c428c6b8f5e4ea'; // inf
 
 $locations = new locations_model();
 $locations->load_data();
+$locations->attach(array("users"), true);
 $locations->attach(array("properties", "payments"));
-$locations->attach_son("properties", array("clients"), true, null, array("idx", "name"));
+$locations->attach_son("properties", array("users"), true);
 
 $resto = 0;
 
 foreach ($locations->data as $k => $v) {
+
     $dateNow = date("Y-m-d");
     $due = date('Y-m-' . $v["day_due"]);
     $sumOneMonth = date('Y-m-d', strtotime($due . ' + 1 month'));
@@ -60,10 +62,10 @@ foreach ($locations->data as $k => $v) {
                 ];
     
                 $item_1 = [
-                    'name' => $v["first_name"] . " " . $v["last_name"],
+                    'name' => $v["users_attach"][0]["first_name"] . " " . $v["users_attach"][0]["last_name"],
                     'amount' => 1,
                     'value' => (int) $v["properties_attach"][0]["price_location"]
-                ];
+                ];    
     
                 $items = [
                     $item_1
@@ -72,10 +74,10 @@ foreach ($locations->data as $k => $v) {
                 //$metadata = array('notification_url'=>'sua_url_de_notificacao_.com.br'); //Url de notificações
     
                 $customer = [
-                    'name' => $v["first_name"] . " " . $v["last_name"],
-                    'cpf' => $v["document"],
-                    'phone_number' => $v["phone"],
-                    'email' => $v["mail"]
+                    'name' => $v["users_attach"][0]["first_name"] . " " . $v["users_attach"][0]["last_name"],
+                    'cpf' => $v["users_attach"][0]["cpf"],
+                    'phone_number' => $v["users_attach"][0]["phone"],
+                    'email' => $v["users_attach"][0]["mail"]
                 ];
     
                 $configurations = [ // configurações de juros e mora
@@ -129,47 +131,6 @@ foreach ($locations->data as $k => $v) {
                     $payments->save();
                     $payments->save_attach(array("idx" => $info["payments_idx"], "post" => array("locations_id" =>  $v["idx"])), array("locations"), true);
     
-                    /* ENVIO E-MAIL DE NOVO PAGAMENTO */
-    
-                    $venciment = date('Y-m-') . $v["day_due"];
-    
-                    $new_payments = new payments_model();
-                    $new_payments->set_filter(array(" idx = '" . $info["payments_idx"] . "' "));
-                    $new_payments->load_data();
-                    $data = current($new_payments->data);
-    
-                    $page = strtr(file_get_contents(constant("cFurniture") . "mail/new-payment-billet.html"), array(
-                        "#HOST#" => constant("cFurniture") . "mail/new-payment-billet.html",
-                        "#NOME#" => $v["first_name"] . " " . $v["last_name"],
-                        "#CONTRACT#" => $v["n_contract"],
-                        "#DAY_DUE#" => date('d/m/Y', strtotime($venciment)),
-                        "#PAYMENT_METHOD#" => "Boleto Bancário",
-                        "#AMOUNT#" => number_format($v["properties_attach"][0]["price_location"], 2),
-                        "#BARCODE#" => $data["barcode"],
-                        "#LINK#" => $data["pdf"],
-                    ));
-    
-                    $messages_model = new messages_model();
-                    $messages_model->populate(array(
-                        "name" => "SISMOB - Novo Boleto de Locação Gerado",
-                        "scheduled_at" => date("Y-m-d H:i:s"),
-                        "mailboxes" => serialize(array(
-                            "Address" => array(
-                                "name" => $v["first_name"] . " " . $v["last_name"],
-                                "mail" => $v["mail"]
-                            ),
-                            "from" => array(
-                                "name" => constant("mail_from_name"),
-                                "mail" => constant("mail_from_user")
-                            ),
-                            "replyTo" => array(
-                                "name" => constant("mail_from_name"),
-                                "mail" => constant("mail_from_user")
-                            )
-                        )), "htmlmsg" => $page, "textmsg" => strip_tags($page),
-                        "type" => "mail"
-                    ));
-                    $messages_model->save();
                 } catch (GerencianetException $e) {
                     print_r($e->code);
                     print_r($e->error);
