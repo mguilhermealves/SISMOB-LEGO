@@ -6,7 +6,7 @@ class locations_controller
 {
 	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "")
 	{
-		$boiler = new locations_model();
+		$boiler = new vw_locations_model();
 		$boiler->set_field(array($key, $field));
 		$boiler->set_order(array(" idx desc "));
 		$boiler->set_filter($filters);
@@ -41,6 +41,11 @@ class locations_controller
 		if (isset($info["get"]["filter_status"]) && !empty($info["get"]["filter_status"])) {
 			$done["filter_status"] = $info["get"]["filter_status"];
 			$filter["filter_status"] = " is_aproved = '" . $info["get"]["filter_status"] . "' ";
+		}
+
+		if (isset($info["get"]["filter_type"]) && !empty($info["get"]["filter_type"])) {
+			$done["filter_type"] = $info["get"]["filter_type"];
+			$filter["filter_type"] = " object_propertie  = '" . $info["get"]["filter_type"] . "' ";
 		}
 
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
@@ -180,21 +185,17 @@ class locations_controller
 					)
 				);
 
-				$ordenation_first_name = 'first_name-asc';
-				$ordenation_first_name_ordenation = 'bi bi-border';
 				$ordenation_id = 'idx-asc';
 				$ordenation_id_ordenation = 'bi bi-border';
-				$ordenation_address = 'address-asc';
-				$ordenation_address_ordenation = 'bi bi-border';
-				$ordenation_district = 'district-asc';
-				$ordenation_district_ordenation = 'bi bi-border';
-				$ordenation_city = 'city-asc';
-				$ordenation_city_ordenation = 'bi bi-border';
-				$ordenation_uf = 'uf-asc';
-				$ordenation_uf_ordenation = 'bi bi-border';
+				$ordenation_name = 'nome-asc';
+				$ordenation_name_ordenation = 'bi bi-border';
+				$ordenation_cpf = 'cpf-asc';
+				$ordenation_cpf_ordenation = 'bi bi-border';
+				$ordenation_type = 'object_propertie-asc';
+				$ordenation_type_ordenation = 'bi bi-border';
 				$ordenation_is_aproved = 'is_aproved-asc';
 				$ordenation_is_aproved_ordenation = 'bi bi-border';
-				$ordenation_ncontract = 'is_aproved-asc';
+				$ordenation_ncontract = 'n_contract-asc';
 				$ordenation_ncontract_ordenation = 'bi bi-border';
 				switch ($ordenation) {
 					case 'idx asc':
@@ -205,53 +206,29 @@ class locations_controller
 						$ordenation_id = 'idx-asc';
 						$ordenation_id_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'first_name asc':
-						$ordenation_first_name = 'first_name-desc';
-						$ordenation_first_name_ordenation = 'bi bi-arrow-up';
+					case 'nome asc':
+						$ordenation_name = 'nome-desc';
+						$ordenation_name_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'first_name desc':
-						$ordenation_first_name = 'first_name-asc';
-						$ordenation_first_name_ordenation = 'bi bi-arrow-down';
+					case 'nome desc':
+						$ordenation_name = 'nome-asc';
+						$ordenation_name_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'address asc':
-						$ordenation_address = 'address-desc';
-						$ordenation_address_ordenation = 'bi bi-arrow-up';
+					case 'cpf asc':
+						$ordenation_cpf = 'cpf-desc';
+						$ordenation_cpf_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'address desc':
-						$ordenation_address = 'address-asc';
-						$ordenation_address_ordenation = 'bi bi-arrow-down';
+					case 'cpf desc':
+						$ordenation_cpf = 'cpf-asc';
+						$ordenation_cpf_ordenation = 'bi bi-arrow-down';
 						break;
-					case 'n_contract asc':
-						$ordenation_district = 'n_contract-desc';
-						$ordenation_district_ordenation = 'bi bi-arrow-up';
+					case 'object_propertie asc':
+						$ordenation_type = 'object_propertie-desc';
+						$ordenation_type_ordenation = 'bi bi-arrow-up';
 						break;
-					case 'city desc':
-						$ordenation_district = 'city-asc';
-						$ordenation_district_ordenation = 'bi bi-arrow-down';
-						break;
-					case 'city asc':
-						$ordenation_city = 'city-desc';
-						$ordenation_city_ordenation = 'bi bi-arrow-up';
-						break;
-					case 'n_contract desc':
-						$ordenation_city = 'n_contract-asc';
-						$ordenation_city_ordenation = 'bi bi-arrow-down';
-						break;
-					case 'uf asc':
-						$ordenation_uf = 'uf-desc';
-						$ordenation_uf_ordenation = 'bi bi-arrow-up';
-						break;
-					case 'uf desc':
-						$ordenation_uf = 'uf-asc';
-						$ordenation_uf_ordenation = 'bi bi-arrow-down';
-						break;
-					case 'is_aproved asc':
-						$ordenation_is_aproved = 'is_aproved-desc';
-						$ordenation_is_aproved_ordenation = 'bi bi-arrow-up';
-						break;
-					case 'is_aproved desc':
-						$ordenation_is_aproved = 'is_aproved-asc';
-						$ordenation_is_aproved_ordenation = 'bi bi-arrow-down';
+					case 'object_propertie desc':
+						$ordenation_type = 'object_propertie-asc';
+						$ordenation_type_ordenation = 'bi bi-arrow-down';
 						break;
 					case 'n_contract asc':
 						$ordenation_ncontract = 'n_contract-desc';
@@ -260,6 +237,14 @@ class locations_controller
 					case 'n_contract desc':
 						$ordenation_ncontract = 'n_contract-asc';
 						$ordenation_ncontract_ordenation = 'bi bi-arrow-down';
+						break;
+					case 'is_aproved asc':
+						$ordenation_is_aproved = 'is_aproved-desc';
+						$ordenation_is_aproved_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'is_aproved desc':
+						$ordenation_is_aproved = 'is_aproved-asc';
+						$ordenation_is_aproved_ordenation = 'bi bi-arrow-down';
 						break;
 				}
 
@@ -438,6 +423,9 @@ class locations_controller
 		$templateProcessor->setValue('CLASSIFICACAO_FISCAL', $data["properties_attach"][0]["classification"]);
 		$templateProcessor->setValue('N_SABESP', $data["properties_attach"][0]["instalation_sabesp"]);
 		$templateProcessor->setValue('N_ENEL', $data["properties_attach"][0]["instalation_enel"]);
+		$templateProcessor->setValue('DAY', date("d"));
+		$templateProcessor->setValue('MONTH', date("m"));
+		$templateProcessor->setValue('YEAR', date("Y"));
 
 		$filename = "Contrato.docx";
 

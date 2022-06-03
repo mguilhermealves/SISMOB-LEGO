@@ -14,26 +14,26 @@
                 <hr>
             </div>
 
-            <div class="col-sm-12 col-lg-4">
+            <div class="col-sm-12 col-lg-3">
                 <div class="form-group">
                     <label for="filter_name">Nome:</label>
                     <input type="text" id="filter_name" class="form-control" name="filter_name" value="<?php print(isset($info["get"]["filter_name"]) ? $info["get"]["filter_name"] : "") ?>" class="form-control" placeholder="Digite o Nome">
                 </div>
             </div>
-            <div class="col-sm-12 col-lg-4">
+            <div class="col-sm-12 col-lg-3">
                 <div class="form-group">
                     <label for="filter_cpf">CPF:</label>
                     <input type="text" id="filter_cpf" class="form-control document" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="form-control" placeholder="Digite o CPF">
                 </div>
             </div>
-            <div class="col-sm-12 col-lg-4">
+            <div class="col-sm-12 col-lg-3">
                 <div class="form-group">
                     <label for="filter_district">Bairro:</label>
                     <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="form-control" placeholder="Digite o Bairro">
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-4">
+            <div class="col-sm-12 col-lg-3">
                 <div class="form-group">
                     <label for="filter_uf">UF</label>
                     <select name="filter_uf" id="filter_uf" class="form-control">
@@ -41,27 +41,6 @@
                         <?php
                         foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
                             printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_uf"]) && $k == $info["get"]["filter_uf"] ? ' selected' : '', $k, $v);
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-lg-4">
-                <div class="form-group">
-                    <label for="filter_contract">N° Contrato:</label>
-                    <input type="text" id="filter_contract" class="form-control" name="filter_contract" value="<?php print(isset($info["get"]["filter_contract"]) ? $info["get"]["filter_contract"] : "") ?>" class="form-control" placeholder="Digite o n° do contrato">
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-lg-4">
-                <div class="form-group">
-                    <label for="filter_status">Status</label>
-                    <select name="filter_status" id="filter_status" class="form-control">
-                        <option value="">Selecione</option>
-                        <?php
-                        foreach ($GLOBALS["status_location"] as $k => $v) {
-                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_status"]) && $k == $info["get"]["filter_status"] ? ' selected' : '', $k, $v);
                         }
                         ?>
                     </select>

@@ -41,11 +41,6 @@ class tenants_controller
 			$filter["filter_cpf"] = " cpf like '%" . $info["get"]["filter_cpf"] . "%' ";
 		}
 
-		if (isset($info["get"]["filter_contract"]) && !empty($info["get"]["filter_contract"])) {
-			$done["filter_contract"] = $info["get"]["filter_contract"];
-			$filter["filter_contract"] = " n_contract like '%" . $info["get"]["filter_contract"] . "%' ";
-		}
-
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
 			$filter["filter_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ";

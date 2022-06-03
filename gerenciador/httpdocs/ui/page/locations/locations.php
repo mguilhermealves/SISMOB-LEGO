@@ -26,26 +26,6 @@
                     <input type="text" id="filter_cpf" class="form-control document" name="filter_cpf" value="<?php print(isset($info["get"]["filter_cpf"]) ? $info["get"]["filter_cpf"] : "") ?>" class="form-control" placeholder="Digite o CPF">
                 </div>
             </div>
-            <div class="col-sm-12 col-lg-4">
-                <div class="form-group">
-                    <label for="filter_district">Bairro:</label>
-                    <input type="text" id="filter_district" class="form-control" name="filter_district" value="<?php print(isset($info["get"]["filter_district"]) ? $info["get"]["filter_district"] : "") ?>" class="form-control" placeholder="Digite o Bairro">
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-lg-4">
-                <div class="form-group">
-                    <label for="filter_uf">UF</label>
-                    <select name="filter_uf" id="filter_uf" class="form-control">
-                        <option value="">Selecione</option>
-                        <?php
-                        foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
-                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_uf"]) && $k == $info["get"]["filter_uf"] ? ' selected' : '', $k, $v);
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
 
             <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
@@ -62,6 +42,20 @@
                         <?php
                         foreach ($GLOBALS["status_location"] as $k => $v) {
                             printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_status"]) && $k == $info["get"]["filter_status"] ? ' selected' : '', $k, $v);
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group">
+                    <label for="filter_type">Tipo de Imóvel</label>
+                    <select name="filter_type" id="filter_type" class="form-control">
+                        <option value="">Selecione</option>
+                        <?php
+                        foreach ($GLOBALS["propertie_objects"] as $k => $v) {
+                            printf('<option %s value="%s">%s</option>', isset($info["get"]["filter_type"]) && $k == $info["get"]["filter_type"] ? ' selected' : '', $k, $v);
                         }
                         ?>
                     </select>
@@ -95,10 +89,9 @@
             <thead class="thead-inverse">
                 <tr>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_id))) ?>">Id <i class="<?php print($ordenation_id_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Nome <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
-                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_uf))) ?>">UF <i class="<?php print($ordenation_uf_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_name))) ?>">Nome Locatário/Comprador <i class="<?php print($ordenation_name_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_cpf))) ?>">CPF Locatário/Comprador <i class="<?php print($ordenation_cpf_ordenation) ?>"></i></a></th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_type))) ?>">Tipo <i class="<?php print($ordenation_type_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_is_aproved))) ?>">Aprovado <i class="<?php print($ordenation_is_aproved_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_ncontract))) ?>">N° Contrato <i class="<?php print($ordenation_ncontract_ordenation) ?>"></i></a></th>
                     <th>Ações</th>
@@ -134,9 +127,8 @@
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
                             <td><?php print($v["nome"]); ?></td>
-                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
-                            <td><?php print($v["city"]); ?></td>
-                            <td><?php print($v["uf"]); ?></td>
+                            <td><?php print(preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $v["cpf"]));?></td>
+                            <td><?php print($GLOBALS["propertie_objects"][$v["object_propertie"]]); ?></td>
                             <td>
                                 <?php
                                 if ($v["is_aproved"] == "reproved" || $v["is_aproved"] == "pending") {
