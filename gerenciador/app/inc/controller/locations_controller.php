@@ -416,7 +416,7 @@ class locations_controller
 
 		$templateProcessor->setValue('VALOR_ALUGUEL', "R$ " . number_format($data["properties_attach"][0]["price_location"], 2, ",", "."));
 		$templateProcessor->setValue('DIA_VENCIMENTO', $data["day_due"]);
-		$templateProcessor->setValue('PRAZO_CONTRATO', $data["properties_attach"][0]["deadline_contract"]);
+		$templateProcessor->setValue('PRAZO_CONTRATO', $data["properties_attach"][0]["deadline_contract"] );
 		$templateProcessor->setValue('NUMERO_PESSOAS', $data["number_residents"]);
 		$templateProcessor->setValue('FORMA_PAGAMENTO', $GLOBALS["payment_method"][$data["payment_method"]]);
 		$templateProcessor->setValue('PERCENTUAL_IPTU', $data["properties_attach"][0]["percentual_iptu"]);
@@ -424,7 +424,7 @@ class locations_controller
 		$templateProcessor->setValue('N_SABESP', $data["properties_attach"][0]["instalation_sabesp"]);
 		$templateProcessor->setValue('N_ENEL', $data["properties_attach"][0]["instalation_enel"]);
 		$templateProcessor->setValue('DAY', date("d"));
-		$templateProcessor->setValue('MONTH', date("m"));
+		$templateProcessor->setValue('MONTH', $GLOBALS["month_name"][date("m")]);
 		$templateProcessor->setValue('YEAR', date("Y"));
 
 		$filename = "Contrato.docx";

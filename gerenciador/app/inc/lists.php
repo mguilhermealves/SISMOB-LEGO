@@ -331,7 +331,7 @@ $payment_method = array(
 );
 
 $payment_status = array(
-  "waiting" => "A Pagar"
+  "waiting" => "A Vencer"
   , "paid" => "Pago"
   , "unpaid" => "Vencido"
   ,"judicial" => "Juridico"
