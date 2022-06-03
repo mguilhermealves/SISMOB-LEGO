@@ -85,11 +85,11 @@
     <!-- Container Begin -->
     <div class="col-lg-12" style="overflow: auto;">
         <?php html_notification_print(); ?>
-        
+
         <table class="table table-striped table-inverse table-hover">
             <thead class="thead-inverse">
                 <tr>
-                    <th>Código</th>
+                    <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_id))) ?>">Id <i class="<?php print($ordenation_id_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_address))) ?>">Endereço <i class="<?php print($ordenation_address_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_district))) ?>">Bairro <i class="<?php print($ordenation_district_ordenation) ?>"></i></a></th>
                     <th><a style="color:#707070; text-decoration:none" href="<?php print(set_url($form["pattern"]["search"], array("ordenation" => $ordenation_city))) ?>">Cidade <i class="<?php print($ordenation_city_ordenation) ?>"></i></a></th>
@@ -141,7 +141,7 @@
                                 ?>
                             </td>
                             <th>
-                                <a type="button" class="btn btn-outline-primary btn-sm" href="<?php print( set_url( sprintf( $form["pattern"]["action"], $v["idx"] ) , array( "done" => urlencode( $form["pattern"]["search"] ) ) ) ) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="<?php print(set_url(sprintf($form["pattern"]["action"], $v["idx"]), array("done" => urlencode($form["pattern"]["search"])))) ?>"><i class="bi bi-pencil-square"></i> Editar</a>
                                 <!-- <a class="btn btn-outline-danger btn-sm" id="btn_remove_<?php print($v["idx"]) ?>" href="<?php printf($form["pattern"]["action"], $v["idx"]) ?>"><i class="bi bi-x-circle"></i> Excluir</a> -->
                             </th>
                         </tr>

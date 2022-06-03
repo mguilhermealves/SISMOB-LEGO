@@ -205,6 +205,8 @@ class clients_controller
 					)
 				);
 
+				$ordenation_id = 'idx-asc';
+				$ordenation_id_ordenation = 'bi bi-border';
 				$ordenation_name = 'first_name-asc';
 				$ordenation_name_ordenation = 'bi bi-border';
 				$ordenation_document = 'cpf-asc';
@@ -218,6 +220,14 @@ class clients_controller
 				$ordenation_uf = 'uf-asc';
 				$ordenation_uf_ordenation = 'bi bi-border';
 				switch ($ordenation) {
+					case 'idx asc':
+						$ordenation_id = 'idx-desc';
+						$ordenation_id_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'idx desc':
+						$ordenation_id = 'idx-asc';
+						$ordenation_id_ordenation = 'bi bi-arrow-down';
+						break;
 					case 'first_name asc':
 						$ordenation_name = 'first_name-desc';
 						$ordenation_name_ordenation = 'bi bi-arrow-up';

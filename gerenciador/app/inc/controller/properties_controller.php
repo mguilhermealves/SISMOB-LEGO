@@ -220,6 +220,8 @@ class properties_controller
 					)
 				);
 
+				$ordenation_id = 'idx-asc';
+				$ordenation_id_ordenation = 'bi bi-border';
 				$ordenation_address = 'address-asc';
 				$ordenation_address_ordenation = 'bi bi-border';
 				$ordenation_district = 'district-asc';
@@ -231,6 +233,14 @@ class properties_controller
 				$ordenation_objective = 'object_propertie-asc';
 				$ordenation_objective_ordenation = 'bi bi-border';
 				switch ($ordenation) {
+					case 'idx asc':
+						$ordenation_id = 'idx-desc';
+						$ordenation_id_ordenation = 'bi bi-arrow-up';
+						break;
+					case 'idx desc':
+						$ordenation_id = 'idx-asc';
+						$ordenation_id_ordenation = 'bi bi-arrow-down';
+						break;
 					case 'address asc':
 						$ordenation_address = 'address-desc';
 						$ordenation_address_ordenation = 'bi bi-arrow-up';
