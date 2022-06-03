@@ -72,7 +72,7 @@ class locations_controller
 
 		list($done, $filter) = $this->filter($info);
 
-		$locations = new locations_model();
+		$locations = new vw_locations_model();
 
 		if ($info["format"] != ".json") {
 			$locations->set_paginate(array($info["sr"], $paginate));
@@ -83,8 +83,7 @@ class locations_controller
 		$locations->set_filter($filter);
 		$locations->set_order(array($ordenation));
 
-		list($total, $data) = $locations->return_data();
-		$locations->attach(array("users"), true);
+		list($total, $data) = $locations->return_data_vw();
 		$data = $locations->data;
 
 		switch ($info["format"]) {

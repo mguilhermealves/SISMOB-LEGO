@@ -79,6 +79,11 @@ class DOLModel extends rootOBJ {
 		return array( $this->recordset , $this->data ) ;
 	}
 
+	public function return_data_vw(){
+		$this->load_data_vw();
+		return array( $this->recordset , $this->data ) ;
+	}
+
 	public function _list_data( $value = "name" , $filter = array() , $key = "idx" , $order = "" ){
 		$this->set_field( array( $key , $value ) ) ;
 		$this->set_filter( count( $filter ) ? array_merge( array( " active = 'yes' " ) , $filter ) : array( " active = 'yes' " ) );
