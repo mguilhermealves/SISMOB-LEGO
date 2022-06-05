@@ -45,39 +45,39 @@ $(document).ready(function () {
         $('#show_address_info_financeiras').hide();
     }
 
-    var guarantor = ($('#type_guarantor').val());
+    var fiance = ($('#type_fiance').val());
 
-    if (guarantor == 'guarantor') {
-        $('#guarantor').show();
-        $('#type_work_guarantor_div').show();
+    if (fiance == 'guarantor') {
+        $('#fiance').show();
+        $('#type_work_fiance_div').show();
         $('#surety_bond').hide();
-    } else if (guarantor == 'surety_bond') {
+    } else if (fiance == 'surety_bond') {
         $('#surety_bond').show();
-        $('#type_work_guarantor_div').hide();
-        $('#guarantor').hide();
+        $('#type_work_fiance_div').hide();
+        $('#fiance').hide();
     } else {
         $('#surety_bond').hide();
-        $('#guarantor').hide();
-        $('#type_work_guarantor_div').hide();
+        $('#fiance').hide();
+        $('#type_work_fiance_div').hide();
     }
 
-    var type_work_guarantor = ($('#type_work_guarantor').val());
+    var type_work_fiance = ($('#type_work_fiance').val());
 
-    if (type_work_guarantor == 'clt_guarantor') {
-        $('#clt_guarantor').show();
-        $('#pj_guarantor').hide();
+    if (type_work_fiance == 'clt') {
+        $('#clt_fiance').show();
+        $('#pj_fiance').hide();
         $('#fiance_guarantor').hide();
-    } else if (type_work_guarantor == 'pj_guarantor') {
-        $('#pj_guarantor').show();
-        $('#clt_guarantor').hide();
+    } else if (type_work_fiance == 'pj') {
+        $('#pj_fiance').show();
+        $('#clt_fiance').hide();
         $('#fiance_guarantor').hide();
-    } else if (type_work_guarantor == 'fiance_guarantor') {
+    } else if (type_work_fiance == 'fiance_guarantor') {
         $('#fiance_guarantor').show();
-        $('#pj_guarantor').hide();
-        $('#clt_guarantor').hide();
+        $('#pj_fiance').hide();
+        $('#clt_fiance').hide();
     } else {
-        $('#pj_guarantor').hide();
-        $('#clt_guarantor').hide();
+        $('#pj_fiance').hide();
+        $('#clt_fiance').hide();
         $('#fiance_guarantor').hide();
     }
 });
@@ -119,37 +119,37 @@ $('#type_work').change(function () {
     }
 });
 
-$('#type_work_guarantor').change(function () {
+$('#type_work_fiance').change(function () {
     var status = ($(this).val());
 
     if (status == 'clt') {
-        $('#clt_guarantor').show();
-        $('#pj_guarantor').hide();
+        $('#clt_fiance').show();
+        $('#pj_fiance').hide();
     } else if (status == 'pj') {
-        $('#pj_guarantor').show();
-        $('#clt_guarantor').hide();
+        $('#pj_fiance').show();
+        $('#clt_fiance').hide();
     } else {
-        $('#pj_guarantor').hide();
-        $('#clt_guarantor').hide();
+        $('#pj_fiance').hide();
+        $('#clt_fiance').hide();
         $('#fiance_guarantor').hide();
     }
 });
 
-$('#type_guarantor').change(function () {
+$('#type_fiance').change(function () {
     var status = ($(this).val());
 
     if (status == 'guarantor') {
-        $('#guarantor').show();
-        $('#type_work_guarantor_div').show();
+        $('#fiance').show();
+        $('#type_work_fiance_div').show();
         $('#surety_bond').hide();
     } else if (status == 'surety_bond') {
         $('#surety_bond').show();
-        $('#type_work_guarantor_div').hide();
-        $('#guarantor').hide();
+        $('#type_work_fiance_div').hide();
+        $('#fiance').hide();
     } else {
         $('#surety_bond').hide();
-        $('#guarantor').hide();
-        $('#type_work_guarantor_div').hide();
+        $('#fiance').hide();
+        $('#type_work_fiance_div').hide();
     }
 });
 
@@ -233,3 +233,69 @@ $("#postalcode").change(function () {
         limpa_formulário_cep();
     }
 });
+
+function limpa_formulário_cep() {
+    //Limpa valores do formulário de cep.
+    document.getElementById('address').value=("");
+    document.getElementById('district').value=("");
+    document.getElementById('city').value=("");
+    document.getElementById('uf').value=("");
+}
+
+/* CONSULTA CEP FIADOR PJ */
+$("#fiance_postalcode").change(function () {
+
+    //Nova variável "cep" somente com dígitos.
+    var cep = $(this).val().replace(/\D/g, '');
+
+    //Verifica se campo cep possui valor informado.
+    if (cep != "") {
+
+        //Expressão regular para validar o CEP.
+        var validacep = /^[0-9]{8}$/;
+
+        //Valida o formato do CEP.
+        if (validacep.test(cep)) {
+
+            //Preenche os campos com "..." enquanto consulta webservice.
+            $("#fiance_address").val("...");
+            $("#fiance_district").val("...");
+            $("#fiance_city").val("...");
+            $("#fiance_uf").val("...");
+
+            //Consulta o webservice viacep.com.br/
+            $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+                if (!("erro" in dados)) {
+                    //Atualiza os campos com os valores da consulta.
+                    $("#fiance_address").val(dados.logradouro);
+                    $("#fiance_district").val(dados.bairro);
+                    $("#fiance_city").val(dados.localidade);
+                    $("#fiance_uf").val(dados.uf);
+                } //end if.
+                else {
+                    //CEP pesquisado não foi encontrado.
+                    limpa_formulário_fiance_cep();
+                    alert("CEP não encontrado.");
+                }
+            });
+        } //end if.
+        else {
+            //cep é inválido.
+            limpa_formulário_fiance_cep();
+            alert("Formato de CEP inválido.");
+        }
+    } //end if.
+    else {
+        //cep sem valor, limpa formulário.
+        limpa_formulário_fiance_cep();
+    }
+});
+
+function limpa_formulário_fiance_cep() {
+    //Limpa valores do formulário de cep.
+    document.getElementById('fiance_address').value=("");
+    document.getElementById('fiance_district').value=("");
+    document.getElementById('fiance_city').value=("");
+    document.getElementById('fiance_uf').value=("");
+}

@@ -331,7 +331,7 @@ $payment_method = array(
 );
 
 $payment_status = array(
-  "waiting" => "A Vencer"
+  "waiting" => "Aguardando Pagamento"
   , "paid" => "Pago"
   , "unpaid" => "Vencido"
   ,"judicial" => "Juridico"
@@ -339,11 +339,11 @@ $payment_status = array(
 );
 
 $payment_status_gerencianet = array(
-  "waiting" => "A Pagar"
-  , "paid" => "Pago"
-  , "unpaid" => "Não Pago"
+  "waiting" => "Aguardando Pagamento"
+  ,"paid" => "Pago"
+  ,"unpaid" => "Não Pago"
   ,"canceled" => "Cancelado"
-  , "expired" => "Vencido"
+  ,"expired" => "Vencido"
 );
 
 $indice = array(

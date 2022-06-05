@@ -236,6 +236,7 @@
                 </div>
 
                 <input type="hidden" name="offices[offices_id]" value="<?php print(isset($data["offices_attach"][0]["idx"]) ? $data["offices_attach"][0]["idx"] : ""); ?>">
+                <input type="hidden" name="fiances[fiances_id]" value="<?php print(isset($data["fiances_attach"][0]["idx"]) ? $data["fiances_attach"][0]["idx"] : ""); ?>">
                 <input type="hidden" name="partner[partners_id]" value="<?php print(isset($data["partners_attach"][0]["idx"]) ? $data["partners_attach"][0]["idx"] : ""); ?>">
 
                 <!-- Dados Financeiros -->
@@ -420,110 +421,166 @@
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="type_guarantor">Tipo de Fiador</label>
-                                            <select name="type_guarantor" id="type_guarantor" class="form-control" required>
+                                            <label for="type_fiance">Tipo de Fiador</label>
+                                            <select name="fiances[type_fiance]" id="type_fiance" class="form-control" required>
                                                 <option value="">Selecione</option>
                                                 <?php
                                                 foreach ($GLOBALS["type_guarantors"] as $k => $v) {
-                                                    printf('<option %s value="%s">%s</option>', isset($data["uf"]) && $k == $data["uf"] ? ' selected' : '', $k, $v);
+                                                    printf('<option %s value="%s">%s</option>', isset($data["fiances_attach"][0]) && $k == $data["fiances_attach"][0]["type_fiance"] ? ' selected' : '', $k, $v);
                                                 }
                                                 ?>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6" id="type_work_guarantor_div">
+                                    <div class="col-lg-6" id="type_work_fiance_div">
                                         <div class="form-group">
-                                            <label for="type_work_guarantor">Tipo de Regime</label>
-                                            <select name="guarantors[type_work]" id="type_work_guarantor" class="form-control" required>
+                                            <label for="type_work_fiance">Tipo de Regime</label>
+                                            <select name="fiances[type_work]" id="type_work_fiance" class="form-control" required>
                                                 <option value="">Selecione</option>
                                                 <?php
                                                 foreach ($GLOBALS["type_works"] as $k => $v) {
-                                                    printf('<option %s value="%s">%s</option>', isset($data["uf"]) && $k == $data["type_works"] ? ' selected' : '', $k, $v);
+                                                    printf('<option %s value="%s">%s</option>', isset($data["fiances_attach"][0]) && $k == $data["fiances_attach"][0]["type_work"] ? ' selected' : '', $k, $v);
                                                 }
                                                 ?>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="row col-lg-12" id="guarantor">
-                                        <div class="row col-lg-12" id="clt_guarantor">
+                                    <div class="row col-lg-12" id="fiance">
+                                        <div class="row col-lg-12" id="clt_fiance">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label>Nome da Seguradora</label>
-                                                    <input type="text" class="form-control" name="guarantors[company_name_clt]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                    <label>Nome do Fiador</label>
+                                                    <input type="text" class="form-control" name="fiances[company_name]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["company_name"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label>Cargo</label>
-                                                    <input type="text" class="form-control" name="guarantors[office]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                    <label>Cargo do Fiador</label>
+                                                    <input type="text" class="form-control" name="fiances[office]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["office"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label>Cargo</label>
-                                                    <input type="text" class="form-control" name="guarantors[registration_time]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                    <label>Tempo de Registro do Fiador</label>
+                                                    <input type="text" class="form-control" name="fiances[registration_time]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["registration_time"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Renda Mensal</label>
-                                                    <input type="text" class="form-control" name="guarantors[rent_monthly]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                <label>Renda Mensal do Fiador</label>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">R$</span>
+                                                    </div>
+                                                    <input type="text" name="fiances[rent_monthly]" class="form-control money" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["rent_monthly"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>3 Ultimos comprovantes de renda</label>
-                                                    <input type="file" class="form-control" name="guarantors[image_file][]">
+                                                    <input type="file" class="form-control" name="fiances[image_file][]">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Comprovante IRPF</label>
-                                                    <input type="file" class="form-control" name="guarantors[IRPF_file][]">
+                                                    <input type="file" class="form-control" name="fiances[IRPF_file][]">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="row col-lg-12" id="pj_guarantor">
-                                            <div class="col-lg-6">
+                                        <div class="row col-lg-12" id="pj_fiance">
+                                            <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label>Razão Social</label>
-                                                    <input type="text" class="form-control" name="guarantors[company_name_pj]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                    <input type="text" class="form-control" name="fiances[company_name]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["company_name"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>CEP</label>
+                                                    <input type="text" class="form-control postalcode" id="fiance_postalcode" name="fiances[postalcode]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["postalcode"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Endereço</label>
-                                                    <input type="file" class="form-control" name="guarantors[address_file]">
+                                                    <input type="text" class="form-control" id="fiance_address" name="fiances[address]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["address"] : "") ?>" required>
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
+                                                    <label>Numero</label>
+                                                    <input type="text" class="form-control" name="fiances[number]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["number"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Complemento</label>
+                                                    <input type="text" class="form-control" name="fiances[complement]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["complement"] : "") ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Bairro</label>
+                                                    <input type="text" class="form-control" id="fiance_district" name="fiances[district]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["district"] : "") ?>" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Cidade</label>
+                                                    <input type="text" class="form-control" id="fiance_city" name="fiances[city]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["city"] : "") ?>" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="uf">UF</label>
+                                                    <select name="fiances[uf]" id="fiance_uf" class="form-control" required>
+                                                        <option value="">Selecione</option>
+                                                        <?php
+                                                        foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
+                                                            printf('<option %s value="%s">%s</option>', isset($data["fiances_attach"][0]) && $k == $data["fiances_attach"][0]["uf"] ? ' selected' : '', $k, $v);
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
                                                     <label>CNPJ</label>
-                                                    <input type="file" class="form-control" name="guarantors[cnpj_file]">
+                                                    <input type="file" class="form-control" name="fiances[cnpj_file]">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Contrato Social</label>
-                                                    <input type="file" class="form-control" name="guarantors[contract_file]">
+                                                    <input type="file" class="form-control" name="fiances[contract_file]">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>3 Ultimos comprovantes de renda</label>
-                                                    <input type="file" class="form-control" name="guarantors[rent_file[]]">
+                                                    <input type="file" class="form-control" name="fiances[rent_file[]]">
                                                 </div>
                                             </div>
                                         </div>
@@ -534,28 +591,28 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Nome da Seguradora</label>
-                                                    <input type="text" class="form-control" name="guarantors[company_name_surenty_bond]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                    <input type="text" class="form-control" name="fiances[security_name]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["security_name"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Anexar Apólice</label>
-                                                    <input type="file" class="form-control" name="guarantors[valor]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                    <input type="file" class="form-control" name="fiances[amount]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["amount"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Validade da Apólice (Inicio)</label>
-                                                    <input type="date" class="form-control" name="guarantors[validity_surenty_bond_start]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                    <input type="date" class="form-control" name="fiances[security_start_date]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["security_start_date"] : "") ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Validade da Apólice (Fim)</label>
-                                                    <input type="date" class="form-control" name="guarantors[validity_surenty_bond_end]" value="<?php print(isset($data["offices_attach"][0]["company_name"]) ? $data["offices_attach"][0]["company_name"] : "") ?>">
+                                                    <input type="date" class="form-control" name="fiances[security_end_date]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["security_end_date"] : "") ?>">
                                                 </div>
                                             </div>
                                         </div>

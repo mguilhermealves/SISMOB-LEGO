@@ -314,7 +314,7 @@ class tenants_controller
 			$tenant = new users_model();
 			$tenant->set_filter(array(" idx = '" . $info["idx"] . "' "));
 			$tenant->load_data();
-			$tenant->attach(array("offices", "partners", "locations"));
+			$tenant->attach(array("offices", "partners", "fiances", "locations"));
 			$tenant->attach_son("locations", array("properties"));
 			$data = current($tenant->data);
 			$form = array(
@@ -620,7 +620,18 @@ class tenants_controller
 		$office->save();
 
 		$info["post"]["offices_id"] = $office->con->insert_id;
-		$boiler->save_attach($info, array("offices", "profiles"));
+
+		$fiances = new fiances_model();
+		if (isset($info["post"]["fiances"]["fiances_id"]) && $info["post"]["fiances"]["fiances_id"] > 0) {
+			$fiances->set_filter(array(" idx = '" . $info["post"]["fiances"]["fiances_id"] . "' "));
+		}
+
+		$fiances->populate($info["post"]["fiances"]);
+		$fiances->save();
+
+		$info["post"]["fiances_id"] = $fiances->con->insert_id;
+
+		$boiler->save_attach($info, array("offices", "fiances", "profiles"));
 
 		// is married
 		if ($info["post"]["marital_status"] == "married") {
