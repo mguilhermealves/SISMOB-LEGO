@@ -355,6 +355,27 @@ class locations_in_progress_controller
 			}
 		}
 
+		if (isset($_FILES["contract_file"]) && is_file($_FILES["contract_file"]["tmp_name"])) {
+			$d = preg_split("/\./", $_FILES["contract_file"]["name"]);
+
+			$extension = $d[count($d) - 1];
+
+			$name = generate_slug(preg_replace("/\." . $extension . "$/", "", $_FILES["contract_file"]["name"]));
+			$extension = date("YmdHis") . "." . $extension;
+			$file = "furniture/upload/location/" . $info["idx"] . "/contract_file/" . $name . $extension;
+
+			if (!file_exists(dirname(constant("cRootServer") . $file))) {
+				mkdir(dirname(constant("cRootServer") . $file), 0777, true);
+				chmod(dirname(constant("cRootServer") . $file), 0775);
+			}
+			if (file_exists(constant("cRootServer") . $file)) {
+				unlink(constant("cRootServer") . $file);
+			}
+			move_uploaded_file($_FILES["contract_file"]["tmp_name"], constant("cRootServer") . $file);
+
+			$info["post"]["contract_file"] = $file;
+		}
+
 		$location->populate($info["post"]);
 		$location->save();
 
@@ -365,7 +386,7 @@ class locations_in_progress_controller
 		$location->save_attach(array("idx" => $info["idx"], "post" => array("users_id" =>  $info["post"]["users_id"])), array("users"), true);
 		$location->save_attach(array("idx" => $info["idx"], "post" => array("properties_id" =>  $info["post"]["properties_id"])), array("properties"));
 
-		$_SESSION["messages_app"]["success"] = array("Cadastro efeutado com sucesso.");
+		$_SESSION["messages_app"]["success"] = array("Cadastro efetuado com sucesso.");
 
 		if (isset($info["post"]["done"]) && !empty($info["post"]["done"])) {
 			basic_redir($info["post"]["done"]);

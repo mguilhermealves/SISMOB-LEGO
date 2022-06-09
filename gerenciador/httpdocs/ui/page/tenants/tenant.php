@@ -690,49 +690,6 @@
             </form>
         </div>
     </div>
-
-    <div class="container-fluid box solaris-head mt-5">
-        <div class="box-body">
-            <?php if (isset($data["idx"])) { ?>
-                <form action="<?php print($form["url"]) ?>" method="post" enctype="multipart/form-data">
-                    <!-- Dados do Locatário -->
-                    <div class="modal-content">
-                        <div class="modal-header label">
-                            <h5 class="modal-title ">Imóveis</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="row col-lg-12">
-                                        <table class="table table-striped table-inverse">
-                                            <thead class="thead-inverse">
-                                                <tr>
-                                                    <th>Endereço</th>
-                                                    <th>N° Contrato</th>
-                                                    <th>Status do Contrato</th>
-                                                    <th>Ação</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><?php print($data["locations_attach"][0]["properties_attach"][0]["address"] . ", " . $data["locations_attach"][0]["properties_attach"][0]["number_address"]) ?></td>
-                                                    <td><?php print($data["locations_attach"][0]["n_contract"]) ?></td>
-                                                    <td><?php print($data["locations_attach"][0]["is_aproved"]) ?></td>
-                                                    <td>
-                                                        <a type="button" href="http://" class="btn btn-outline-primary btn-sm">Ver Locação</a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            <?php  } ?>
-        </div>
-    </div>
 </div>
 <style>
     .blockquote p {

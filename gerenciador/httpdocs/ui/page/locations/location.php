@@ -349,6 +349,36 @@
                         </div>
                     <?php } ?>
 
+                    <?php if (isset($data["is_aproved"]) && $data["is_aproved"] == 'approved' && $data["properties_attach"][0]["object_propertie"] == "location") { ?>
+
+                        <div class="modal-content" id="status">
+                            <div class="modal-header label">
+                                <h5 class="modal-title ">Contrato Anexado</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="row col-lg-12">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Anexar Contrato</label>
+                                                    <input type="file" class="form-control" name="contract_file">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-12">
+                                                <?php if (!empty($data["contract_file"])) { ?>
+                                                    <iframe class="pdf" src="/<?php print($data["contract_file"]) ?>" width="100%" height="300px"></iframe>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php } ?>
+
                     <div class="col-sm-12 text-right">
                         <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
                     </div>
@@ -369,7 +399,7 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="row col-lg-12">
-                                            <div class="col-sm-12">
+                                            <div class="col-lg-12">
                                                 <button type="submit" class="btn btn-outline-primary btn-sm">Download Contrato</button>
                                             </div>
                                         </div>

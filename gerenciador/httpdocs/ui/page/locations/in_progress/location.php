@@ -218,6 +218,19 @@
                                                 <input id="n_contract" type="number" min="0" class="form-control" name="n_contract" value="<?php print(isset($data["n_contract"]) ? $data["n_contract"] : "") ?>">
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Anexar Contrato</label>
+                                                <input type="file" class="form-control" name="contract_file">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-lg-12">
+                                            <?php if (!empty($data["contract_file"])) { ?>
+                                                <iframe class="pdf" src="/<?php print($data["contract_file"]) ?>" width="100%" height="300px"></iframe>
+                                            <?php } ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -228,32 +241,6 @@
                         <button type="submit" name="btn_save" class="btn btn-outline-primary btn-sm"><?php print(isset($data["idx"]) ? "Salvar" : "Cadastrar") ?></button>
                     </div>
                 </form>
-
-                <br>
-
-                <?php
-                if (isset($data["is_aproved"]) && $data["is_aproved"] == 'approved' && $data["properties_attach"][0]["object_propertie"] == "location") { ?>
-                    <form action="<?php print($form["donwload_contract"]) ?>" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="idx" value="<?php print($data["idx"]) ?>">
-
-                        <div class="modal-content" id="status">
-                            <div class="modal-header label">
-                                <h5 class="modal-title ">Contrato de Locação</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="row col-lg-12">
-                                            <div class="col-sm-12">
-                                                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-word"></i> Gerar Contrato</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                <?php } ?>
             </div>
         </div>
     </div>
