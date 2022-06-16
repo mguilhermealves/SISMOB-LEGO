@@ -51,7 +51,7 @@ class locations_controller
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
 			$info["get"]["filter_cpf"] = preg_replace("/[^0-9]/", "", $info["get"]["filter_cpf"]);
 			$done["filter_cpf"] = $info["get"]["filter_cpf"];
-			$filter["filter_cpf"] = " document like '%" . $info["get"]["filter_cpf"] . "%' ";
+			$filter["filter_cpf"] = " cpf like '%" . $info["get"]["filter_cpf"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_contract"]) && !empty($info["get"]["filter_contract"])) {
@@ -61,7 +61,7 @@ class locations_controller
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " nome like '%" . $info["get"]["filter_name"] . "%' ";
 		}
 
 		return array($done, $filter);

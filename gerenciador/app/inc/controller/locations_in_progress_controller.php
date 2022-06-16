@@ -6,7 +6,7 @@ class locations_in_progress_controller
 {
 	public static function data4select($key = "idx", $filters = array(" active = 'yes' "), $field = "")
 	{
-		$boiler = new locations_model();
+		$boiler = new vw_locations_inprogress_model();
 		$boiler->set_field(array($key, $field));
 		$boiler->set_order(array(" idx desc "));
 		$boiler->set_filter($filters);
@@ -46,7 +46,7 @@ class locations_in_progress_controller
 		if (isset($info["get"]["filter_cpf"]) && !empty($info["get"]["filter_cpf"])) {
 			$info["get"]["filter_cpf"] = preg_replace("/[^0-9]/", "", $info["get"]["filter_cpf"]);
 			$done["filter_cpf"] = $info["get"]["filter_cpf"];
-			$filter["filter_cpf"] = " document like '%" . $info["get"]["filter_cpf"] . "%' ";
+			$filter["filter_cpf"] = " cpf like '%" . $info["get"]["filter_cpf"] . "%' ";
 		}
 
 		if (isset($info["get"]["filter_contract"]) && !empty($info["get"]["filter_contract"])) {
@@ -56,7 +56,7 @@ class locations_in_progress_controller
 
 		if (isset($info["get"]["filter_name"]) && !empty($info["get"]["filter_name"])) {
 			$done["filter_name"] = $info["get"]["filter_name"];
-			$filter["filter_name"] = " concat_ws(' ' , first_name , last_name ) like '%" . $info["get"]["filter_name"] . "%' ";
+			$filter["filter_name"] = " nome like '%" . $info["get"]["filter_name"] . "%' ";
 		}
 
 		return array($done, $filter);
@@ -72,7 +72,7 @@ class locations_in_progress_controller
 
 		list($done, $filter) = $this->filter($info);
 
-		$locations = new locations_model();
+		$locations = new vw_locations_inprogress_model();
 
 		if ($info["format"] != ".json") {
 			$locations->set_paginate(array($info["sr"], $paginate));
@@ -83,8 +83,7 @@ class locations_in_progress_controller
 		$locations->set_filter($filter);
 		$locations->set_order(array($ordenation));
 
-		list($total, $data) = $locations->return_data();
-		$locations->attach(array("users"), true);
+		list($total, $data) = $locations->return_data_vw();
 		$data = $locations->data;
 
 		switch ($info["format"]) {

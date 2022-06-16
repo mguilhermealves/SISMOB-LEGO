@@ -133,10 +133,10 @@
                     foreach ($data as $v) { ?>
                         <tr>
                             <td><?php print($v["idx"]); ?></td>
-                            <td><?php print($v["users_attach"][0]["first_name"] . " " . $v["users_attach"][0]["last_name"]); ?></td>
-                            <td><?php print($v["users_attach"][0]["address"] . ", N° " . $v["users_attach"][0]["number"]); ?></td>
-                            <td><?php print($v["users_attach"][0]["city"]); ?></td>
-                            <td><?php print($v["users_attach"][0]["uf"]); ?></td>
+                            <td><?php print($v["nome"]); ?></td>
+                            <td><?php print($v["address"] . ", N° " . $v["number_address"]); ?></td>
+                            <td><?php print($v["city"]); ?></td>
+                            <td><?php print($v["uf"]); ?></td>
                             <td>
                                 <?php
                                 if ($v["is_aproved"] == "reproved" || $v["is_aproved"] == "pending") {
