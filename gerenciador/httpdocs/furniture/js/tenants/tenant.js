@@ -80,6 +80,8 @@ $(document).ready(function () {
         $('#clt_fiance').hide();
         $('#fiance_guarantor').hide();
     }
+
+    $("#btn_save").addClass("d-none");
 });
 
 $('#marital_status').change(function () {
@@ -170,7 +172,6 @@ $("#cpf").change(function () {
             var jsonData = JSON.parse(data);
             if (jsonData.error == true) {
                 $("#error_cpf").removeClass("d-none").html('<span>' + jsonData.message + '</span>').css("color", "red");
-                $("#btn_save").addClass("d-none");
             } else {
                 $("#error_cpf").addClass("d-none");
                 $("#btn_save").removeClass("d-none");
