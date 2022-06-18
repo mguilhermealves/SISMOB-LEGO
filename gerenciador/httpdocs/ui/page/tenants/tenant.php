@@ -8,7 +8,7 @@
                     <input type="hidden" id="done" name="done" value="<?php print($info["get"]["done"]) ?>">
                 <?php  } ?>
 
-                <input id="profiles_id" type="hidden" name="profiles_id" value="8" required>
+                <input id="profiles_id" type="hidden" name="profiles_id" value="8" >
 
                 <div class="col-lg-12 text-center mb-2 d-none" id="error_cpf"></div>
 
@@ -122,7 +122,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="name">Endereço</label>
-                                        <input id="address" type="text" class="form-control" name="address" value="<?php print(isset($data["address"]) ? $data["address"] : "") ?>" required>
+                                        <input id="address" type="text" class="form-control" name="address" value="<?php print(isset($data["address"]) ? $data["address"] : "") ?>">
                                     </div>
                                 </div>
 
@@ -143,21 +143,21 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="district">Bairro</label>
-                                        <input id="district" type="text" class="form-control" name="district" value="<?php print(isset($data["district"]) ? $data["district"] : "") ?>" required>
+                                        <input id="district" type="text" class="form-control" name="district" value="<?php print(isset($data["district"]) ? $data["district"] : "") ?>" >
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="city">Cidade</label>
-                                        <input id="city" type="text" class="form-control" name="city" value="<?php print(isset($data["city"]) ? $data["city"] : "") ?>" required>
+                                        <input id="city" type="text" class="form-control" name="city" value="<?php print(isset($data["city"]) ? $data["city"] : "") ?>" >
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="uf">UF</label>
-                                        <select name="uf" id="uf" class="form-control" required>
+                                        <select name="uf" id="uf" class="form-control" >
                                             <option value="">Selecione</option>
                                             <?php
                                             foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
@@ -422,7 +422,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="type_fiance">Tipo de Fiador</label>
-                                            <select name="fiances[type_fiance]" id="type_fiance" class="form-control" required>
+                                            <select name="fiances[type_fiance]" id="type_fiance" class="form-control" >
                                                 <option value="">Selecione</option>
                                                 <?php
                                                 foreach ($GLOBALS["type_guarantors"] as $k => $v) {
@@ -436,7 +436,7 @@
                                     <div class="col-lg-6" id="type_work_fiance_div">
                                         <div class="form-group">
                                             <label for="type_work_fiance">Tipo de Regime</label>
-                                            <select name="fiances[type_work]" id="type_work_fiance" class="form-control" required>
+                                            <select name="fiances[type_work]" id="type_work_fiance" class="form-control" >
                                                 <option value="">Selecione</option>
                                                 <?php
                                                 foreach ($GLOBALS["type_works"] as $k => $v) {
@@ -513,7 +513,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Endereço</label>
-                                                    <input type="text" class="form-control" id="fiance_address" name="fiances[address]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["address"] : "") ?>" required>
+                                                    <input type="text" class="form-control" id="fiance_address" name="fiances[address]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["address"] : "") ?>" >
                                                 </div>
                                             </div>
 
@@ -534,21 +534,21 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Bairro</label>
-                                                    <input type="text" class="form-control" id="fiance_district" name="fiances[district]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["district"] : "") ?>" required>
+                                                    <input type="text" class="form-control" id="fiance_district" name="fiances[district]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["district"] : "") ?>" >
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Cidade</label>
-                                                    <input type="text" class="form-control" id="fiance_city" name="fiances[city]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["city"] : "") ?>" required>
+                                                    <input type="text" class="form-control" id="fiance_city" name="fiances[city]" value="<?php print(isset($data["fiances_attach"][0]) ? $data["fiances_attach"][0]["city"] : "") ?>" >
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="uf">UF</label>
-                                                    <select name="fiances[uf]" id="fiance_uf" class="form-control" required>
+                                                    <select name="fiances[uf]" id="fiance_uf" class="form-control" >
                                                         <option value="">Selecione</option>
                                                         <?php
                                                         foreach ($GLOBALS["ufbr_lists"] as $k => $v) {
