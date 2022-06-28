@@ -378,7 +378,7 @@ class users_controller
 			$data = array(
 				"avatar" => constant("cFrontend_USER") . "favicon.jpg", "created_at" => date("Y-m-d H:i:s"), "userCreated_attach" => array(array("first_name" => $_SESSION[constant("cAppKey")]["credential"]["profiles_attach"][0]["name"] . " - " .  $_SESSION[constant("cAppKey")]["credential"]["first_name"]))
 			);
-			foreach (array("cpf", "mail ", "name ", "first_name ", "last_name", "login", "password", "external_id", "enabled") as $k) {
+			foreach (array("cpf", "mail ", "name ", "first_name ", "last_name", "login", "password", "external_id") as $k) {
 				$data[$k] = !isset($data[$k]) ? "" : $data[$k];
 			}
 			$form = array(
