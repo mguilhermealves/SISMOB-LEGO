@@ -115,7 +115,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="postalcode">CEP</label>
-                                        <input id="postalcode" type="text" class="form-control postalcode" name="postalcode" value="<?php print(isset($data["postalcode"]) ? $data["postalcode"] : "") ?>">
+                                        <input id="postalcode" type="text" class="form-control" name="postalcode" value="<?php print(isset($data["postalcode"]) ? $data["postalcode"] : "") ?>">
                                     </div>
                                 </div>
 
